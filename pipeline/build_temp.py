@@ -72,14 +72,22 @@ def main():
 
     # ---- market --------------------------------------------------------
     kal = Kalshi(src["kalshi"]["base"])
-    series_map = run("kalshi-temp-discovery",
-                     lambda: discover(kal, tcfg["series_prefixes"])) or {}
+    series_map = {}
+    for pref in tcfg["series_prefixes"]:
+        series_map.update(run(f"kalshi-{pref}",
+                              lambda p=pref: kal.discover_series(p)) or {})
     print(f"  kalshi: {len(series_map)} temperature series")
 
     rows = []
     for c in cities:
-        ticker = match_series(c["name"], series_map)
+        ticker = c.get("series_high")
         if not ticker:
+            continue
+        if ticker not in series_map:
+            print(f"  {c['name']}: {ticker} not in discovered series")
+            continue
+        if series_map[ticker].get("cadence") in ("monthly", "weekly", "special"):
+            print(f"  {c['name']}: {ticker} is not a daily contract, skipping")
             continue
         meta = series_map[ticker]
         try:
@@ -95,16 +103,23 @@ def main():
                            if _is_for_date(m, date_str)]
             if len(day_markets) < 2:
                 continue
+            # The list endpoint returns these with null prices. Without this
+            # every quote is None and the board writes zero cities.
+            kal.hydrate(day_markets)
 
             dist, diag = build_distribution(
                 c, off, members, point, tcfg, errors,
                 extras=(mb.get(c["name"]) or {}).get(off) or {})
             ladder = build_ladder(day_markets, Kalshi.quote)
             if not ladder:
+                print(f"  {c['name']} {date_str}: {len(day_markets)} markets "
+                      f"but no usable quotes")
                 continue
 
             implied, overround = implied_distribution(ladder)
-            fee_mult = meta.get("fee_multiplier") or tcfg["edge"]["fee_multiplier"]
+            from .kalshi import effective_fee_rate
+            fee_mult = effective_fee_rate(meta.get("fee_multiplier"),
+                                          tcfg["edge"]["fee_multiplier"])
 
             for i, b in enumerate(ladder):
                 b["implied"] = None if implied[i] is None else round(implied[i], 4)
