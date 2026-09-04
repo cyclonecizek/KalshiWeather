@@ -73,25 +73,40 @@ def fetch_record(url: str, rec: IdxRecord, session: requests.Session | None = No
     return r.content
 
 
-class Sampler:
-    """Nearest-gridpoint lookup on an unstructured/curvilinear GRIB grid.
+# Every record in a model shares one grid, so the tree is cached on grid
+# identity rather than rebuilt per record. NBM CONUS is ~2.5M points: a tree
+# costs seconds and hundreds of MB, and building twenty of them is what turned
+# a 4-minute job into a hang.
+_TREES = {}
+_LATLONS = {}
 
-    Built once per message and reused across every city, because building a
-    KD-tree over a 3 km CONUS grid is the expensive part, not querying it.
-    """
+
+def _grid_key(lats, lons):
+    return (lats.shape, float(lats.flat[0]), float(lons.flat[0]),
+            float(lats.flat[-1]), float(lons.flat[-1]))
+
+
+class Sampler:
+    """Nearest-gridpoint lookup on an unstructured/curvilinear GRIB grid."""
 
     def __init__(self, values: np.ndarray, lats: np.ndarray, lons: np.ndarray):
         from scipy.spatial import cKDTree
 
         self.values = values.ravel()
-        lat = np.radians(lats.ravel())
-        lon = np.radians(np.where(lons > 180, lons - 360, lons).ravel())
-        xyz = np.column_stack([
-            np.cos(lat) * np.cos(lon),
-            np.cos(lat) * np.sin(lon),
-            np.sin(lat),
-        ])
-        self.tree = cKDTree(xyz)
+        key = _grid_key(lats, lons)
+        tree = _TREES.get(key)
+        if tree is None:
+            lat = np.radians(lats.ravel())
+            lon = np.radians(np.where(lons > 180, lons - 360, lons).ravel())
+            xyz = np.column_stack([
+                np.cos(lat) * np.cos(lon),
+                np.cos(lat) * np.sin(lon),
+                np.sin(lat),
+            ])
+            tree = cKDTree(xyz)
+            _TREES[key] = tree
+            print(f"      built KD-tree for {lats.size:,}-point grid")
+        self.tree = tree
 
     def at(self, lat_deg: float, lon_deg: float):
         lat, lon = np.radians(lat_deg), np.radians(lon_deg)
@@ -107,17 +122,57 @@ class Sampler:
 
 def sampler_from_bytes(blob: bytes) -> Sampler:
     """Decode one GRIB record and wrap it in a Sampler."""
+    import os
+
     import pygrib
 
     with tempfile.NamedTemporaryFile(suffix=".grib2", delete=False) as fh:
         fh.write(blob)
         path = fh.name
-    grbs = pygrib.open(path)
-    msg = grbs.message(1)
-    lats, lons = msg.latlons()
-    vals = msg.values
-    grbs.close()
-    return Sampler(np.asarray(vals), lats, lons)
+    try:
+        grbs = pygrib.open(path)
+        msg = grbs.message(1)
+        vals = msg.values
+        # latlons() recomputes ~2.5M coordinate pairs every call. Every record
+        # in a model shares one grid, so key on cheap GRIB metadata and only
+        # pay for it once.
+        try:
+            meta = (msg.Ni, msg.Nj, msg.gridType,
+                    round(float(msg.latitudeOfFirstGridPointInDegrees), 4),
+                    round(float(msg.longitudeOfFirstGridPointInDegrees), 4))
+        except Exception:  # noqa: BLE001
+            meta = None
+        if meta is not None and meta in _LATLONS:
+            lats, lons = _LATLONS[meta]
+        else:
+            lats, lons = msg.latlons()
+            if meta is not None:
+                _LATLONS[meta] = (lats, lons)
+                print(f"      cached grid geometry {msg.Ni}x{msg.Nj}")
+        grbs.close()
+        return Sampler(np.asarray(vals), lats, lons)
+    finally:
+        try:
+            os.unlink(path)
+        except OSError:
+            pass
+
+
+def candidate_fhours(want_start_h, want_end_h, step=6, max_fhour=60):
+    """Only the forecast hours that could hold a record covering the window.
+
+    Reading every inventory from f001 to f060 costs 60 HTTP round trips per
+    cycle. With cities across five timezones that is several hundred fetches
+    before any actual data is read. An accumulation record ending at hour H
+    lives in the f{H} file, so only multiples of `step` inside the window --
+    plus its exact end -- can possibly matter.
+    """
+    lo = max(step, int(want_start_h))
+    hi = min(max_fhour, int(want_end_h))
+    hours = {h for h in range(lo, hi + 1) if h % step == 0}
+    if 0 < want_end_h <= max_fhour:
+        hours.add(int(want_end_h))
+    return sorted(hours)
 
 
 def pick_window_records(recs, idx_regex: str, cycle_hour: int,
