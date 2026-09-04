@@ -172,7 +172,7 @@ footer p{margin:0 0 9px}
 
 <section id="rainboard">
   <h2>Rain — will the station record ≥0.01"</h2>
-  <p class="lede">Each line runs from the market's mid price to the model consensus; longer line, bigger disagreement. Model columns are grouped by family because they are not independent — NBM ingests MOS and HREF, and NDFD is forecaster-edited NBM. <strong>Pred</strong> is meteoblue's forecast-confidence score; <strong>Cov</strong> is the rainSPOT wet-area fraction around the station, which discounts neighbourhood CAM probabilities toward a point (a <code>*</code> means it was applied, not just recorded).</p>
+  <p class="lede">Each line runs from the market's mid price to the model consensus; longer line, bigger disagreement. Model columns are grouped by family because they are not independent — NBM ingests MOS, HREF and HRRR, and NDFD is forecaster-edited NBM. There is no separate convection-allowing column: HREF publishes no 0.01" probability and REFS has no ensemble product on NOMADS, so that signal reaches the board second-hand through NBM. <strong>Pred</strong> is meteoblue's forecast-confidence score; <strong>Cov</strong> is the rainSPOT wet-area fraction around the station, which discounts neighbourhood CAM probabilities toward a point (a <code>*</code> means it was applied, not just recorded).</p>
   <div id="rain-body"></div>
 </section>
 
@@ -183,7 +183,7 @@ footer p{margin:0 0 9px}
 </section>
 
 <footer>
-  <p>The two boards settle on different sources. Rain settles Yes only if the station's official daily total is strictly greater than 0.00 inches, with trace counted as zero, and the binding source is The Weather Company. High temperature settles on the NWS Daily Climate Report. Neither is the forecast you are modelling, so residual basis risk survives every correction on this page.</p>
+  <p>Rain settles Yes only if the station's official daily total is strictly greater than 0.00 inches, with trace counted as zero. <strong>The binding data source differs per series</strong> — The Weather Company, The Weather Channel, the National Weather Service, AccuWeather and the U.S. Geological Survey all appear across Kalshi's rain markets, and one city can have several series settling on different sources. Every currently active high-temperature series settles on The Weather Company too, not the NWS climate report. None of these is the forecast being modelled here, so residual basis risk survives every correction on this page.</p>
   <p>Rain probabilities blend by family; temperature blends quantile curves rather than probabilities, so the distribution stays as sharp as its inputs. Bracket probabilities carry a half-degree continuity correction because the climate report prints whole degrees.</p>
   <p>The per-city temperature bias term starts at zero and is the largest single lever on that board. Until it is fitted against real outcomes, treat the temperature section as a map of where the market disagrees with raw model output rather than as a signal.</p>
   <p>This is a research tool, not advice. Positions can lose their full cost.</p>
