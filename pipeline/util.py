@@ -43,6 +43,35 @@ def local_date_str(tz_name: str, offset_days: int = 0) -> str:
     return (datetime.now(tz) + timedelta(days=offset_days)).strftime("%Y-%m-%d")
 
 
+def aligned_cycle(cycles, lag_hours: float, window_start,
+                  now: datetime | None = None, max_back_hours: int = 30):
+    """Newest available cycle at or before a window's start.
+
+    NBM runs every hour, which means there is almost always a cycle sitting
+    exactly on a station's local midnight. Using it turns the contract window
+    into f000-f024, so a day tiles from two clean 12-hour accumulation
+    records instead of being approximated by 6-18 and 18-30 offset by a
+    couple of hours.
+
+    Falls back to the newest available cycle before the window when no exact
+    alignment exists (a 4-cycle-a-day model, say).
+    """
+    now = now or datetime.now(timezone.utc)
+    latest_ok = now - timedelta(hours=lag_hours)
+    best = None
+    for back in range(0, max_back_hours + 1):
+        cand = window_start - timedelta(hours=back)
+        if cand.hour not in cycles:
+            continue
+        if cand > latest_ok:
+            continue
+        best = cand
+        break
+    if best is None:
+        return None
+    return best.strftime("%Y%m%d"), best.hour, best
+
+
 def latest_cycle(cycles, lag_hours: float, now: datetime | None = None):
     """Most recent model cycle that should have finished posting.
 
