@@ -54,10 +54,13 @@ def main():
         cities, src["ndfd"], DAY_OFFSETS))
     if v:
         point["NDFD"] = v
-    v = run("mos-maxt", lambda: temp_sources.fetch_mos_maxt(
-        cities, src["mos"], DAY_OFFSETS))
-    if v:
-        point["MOS"] = v
+    if src["mos"].get("enabled", True):
+        v = run("mos-maxt", lambda: temp_sources.fetch_mos_maxt(
+            cities, src["mos"], DAY_OFFSETS))
+        if v:
+            point["MOS"] = v
+    else:
+        print("  mos: disabled in settings")
     mb_cfg = tcfg["sources"]["meteoblue"]
     mb = run("meteoblue", lambda: meteoblue.fetch(cities, mb_cfg, DAY_OFFSETS))
     if mb:
@@ -269,7 +272,7 @@ def evaluate_bracket(p, quote, fee_mult, tcfg):
         return None
 
     p_side = p if side == "YES" else 1.0 - p
-    illiquid = (quote["volume"] < ecfg["min_volume"]
+    illiquid = (quote.get("liquidity", quote["volume"]) < ecfg["min_volume"]
                 or quote["spread"] > ecfg["max_spread_cents"])
 
     if illiquid:
