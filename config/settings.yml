@@ -26,21 +26,25 @@ families:
   # The CAM signal is not lost, it is just second-hand: NBM ingests HREF and
   # HRRR, so it reaches the board through the blend. That is why `blend`
   # carries the largest weight here.
+  # MOS DROPPED 2026-09-04. www.nws.noaa.gov/cgi-bin returned 403 for every
+  # station from a GitHub runner -- a browser user-agent did not help, so it
+  # is an IP block on the datacentre range rather than UA filtering. Its 0.10
+  # is redistributed below.
+  #
+  # If you want it back: NOMADS itself works fine from the runner, and MOS
+  # bulletins are mirrored under ftp.ncep.noaa.gov/data/nccf/com/mos/prod/.
+  # That is a different host from the one that blocked us and worth a probe.
   blend:
     label: Blend
     weight: 0.45
     members: [NBM, NDFD]
-  stat:
-    label: Statistical
-    weight: 0.10
-    members: [MOS]
   global:
     label: Global ensembles
-    weight: 0.25
+    weight: 0.32
     members: [ECMWF_ENS, GEFS, ICON_EPS, GEM_EPS, UKMO_ENS]
   mlm:
     label: meteoblue mLM
-    weight: 0.20
+    weight: 0.23
     members: [METEOBLUE]
 
 # Families that return nothing are dropped and the remaining weights are
@@ -58,7 +62,11 @@ edge:
                             # per-series from the API when available
   flag_high_cents: 8.0
   flag_watch_cents: 4.0
-  min_volume: 200           # contracts traded; below this the "price" is noise
+  # Judged on OPEN INTEREST, not volume -- this API version returns no
+  # volume field at all, only open_interest_fp. Gating on volume tags every
+  # contract as thin and shows you an empty board. Observed open interest on
+  # live weather markets runs from 0 to ~6600, median a few hundred.
+  min_volume: 200
   max_spread_cents: 6       # wider than this and you can't get filled at mid
   kelly_cap: 0.25           # fraction of full Kelly to suggest
 
@@ -117,8 +125,11 @@ sources:
   mos:
     # GFS MOS short-range (MAV). NAM MOS (MET) retires 2026-10-06 along with
     # the NAM, so don't build a dependency on it.
+    # DISABLED: 403 from GitHub runners on every station, browser UA included.
+    # ftp.ncep.noaa.gov/data/nccf/com/mos/prod/ is a plausible alternative
+    # host -- NOMADS works from the runner, so that range is not blocked.
     mav: https://www.nws.noaa.gov/cgi-bin/mos/getmav.pl
-    enabled: true
+    enabled: false
 
   href:
     enabled: false      # no 0.01in threshold exists in the prob file
@@ -172,12 +183,15 @@ temperature:
   families:
     global_ens:
       label: Global ensembles
-      weight: 0.50
+      weight: 0.55
       members: [ECMWF_ENS, GEFS, ICON_EPS, GEM_EPS, UKMO_ENS]
+    # MOS dropped; NDFD does not simply inherit its share. NDFD is a single
+    # deterministic number and it is forecaster-edited NBM, so it is not an
+    # independent opinion -- the weight goes to the ensembles instead.
     blend:
       label: NWS guidance
-      weight: 0.30
-      members: [NDFD, MOS]
+      weight: 0.25
+      members: [NDFD]
     mlm:
       label: meteoblue mLM
       weight: 0.20
@@ -206,7 +220,7 @@ temperature:
     fee_multiplier: 0.07
     flag_high_cents: 6.0
     flag_watch_cents: 3.0
-    min_volume: 100
+    min_volume: 100         # open interest; see the rain note above
     max_spread_cents: 5
     kelly_cap: 0.20
 
