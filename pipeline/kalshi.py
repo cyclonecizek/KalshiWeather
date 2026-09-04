@@ -73,6 +73,55 @@ class Kalshi:
 
     # -- quotes ------------------------------------------------------------
 
+    def market(self, ticker: str):
+        """Full detail for one market."""
+        data = self._get(f"/markets/{ticker}")
+        return data.get("market") or data
+
+    def orderbook(self, ticker: str):
+        """Raw book, as a last resort for prices."""
+        data = self._get(f"/markets/{ticker}/orderbook")
+        return data.get("orderbook") or data
+
+    def hydrate(self, markets, limit=400):
+        """Fill in prices the list endpoint left out.
+
+        The /markets list response comes back with yes_bid, yes_ask and
+        volume all null for these series -- it is a slim projection. Without
+        this the whole board silently produces nothing: every quote is None,
+        every ladder is empty, and zero cities get written.
+
+        Tries the per-market endpoint first, then the orderbook.
+        """
+        fixed = 0
+        for m in markets[:limit]:
+            if m.get("yes_bid") is not None and m.get("yes_ask") is not None:
+                continue
+            t = m.get("ticker")
+            if not t:
+                continue
+            try:
+                full = self.market(t)
+                for k in ("yes_bid", "yes_ask", "no_bid", "no_ask", "volume",
+                          "open_interest", "last_price", "previous_price"):
+                    if full.get(k) is not None:
+                        m[k] = full[k]
+            except Exception:  # noqa: BLE001
+                pass
+            if m.get("yes_bid") is None or m.get("yes_ask") is None:
+                try:
+                    ob = self.orderbook(t)
+                    yb, ya = _book_top(ob)
+                    if yb is not None:
+                        m["yes_bid"] = yb
+                    if ya is not None:
+                        m["yes_ask"] = ya
+                except Exception:  # noqa: BLE001
+                    pass
+            if m.get("yes_bid") is not None and m.get("yes_ask") is not None:
+                fixed += 1
+        return fixed
+
     def markets_for_series(self, series_ticker: str, status="open"):
         out, cursor = [], None
         while True:
@@ -95,8 +144,18 @@ class Kalshi:
         """
         yb = market.get("yes_bid")
         ya = market.get("yes_ask")
-        if yb is None or ya is None:
-            return None
+        if yb is None and ya is None:
+            # No book at all. last_price is stale but better than dropping
+            # the contract from the ladder, which breaks the overround
+            # normalisation for every other bracket in the event.
+            lp = market.get("last_price") or market.get("previous_price")
+            if lp is None:
+                return None
+            yb = ya = lp
+        elif yb is None:
+            yb = max(1, ya - 2)
+        elif ya is None:
+            ya = min(99, yb + 2)
         spread = ya - yb
         return {
             "ticker": market.get("ticker"),
@@ -112,6 +171,27 @@ class Kalshi:
             "close_time": market.get("close_time"),
             "expiration_time": market.get("expiration_time"),
         }
+
+
+def _book_top(ob):
+    """Best yes bid and yes ask from an orderbook payload.
+
+    Kalshi books quote both sides in YES terms: the top of the `no` side at
+    price p implies a yes ask of 100 - p.
+    """
+    def top(side):
+        rows = ob.get(side) or []
+        if not rows:
+            return None
+        try:
+            return max(int(r[0]) for r in rows if r)
+        except (ValueError, TypeError, IndexError):
+            return None
+
+    yes_bid = top("yes")
+    no_bid = top("no")
+    yes_ask = None if no_bid is None else 100 - no_bid
+    return yes_bid, yes_ask
 
 
 _MONTHLY = re.compile(r"month", re.I)
