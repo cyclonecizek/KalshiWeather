@@ -242,7 +242,7 @@ temperature:
       max_calls_per_day: 25
       cache_hours: 8          # reuse a cached value this many hours
       cache_path: .cache/meteoblue.json
-      cities: []              # empty = all; list names to spend on fewer
+      cities: [New York, Chicago, Denver, Seattle, Philadelphia]              # empty = all; list names to spend on fewer
 
       # --- redistribution ----------------------------------------------
       # docs/data/*.json is committed and served publicly by GitHub Pages.
