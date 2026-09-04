@@ -176,10 +176,37 @@ confident to be.
 strictly greater than 0.00", with trace counted as 0. The smallest reportable
 increment is 0.01", so ">0" and "≥0.01" are the same event.
 
-**The settlement source is not the NWS.** Daily rain markets settle on **The
-Weather Company** data for a station labelled with an NWS-style CLI code. Every
-model here targets NWS-style observations, so basis risk survives every
-correction you can make.
+**The settlement source differs per series.** A 2026-09-04 probe of the 21
+live `KXRAIN*` series found five different settlement providers: The Weather
+Company, The Weather Channel, the National Weather Service, AccuWeather, and
+the **U.S. Geological Survey**. New York alone has three rain series settling
+on three different sources. There is no blanket rule — read each market's own
+rules page and record the answer in `settles_on`.
+
+**Rain is one shared series; temperature is one series per city.** `KXRAIN`
+carries ~44 markets keyed by a city suffix (`KXRAIN-26SEP04-TTN`), so
+`cities.yml` needs a `rain_code`, not a ticker. Every per-city rain series
+(`KXRAINDNYC`, `KXRAINSEA`, ...) still shows up in the series list but has no
+open markets — they are legacy. Temperature is the opposite: 23 live
+`KXHIGH*` series, one per city, 12 bracket markets each.
+
+**Both boards settle on The Weather Company.** Not the NWS Climatological
+Report, which is what earlier versions of this file claimed for temperature.
+The dormant series that do use NWS (`KXHIGHTEMPDEN`, `KXHIGHNY0`) have no
+open markets.
+
+**Ticker shape tells you nothing about cadence.** A trailing `M` means
+monthly: `KXRAINNYCM` is "Monthly rain in New York". Fourteen of the
+twenty-one series found were monthly, and the original discovery regex swept
+them all up as daily markets — comparing 24-hour model probabilities against
+month-long rainfall contracts. `cities.yml` now requires an explicit,
+verified ticker per city and skips anything left null.
+
+**`fee_multiplier` from the API is a scaling factor, not the coefficient.**
+It returns 1 for these markets. Fed directly into
+`ceil(m x P x (1-P) x 100)` that gives 25c on a 50c contract instead of
+1.75c, which rejects every trade on the board. `effective_fee_rate()` now
+treats any value >= 1 as a multiplier on the standard 0.07.
 
 **Local calendar days, not 24-hour QPF.** NYC today is 04Z–04Z; LA tomorrow is
 07Z–07Z. `local_day_window()` converts each station's midnight-to-midnight into
@@ -193,10 +220,27 @@ three times, so `blend.py` averages *within* a family and weights *across*:
 
 | Family | Members | Weight |
 |---|---|---|
-| Convection-allowing | HREF, REFS | 0.35 |
-| Blend | NBM, NDFD | 0.30 |
+| Blend | NBM, NDFD | 0.45 |
 | Statistical | MOS | 0.10 |
 | Global ensembles | ECMWF-ENS, GEFS, ICON, GEM, UKMO | 0.25 |
+| meteoblue mLM | METEOBLUE | 0.20 |
+
+**There is no convection-allowing family.** The 2026-09-04 probe settled it:
+HREF's ensprod prob file carries only 12.7 / 25.4 / 50.8 / 76.2 / 127 /
+203.2 mm — 0.5" through 8", built for flash-flood guidance. No 0.01" record
+exists to read. And REFS ensemble output is not on NOMADS: `rrfs.YYYYMMDD/CC/`
+holds only deterministic `rrfs.tCCz.2dfld.*.grib2`, with no `ensprod/`
+directory under `para/` or `v1.0/`.
+
+The CAM signal is not lost, only second-hand — NBM ingests HREF and HRRR —
+which is why `blend` carries the largest weight. Both sources are left in
+`settings.yml` behind `enabled: false` in case the products appear later.
+
+**NBM cycles are chosen per city.** NBM runs hourly, so there is almost
+always a cycle sitting exactly on a station's local midnight. Using it makes
+the contract window `f000`–`f024`, which tiles from two clean 12-hour
+accumulation records. The alternative was approximating a 04Z–04Z day with
+6-18 and 18-30 records offset by two hours.
 
 The global ensembles come from Open-Meteo's `/v1/ensemble`, which returns
 **individual members** — so we count the fraction whose local-day total clears
@@ -355,8 +399,35 @@ is a better outcome than a key revoked mid-season.
 # Calibration
 
 `calibration:` (rain, logit offsets) and `temperature.bias` / `spread_factor`
-all start neutral. Every run appends to `docs/data/history/`. After ~30 days,
-score each source against what actually settled and fit them.
+all start neutral. Every run appends to `docs/data/history/`.
+
+**`python -m pipeline.score`** does the fitting, or Actions -> **Score
+calibration** -> Run workflow for the browser-only route. It also runs itself
+on Monday mornings. The report lands on the run summary with paste-ready YAML.
+
+It answers three questions, in the order they matter:
+
+1. **Does the model beat the market?** It scores your consensus and the market
+   mid with the same Brier metric. If the market wins, nothing else on the
+   page matters and the right position size is zero. This is the question
+   people skip.
+2. **What is each source's standing bias?** Emitted as a `calibration:` block
+   you can paste, and a `temperature.bias` block per city. Offsets are only
+   emitted at n >= 20 — below that you are fitting noise and making the board
+   worse.
+3. **Is the spread right?** It standardises every temperature error by the
+   forecast's own 80% interval. A spread above 1.0 means the distribution is
+   too narrow and the outer brackets are underpriced.
+
+Then it reports what the flagged trades would actually have returned, against
+what they predicted. A large gap between the two is overconfidence rather than
+variance.
+
+Two limits worth holding on to. The settled high is only known to the width of
+the winning bracket, so each temperature observation carries about ±1°F of
+quantisation noise — a 20-day sample resolves bias to roughly half a degree,
+no better. And under ~100 settled trades, the realised P&L line tells you
+very little in either direction.
 
 Expect HREF and REFS to need **negative** offsets. Their ensprod fields are
 neighbourhood maxima — "does any grid point within ~40 km get 0.01 inch" —
