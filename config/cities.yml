@@ -1,94 +1,62 @@
-# Cities are now driven by VERIFIED Kalshi tickers, not guesses.
+# Built from the 2026-09-04 probe of live Kalshi series.
 #
-# The 2026-09-04 probe found 21 KXRAIN* series. Fourteen were monthly, two
-# were one-off events, and the remainder are listed below. Most of the cities
-# in the original version of this file have no daily rain market at all.
+# TWO DIFFERENT MARKET SHAPES, so two different fields:
 #
-# `series_rain` / `series_high` must be exact tickers you have confirmed on
-# the market's own rules page. Leave them null and the city is skipped --
-# that is deliberate. Auto-matching on the title picked the wrong series when
-# a city had several (NYC has three rain markets settling on three different
-# sources).
+#   series_high  Temperature is one series PER CITY (KXHIGHTSEA), each with
+#                ~12 bracket markets. Put the exact ticker here.
+#   rain_code    Rain is ONE shared series (KXRAIN, "Where will it rain
+#                daily") carrying ~44 markets keyed by a city suffix:
+#                KXRAIN-26SEP04-TTN. Put just the suffix here.
 #
-# `settles_on` is what the probe reported. Record it, because it differs per
-# series and changes what your model is actually forecasting.
+# The old per-city rain series -- KXRAINDNYC, KXRAINDC, KXRAINHOU,
+# KXRAINMIA, KXRAINSEA, KXRAINNO, KXRAINNY, KXRAINNYC -- all still appear in
+# the series list but returned NO OPEN MARKETS. They are legacy. Don't use
+# them.
 #
-# elevation_m is passed to meteoblue as `asl`. Without it meteoblue infers
-# height from its own terrain grid; the mismatch is a slice of the
-# grid-to-station temperature bias, ~6.5 C per 1000 m of error.
+# rain_code is null everywhere below because the probe only printed 3 of the
+# 44 markets. The next probe run prints the full suffix list; fill them in
+# from that. Confirmed so far: TTN, SFO, SEA.
+#
+# SETTLEMENT. Rain (KXRAIN) settles on The Weather Company. Every active
+# KXHIGH* series below also settles on The Weather Company -- NOT the NWS
+# Climatological Report, which is what I assumed earlier and what the
+# handful of dormant series like KXHIGHTEMPDEN use.
+#
+# lat/lon must be the SETTLEMENT STATION, not the city centre. elevation_m
+# is passed to meteoblue as `asl`. Both still need verifying against each
+# market's rules page; `verified: false` puts a ? on the board.
+
+rain_series: KXRAIN
 
 cities:
-  - name: New York
-    series_rain: KXRAINDNYC          # "Daily Rain - NYC"
-    series_high: null
-    settles_on: National Weather Service
-    station: CLINYC
-    icao: KNYC
-    lat: 40.779
-    lon: -73.969
-    elevation_m: 39
-    tz: America/New_York
-    verified: false
-    # NOTE: two other NYC rain series exist -- KXRAINNY (settles on the
-    # U.S. Geological Survey) and KXRAINNYC (NWS Climatological Report).
-    # They are different contracts. Check which one you actually want.
+  - {name: New York,      series_high: KXHIGHNY,    rain_code: null, station: CLINYC, icao: KNYC, lat: 40.779, lon: -73.969, elevation_m: 39,   tz: America/New_York,    verified: false}
+  - {name: Newark,        series_high: KXHIGHTEWR,  rain_code: null, station: CLIEWR, icao: KEWR, lat: 40.683, lon: -74.169, elevation_m: 5,    tz: America/New_York,    verified: false}
+  - {name: Trenton,       series_high: KXHIGHTTTN,  rain_code: TTN,  station: CLITTN, icao: KTTN, lat: 40.277, lon: -74.816, elevation_m: 65,   tz: America/New_York,    verified: false}
+  - {name: Philadelphia,  series_high: KXHIGHPHIL,  rain_code: null, station: CLIPHL, icao: KPHL, lat: 39.868, lon: -75.231, elevation_m: 11,   tz: America/New_York,    verified: false}
+  - {name: Boston,        series_high: KXHIGHTBOS,  rain_code: null, station: CLIBOS, icao: KBOS, lat: 42.361, lon: -71.010, elevation_m: 6,    tz: America/New_York,    verified: false}
+  - {name: Washington DC, series_high: KXHIGHTDC,   rain_code: null, station: CLIDCA, icao: KDCA, lat: 38.848, lon: -77.034, elevation_m: 5,    tz: America/New_York,    verified: false}
+  - {name: Atlanta,       series_high: KXHIGHTATL,  rain_code: null, station: CLIATL, icao: KATL, lat: 33.630, lon: -84.442, elevation_m: 313,  tz: America/New_York,    verified: false}
+  - {name: Miami,         series_high: KXHIGHMIA,   rain_code: null, station: CLIMIA, icao: KMIA, lat: 25.791, lon: -80.316, elevation_m: 3,    tz: America/New_York,    verified: false}
+  - {name: Chicago,       series_high: KXHIGHCHI,   rain_code: null, station: CLIORD, icao: KORD, lat: 41.995, lon: -87.934, elevation_m: 205,  tz: America/Chicago,     verified: false}
+  - {name: Minneapolis,   series_high: KXHIGHTMIN,  rain_code: null, station: CLIMSP, icao: KMSP, lat: 44.883, lon: -93.229, elevation_m: 256,  tz: America/Chicago,     verified: false}
+  - {name: Dallas,        series_high: KXHIGHTDAL,  rain_code: null, station: CLIDFW, icao: KDFW, lat: 32.897, lon: -97.037, elevation_m: 185,  tz: America/Chicago,     verified: false}
+  - {name: Houston,       series_high: KXHIGHTHOU,  rain_code: null, station: CLIHOU, icao: KHOU, lat: 29.645, lon: -95.279, elevation_m: 14,   tz: America/Chicago,     verified: false}
+  - {name: Austin,        series_high: KXHIGHAUS,   rain_code: null, station: CLIAUS, icao: KAUS, lat: 30.183, lon: -97.680, elevation_m: 165,  tz: America/Chicago,     verified: false}
+  - {name: San Antonio,   series_high: KXHIGHTSATX, rain_code: null, station: CLISAT, icao: KSAT, lat: 29.534, lon: -98.470, elevation_m: 247,  tz: America/Chicago,     verified: false}
+  - {name: Oklahoma City, series_high: KXHIGHTOKC,  rain_code: null, station: CLIOKC, icao: KOKC, lat: 35.389, lon: -97.601, elevation_m: 396,  tz: America/Chicago,     verified: false}
+  - {name: New Orleans,   series_high: KXHIGHTNOLA, rain_code: null, station: CLIMSY, icao: KMSY, lat: 29.993, lon: -90.258, elevation_m: 2,    tz: America/Chicago,     verified: false}
+  - {name: Denver,        series_high: KXHIGHDEN,   rain_code: null, station: CLIDEN, icao: KDEN, lat: 39.847, lon: -104.656, elevation_m: 1656, tz: America/Denver,     verified: false}
+  - {name: Phoenix,       series_high: KXHIGHTPHX,  rain_code: null, station: CLIPHX, icao: KPHX, lat: 33.428, lon: -112.004, elevation_m: 337, tz: America/Phoenix,     verified: false}
+  - {name: Las Vegas,     series_high: KXHIGHTLV,   rain_code: null, station: CLILAS, icao: KLAS, lat: 36.072, lon: -115.163, elevation_m: 665, tz: America/Los_Angeles, verified: false}
+  - {name: Los Angeles,   series_high: KXHIGHLAX,   rain_code: null, station: CLILAX, icao: KLAX, lat: 33.938, lon: -118.389, elevation_m: 38,  tz: America/Los_Angeles, verified: false}
+  - {name: San Diego,     series_high: KXHIGHTSAN,  rain_code: null, station: CLISAN, icao: KSAN, lat: 32.734, lon: -117.183, elevation_m: 4,   tz: America/Los_Angeles, verified: false}
+  - {name: San Francisco, series_high: KXHIGHTSFO,  rain_code: SFO,  station: CLISFO, icao: KSFO, lat: 37.620, lon: -122.365, elevation_m: 4,   tz: America/Los_Angeles, verified: false}
+  - {name: Seattle,       series_high: KXHIGHTSEA,  rain_code: SEA,  station: CLISEA, icao: KSEA, lat: 47.444, lon: -122.314, elevation_m: 132, tz: America/Los_Angeles, verified: false}
 
-  - name: Washington DC
-    series_rain: KXRAINDC            # "Daily Rain DC"
-    series_high: null
-    settles_on: The Weather Channel
-    station: CLIDCA
-    icao: KDCA
-    lat: 38.848
-    lon: -77.034
-    elevation_m: 5
-    tz: America/New_York
-    verified: false
-
-  - name: Houston
-    series_rain: KXRAINHOU           # cadence unconfirmed -- check markets
-    series_high: null
-    settles_on: National Weather Service
-    station: CLIHOU
-    icao: KHOU
-    lat: 29.645
-    lon: -95.279
-    elevation_m: 14
-    tz: America/Chicago
-    verified: false
-
-  - name: Miami
-    series_rain: KXRAINMIA           # cadence unconfirmed -- check markets
-    series_high: null
-    settles_on: AccuWeather
-    station: CLIMIA
-    icao: KMIA
-    lat: 25.791
-    lon: -80.316
-    elevation_m: 3
-    tz: America/New_York
-    verified: false
-
-  - name: Seattle
-    series_rain: KXRAINSEA           # cadence unconfirmed -- check markets
-    series_high: null
-    settles_on: National Weather Service
-    station: CLISEA
-    icao: KSEA
-    lat: 47.444
-    lon: -122.314
-    elevation_m: 132
-    tz: America/Los_Angeles
-    verified: false
-
-  - name: New Orleans
-    series_rain: KXRAINNO            # cadence unconfirmed -- check markets
-    series_high: null
-    settles_on: National Weather Service
-    station: CLIMSY
-    icao: KMSY
-    lat: 29.993
-    lon: -90.258
-    elevation_m: 2
-    tz: America/Chicago
-    verified: false
+# DELIBERATELY EXCLUDED
+#   KXHIGHTSDF  ticker says SDF (Louisville) but the title reads
+#               "HIGHEST Temperature SATX", and KXHIGHTSATX already exists
+#               for San Antonio. Kalshi has mislabelled one of them. Don't
+#               trade it until you know which city it settles against.
+#   KXHIGHTCYYZ / TEGLL / TLFPG / TRJTT and the other international series
+#               are live series with no open markets right now.
