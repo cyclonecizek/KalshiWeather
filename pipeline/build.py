@@ -79,6 +79,9 @@ def main():
         cfg = src.get(cfg_key)
         if not cfg:
             continue
+        if cfg.get("enabled") is False:
+            print(f"  {key}: disabled in settings, skipping")
+            continue
         if _retired(cfg):
             print(f"  {key}: past retirement date, skipping")
             continue
