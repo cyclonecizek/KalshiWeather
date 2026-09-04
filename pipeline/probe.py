@@ -203,6 +203,23 @@ def probe_markets(base, prefixes=("KXRAIN", "KXHIGH")):
             if len(suffixes) > 3:
                 print(f"    city codes in ticker suffix ({len(suffixes)}): "
                       f"{' '.join(suffixes)}")
+            # Dump one raw market. The list endpoint returned null prices
+            # on 2026-09-04, so this shows which fields actually carry them.
+            import json as _json
+            print("    RAW first market:")
+            print("      " + _json.dumps(ms[0], indent=6)[:1400])
+            try:
+                full = k.market(ms[0]["ticker"])
+                print("    RAW /markets/{ticker}:")
+                print("      " + _json.dumps(full, indent=6)[:1400])
+            except Exception as exc:
+                print(f"    per-market fetch failed: {exc}")
+            try:
+                print("    RAW orderbook:")
+                print("      " + _json.dumps(
+                    k.orderbook(ms[0]["ticker"]), indent=6)[:800])
+            except Exception as exc:
+                print(f"    orderbook failed: {exc}")
             print("    first 3 markets:")
             for m in ms[:3]:
                 print(f"      {m.get('ticker')}  close={m.get('close_time')}")
