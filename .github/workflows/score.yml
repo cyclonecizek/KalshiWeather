@@ -1,0 +1,30 @@
+name: Score calibration
+
+# Grades every source against what actually settled and prints paste-ready
+# config values. Actions -> Score calibration -> Run workflow, then read the
+# run summary.
+#
+# Needs roughly 3-4 weeks of history/ before the numbers mean anything.
+# Fitted offsets are only emitted where n >= 20; below that you are fitting
+# noise and making the board worse.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 14 * * 1"     # Monday mornings
+
+permissions:
+  contents: read
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install requests PyYAML
+      - run: python -m pipeline.score
