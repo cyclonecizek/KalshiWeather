@@ -1,0 +1,253 @@
+# Kalshi daily-rain cities.
+#
+# VERIFY EVERY ROW against the market's own rules page before trading it.
+# Kalshi names a settlement station per market; the CLI code below is a
+# best-effort guess and the temperature markets are known to use unintuitive
+# stations (Chicago=Midway, Dallas=DFW, Houston=Hobby). Rain markets may
+# differ from the temperature markets for the same city.
+#
+# `series` may be left blank -- the pipeline discovers KXRAIN* series from
+# the Kalshi API and matches on title. Fill it in once you've confirmed it.
+#
+# elevation_m is the station's height above sea level in metres, passed to
+# meteoblue as `asl`. Without it meteoblue infers height from its own terrain
+# grid, and the mismatch against the real thermometer is a slice of the
+# grid-to-station temperature bias -- roughly 6.5 C per 1000 m of error.
+# Only the high-elevation stations are filled in below; read the rest off the
+# station metadata (the NWS station page or an airport data sheet) and fill
+# them in. It costs nothing and removes bias you would otherwise have to fit.
+#
+# lat/lon must be the SETTLEMENT STATION's coordinates, not the city center.
+# For point-forecast sources this matters; Central Park vs JFK is a real
+# difference on convective days.
+
+cities:
+  - name: New York
+    series: KXRAINNYC
+    station: CLINYC
+    icao: KNYC
+    lat: 40.779
+    lon: -73.969
+    tz: America/New_York
+    elevation_m: null
+    verified: false
+
+  - name: Chicago
+    series: KXRAINCHI
+    station: CLIORD
+    icao: KORD
+    lat: 41.995
+    lon: -87.934
+    tz: America/Chicago
+    elevation_m: null
+    verified: false
+
+  - name: Los Angeles
+    series: KXRAINLAX
+    station: CLILAX
+    icao: KLAX
+    lat: 33.938
+    lon: -118.389
+    tz: America/Los_Angeles
+    elevation_m: null
+    verified: false
+
+  - name: Miami
+    series: KXRAINMIA
+    station: CLIMIA
+    icao: KMIA
+    lat: 25.791
+    lon: -80.316
+    tz: America/New_York
+    elevation_m: null
+    verified: false
+
+  - name: Houston
+    series: KXRAINHOU
+    station: CLIHOU
+    icao: KHOU
+    lat: 29.645
+    lon: -95.279
+    tz: America/Chicago
+    elevation_m: null
+    verified: false
+
+  - name: Austin
+    series: KXRAINAUS
+    station: CLIAUS
+    icao: KAUS
+    lat: 30.183
+    lon: -97.680
+    tz: America/Chicago
+    elevation_m: null
+    verified: false
+
+  - name: Philadelphia
+    series: KXRAINPHIL
+    station: CLIPHL
+    icao: KPHL
+    lat: 39.868
+    lon: -75.231
+    tz: America/New_York
+    elevation_m: null
+    verified: false
+
+  - name: Denver
+    series: KXRAINDEN
+    station: CLIDEN
+    icao: KDEN
+    lat: 39.847
+    lon: -104.656
+    tz: America/Denver
+    elevation_m: 1656
+    verified: false
+
+  - name: Boston
+    series: KXRAINBOS
+    station: CLIBOS
+    icao: KBOS
+    lat: 42.361
+    lon: -71.010
+    tz: America/New_York
+    elevation_m: null
+    verified: false
+
+  - name: Seattle
+    series: KXRAINSEA
+    station: CLISEA
+    icao: KSEA
+    lat: 47.444
+    lon: -122.314
+    tz: America/Los_Angeles
+    elevation_m: null
+    verified: false
+
+  - name: Phoenix
+    series: KXRAINPHX
+    station: CLIPHX
+    icao: KPHX
+    lat: 33.428
+    lon: -112.004
+    tz: America/Phoenix
+    elevation_m: 337
+    verified: false
+
+  - name: Atlanta
+    series: KXRAINATL
+    station: CLIATL
+    icao: KATL
+    lat: 33.630
+    lon: -84.442
+    tz: America/New_York
+    elevation_m: null
+    verified: false
+
+  - name: Dallas
+    series: KXRAINDAL
+    station: CLIDFW
+    icao: KDFW
+    lat: 32.897
+    lon: -97.037
+    tz: America/Chicago
+    elevation_m: null
+    verified: false
+
+  - name: Washington DC
+    series: KXRAINDC
+    station: CLIDCA
+    icao: KDCA
+    lat: 38.848
+    lon: -77.034
+    tz: America/New_York
+    elevation_m: null
+    verified: false
+
+  - name: San Francisco
+    series: KXRAINSF
+    station: CLISFO
+    icao: KSFO
+    lat: 37.620
+    lon: -122.365
+    tz: America/Los_Angeles
+    elevation_m: null
+    verified: false
+
+  - name: Minneapolis
+    series: KXRAINMSP
+    station: CLIMSP
+    icao: KMSP
+    lat: 44.883
+    lon: -93.229
+    tz: America/Chicago
+    elevation_m: null
+    verified: false
+
+  - name: Detroit
+    series: KXRAINDET
+    station: CLIDTW
+    icao: KDTW
+    lat: 42.231
+    lon: -83.331
+    tz: America/New_York
+    elevation_m: null
+    verified: false
+
+  - name: Portland
+    series: KXRAINPDX
+    station: CLIPDX
+    icao: KPDX
+    lat: 45.591
+    lon: -122.606
+    tz: America/Los_Angeles
+    elevation_m: null
+    verified: false
+
+  - name: Nashville
+    series: KXRAINBNA
+    station: CLIBNA
+    icao: KBNA
+    lat: 36.119
+    lon: -86.689
+    tz: America/Chicago
+    elevation_m: null
+    verified: false
+
+  - name: Trenton
+    series: KXRAINTTN
+    station: CLITTN
+    icao: KTTN
+    lat: 40.277
+    lon: -74.816
+    tz: America/New_York
+    elevation_m: null
+    verified: false
+
+  - name: Salt Lake City
+    series: KXRAINSLC
+    station: CLISLC
+    icao: KSLC
+    lat: 40.788
+    lon: -111.969
+    tz: America/Denver
+    elevation_m: 1288
+    verified: false
+
+  - name: Tampa
+    series: KXRAINTPA
+    station: CLITPA
+    icao: KTPA
+    lat: 27.962
+    lon: -82.540
+    tz: America/New_York
+    elevation_m: null
+    verified: false
+
+  - name: Las Vegas
+    series: KXRAINLAS
+    station: CLILAS
+    icao: KLAS
+    lat: 36.072
+    lon: -115.163
+    tz: America/Los_Angeles
+    elevation_m: 665
+    verified: false

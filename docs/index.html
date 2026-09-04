@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weather board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E9EBE7; --panel:#F4F5F2; --ink:#1A2320; --ink-soft:#5C6A64;
+  --rule:#C6CBC3; --rule-strong:#8E978F;
+  --market:#1A2320; --model:#2C6E8F; --model-fill:#B9D3E0;
+  --p0:#F0F3F1; --p1:#D3E3EA; --p2:#9EC5D8; --p3:#5E9CBE; --p4:#2C6E8F; --p5:#1B4A66;
+  --watch:#C98A2E; --high:#A63D24; --thin:#9AA39D;
+  --rain:#2C6E8F; --temp:#A6602E;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;line-height:1.45}
+.wrap{max-width:1500px;margin:0 auto;padding:0 20px 80px}
+
+header{padding:26px 0 14px;display:flex;flex-wrap:wrap;gap:20px;
+  align-items:flex-end;justify-content:space-between}
+h1{font-size:27px;font-weight:600;margin:0;letter-spacing:-.02em}
+.meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-soft);margin-top:6px}
+.daypick{display:flex;border:1px solid var(--rule-strong);border-radius:2px;overflow:hidden}
+.daypick button{font:500 13px/1 "IBM Plex Sans",sans-serif;background:transparent;
+  color:var(--ink-soft);border:0;padding:9px 18px;cursor:pointer}
+.daypick button + button{border-left:1px solid var(--rule-strong)}
+.daypick button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.daypick button:focus-visible{outline:2px solid var(--model);outline-offset:-2px}
+
+.subnav{position:sticky;top:0;z-index:20;background:var(--paper);
+  border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong);
+  display:flex;margin-bottom:26px}
+.subnav a{padding:10px 16px;font-size:13px;color:var(--ink-soft);text-decoration:none;
+  border-right:1px solid var(--rule)}
+.subnav a:hover{color:var(--ink);background:var(--panel)}
+.subnav a:focus-visible{outline:2px solid var(--model);outline-offset:-2px}
+.subnav .count{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);margin-left:6px}
+
+h2{font-size:17px;font-weight:600;margin:0 0 3px;letter-spacing:-.01em}
+p.lede{margin:0 0 16px;color:var(--ink-soft);font-size:12.5px;max-width:72ch}
+section{margin-bottom:44px;scroll-margin-top:52px}
+
+.notice{border-left:3px solid var(--watch);background:var(--panel);padding:13px 16px;
+  margin:0 0 14px;font-size:13px}
+.notice.info{border-left-color:var(--model)}
+.notice code{font-family:"IBM Plex Mono",monospace;background:var(--paper);padding:1px 5px;
+  border:1px solid var(--rule)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);background:var(--panel)}
+table{border-collapse:collapse;width:100%}
+th,td{padding:7px 10px;text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{font:500 11px/1.3 "IBM Plex Sans",sans-serif;color:var(--ink-soft);
+  border-bottom:1px solid var(--rule-strong);vertical-align:bottom}
+thead th[data-k]{cursor:pointer;user-select:none}
+thead th[data-k]:focus-visible{outline:2px solid var(--model);outline-offset:-2px}
+thead tr.groups th{font:600 10.5px/1 "IBM Plex Mono",monospace;color:var(--ink);
+  border-bottom:1px solid var(--rule);padding-bottom:5px;text-align:center}
+td{font-family:"IBM Plex Mono",monospace;font-size:12.5px;border-bottom:1px solid var(--rule)}
+td.city{font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:500}
+tbody tr:hover td{background:#E5E9E5}
+.fam{border-left:1px solid var(--rule-strong)}
+.side{font-weight:600}
+.flag-high{color:var(--high);font-weight:600}
+.flag-watch{color:var(--watch);font-weight:600}
+.flag-thin{color:var(--thin)}
+.nil{color:var(--rule-strong)}
+.unver{color:var(--ink-soft);font-size:10px;font-family:"IBM Plex Mono",monospace;margin-left:5px}
+
+#ops table{min-width:820px}
+#ops th:first-child,#ops td:first-child{position:sticky;left:0;background:var(--panel);z-index:2}
+#ops tbody tr:hover td:first-child{background:#E5E9E5}
+.kind{display:inline-block;font:600 9.5px/1 "IBM Plex Mono",monospace;
+  padding:3px 5px;border:1px solid;border-radius:2px;margin-right:7px;vertical-align:1px}
+.kind.rain{color:var(--rain);border-color:var(--rain)}
+.kind.temp{color:var(--temp);border-color:var(--temp)}
+
+#rain-body table{min-width:1080px}
+#rain-body th:first-child,#rain-body td:first-child{position:sticky;left:0;
+  background:var(--panel);z-index:2}
+#rain-body tbody tr:hover td:first-child{background:#E5E9E5}
+.strip{background:var(--panel);border:1px solid var(--rule);padding:16px 20px 8px;margin-bottom:18px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.gridline{stroke:var(--rule);stroke-width:1}
+.axlabel{font:400 10.5px "IBM Plex Mono",monospace;fill:var(--ink-soft)}
+.rowlabel{font:400 11.5px "IBM Plex Sans",sans-serif;fill:var(--ink)}
+.rowlabel.dim{fill:var(--ink-soft)}
+.link{stroke-width:2.2;stroke-linecap:round}
+.hitbox{fill:transparent;cursor:pointer}
+.hitbox:focus-visible{fill:rgba(44,110,143,.12);outline:none}
+.striprow rect.band{fill:transparent}
+.striprow.lit rect.band{fill:#DFE9ED}
+tr.lit td,tr.lit td:first-child{background:#DFE9ED!important}
+.legend{display:flex;gap:20px;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  color:var(--ink-soft);margin-top:8px;padding-top:10px;border-top:1px solid var(--rule);
+  flex-wrap:wrap;align-items:center}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.legend i.sq{border-radius:0;width:11px}
+.legend .m{background:var(--model)}
+.legend .k{background:transparent;border:1.6px solid var(--market)}
+.legend .f{background:var(--model-fill);border:1px solid var(--model)}
+.legend .l{height:0;border-top:2px dashed var(--market);width:14px;border-radius:0}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-bottom:20px}
+.cell{background:var(--panel);padding:11px 13px 7px}
+.cell h3{margin:0;font-size:13.5px;font-weight:600;display:flex;
+  justify-content:space-between;align-items:baseline;gap:8px}
+.cell h3 em{font:400 11px "IBM Plex Mono",monospace;font-style:normal;color:var(--ink-soft)}
+.cell .sub{font:400 11px "IBM Plex Mono",monospace;color:var(--ink-soft);margin:1px 0 5px}
+.cell.flagged{background:#F6F0E6}
+
+.empty{padding:44px 20px;text-align:center;color:var(--ink-soft);background:var(--panel);
+  border:1px solid var(--rule)}
+.empty code{font-family:"IBM Plex Mono",monospace;background:var(--paper);padding:2px 6px;
+  border:1px solid var(--rule)}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--rule-strong);
+  font-size:12px;color:var(--ink-soft);max-width:78ch}
+footer p{margin:0 0 9px}
+@media (max-width:640px){
+  .wrap{padding:0 12px 60px}
+  h1{font-size:22px}
+  .subnav{overflow-x:auto}
+  .subnav a{white-space:nowrap}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>Weather board</h1>
+    <div class="meta" id="stamp">loading…</div>
+  </div>
+  <div class="daypick" role="group" aria-label="Forecast day">
+    <button id="d0" aria-pressed="true">Today</button>
+    <button id="d1" aria-pressed="false">Tomorrow</button>
+  </div>
+</header>
+
+<nav class="subnav">
+  <a href="#ops">Opportunities<span class="count" id="c-ops"></span></a>
+  <a href="#rainboard">Rain<span class="count" id="c-rain"></span></a>
+  <a href="#tempboard">High temperature<span class="count" id="c-temp"></span></a>
+</nav>
+
+<div id="notices"></div>
+
+<section id="ops">
+  <h2>Everything mispriced today</h2>
+  <p class="lede">Both market types in one list, ranked by expected value in cents per contract after fees and after crossing the spread. Thin books are excluded.</p>
+  <div class="tablewrap"><table id="opstbl">
+    <thead><tr>
+      <th data-k="city" tabindex="0">Contract</th>
+      <th data-k="model" tabindex="0">Model</th>
+      <th data-k="price" tabindex="0">Price</th>
+      <th>Side</th>
+      <th data-k="ev" tabindex="0">EV ¢</th>
+      <th data-k="kelly" tabindex="0">Kelly</th>
+      <th data-k="vol" tabindex="0">Vol</th>
+    </tr></thead><tbody></tbody>
+  </table></div>
+</section>
+
+<section id="rainboard">
+  <h2>Rain — will the station record ≥0.01"</h2>
+  <p class="lede">Each line runs from the market's mid price to the model consensus; longer line, bigger disagreement. Model columns are grouped by family because they are not independent — NBM ingests MOS and HREF, and NDFD is forecaster-edited NBM. <strong>Pred</strong> is meteoblue's forecast-confidence score; <strong>Cov</strong> is the rainSPOT wet-area fraction around the station, which discounts neighbourhood CAM probabilities toward a point (a <code>*</code> means it was applied, not just recorded).</p>
+  <div id="rain-body"></div>
+</section>
+
+<section id="tempboard">
+  <h2>High temperature — which bracket the day lands in</h2>
+  <p class="lede">Filled bars are the blended model probability per bracket; the dashed line is what the market implies once its overround is stripped. A shifted line means disagreement about where the high lands, a flatter or peakier one means disagreement about how confident to be.</p>
+  <div id="temp-body"></div>
+</section>
+
+<footer>
+  <p>The two boards settle on different sources. Rain settles Yes only if the station's official daily total is strictly greater than 0.00 inches, with trace counted as zero, and the binding source is The Weather Company. High temperature settles on the NWS Daily Climate Report. Neither is the forecast you are modelling, so residual basis risk survives every correction on this page.</p>
+  <p>Rain probabilities blend by family; temperature blends quantile curves rather than probabilities, so the distribution stays as sharp as its inputs. Bracket probabilities carry a half-degree continuity correction because the climate report prints whole degrees.</p>
+  <p>The per-city temperature bias term starts at zero and is the largest single lever on that board. Until it is fitted against real outcomes, treat the temperature section as a map of where the market disagrees with raw model output rather than as a signal.</p>
+  <p>This is a research tool, not advice. Positions can lose their full cost.</p>
+</footer>
+
+</div>
+
+<script>
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const RAMP = ['--p0','--p1','--p2','--p3','--p4','--p5'];
+let RAIN=null, TEMP=null, DAY='0', RSORT={key:'ev',dir:-1}, OSORT={key:'ev',dir:-1};
+
+const pct = v => v==null ? null : Math.round(v*100);
+const fmt = v => v==null ? '·' : String(pct(v));
+function probColor(p){
+  if(p==null) return 'transparent';
+  return cssv(RAMP[Math.min(RAMP.length-1, Math.floor(p*RAMP.length))]);
+}
+const txtOn = p => (p!=null && p>=0.62) ? '#F4F5F2' : cssv('--ink');
+function flagColor(f){
+  if(f==='high') return cssv('--high');
+  if(f==='watch') return cssv('--watch');
+  if(f==='thin') return cssv('--thin');
+  return cssv('--rule-strong');
+}
+function sortBy(state, get){
+  return (a,b) => {
+    const x=get(a), y=get(b);
+    if(typeof x==='string') return state.dir * x.localeCompare(y);
+    return state.dir * ((x??-9999)-(y??-9999));
+  };
+}
+function wireSort(table, state, redraw){
+  if(!table) return;
+  table.querySelectorAll('th[data-k]').forEach(th => {
+    const go = () => {
+      const k = th.dataset.k;
+      state.dir = state.key===k ? -state.dir : (k==='city' ? 1 : -1);
+      state.key = k; redraw();
+    };
+    th.addEventListener('click', go);
+    th.addEventListener('keydown', e => {
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); }
+    });
+  });
+}
+function highlight(city, on){
+  if(!city) return;
+  document.querySelectorAll('[data-city="'+CSS.escape(city)+'"]')
+    .forEach(el => el.classList.toggle('lit', on));
+}
+
+/* ---------------- unified opportunities ---------------- */
+function opportunities(){
+  const out = [];
+  if(RAIN) for(const c of RAIN.cities){
+    const d = c.days[DAY];
+    if(!d || !d.edge || !d.edge.flag || d.edge.flag==='thin') continue;
+    out.push({kind:'rain', city:c.city, contract:'≥0.01"',
+      model:d.consensus, price:d.edge.price, side:d.edge.side,
+      ev:d.edge.ev_cents, kelly:d.edge.kelly, vol:d.market.volume, flag:d.edge.flag});
+  }
+  if(TEMP) for(const c of TEMP.cities){
+    const d = c.days[DAY];
+    if(!d) continue;
+    for(const b of d.ladder){
+      if(!b.edge || !b.edge.flag || b.edge.flag==='thin') continue;
+      out.push({kind:'temp', city:c.city, contract:b.label+'°',
+        model:b.model_p, price:b.edge.price, side:b.edge.side,
+        ev:b.edge.ev_cents, kelly:b.edge.kelly, vol:b.market.volume, flag:b.edge.flag});
+    }
+  }
+  return out;
+}
+function drawOps(){
+  const rows = opportunities();
+  const get = r => OSORT.key==='city' ? r.city : r[OSORT.key];
+  rows.sort(sortBy(OSORT, get));
+  document.getElementById('c-ops').textContent = rows.length ? rows.length : '';
+  const tb = document.querySelector('#opstbl tbody');
+  tb.innerHTML = rows.length ? rows.map(r => {
+    const fc = 'flag-'+r.flag;
+    return '<tr data-city="'+r.city+'">'+
+      '<td class="city"><span class="kind '+r.kind+'">'+(r.kind==='rain'?'RAIN':'TEMP')+'</span>'+
+        r.city+' '+r.contract+'</td>'+
+      '<td>'+(r.model*100).toFixed(1)+'</td>'+
+      '<td>'+r.price+'</td>'+
+      '<td class="side '+fc+'">'+r.side+'</td>'+
+      '<td class="'+fc+'">+'+r.ev.toFixed(1)+'</td>'+
+      '<td>'+(r.kelly*100).toFixed(1)+'%</td>'+
+      '<td>'+r.vol.toLocaleString()+'</td></tr>';
+  }).join('')
+   : '<tr><td colspan="7" style="text-align:center;color:var(--ink-soft);padding:30px">'+
+     'Nothing clears the threshold on this day. That is the normal state of an efficient book.</td></tr>';
+  tb.querySelectorAll('tr[data-city]').forEach(tr=>{
+    tr.addEventListener('mouseenter',()=>highlight(tr.dataset.city,true));
+    tr.addEventListener('mouseleave',()=>highlight(tr.dataset.city,false));
+  });
+}
+
+/* ---------------- rain ---------------- */
+function rainRows(){
+  const get = r => {
+    const k=RSORT.key;
+    if(k==='city') return r.city.city;
+    if(k==='ev') return r.d.edge ? r.d.edge.ev_cents : -999;
+    if(k==='mid') return r.d.market.mid;
+    if(k==='cons') return r.d.consensus;
+    if(k==='spread') return r.d.spread;
+    if(k==='pred') return r.d.predictability;
+    if(k==='cov') return r.d.coverage ? r.d.coverage.wet_fraction : null;
+    return r.d.raw_models ? r.d.raw_models[k] : null;
+  };
+  return RAIN.cities.map(c=>({city:c,d:c.days[DAY]}))
+    .filter(r=>r.d&&r.d.market).sort(sortBy(RSORT,get));
+}
+function rainFamilies(){
+  const present = new Set();
+  for(const c of RAIN.cities){
+    const d=c.days[DAY]; if(d&&d.models) Object.keys(d.models).forEach(m=>present.add(m));
+  }
+  return Object.entries(RAIN.families)
+    .map(([k,v])=>({label:v.label, members:v.members.filter(m=>present.has(m))}))
+    .filter(g=>g.members.length);
+}
+function drawRain(){
+  const host = document.getElementById('rain-body');
+  if(!RAIN){
+    host.innerHTML='<div class="empty"><p>No rain board.</p>'+
+      '<p>Run <code>python -m pipeline.build</code>.</p></div>';
+    return;
+  }
+  const data = rainRows();
+  document.getElementById('c-rain').textContent = data.length;
+
+  const L=128,R=46,T=26,RH=17,W=1000,H=T+data.length*RH+22;
+  const x = p => L + (p/100)*(W-L-R);
+  let s='';
+  for(let g=0; g<=100; g+=25){
+    s+='<line class="gridline" x1="'+x(g)+'" y1="'+(T-8)+'" x2="'+x(g)+'" y2="'+(H-16)+'"/>';
+    s+='<text class="axlabel" x="'+x(g)+'" y="'+(T-13)+'" text-anchor="middle">'+g+'</text>';
+  }
+  data.forEach((r,i)=>{
+    const y=T+i*RH+RH/2, mid=r.d.market.mid;
+    const cons=r.d.consensus==null?null:r.d.consensus*100;
+    const flag=r.d.edge?r.d.edge.flag:null, col=flagColor(flag);
+    const dim=(r.d.edge&&r.d.edge.illiquid)?' dim':'';
+    s+='<g class="striprow" data-city="'+r.city.city+'">';
+    s+='<rect class="band" x="0" y="'+(y-RH/2)+'" width="'+W+'" height="'+RH+'"/>';
+    s+='<text class="rowlabel'+dim+'" x="'+(L-12)+'" y="'+(y+4)+'" text-anchor="end">'+r.city.city+'</text>';
+    if(cons!=null){
+      s+='<line class="link" x1="'+x(mid)+'" y1="'+y+'" x2="'+x(cons)+'" y2="'+y+'" stroke="'+col+'"/>';
+      s+='<circle cx="'+x(cons)+'" cy="'+y+'" r="4.4" fill="'+cssv('--model')+'"/>';
+    }
+    s+='<circle cx="'+x(mid)+'" cy="'+y+'" r="4.2" fill="'+cssv('--paper')+
+       '" stroke="'+cssv('--market')+'" stroke-width="1.7"/>';
+    if(r.d.edge){
+      const ev=r.d.edge.ev_cents;
+      s+='<text class="axlabel" x="'+(W-R+8)+'" y="'+(y+4)+'" fill="'+col+'">'+
+         (ev>0?'+':'')+ev.toFixed(1)+'</text>';
+    }
+    s+='<rect class="hitbox" x="0" y="'+(y-RH/2)+'" width="'+W+'" height="'+RH+'" tabindex="0"></rect></g>';
+  });
+  s+='<text class="axlabel" x="'+x(50)+'" y="'+(H-2)+'" text-anchor="middle">probability of ≥0.01" (%)</text>';
+
+  const groups = rainFamilies();
+  let g1='<tr class="groups"><th></th><th colspan="3">Market</th>';
+  groups.forEach(g=>g1+='<th class="fam" colspan="'+g.members.length+'">'+g.label+'</th>');
+  g1+='<th class="fam" colspan="6">Signal</th></tr>';
+  const Hd=(k,l,c)=>'<th data-k="'+k+'" tabindex="0" class="'+(c||'')+'">'+l+'</th>';
+  let g2='<tr>'+Hd('city','City')+Hd('mid','Mid')+'<th>Bid–Ask</th><th>Vol</th>';
+  groups.forEach(g=>g.members.forEach((m,i)=>g2+=Hd(m,m,i===0?'fam':'')));
+  g2+=Hd('cons','Model','fam')+Hd('spread','Range')+Hd('pred','Pred')+Hd('cov','Cov')+
+      '<th>Side</th>'+Hd('ev','EV ¢')+'</tr>';
+
+  const body = data.map(r=>{
+    const d=r.d, mk=d.market, e=d.edge;
+    const cell=(p,c)=>'<td class="'+(c||'')+'" style="background:'+probColor(p)+
+      ';color:'+txtOn(p)+'">'+fmt(p)+'</td>';
+    let t='<td class="city">'+r.city.city+
+      (r.city.verified?'':'<span class="unver" title="settlement station not verified">?</span>')+'</td>';
+    t+='<td>'+mk.mid.toFixed(1)+'</td><td>'+mk.yes_bid+'–'+mk.yes_ask+'</td><td>'+
+       mk.volume.toLocaleString()+'</td>';
+    groups.forEach(g=>g.members.forEach((m,i)=>t+=cell(d.raw_models?d.raw_models[m]:null,i===0?'fam':'')));
+    t+=cell(d.consensus,'fam');
+    t+='<td>'+(d.spread==null?'·':pct(d.spread))+'</td>';
+    // meteoblue's own confidence score, and the rainSPOT wet-area fraction
+    // used to discount neighbourhood CAM probabilities toward a point.
+    t+='<td class="'+(d.predictability!=null&&d.predictability<60?'flag-watch':'')+'">'+
+       (d.predictability==null?'·':Math.round(d.predictability))+'</td>';
+    const cv=d.coverage;
+    t+='<td title="'+(cv?('wet area '+Math.round(cv.wet_fraction*100)+'%'+
+        (cv.applied?', applied':', not applied')):'no rainSPOT')+'">'+
+       (cv?Math.round(cv.wet_fraction*100)+(cv.applied?'*':''):'·')+'</td>';
+    if(e){
+      const fc=e.flag?'flag-'+e.flag:'';
+      t+='<td class="side '+fc+'">'+e.side+' '+e.price+'</td><td class="'+fc+'">'+
+         (e.ev_cents>0?'+':'')+e.ev_cents.toFixed(1)+'</td>';
+    } else t+='<td class="nil">·</td><td class="nil">·</td>';
+    return '<tr data-city="'+r.city.city+'">'+t+'</tr>';
+  }).join('');
+
+  host.innerHTML='<div class="strip"><svg viewBox="0 0 '+W+' '+H+
+    '" role="img" aria-label="Model consensus versus market price by city">'+s+'</svg>'+
+    '<div class="legend"><span><i class="k"></i>market mid</span>'+
+    '<span><i class="m"></i>model consensus</span><span>line colour = flagged edge</span></div></div>'+
+    '<div class="tablewrap"><table id="rtbl"><thead>'+g1+g2+'</thead><tbody>'+body+'</tbody></table></div>';
+
+  wireSort(document.getElementById('rtbl'), RSORT, drawRain);
+  host.querySelectorAll('.striprow').forEach(g=>{
+    const on=()=>highlight(g.dataset.city,true), off=()=>highlight(g.dataset.city,false);
+    g.addEventListener('mouseenter',on); g.addEventListener('mouseleave',off);
+    g.querySelector('.hitbox').addEventListener('focus',on);
+    g.querySelector('.hitbox').addEventListener('blur',off);
+  });
+  host.querySelectorAll('#rtbl tbody tr').forEach(tr=>{
+    tr.addEventListener('mouseenter',()=>highlight(tr.dataset.city,true));
+    tr.addEventListener('mouseleave',()=>highlight(tr.dataset.city,false));
+  });
+}
+
+/* ---------------- temperature ---------------- */
+function tempCell(city, d){
+  const lad=d.ladder, W=268,H=104,L=6,R=6,T=6,Bm=20;
+  const n=lad.length, bw=(W-L-R)/n;
+  const maxP=Math.max(0.05,...lad.map(b=>Math.max(b.model_p||0,b.implied||0)));
+  const y=p=>T+(H-T-Bm)*(1-p/maxP);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+city+' bracket distribution">';
+  s+='<line x1="'+L+'" y1="'+(H-Bm)+'" x2="'+(W-R)+'" y2="'+(H-Bm)+
+     '" stroke="'+cssv('--rule-strong')+'"/>';
+  lad.forEach((b,i)=>{
+    const x=L+i*bw, p=b.model_p;
+    if(p!=null){
+      const fl=b.edge&&b.edge.flag&&b.edge.flag!=='thin';
+      s+='<rect x="'+(x+1.5)+'" y="'+y(p)+'" width="'+(bw-3)+'" height="'+(H-Bm-y(p))+
+         '" fill="'+(fl?'#E4C9A8':cssv('--model-fill'))+
+         '" stroke="'+(fl?cssv('--watch'):cssv('--model'))+'"/>';
+    }
+    s+='<text x="'+(x+bw/2)+'" y="'+(H-7)+'" text-anchor="middle" '+
+       'font-family="IBM Plex Mono,monospace" font-size="8.5" fill="'+cssv('--ink-soft')+'">'+
+       b.label+'</text>';
+  });
+  const pts=lad.map((b,i)=>b.implied==null?null:[L+i*bw+bw/2,y(b.implied)]).filter(Boolean);
+  if(pts.length>1){
+    s+='<polyline points="'+pts.map(p=>p.join(',')).join(' ')+'" fill="none" stroke="'+
+       cssv('--market')+'" stroke-width="1.6" stroke-dasharray="4 2.5"/>';
+    pts.forEach(p=>s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.1" fill="'+cssv('--market')+'"/>');
+  }
+  return s+'</svg>';
+}
+function drawTemp(){
+  const host=document.getElementById('temp-body');
+  if(!TEMP){
+    host.innerHTML='<div class="empty"><p>No temperature board.</p>'+
+      '<p>Run <code>python -m pipeline.build_temp</code>.</p></div>';
+    return;
+  }
+  let n=0;
+  const cells=TEMP.cities.map(c=>{
+    const d=c.days[DAY]; if(!d) return '';
+    n++;
+    const flagged=d.ladder.some(b=>b.edge&&b.edge.flag&&b.edge.flag!=='thin');
+    const dist=d.distribution;
+    const dg=d.diagnostics||{};
+    let sub=dist?('median '+dist.median.toFixed(1)+'°  ·  80% '+
+      dist.p10.toFixed(0)+'–'+dist.p90.toFixed(0)+'°'):'no model distribution';
+    if(dg._predictability!=null)
+      sub+='  ·  pred '+Math.round(dg._predictability)+'%'+
+           (dg._predictability_widening>1.01?' ×'+dg._predictability_widening.toFixed(2):'');
+    const over=d.overround==null?'':((d.overround>0?'+':'')+(d.overround*100).toFixed(1)+'¢');
+    return '<div class="cell'+(flagged?' flagged':'')+'" data-city="'+c.city+'">'+
+      '<h3>'+c.city+'<em>'+over+'</em></h3><div class="sub">'+sub+'</div>'+tempCell(c.city,d)+'</div>';
+  }).join('');
+  document.getElementById('c-temp').textContent=n;
+  host.innerHTML='<div class="grid">'+cells+'</div>'+
+    '<div class="legend" style="border-top:0;padding-top:0;margin-bottom:4px">'+
+    '<span><i class="sq f"></i>model</span><span><i class="l"></i>market, overround stripped</span>'+
+    '<span>shaded card = flagged bracket inside</span><span>¢ in header = raw overround</span>'+
+    '<span>pred = meteoblue confidence; × = spread widening applied</span></div>';
+}
+
+/* ---------------- boot ---------------- */
+function render(){ drawOps(); drawRain(); drawTemp(); }
+function setDay(d){
+  DAY=d;
+  document.getElementById('d0').setAttribute('aria-pressed',d==='0');
+  document.getElementById('d1').setAttribute('aria-pressed',d==='1');
+  render();
+}
+document.getElementById('d0').addEventListener('click',()=>setDay('0'));
+document.getElementById('d1').addEventListener('click',()=>setDay('1'));
+
+function grab(path){
+  return fetch(path+'?'+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null);
+}
+Promise.all([grab('data/board.json'), grab('data/board_temp.json')]).then(function(res){
+  RAIN=res[0]; TEMP=res[1];
+  const notices=[];
+  if(!RAIN && !TEMP){
+    document.getElementById('stamp').textContent='no data';
+    notices.push('<div class="notice"><strong>No board data loaded.</strong> If you opened this '+
+      'file directly from disk, the browser blocks reading local JSON — serve the folder instead: '+
+      '<code>cd docs &amp;&amp; python3 -m http.server 8000</code>, then visit '+
+      '<code>localhost:8000</code>. On GitHub Pages this works without changes.</div>');
+  } else {
+    const b=RAIN||TEMP;
+    const runs=Object.entries((RAIN&&RAIN.model_runs)||{}).map(kv=>kv[0]+' '+kv[1]).join('  ');
+    document.getElementById('stamp').textContent=
+      new Date(b.generated_at).toLocaleString()+(runs?'   ·   '+runs:'');
+    if(b._sample) notices.push('<div class="notice"><strong>Showing sample data.</strong> '+
+      'These numbers are synthetic and exist so the page renders before your first pipeline run.</div>');
+    const unver=(RAIN?RAIN.cities:[]).filter(c=>!c.verified).length;
+    if(unver) notices.push('<div class="notice"><strong>'+unver+
+      ' settlement stations unverified.</strong> Open each market\'s rules and confirm the station '+
+      'before sizing anything. Kalshi\'s temperature markets use Midway for Chicago and Hobby for '+
+      'Houston; assume nothing carries over to rain.</div>');
+    if(TEMP && !TEMP.meteoblue_enabled) notices.push('<div class="notice info">'+
+      '<strong>meteoblue mLM not connected.</strong> Its family weight is redistributed. Set '+
+      '<code>METEOBLUE_KEY</code> to enable — it is the only source here that post-processes '+
+      'against station observations, which is the correction temperature brackets turn on.</div>');
+    const errs=[].concat((RAIN&&RAIN.errors)||[],(TEMP&&TEMP.errors)||[]);
+    if(errs.length) notices.push('<div class="notice"><strong>'+errs.length+
+      ' sources failed.</strong> '+errs.map(e=>String(e).replace(/</g,'&lt;')).join('; ')+'</div>');
+  }
+  document.getElementById('notices').innerHTML=notices.join('');
+  wireSort(document.getElementById('opstbl'), OSORT, drawOps);
+  render();
+});
+</script>
+</body>
+</html>

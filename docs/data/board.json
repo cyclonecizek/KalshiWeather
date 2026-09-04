@@ -1,0 +1,3527 @@
+{
+ "generated_at": "2026-09-03T10:48:01.418580+00:00",
+ "threshold_inches": 0.01,
+ "families": {
+  "cam": {
+   "label": "CAM",
+   "weight": 0.35,
+   "members": [
+    "HREF",
+    "REFS"
+   ]
+  },
+  "blend": {
+   "label": "Blend",
+   "weight": 0.3,
+   "members": [
+    "NBM",
+    "NDFD"
+   ]
+  },
+  "stat": {
+   "label": "MOS",
+   "weight": 0.1,
+   "members": [
+    "MOS"
+   ]
+  },
+  "global": {
+   "label": "Global ens",
+   "weight": 0.25,
+   "members": [
+    "ECMWF_ENS",
+    "GEFS",
+    "ICON_EPS",
+    "GEM_EPS",
+    "UKMO_ENS"
+   ]
+  },
+  "mlm": {
+   "label": "meteoblue mLM",
+   "weight": 0.15,
+   "members": [
+    "METEOBLUE"
+   ]
+  }
+ },
+ "model_runs": {
+  "HREF": "2026090312",
+  "REFS": "2026090312",
+  "NBM": "2026090313"
+ },
+ "errors": [],
+ "cities": [
+  {
+   "city": "New York",
+   "series": "KXRAINNYC",
+   "station": "CLINYC",
+   "icao": "KNYC",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINNYC-26SEP03",
+      "yes_bid": 41,
+      "yes_ask": 48,
+      "no_ask": 59,
+      "no_bid": 52,
+      "mid": 44.5,
+      "spread": 7,
+      "volume": 2759,
+      "open_interest": 1415,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.119,
+      "REFS": 0.104,
+      "NBM": 0.298,
+      "NDFD": 0.307,
+      "MOS": 0.201,
+      "ECMWF_ENS": 0.293,
+      "GEFS": 0.306,
+      "ICON_EPS": 0.331,
+      "GEM_EPS": 0.338,
+      "UKMO_ENS": 0.248
+     },
+     "consensus": 0.2257,
+     "models": {
+      "HREF": 0.119,
+      "REFS": 0.104,
+      "NBM": 0.298,
+      "NDFD": 0.307,
+      "MOS": 0.201,
+      "ECMWF_ENS": 0.293,
+      "GEFS": 0.306,
+      "ICON_EPS": 0.331,
+      "GEM_EPS": 0.338,
+      "UKMO_ENS": 0.248
+     },
+     "families": {
+      "cam": 0.1115,
+      "blend": 0.3025,
+      "stat": 0.201,
+      "global": 0.3032
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.234,
+     "family_spread": 0.192,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 59,
+      "ev_cents": 16.43,
+      "ev_yes": -27.43,
+      "ev_no": 16.43,
+      "fee_cents": 2,
+      "kelly": 0.1124,
+      "gap_points": -21.9,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 77.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINNYC-26SEP04",
+      "yes_bid": 12,
+      "yes_ask": 19,
+      "no_ask": 88,
+      "no_bid": 81,
+      "mid": 15.5,
+      "spread": 7,
+      "volume": 62,
+      "open_interest": 412,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.158,
+      "REFS": 0.088,
+      "NBM": 0.01,
+      "NDFD": 0.01,
+      "MOS": 0.11,
+      "ECMWF_ENS": 0.063,
+      "GEFS": 0.068,
+      "ICON_EPS": 0.12,
+      "GEM_EPS": 0.097,
+      "UKMO_ENS": 0.016
+     },
+     "consensus": 0.0752,
+     "models": {
+      "HREF": 0.158,
+      "REFS": 0.088,
+      "NBM": 0.01,
+      "NDFD": 0.01,
+      "MOS": 0.11,
+      "ECMWF_ENS": 0.063,
+      "GEFS": 0.068,
+      "ICON_EPS": 0.12,
+      "GEM_EPS": 0.097,
+      "UKMO_ENS": 0.016
+     },
+     "families": {
+      "cam": 0.123,
+      "blend": 0.01,
+      "stat": 0.11,
+      "global": 0.0728
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.148,
+     "family_spread": 0.113,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 88,
+      "ev_cents": 3.47,
+      "ev_yes": -13.48,
+      "ev_no": 3.47,
+      "fee_cents": 1,
+      "kelly": 0.0932,
+      "gap_points": -8.0,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 85.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Chicago",
+   "series": "KXRAINCHI",
+   "station": "CLIORD",
+   "icao": "KORD",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINCHI-26SEP03",
+      "yes_bid": 42,
+      "yes_ask": 44,
+      "no_ask": 58,
+      "no_bid": 56,
+      "mid": 43.0,
+      "spread": 2,
+      "volume": 96,
+      "open_interest": 358,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.462,
+      "REFS": 0.444,
+      "NBM": 0.516,
+      "NDFD": 0.455,
+      "MOS": 0.559,
+      "ECMWF_ENS": 0.501,
+      "GEFS": 0.475,
+      "ICON_EPS": 0.441,
+      "GEM_EPS": 0.46,
+      "UKMO_ENS": 0.475
+     },
+     "consensus": 0.4777,
+     "models": {
+      "HREF": 0.462,
+      "REFS": 0.444,
+      "NBM": 0.516,
+      "NDFD": 0.455,
+      "MOS": 0.559,
+      "ECMWF_ENS": 0.501,
+      "GEFS": 0.475,
+      "ICON_EPS": 0.441,
+      "GEM_EPS": 0.46,
+      "UKMO_ENS": 0.475
+     },
+     "families": {
+      "cam": 0.453,
+      "blend": 0.4855,
+      "stat": 0.559,
+      "global": 0.4704
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.118,
+     "family_spread": 0.106,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 44,
+      "ev_cents": 1.77,
+      "ev_yes": 1.77,
+      "ev_no": -7.77,
+      "fee_cents": 2,
+      "kelly": 0.0168,
+      "gap_points": 4.8,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 82.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINCHI-26SEP04",
+      "yes_bid": 61,
+      "yes_ask": 64,
+      "no_ask": 39,
+      "no_bid": 36,
+      "mid": 62.5,
+      "spread": 3,
+      "volume": 719,
+      "open_interest": 136,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.527,
+      "REFS": 0.556,
+      "NBM": 0.676,
+      "NDFD": 0.644,
+      "MOS": 0.489,
+      "ECMWF_ENS": 0.784,
+      "GEFS": 0.694,
+      "ICON_EPS": 0.753,
+      "GEM_EPS": 0.684,
+      "UKMO_ENS": 0.703
+     },
+     "consensus": 0.6173,
+     "models": {
+      "HREF": 0.527,
+      "REFS": 0.556,
+      "NBM": 0.676,
+      "NDFD": 0.644,
+      "MOS": 0.489,
+      "ECMWF_ENS": 0.784,
+      "GEFS": 0.694,
+      "ICON_EPS": 0.753,
+      "GEM_EPS": 0.684,
+      "UKMO_ENS": 0.703
+     },
+     "families": {
+      "cam": 0.5415,
+      "blend": 0.66,
+      "stat": 0.489,
+      "global": 0.7236
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.295,
+     "family_spread": 0.235,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 39,
+      "ev_cents": -2.73,
+      "ev_yes": -4.27,
+      "ev_no": -2.73,
+      "fee_cents": 2,
+      "kelly": 0.0,
+      "gap_points": -0.8,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 49.0,
+     "coverage": {
+      "wet_fraction": 0.3966,
+      "centre_wet": true,
+      "multiplier": 0.397,
+      "applied": false
+     }
+    }
+   }
+  },
+  {
+   "city": "Los Angeles",
+   "series": "KXRAINLAX",
+   "station": "CLILAX",
+   "icao": "KLAX",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINLAX-26SEP03",
+      "yes_bid": 1,
+      "yes_ask": 5,
+      "no_ask": 99,
+      "no_bid": 95,
+      "mid": 3.0,
+      "spread": 4,
+      "volume": 302,
+      "open_interest": 2108,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.01,
+      "REFS": 0.01,
+      "NBM": 0.035,
+      "NDFD": 0.081,
+      "MOS": 0.072,
+      "ECMWF_ENS": 0.01,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.01,
+      "GEM_EPS": 0.039,
+      "UKMO_ENS": 0.043
+     },
+     "consensus": 0.0337,
+     "models": {
+      "HREF": 0.01,
+      "REFS": 0.01,
+      "NBM": 0.035,
+      "NDFD": 0.081,
+      "MOS": 0.072,
+      "ECMWF_ENS": 0.01,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.01,
+      "GEM_EPS": 0.039,
+      "UKMO_ENS": 0.043
+     },
+     "families": {
+      "cam": 0.01,
+      "blend": 0.058,
+      "stat": 0.072,
+      "global": 0.0224
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.071,
+     "family_spread": 0.062,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 5,
+      "ev_cents": -2.63,
+      "ev_yes": -2.63,
+      "ev_no": -3.37,
+      "fee_cents": 1,
+      "kelly": 0.0,
+      "gap_points": 0.4,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 58.0,
+     "coverage": {
+      "wet_fraction": 0.4181,
+      "centre_wet": true,
+      "multiplier": 0.418,
+      "applied": false
+     }
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINLAX-26SEP04",
+      "yes_bid": 34,
+      "yes_ask": 36,
+      "no_ask": 66,
+      "no_bid": 64,
+      "mid": 35.0,
+      "spread": 2,
+      "volume": 1092,
+      "open_interest": 329,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.24,
+      "REFS": 0.238,
+      "NBM": 0.316,
+      "NDFD": 0.314,
+      "MOS": 0.249,
+      "ECMWF_ENS": 0.182,
+      "GEFS": 0.216,
+      "ICON_EPS": 0.186,
+      "GEM_EPS": 0.173,
+      "UKMO_ENS": 0.197
+     },
+     "consensus": 0.2507,
+     "models": {
+      "HREF": 0.24,
+      "REFS": 0.238,
+      "NBM": 0.316,
+      "NDFD": 0.314,
+      "MOS": 0.249,
+      "ECMWF_ENS": 0.182,
+      "GEFS": 0.216,
+      "ICON_EPS": 0.186,
+      "GEM_EPS": 0.173,
+      "UKMO_ENS": 0.197
+     },
+     "families": {
+      "cam": 0.239,
+      "blend": 0.315,
+      "stat": 0.249,
+      "global": 0.1908
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.143,
+     "family_spread": 0.124,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 66,
+      "ev_cents": 6.92,
+      "ev_yes": -12.93,
+      "ev_no": 6.92,
+      "fee_cents": 2,
+      "kelly": 0.0656,
+      "gap_points": -9.9,
+      "flag": "watch",
+      "illiquid": false
+     },
+     "predictability": 48.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Miami",
+   "series": "KXRAINMIA",
+   "station": "CLIMIA",
+   "icao": "KMIA",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINMIA-26SEP03",
+      "yes_bid": 2,
+      "yes_ask": 5,
+      "no_ask": 98,
+      "no_bid": 95,
+      "mid": 3.5,
+      "spread": 3,
+      "volume": 148,
+      "open_interest": 355,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.064,
+      "REFS": 0.03,
+      "NBM": 0.042,
+      "NDFD": 0.048,
+      "MOS": 0.074,
+      "ECMWF_ENS": 0.01,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.01,
+      "GEM_EPS": 0.01,
+      "UKMO_ENS": 0.017
+     },
+     "consensus": 0.0402,
+     "models": {
+      "HREF": 0.064,
+      "REFS": 0.03,
+      "NBM": 0.042,
+      "NDFD": 0.048,
+      "MOS": 0.074,
+      "ECMWF_ENS": 0.01,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.01,
+      "GEM_EPS": 0.01,
+      "UKMO_ENS": 0.017
+     },
+     "families": {
+      "cam": 0.047,
+      "blend": 0.045,
+      "stat": 0.074,
+      "global": 0.0114
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.064,
+     "family_spread": 0.063,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 5,
+      "ev_cents": -1.98,
+      "ev_yes": -1.98,
+      "ev_no": -3.02,
+      "fee_cents": 1,
+      "kelly": 0.0,
+      "gap_points": 0.5,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 58.0,
+     "coverage": {
+      "wet_fraction": 0.2978,
+      "centre_wet": true,
+      "multiplier": 0.35,
+      "applied": false
+     }
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINMIA-26SEP04",
+      "yes_bid": 6,
+      "yes_ask": 10,
+      "no_ask": 94,
+      "no_bid": 90,
+      "mid": 8.0,
+      "spread": 4,
+      "volume": 238,
+      "open_interest": 745,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.094,
+      "REFS": 0.01,
+      "NBM": 0.217,
+      "NDFD": 0.123,
+      "MOS": 0.016,
+      "ECMWF_ENS": 0.082,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.066,
+      "GEM_EPS": 0.024,
+      "UKMO_ENS": 0.08
+     },
+     "consensus": 0.0839,
+     "models": {
+      "HREF": 0.094,
+      "REFS": 0.01,
+      "NBM": 0.217,
+      "NDFD": 0.123,
+      "MOS": 0.016,
+      "ECMWF_ENS": 0.082,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.066,
+      "GEM_EPS": 0.024,
+      "UKMO_ENS": 0.08
+     },
+     "families": {
+      "cam": 0.052,
+      "blend": 0.17,
+      "stat": 0.016,
+      "global": 0.0524
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.207,
+     "family_spread": 0.154,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 10,
+      "ev_cents": -2.61,
+      "ev_yes": -2.61,
+      "ev_no": -3.39,
+      "fee_cents": 1,
+      "kelly": 0.0,
+      "gap_points": 0.4,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 91.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Houston",
+   "series": "KXRAINHOU",
+   "station": "CLIHOU",
+   "icao": "KHOU",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINHOU-26SEP03",
+      "yes_bid": 18,
+      "yes_ask": 25,
+      "no_ask": 82,
+      "no_bid": 75,
+      "mid": 21.5,
+      "spread": 7,
+      "volume": 4075,
+      "open_interest": 191,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.219,
+      "REFS": 0.194,
+      "NBM": 0.317,
+      "NDFD": 0.314,
+      "MOS": 0.342,
+      "ECMWF_ENS": 0.269,
+      "GEFS": 0.238,
+      "ICON_EPS": 0.342,
+      "GEM_EPS": 0.317,
+      "UKMO_ENS": 0.352
+     },
+     "consensus": 0.277,
+     "models": {
+      "HREF": 0.219,
+      "REFS": 0.194,
+      "NBM": 0.317,
+      "NDFD": 0.314,
+      "MOS": 0.342,
+      "ECMWF_ENS": 0.269,
+      "GEFS": 0.238,
+      "ICON_EPS": 0.342,
+      "GEM_EPS": 0.317,
+      "UKMO_ENS": 0.352
+     },
+     "families": {
+      "cam": 0.2065,
+      "blend": 0.3155,
+      "stat": 0.342,
+      "global": 0.3036
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.158,
+     "family_spread": 0.136,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 25,
+      "ev_cents": 0.7,
+      "ev_yes": 0.7,
+      "ev_no": -11.7,
+      "fee_cents": 2,
+      "kelly": 0.009,
+      "gap_points": 6.2,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 92.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINHOU-26SEP04",
+      "yes_bid": 17,
+      "yes_ask": 18,
+      "no_ask": 83,
+      "no_bid": 82,
+      "mid": 17.5,
+      "spread": 1,
+      "volume": 517,
+      "open_interest": 174,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.017,
+      "REFS": 0.01,
+      "NBM": 0.097,
+      "NDFD": 0.134,
+      "MOS": 0.201,
+      "ECMWF_ENS": 0.13,
+      "GEFS": 0.134,
+      "ICON_EPS": 0.113,
+      "GEM_EPS": 0.095,
+      "UKMO_ENS": 0.219
+     },
+     "consensus": 0.094,
+     "models": {
+      "HREF": 0.017,
+      "REFS": 0.01,
+      "NBM": 0.097,
+      "NDFD": 0.134,
+      "MOS": 0.201,
+      "ECMWF_ENS": 0.13,
+      "GEFS": 0.134,
+      "ICON_EPS": 0.113,
+      "GEM_EPS": 0.095,
+      "UKMO_ENS": 0.219
+     },
+     "families": {
+      "cam": 0.0135,
+      "blend": 0.1155,
+      "stat": 0.201,
+      "global": 0.1382
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.209,
+     "family_spread": 0.188,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 83,
+      "ev_cents": 6.6,
+      "ev_yes": -10.6,
+      "ev_no": 6.6,
+      "fee_cents": 1,
+      "kelly": 0.1117,
+      "gap_points": -8.1,
+      "flag": "watch",
+      "illiquid": false
+     },
+     "predictability": 62.0,
+     "coverage": {
+      "wet_fraction": 0.5263,
+      "centre_wet": false,
+      "multiplier": 0.526,
+      "applied": false
+     }
+    }
+   }
+  },
+  {
+   "city": "Austin",
+   "series": "KXRAINAUS",
+   "station": "CLIAUS",
+   "icao": "KAUS",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINAUS-26SEP03",
+      "yes_bid": 52,
+      "yes_ask": 54,
+      "no_ask": 48,
+      "no_bid": 46,
+      "mid": 53.0,
+      "spread": 2,
+      "volume": 304,
+      "open_interest": 314,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.436,
+      "REFS": 0.502,
+      "NBM": 0.31,
+      "NDFD": 0.332,
+      "MOS": 0.652,
+      "ECMWF_ENS": 0.619,
+      "GEFS": 0.566,
+      "ICON_EPS": 0.585,
+      "GEM_EPS": 0.603,
+      "UKMO_ENS": 0.593
+     },
+     "consensus": 0.4739,
+     "models": {
+      "HREF": 0.436,
+      "REFS": 0.502,
+      "NBM": 0.31,
+      "NDFD": 0.332,
+      "MOS": 0.652,
+      "ECMWF_ENS": 0.619,
+      "GEFS": 0.566,
+      "ICON_EPS": 0.585,
+      "GEM_EPS": 0.603,
+      "UKMO_ENS": 0.593
+     },
+     "families": {
+      "cam": 0.469,
+      "blend": 0.321,
+      "stat": 0.652,
+      "global": 0.5932
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.342,
+     "family_spread": 0.331,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 48,
+      "ev_cents": 2.61,
+      "ev_yes": -8.61,
+      "ev_no": 2.61,
+      "fee_cents": 2,
+      "kelly": 0.0221,
+      "gap_points": -5.6,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 48.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINAUS-26SEP04",
+      "yes_bid": 43,
+      "yes_ask": 46,
+      "no_ask": 57,
+      "no_bid": 54,
+      "mid": 44.5,
+      "spread": 3,
+      "volume": 8029,
+      "open_interest": 180,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.628,
+      "REFS": 0.482,
+      "NBM": 0.484,
+      "NDFD": 0.484,
+      "MOS": 0.588,
+      "ECMWF_ENS": 0.529,
+      "GEFS": 0.508,
+      "ICON_EPS": 0.53,
+      "GEM_EPS": 0.577,
+      "UKMO_ENS": 0.518
+     },
+     "consensus": 0.5313,
+     "models": {
+      "HREF": 0.628,
+      "REFS": 0.482,
+      "NBM": 0.484,
+      "NDFD": 0.484,
+      "MOS": 0.588,
+      "ECMWF_ENS": 0.529,
+      "GEFS": 0.508,
+      "ICON_EPS": 0.53,
+      "GEM_EPS": 0.577,
+      "UKMO_ENS": 0.518
+     },
+     "families": {
+      "cam": 0.555,
+      "blend": 0.484,
+      "stat": 0.588,
+      "global": 0.5324
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.146,
+     "family_spread": 0.104,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 46,
+      "ev_cents": 5.13,
+      "ev_yes": 5.13,
+      "ev_no": -12.13,
+      "fee_cents": 2,
+      "kelly": 0.033,
+      "gap_points": 8.6,
+      "flag": "watch",
+      "illiquid": false
+     },
+     "predictability": 64.0,
+     "coverage": {
+      "wet_fraction": 0.728,
+      "centre_wet": true,
+      "multiplier": 0.728,
+      "applied": false
+     }
+    }
+   }
+  },
+  {
+   "city": "Philadelphia",
+   "series": "KXRAINPHIL",
+   "station": "CLIPHL",
+   "icao": "KPHL",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINPHIL-26SEP03",
+      "yes_bid": 93,
+      "yes_ask": 95,
+      "no_ask": 7,
+      "no_bid": 5,
+      "mid": 94.0,
+      "spread": 2,
+      "volume": 234,
+      "open_interest": 144,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.817,
+      "REFS": 0.816,
+      "NBM": 0.99,
+      "NDFD": 0.982,
+      "MOS": 0.752,
+      "ECMWF_ENS": 0.833,
+      "GEFS": 0.811,
+      "ICON_EPS": 0.984,
+      "GEM_EPS": 0.944,
+      "UKMO_ENS": 0.923
+     },
+     "consensus": 0.8815,
+     "models": {
+      "HREF": 0.817,
+      "REFS": 0.816,
+      "NBM": 0.99,
+      "NDFD": 0.982,
+      "MOS": 0.752,
+      "ECMWF_ENS": 0.833,
+      "GEFS": 0.811,
+      "ICON_EPS": 0.984,
+      "GEM_EPS": 0.944,
+      "UKMO_ENS": 0.923
+     },
+     "families": {
+      "cam": 0.8165,
+      "blend": 0.986,
+      "stat": 0.752,
+      "global": 0.899
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.238,
+     "family_spread": 0.234,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 7,
+      "ev_cents": 3.85,
+      "ev_yes": -7.85,
+      "ev_no": 3.85,
+      "fee_cents": 1,
+      "kelly": 0.013,
+      "gap_points": -5.8,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 51.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINPHIL-26SEP04",
+      "yes_bid": 90,
+      "yes_ask": 97,
+      "no_ask": 10,
+      "no_bid": 3,
+      "mid": 93.5,
+      "spread": 7,
+      "volume": 1270,
+      "open_interest": 115,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.846,
+      "REFS": 0.799,
+      "NBM": 0.955,
+      "NDFD": 0.95,
+      "MOS": 0.939,
+      "ECMWF_ENS": 0.964,
+      "GEFS": 0.99,
+      "ICON_EPS": 0.99,
+      "GEM_EPS": 0.99,
+      "UKMO_ENS": 0.969
+     },
+     "consensus": 0.9127,
+     "models": {
+      "HREF": 0.846,
+      "REFS": 0.799,
+      "NBM": 0.955,
+      "NDFD": 0.95,
+      "MOS": 0.939,
+      "ECMWF_ENS": 0.964,
+      "GEFS": 0.99,
+      "ICON_EPS": 0.99,
+      "GEM_EPS": 0.99,
+      "UKMO_ENS": 0.969
+     },
+     "families": {
+      "cam": 0.8225,
+      "blend": 0.9525,
+      "stat": 0.939,
+      "global": 0.9806
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.191,
+     "family_spread": 0.158,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 10,
+      "ev_cents": -2.27,
+      "ev_yes": -6.73,
+      "ev_no": -2.27,
+      "fee_cents": 1,
+      "kelly": 0.0,
+      "gap_points": -2.2,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 49.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Denver",
+   "series": "KXRAINDEN",
+   "station": "CLIDEN",
+   "icao": "KDEN",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINDEN-26SEP03",
+      "yes_bid": 59,
+      "yes_ask": 61,
+      "no_ask": 41,
+      "no_bid": 39,
+      "mid": 60.0,
+      "spread": 2,
+      "volume": 683,
+      "open_interest": 133,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.615,
+      "REFS": 0.722,
+      "NBM": 0.606,
+      "NDFD": 0.582,
+      "MOS": 0.685,
+      "ECMWF_ENS": 0.658,
+      "GEFS": 0.552,
+      "ICON_EPS": 0.545,
+      "GEM_EPS": 0.619,
+      "UKMO_ENS": 0.539
+     },
+     "consensus": 0.6263,
+     "models": {
+      "HREF": 0.615,
+      "REFS": 0.722,
+      "NBM": 0.606,
+      "NDFD": 0.582,
+      "MOS": 0.685,
+      "ECMWF_ENS": 0.658,
+      "GEFS": 0.552,
+      "ICON_EPS": 0.545,
+      "GEM_EPS": 0.619,
+      "UKMO_ENS": 0.539
+     },
+     "families": {
+      "cam": 0.6685,
+      "blend": 0.594,
+      "stat": 0.685,
+      "global": 0.5826
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.183,
+     "family_spread": 0.102,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 61,
+      "ev_cents": -0.37,
+      "ev_yes": -0.37,
+      "ev_no": -5.63,
+      "fee_cents": 2,
+      "kelly": 0.0105,
+      "gap_points": 2.6,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 87.0,
+     "coverage": {
+      "wet_fraction": 0.5842,
+      "centre_wet": true,
+      "multiplier": 0.584,
+      "applied": false
+     }
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINDEN-26SEP04",
+      "yes_bid": 32,
+      "yes_ask": 34,
+      "no_ask": 68,
+      "no_bid": 66,
+      "mid": 33.0,
+      "spread": 2,
+      "volume": 561,
+      "open_interest": 217,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.412,
+      "REFS": 0.414,
+      "NBM": 0.429,
+      "NDFD": 0.374,
+      "MOS": 0.382,
+      "ECMWF_ENS": 0.32,
+      "GEFS": 0.31,
+      "ICON_EPS": 0.28,
+      "GEM_EPS": 0.314,
+      "UKMO_ENS": 0.424
+     },
+     "consensus": 0.3856,
+     "models": {
+      "HREF": 0.412,
+      "REFS": 0.414,
+      "NBM": 0.429,
+      "NDFD": 0.374,
+      "MOS": 0.382,
+      "ECMWF_ENS": 0.32,
+      "GEFS": 0.31,
+      "ICON_EPS": 0.28,
+      "GEM_EPS": 0.314,
+      "UKMO_ENS": 0.424
+     },
+     "families": {
+      "cam": 0.413,
+      "blend": 0.4015,
+      "stat": 0.382,
+      "global": 0.3296
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.149,
+     "family_spread": 0.083,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 34,
+      "ev_cents": 2.56,
+      "ev_yes": 2.56,
+      "ev_no": -8.56,
+      "fee_cents": 2,
+      "kelly": 0.0173,
+      "gap_points": 5.6,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 56.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Boston",
+   "series": "KXRAINBOS",
+   "station": "CLIBOS",
+   "icao": "KBOS",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINBOS-26SEP03",
+      "yes_bid": 96,
+      "yes_ask": 99,
+      "no_ask": 4,
+      "no_bid": 1,
+      "mid": 97.5,
+      "spread": 3,
+      "volume": 1596,
+      "open_interest": 6964,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.8,
+      "REFS": 0.817,
+      "NBM": 0.966,
+      "NDFD": 0.934,
+      "MOS": 0.848,
+      "ECMWF_ENS": 0.902,
+      "GEFS": 0.857,
+      "ICON_EPS": 0.835,
+      "GEM_EPS": 0.833,
+      "UKMO_ENS": 0.921
+     },
+     "consensus": 0.8702,
+     "models": {
+      "HREF": 0.8,
+      "REFS": 0.817,
+      "NBM": 0.966,
+      "NDFD": 0.934,
+      "MOS": 0.848,
+      "ECMWF_ENS": 0.902,
+      "GEFS": 0.857,
+      "ICON_EPS": 0.835,
+      "GEM_EPS": 0.833,
+      "UKMO_ENS": 0.921
+     },
+     "families": {
+      "cam": 0.8085,
+      "blend": 0.95,
+      "stat": 0.848,
+      "global": 0.8696
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.166,
+     "family_spread": 0.141,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 4,
+      "ev_cents": 7.98,
+      "ev_yes": -12.98,
+      "ev_no": 7.98,
+      "fee_cents": 1,
+      "kelly": 0.0234,
+      "gap_points": -10.5,
+      "flag": "watch",
+      "illiquid": false
+     },
+     "predictability": 57.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINBOS-26SEP04",
+      "yes_bid": 1,
+      "yes_ask": 3,
+      "no_ask": 99,
+      "no_bid": 97,
+      "mid": 2.0,
+      "spread": 2,
+      "volume": 4930,
+      "open_interest": 37,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.017,
+      "REFS": 0.011,
+      "NBM": 0.01,
+      "NDFD": 0.046,
+      "MOS": 0.016,
+      "ECMWF_ENS": 0.01,
+      "GEFS": 0.035,
+      "ICON_EPS": 0.117,
+      "GEM_EPS": 0.127,
+      "UKMO_ENS": 0.023
+     },
+     "consensus": 0.0305,
+     "models": {
+      "HREF": 0.017,
+      "REFS": 0.011,
+      "NBM": 0.01,
+      "NDFD": 0.046,
+      "MOS": 0.016,
+      "ECMWF_ENS": 0.01,
+      "GEFS": 0.035,
+      "ICON_EPS": 0.117,
+      "GEM_EPS": 0.127,
+      "UKMO_ENS": 0.023
+     },
+     "families": {
+      "cam": 0.014,
+      "blend": 0.028,
+      "stat": 0.016,
+      "global": 0.0624
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.117,
+     "family_spread": 0.048,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 3,
+      "ev_cents": -0.95,
+      "ev_yes": -0.95,
+      "ev_no": -3.05,
+      "fee_cents": 1,
+      "kelly": 0.0001,
+      "gap_points": 1.0,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 91.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Seattle",
+   "series": "KXRAINSEA",
+   "station": "CLISEA",
+   "icao": "KSEA",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINSEA-26SEP03",
+      "yes_bid": 3,
+      "yes_ask": 4,
+      "no_ask": 97,
+      "no_bid": 96,
+      "mid": 3.5,
+      "spread": 1,
+      "volume": 2099,
+      "open_interest": 390,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.26,
+      "REFS": 0.219,
+      "NBM": 0.071,
+      "NDFD": 0.139,
+      "MOS": 0.147,
+      "ECMWF_ENS": 0.044,
+      "GEFS": 0.017,
+      "ICON_EPS": 0.015,
+      "GEM_EPS": 0.121,
+      "UKMO_ENS": 0.106
+     },
+     "consensus": 0.1452,
+     "models": {
+      "HREF": 0.26,
+      "REFS": 0.219,
+      "NBM": 0.071,
+      "NDFD": 0.139,
+      "MOS": 0.147,
+      "ECMWF_ENS": 0.044,
+      "GEFS": 0.017,
+      "ICON_EPS": 0.015,
+      "GEM_EPS": 0.121,
+      "UKMO_ENS": 0.106
+     },
+     "families": {
+      "cam": 0.2395,
+      "blend": 0.105,
+      "stat": 0.147,
+      "global": 0.0606
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.245,
+     "family_spread": 0.179,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 4,
+      "ev_cents": 9.52,
+      "ev_yes": 9.52,
+      "ev_no": -12.52,
+      "fee_cents": 1,
+      "kelly": 0.0274,
+      "gap_points": 11.0,
+      "flag": "high",
+      "illiquid": false
+     },
+     "predictability": 64.0,
+     "coverage": {
+      "wet_fraction": 0.6952,
+      "centre_wet": false,
+      "multiplier": 0.695,
+      "applied": false
+     }
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINSEA-26SEP04",
+      "yes_bid": 67,
+      "yes_ask": 70,
+      "no_ask": 33,
+      "no_bid": 30,
+      "mid": 68.5,
+      "spread": 3,
+      "volume": 466,
+      "open_interest": 182,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.693,
+      "REFS": 0.703,
+      "NBM": 0.624,
+      "NDFD": 0.641,
+      "MOS": 0.714,
+      "ECMWF_ENS": 0.685,
+      "GEFS": 0.661,
+      "ICON_EPS": 0.758,
+      "GEM_EPS": 0.764,
+      "UKMO_ENS": 0.731
+     },
+     "consensus": 0.6854,
+     "models": {
+      "HREF": 0.693,
+      "REFS": 0.703,
+      "NBM": 0.624,
+      "NDFD": 0.641,
+      "MOS": 0.714,
+      "ECMWF_ENS": 0.685,
+      "GEFS": 0.661,
+      "ICON_EPS": 0.758,
+      "GEM_EPS": 0.764,
+      "UKMO_ENS": 0.731
+     },
+     "families": {
+      "cam": 0.698,
+      "blend": 0.6325,
+      "stat": 0.714,
+      "global": 0.7198
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.14,
+     "family_spread": 0.087,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 70,
+      "ev_cents": -3.46,
+      "ev_yes": -3.46,
+      "ev_no": -3.54,
+      "fee_cents": 2,
+      "kelly": 0.0,
+      "gap_points": 0.0,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 88.0,
+     "coverage": {
+      "wet_fraction": 0.4357,
+      "centre_wet": true,
+      "multiplier": 0.436,
+      "applied": false
+     }
+    }
+   }
+  },
+  {
+   "city": "Phoenix",
+   "series": "KXRAINPHX",
+   "station": "CLIPHX",
+   "icao": "KPHX",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINPHX-26SEP03",
+      "yes_bid": 62,
+      "yes_ask": 66,
+      "no_ask": 38,
+      "no_bid": 34,
+      "mid": 64.0,
+      "spread": 4,
+      "volume": 801,
+      "open_interest": 753,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.558,
+      "REFS": 0.515,
+      "NBM": 0.471,
+      "NDFD": 0.615,
+      "MOS": 0.468,
+      "ECMWF_ENS": 0.483,
+      "GEFS": 0.596,
+      "ICON_EPS": 0.565,
+      "GEM_EPS": 0.591,
+      "UKMO_ENS": 0.452
+     },
+     "consensus": 0.5318,
+     "models": {
+      "HREF": 0.558,
+      "REFS": 0.515,
+      "NBM": 0.471,
+      "NDFD": 0.615,
+      "MOS": 0.468,
+      "ECMWF_ENS": 0.483,
+      "GEFS": 0.596,
+      "ICON_EPS": 0.565,
+      "GEM_EPS": 0.591,
+      "UKMO_ENS": 0.452
+     },
+     "families": {
+      "cam": 0.5365,
+      "blend": 0.543,
+      "stat": 0.468,
+      "global": 0.5374
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.163,
+     "family_spread": 0.075,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 38,
+      "ev_cents": 6.82,
+      "ev_yes": -14.82,
+      "ev_no": 6.82,
+      "fee_cents": 2,
+      "kelly": 0.0356,
+      "gap_points": -10.8,
+      "flag": "watch",
+      "illiquid": false
+     },
+     "predictability": 52.0,
+     "coverage": {
+      "wet_fraction": 0.7312,
+      "centre_wet": false,
+      "multiplier": 0.731,
+      "applied": false
+     }
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINPHX-26SEP04",
+      "yes_bid": 7,
+      "yes_ask": 14,
+      "no_ask": 93,
+      "no_bid": 86,
+      "mid": 10.5,
+      "spread": 7,
+      "volume": 339,
+      "open_interest": 331,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.01,
+      "REFS": 0.01,
+      "NBM": 0.064,
+      "NDFD": 0.047,
+      "MOS": 0.083,
+      "ECMWF_ENS": 0.107,
+      "GEFS": 0.122,
+      "ICON_EPS": 0.126,
+      "GEM_EPS": 0.168,
+      "UKMO_ENS": 0.087
+     },
+     "consensus": 0.0589,
+     "models": {
+      "HREF": 0.01,
+      "REFS": 0.01,
+      "NBM": 0.064,
+      "NDFD": 0.047,
+      "MOS": 0.083,
+      "ECMWF_ENS": 0.107,
+      "GEFS": 0.122,
+      "ICON_EPS": 0.126,
+      "GEM_EPS": 0.168,
+      "UKMO_ENS": 0.087
+     },
+     "families": {
+      "cam": 0.01,
+      "blend": 0.0555,
+      "stat": 0.083,
+      "global": 0.122
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.158,
+     "family_spread": 0.112,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 93,
+      "ev_cents": 0.11,
+      "ev_yes": -9.11,
+      "ev_no": 0.11,
+      "fee_cents": 1,
+      "kelly": 0.0395,
+      "gap_points": -4.6,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 73.0,
+     "coverage": {
+      "wet_fraction": 0.1548,
+      "centre_wet": false,
+      "multiplier": 0.35,
+      "applied": false
+     }
+    }
+   }
+  },
+  {
+   "city": "Atlanta",
+   "series": "KXRAINATL",
+   "station": "CLIATL",
+   "icao": "KATL",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINATL-26SEP03",
+      "yes_bid": 1,
+      "yes_ask": 5,
+      "no_ask": 99,
+      "no_bid": 95,
+      "mid": 3.0,
+      "spread": 4,
+      "volume": 702,
+      "open_interest": 508,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.01,
+      "REFS": 0.015,
+      "NBM": 0.01,
+      "NDFD": 0.092,
+      "MOS": 0.061,
+      "ECMWF_ENS": 0.076,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.025,
+      "GEM_EPS": 0.024,
+      "UKMO_ENS": 0.022
+     },
+     "consensus": 0.0336,
+     "models": {
+      "HREF": 0.01,
+      "REFS": 0.015,
+      "NBM": 0.01,
+      "NDFD": 0.092,
+      "MOS": 0.061,
+      "ECMWF_ENS": 0.076,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.025,
+      "GEM_EPS": 0.024,
+      "UKMO_ENS": 0.022
+     },
+     "families": {
+      "cam": 0.0125,
+      "blend": 0.051,
+      "stat": 0.061,
+      "global": 0.0314
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.082,
+     "family_spread": 0.049,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 5,
+      "ev_cents": -2.64,
+      "ev_yes": -2.64,
+      "ev_no": -3.36,
+      "fee_cents": 1,
+      "kelly": 0.0,
+      "gap_points": 0.4,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 51.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINATL-26SEP04",
+      "yes_bid": 7,
+      "yes_ask": 11,
+      "no_ask": 93,
+      "no_bid": 89,
+      "mid": 9.0,
+      "spread": 4,
+      "volume": 433,
+      "open_interest": 446,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.027,
+      "REFS": 0.11,
+      "NBM": 0.01,
+      "NDFD": 0.053,
+      "MOS": 0.053,
+      "ECMWF_ENS": 0.097,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.01,
+      "GEM_EPS": 0.01,
+      "UKMO_ENS": 0.01
+     },
+     "consensus": 0.0456,
+     "models": {
+      "HREF": 0.027,
+      "REFS": 0.11,
+      "NBM": 0.01,
+      "NDFD": 0.053,
+      "MOS": 0.053,
+      "ECMWF_ENS": 0.097,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.01,
+      "GEM_EPS": 0.01,
+      "UKMO_ENS": 0.01
+     },
+     "families": {
+      "cam": 0.0685,
+      "blend": 0.0315,
+      "stat": 0.053,
+      "global": 0.0274
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.1,
+     "family_spread": 0.041,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 93,
+      "ev_cents": 1.44,
+      "ev_yes": -7.44,
+      "ev_no": 1.44,
+      "fee_cents": 1,
+      "kelly": 0.0872,
+      "gap_points": -4.4,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 50.0,
+     "coverage": {
+      "wet_fraction": 0.5141,
+      "centre_wet": true,
+      "multiplier": 0.514,
+      "applied": false
+     }
+    }
+   }
+  },
+  {
+   "city": "Dallas",
+   "series": "KXRAINDAL",
+   "station": "CLIDFW",
+   "icao": "KDFW",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINDAL-26SEP03",
+      "yes_bid": 7,
+      "yes_ask": 10,
+      "no_ask": 93,
+      "no_bid": 90,
+      "mid": 8.5,
+      "spread": 3,
+      "volume": 1155,
+      "open_interest": 1147,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.205,
+      "REFS": 0.233,
+      "NBM": 0.132,
+      "NDFD": 0.065,
+      "MOS": 0.058,
+      "ECMWF_ENS": 0.117,
+      "GEFS": 0.113,
+      "ICON_EPS": 0.172,
+      "GEM_EPS": 0.068,
+      "UKMO_ENS": 0.095
+     },
+     "consensus": 0.1402,
+     "models": {
+      "HREF": 0.205,
+      "REFS": 0.233,
+      "NBM": 0.132,
+      "NDFD": 0.065,
+      "MOS": 0.058,
+      "ECMWF_ENS": 0.117,
+      "GEFS": 0.113,
+      "ICON_EPS": 0.172,
+      "GEM_EPS": 0.068,
+      "UKMO_ENS": 0.095
+     },
+     "families": {
+      "cam": 0.219,
+      "blend": 0.0985,
+      "stat": 0.058,
+      "global": 0.113
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.175,
+     "family_spread": 0.161,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 10,
+      "ev_cents": 3.02,
+      "ev_yes": 3.02,
+      "ev_no": -8.03,
+      "fee_cents": 1,
+      "kelly": 0.0112,
+      "gap_points": 5.5,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 68.0,
+     "coverage": {
+      "wet_fraction": 0.2269,
+      "centre_wet": false,
+      "multiplier": 0.35,
+      "applied": false
+     }
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINDAL-26SEP04",
+      "yes_bid": 77,
+      "yes_ask": 79,
+      "no_ask": 23,
+      "no_bid": 21,
+      "mid": 78.0,
+      "spread": 2,
+      "volume": 1195,
+      "open_interest": 1481,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.752,
+      "REFS": 0.722,
+      "NBM": 0.757,
+      "NDFD": 0.68,
+      "MOS": 0.609,
+      "ECMWF_ENS": 0.57,
+      "GEFS": 0.653,
+      "ICON_EPS": 0.579,
+      "GEM_EPS": 0.57,
+      "UKMO_ENS": 0.574
+     },
+     "consensus": 0.6817,
+     "models": {
+      "HREF": 0.752,
+      "REFS": 0.722,
+      "NBM": 0.757,
+      "NDFD": 0.68,
+      "MOS": 0.609,
+      "ECMWF_ENS": 0.57,
+      "GEFS": 0.653,
+      "ICON_EPS": 0.579,
+      "GEM_EPS": 0.57,
+      "UKMO_ENS": 0.574
+     },
+     "families": {
+      "cam": 0.737,
+      "blend": 0.7185,
+      "stat": 0.609,
+      "global": 0.5892
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.187,
+     "family_spread": 0.148,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 23,
+      "ev_cents": 6.83,
+      "ev_yes": -12.83,
+      "ev_no": 6.83,
+      "fee_cents": 2,
+      "kelly": 0.0287,
+      "gap_points": -9.8,
+      "flag": "watch",
+      "illiquid": false
+     },
+     "predictability": 70.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Washington DC",
+   "series": "KXRAINDC",
+   "station": "CLIDCA",
+   "icao": "KDCA",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINDC-26SEP03",
+      "yes_bid": 12,
+      "yes_ask": 14,
+      "no_ask": 88,
+      "no_bid": 86,
+      "mid": 13.0,
+      "spread": 2,
+      "volume": 665,
+      "open_interest": 510,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.269,
+      "REFS": 0.146,
+      "NBM": 0.128,
+      "NDFD": 0.122,
+      "MOS": 0.266,
+      "ECMWF_ENS": 0.357,
+      "GEFS": 0.379,
+      "ICON_EPS": 0.361,
+      "GEM_EPS": 0.403,
+      "UKMO_ENS": 0.383
+     },
+     "consensus": 0.2309,
+     "models": {
+      "HREF": 0.269,
+      "REFS": 0.146,
+      "NBM": 0.128,
+      "NDFD": 0.122,
+      "MOS": 0.266,
+      "ECMWF_ENS": 0.357,
+      "GEFS": 0.379,
+      "ICON_EPS": 0.361,
+      "GEM_EPS": 0.403,
+      "UKMO_ENS": 0.383
+     },
+     "families": {
+      "cam": 0.2075,
+      "blend": 0.125,
+      "stat": 0.266,
+      "global": 0.3766
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.281,
+     "family_spread": 0.252,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 14,
+      "ev_cents": 8.09,
+      "ev_yes": 8.09,
+      "ev_no": -12.09,
+      "fee_cents": 1,
+      "kelly": 0.0264,
+      "gap_points": 10.1,
+      "flag": "high",
+      "illiquid": false
+     },
+     "predictability": 70.0,
+     "coverage": {
+      "wet_fraction": 0.4397,
+      "centre_wet": false,
+      "multiplier": 0.44,
+      "applied": false
+     }
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINDC-26SEP04",
+      "yes_bid": 38,
+      "yes_ask": 40,
+      "no_ask": 62,
+      "no_bid": 60,
+      "mid": 39.0,
+      "spread": 2,
+      "volume": 253,
+      "open_interest": 331,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.242,
+      "REFS": 0.276,
+      "NBM": 0.226,
+      "NDFD": 0.173,
+      "MOS": 0.264,
+      "ECMWF_ENS": 0.26,
+      "GEFS": 0.261,
+      "ICON_EPS": 0.326,
+      "GEM_EPS": 0.361,
+      "UKMO_ENS": 0.311
+     },
+     "consensus": 0.2529,
+     "models": {
+      "HREF": 0.242,
+      "REFS": 0.276,
+      "NBM": 0.226,
+      "NDFD": 0.173,
+      "MOS": 0.264,
+      "ECMWF_ENS": 0.26,
+      "GEFS": 0.261,
+      "ICON_EPS": 0.326,
+      "GEM_EPS": 0.361,
+      "UKMO_ENS": 0.311
+     },
+     "families": {
+      "cam": 0.259,
+      "blend": 0.1995,
+      "stat": 0.264,
+      "global": 0.3038
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.188,
+     "family_spread": 0.104,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 62,
+      "ev_cents": 10.72,
+      "ev_yes": -16.71,
+      "ev_no": 10.72,
+      "fee_cents": 2,
+      "kelly": 0.0837,
+      "gap_points": -13.7,
+      "flag": "high",
+      "illiquid": false
+     },
+     "predictability": 77.0,
+     "coverage": {
+      "wet_fraction": 0.4577,
+      "centre_wet": false,
+      "multiplier": 0.458,
+      "applied": false
+     }
+    }
+   }
+  },
+  {
+   "city": "San Francisco",
+   "series": "KXRAINSF",
+   "station": "CLISFO",
+   "icao": "KSFO",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINSF-26SEP03",
+      "yes_bid": 3,
+      "yes_ask": 5,
+      "no_ask": 97,
+      "no_bid": 95,
+      "mid": 4.0,
+      "spread": 2,
+      "volume": 189,
+      "open_interest": 311,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.037,
+      "REFS": 0.101,
+      "NBM": 0.01,
+      "NDFD": 0.082,
+      "MOS": 0.084,
+      "ECMWF_ENS": 0.088,
+      "GEFS": 0.064,
+      "ICON_EPS": 0.057,
+      "GEM_EPS": 0.049,
+      "UKMO_ENS": 0.141
+     },
+     "consensus": 0.0663,
+     "models": {
+      "HREF": 0.037,
+      "REFS": 0.101,
+      "NBM": 0.01,
+      "NDFD": 0.082,
+      "MOS": 0.084,
+      "ECMWF_ENS": 0.088,
+      "GEFS": 0.064,
+      "ICON_EPS": 0.057,
+      "GEM_EPS": 0.049,
+      "UKMO_ENS": 0.141
+     },
+     "families": {
+      "cam": 0.069,
+      "blend": 0.046,
+      "stat": 0.084,
+      "global": 0.0798
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.131,
+     "family_spread": 0.038,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 5,
+      "ev_cents": 0.63,
+      "ev_yes": 0.63,
+      "ev_no": -4.63,
+      "fee_cents": 1,
+      "kelly": 0.0043,
+      "gap_points": 2.6,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 65.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINSF-26SEP04",
+      "yes_bid": 64,
+      "yes_ask": 71,
+      "no_ask": 36,
+      "no_bid": 29,
+      "mid": 67.5,
+      "spread": 7,
+      "volume": 411,
+      "open_interest": 121,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.452,
+      "REFS": 0.501,
+      "NBM": 0.705,
+      "NDFD": 0.666,
+      "MOS": 0.632,
+      "ECMWF_ENS": 0.57,
+      "GEFS": 0.717,
+      "ICON_EPS": 0.682,
+      "GEM_EPS": 0.634,
+      "UKMO_ENS": 0.627
+     },
+     "consensus": 0.5971,
+     "models": {
+      "HREF": 0.452,
+      "REFS": 0.501,
+      "NBM": 0.705,
+      "NDFD": 0.666,
+      "MOS": 0.632,
+      "ECMWF_ENS": 0.57,
+      "GEFS": 0.717,
+      "ICON_EPS": 0.682,
+      "GEM_EPS": 0.634,
+      "UKMO_ENS": 0.627
+     },
+     "families": {
+      "cam": 0.4765,
+      "blend": 0.6855,
+      "stat": 0.632,
+      "global": 0.646
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.265,
+     "family_spread": 0.209,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 36,
+      "ev_cents": 2.29,
+      "ev_yes": -13.29,
+      "ev_no": 2.29,
+      "fee_cents": 2,
+      "kelly": 0.0167,
+      "gap_points": -7.8,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 84.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Minneapolis",
+   "series": "KXRAINMSP",
+   "station": "CLIMSP",
+   "icao": "KMSP",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINMSP-26SEP03",
+      "yes_bid": 69,
+      "yes_ask": 71,
+      "no_ask": 31,
+      "no_bid": 29,
+      "mid": 70.0,
+      "spread": 2,
+      "volume": 853,
+      "open_interest": 1341,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.561,
+      "REFS": 0.557,
+      "NBM": 0.7,
+      "NDFD": 0.602,
+      "MOS": 0.718,
+      "ECMWF_ENS": 0.619,
+      "GEFS": 0.517,
+      "ICON_EPS": 0.576,
+      "GEM_EPS": 0.577,
+      "UKMO_ENS": 0.558
+     },
+     "consensus": 0.6051,
+     "models": {
+      "HREF": 0.561,
+      "REFS": 0.557,
+      "NBM": 0.7,
+      "NDFD": 0.602,
+      "MOS": 0.718,
+      "ECMWF_ENS": 0.619,
+      "GEFS": 0.517,
+      "ICON_EPS": 0.576,
+      "GEM_EPS": 0.577,
+      "UKMO_ENS": 0.558
+     },
+     "families": {
+      "cam": 0.559,
+      "blend": 0.651,
+      "stat": 0.718,
+      "global": 0.5694
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.201,
+     "family_spread": 0.159,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 31,
+      "ev_cents": 6.49,
+      "ev_yes": -12.49,
+      "ev_no": 6.49,
+      "fee_cents": 2,
+      "kelly": 0.0308,
+      "gap_points": -9.5,
+      "flag": "watch",
+      "illiquid": false
+     },
+     "predictability": 79.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINMSP-26SEP04",
+      "yes_bid": 5,
+      "yes_ask": 6,
+      "no_ask": 95,
+      "no_bid": 94,
+      "mid": 5.5,
+      "spread": 1,
+      "volume": 1160,
+      "open_interest": 2496,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.17,
+      "REFS": 0.231,
+      "NBM": 0.01,
+      "NDFD": 0.01,
+      "MOS": 0.227,
+      "ECMWF_ENS": 0.045,
+      "GEFS": 0.103,
+      "ICON_EPS": 0.088,
+      "GEM_EPS": 0.031,
+      "UKMO_ENS": 0.141
+     },
+     "consensus": 0.1163,
+     "models": {
+      "HREF": 0.17,
+      "REFS": 0.231,
+      "NBM": 0.01,
+      "NDFD": 0.01,
+      "MOS": 0.227,
+      "ECMWF_ENS": 0.045,
+      "GEFS": 0.103,
+      "ICON_EPS": 0.088,
+      "GEM_EPS": 0.031,
+      "UKMO_ENS": 0.141
+     },
+     "families": {
+      "cam": 0.2005,
+      "blend": 0.01,
+      "stat": 0.227,
+      "global": 0.0816
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.221,
+     "family_spread": 0.217,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 6,
+      "ev_cents": 4.63,
+      "ev_yes": 4.63,
+      "ev_no": -7.63,
+      "fee_cents": 1,
+      "kelly": 0.015,
+      "gap_points": 6.1,
+      "flag": "watch",
+      "illiquid": false
+     },
+     "predictability": 65.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Detroit",
+   "series": "KXRAINDET",
+   "station": "CLIDTW",
+   "icao": "KDTW",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINDET-26SEP03",
+      "yes_bid": 20,
+      "yes_ask": 23,
+      "no_ask": 80,
+      "no_bid": 77,
+      "mid": 21.5,
+      "spread": 3,
+      "volume": 75,
+      "open_interest": 853,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.251,
+      "REFS": 0.232,
+      "NBM": 0.04,
+      "NDFD": 0.078,
+      "MOS": 0.34,
+      "ECMWF_ENS": 0.34,
+      "GEFS": 0.261,
+      "ICON_EPS": 0.239,
+      "GEM_EPS": 0.274,
+      "UKMO_ENS": 0.268
+     },
+     "consensus": 0.2053,
+     "models": {
+      "HREF": 0.251,
+      "REFS": 0.232,
+      "NBM": 0.04,
+      "NDFD": 0.078,
+      "MOS": 0.34,
+      "ECMWF_ENS": 0.34,
+      "GEFS": 0.261,
+      "ICON_EPS": 0.239,
+      "GEM_EPS": 0.274,
+      "UKMO_ENS": 0.268
+     },
+     "families": {
+      "cam": 0.2415,
+      "blend": 0.059,
+      "stat": 0.34,
+      "global": 0.2764
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.3,
+     "family_spread": 0.281,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 80,
+      "ev_cents": -2.53,
+      "ev_yes": -4.47,
+      "ev_no": -2.53,
+      "fee_cents": 2,
+      "kelly": 0.0,
+      "gap_points": -1.0,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 61.0,
+     "coverage": {
+      "wet_fraction": 0.7031,
+      "centre_wet": true,
+      "multiplier": 0.703,
+      "applied": false
+     }
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINDET-26SEP04",
+      "yes_bid": 1,
+      "yes_ask": 4,
+      "no_ask": 99,
+      "no_bid": 96,
+      "mid": 2.5,
+      "spread": 3,
+      "volume": 2450,
+      "open_interest": 2670,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.01,
+      "REFS": 0.091,
+      "NBM": 0.01,
+      "NDFD": 0.01,
+      "MOS": 0.12,
+      "ECMWF_ENS": 0.134,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.01,
+      "GEM_EPS": 0.01,
+      "UKMO_ENS": 0.01
+     },
+     "consensus": 0.0414,
+     "models": {
+      "HREF": 0.01,
+      "REFS": 0.091,
+      "NBM": 0.01,
+      "NDFD": 0.01,
+      "MOS": 0.12,
+      "ECMWF_ENS": 0.134,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.01,
+      "GEM_EPS": 0.01,
+      "UKMO_ENS": 0.01
+     },
+     "families": {
+      "cam": 0.0505,
+      "blend": 0.01,
+      "stat": 0.12,
+      "global": 0.0348
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.124,
+     "family_spread": 0.11,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 4,
+      "ev_cents": -0.86,
+      "ev_yes": -0.86,
+      "ev_no": -4.14,
+      "fee_cents": 1,
+      "kelly": 0.0004,
+      "gap_points": 1.6,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 75.0,
+     "coverage": {
+      "wet_fraction": 0.3769,
+      "centre_wet": false,
+      "multiplier": 0.377,
+      "applied": false
+     }
+    }
+   }
+  },
+  {
+   "city": "Portland",
+   "series": "KXRAINPDX",
+   "station": "CLIPDX",
+   "icao": "KPDX",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINPDX-26SEP03",
+      "yes_bid": 38,
+      "yes_ask": 41,
+      "no_ask": 62,
+      "no_bid": 59,
+      "mid": 39.5,
+      "spread": 3,
+      "volume": 194,
+      "open_interest": 435,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.353,
+      "REFS": 0.416,
+      "NBM": 0.253,
+      "NDFD": 0.331,
+      "MOS": 0.276,
+      "ECMWF_ENS": 0.434,
+      "GEFS": 0.438,
+      "ICON_EPS": 0.444,
+      "GEM_EPS": 0.395,
+      "UKMO_ENS": 0.445
+     },
+     "consensus": 0.3576,
+     "models": {
+      "HREF": 0.353,
+      "REFS": 0.416,
+      "NBM": 0.253,
+      "NDFD": 0.331,
+      "MOS": 0.276,
+      "ECMWF_ENS": 0.434,
+      "GEFS": 0.438,
+      "ICON_EPS": 0.444,
+      "GEM_EPS": 0.395,
+      "UKMO_ENS": 0.445
+     },
+     "families": {
+      "cam": 0.3845,
+      "blend": 0.292,
+      "stat": 0.276,
+      "global": 0.4312
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.192,
+     "family_spread": 0.155,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 62,
+      "ev_cents": 0.24,
+      "ev_yes": -7.24,
+      "ev_no": 0.24,
+      "fee_cents": 2,
+      "kelly": 0.0148,
+      "gap_points": -3.7,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 78.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINPDX-26SEP04",
+      "yes_bid": 92,
+      "yes_ask": 93,
+      "no_ask": 8,
+      "no_bid": 7,
+      "mid": 92.5,
+      "spread": 1,
+      "volume": 1820,
+      "open_interest": 818,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.878,
+      "REFS": 0.939,
+      "NBM": 0.99,
+      "NDFD": 0.99,
+      "MOS": 0.99,
+      "ECMWF_ENS": 0.914,
+      "GEFS": 0.9,
+      "ICON_EPS": 0.878,
+      "GEM_EPS": 0.863,
+      "UKMO_ENS": 0.832
+     },
+     "consensus": 0.9333,
+     "models": {
+      "HREF": 0.878,
+      "REFS": 0.939,
+      "NBM": 0.99,
+      "NDFD": 0.99,
+      "MOS": 0.99,
+      "ECMWF_ENS": 0.914,
+      "GEFS": 0.9,
+      "ICON_EPS": 0.878,
+      "GEM_EPS": 0.863,
+      "UKMO_ENS": 0.832
+     },
+     "families": {
+      "cam": 0.9085,
+      "blend": 0.99,
+      "stat": 0.99,
+      "global": 0.8774
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.158,
+     "family_spread": 0.113,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 93,
+      "ev_cents": -0.67,
+      "ev_yes": -0.67,
+      "ev_no": -2.33,
+      "fee_cents": 1,
+      "kelly": 0.0119,
+      "gap_points": 0.8,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 64.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Nashville",
+   "series": "KXRAINBNA",
+   "station": "CLIBNA",
+   "icao": "KBNA",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINBNA-26SEP03",
+      "yes_bid": 49,
+      "yes_ask": 50,
+      "no_ask": 51,
+      "no_bid": 50,
+      "mid": 49.5,
+      "spread": 1,
+      "volume": 10035,
+      "open_interest": 379,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.356,
+      "REFS": 0.379,
+      "NBM": 0.341,
+      "NDFD": 0.365,
+      "MOS": 0.421,
+      "ECMWF_ENS": 0.345,
+      "GEFS": 0.378,
+      "ICON_EPS": 0.367,
+      "GEM_EPS": 0.347,
+      "UKMO_ENS": 0.417
+     },
+     "consensus": 0.3693,
+     "models": {
+      "HREF": 0.356,
+      "REFS": 0.379,
+      "NBM": 0.341,
+      "NDFD": 0.365,
+      "MOS": 0.421,
+      "ECMWF_ENS": 0.345,
+      "GEFS": 0.378,
+      "ICON_EPS": 0.367,
+      "GEM_EPS": 0.347,
+      "UKMO_ENS": 0.417
+     },
+     "families": {
+      "cam": 0.3675,
+      "blend": 0.353,
+      "stat": 0.421,
+      "global": 0.3708
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.08,
+     "family_spread": 0.068,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 51,
+      "ev_cents": 10.07,
+      "ev_yes": -15.07,
+      "ev_no": 10.07,
+      "fee_cents": 2,
+      "kelly": 0.0616,
+      "gap_points": -12.6,
+      "flag": "high",
+      "illiquid": false
+     },
+     "predictability": 82.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINBNA-26SEP04",
+      "yes_bid": 3,
+      "yes_ask": 10,
+      "no_ask": 97,
+      "no_bid": 90,
+      "mid": 6.5,
+      "spread": 7,
+      "volume": 170,
+      "open_interest": 194,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.023,
+      "REFS": 0.01,
+      "NBM": 0.041,
+      "NDFD": 0.122,
+      "MOS": 0.01,
+      "ECMWF_ENS": 0.01,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.012,
+      "GEM_EPS": 0.01,
+      "UKMO_ENS": 0.035
+     },
+     "consensus": 0.0351,
+     "models": {
+      "HREF": 0.023,
+      "REFS": 0.01,
+      "NBM": 0.041,
+      "NDFD": 0.122,
+      "MOS": 0.01,
+      "ECMWF_ENS": 0.01,
+      "GEFS": 0.01,
+      "ICON_EPS": 0.012,
+      "GEM_EPS": 0.01,
+      "UKMO_ENS": 0.035
+     },
+     "families": {
+      "cam": 0.0165,
+      "blend": 0.0815,
+      "stat": 0.01,
+      "global": 0.0154
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.112,
+     "family_spread": 0.072,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 97,
+      "ev_cents": -1.51,
+      "ev_yes": -7.49,
+      "ev_no": -1.51,
+      "fee_cents": 1,
+      "kelly": 0.0,
+      "gap_points": -3.0,
+      "flag": "thin",
+      "illiquid": true
+     },
+     "predictability": 64.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Trenton",
+   "series": "KXRAINTTN",
+   "station": "CLITTN",
+   "icao": "KTTN",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINTTN-26SEP03",
+      "yes_bid": 42,
+      "yes_ask": 45,
+      "no_ask": 58,
+      "no_bid": 55,
+      "mid": 43.5,
+      "spread": 3,
+      "volume": 278,
+      "open_interest": 760,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.462,
+      "REFS": 0.498,
+      "NBM": 0.614,
+      "NDFD": 0.617,
+      "MOS": 0.559,
+      "ECMWF_ENS": 0.6,
+      "GEFS": 0.583,
+      "ICON_EPS": 0.569,
+      "GEM_EPS": 0.719,
+      "UKMO_ENS": 0.615
+     },
+     "consensus": 0.5628,
+     "models": {
+      "HREF": 0.462,
+      "REFS": 0.498,
+      "NBM": 0.614,
+      "NDFD": 0.617,
+      "MOS": 0.559,
+      "ECMWF_ENS": 0.6,
+      "GEFS": 0.583,
+      "ICON_EPS": 0.569,
+      "GEM_EPS": 0.719,
+      "UKMO_ENS": 0.615
+     },
+     "families": {
+      "cam": 0.48,
+      "blend": 0.6155,
+      "stat": 0.559,
+      "global": 0.6172
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.257,
+     "family_spread": 0.137,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 45,
+      "ev_cents": 9.28,
+      "ev_yes": 9.28,
+      "ev_no": -16.28,
+      "fee_cents": 2,
+      "kelly": 0.0513,
+      "gap_points": 12.8,
+      "flag": "high",
+      "illiquid": false
+     },
+     "predictability": 88.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINTTN-26SEP04",
+      "yes_bid": 83,
+      "yes_ask": 85,
+      "no_ask": 17,
+      "no_bid": 15,
+      "mid": 84.0,
+      "spread": 2,
+      "volume": 3891,
+      "open_interest": 1863,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.881,
+      "REFS": 0.882,
+      "NBM": 0.812,
+      "NDFD": 0.846,
+      "MOS": 0.888,
+      "ECMWF_ENS": 0.875,
+      "GEFS": 0.906,
+      "ICON_EPS": 0.86,
+      "GEM_EPS": 0.922,
+      "UKMO_ENS": 0.848
+     },
+     "consensus": 0.8666,
+     "models": {
+      "HREF": 0.881,
+      "REFS": 0.882,
+      "NBM": 0.812,
+      "NDFD": 0.846,
+      "MOS": 0.888,
+      "ECMWF_ENS": 0.875,
+      "GEFS": 0.906,
+      "ICON_EPS": 0.86,
+      "GEM_EPS": 0.922,
+      "UKMO_ENS": 0.848
+     },
+     "families": {
+      "cam": 0.8815,
+      "blend": 0.829,
+      "stat": 0.888,
+      "global": 0.8822
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.11,
+     "family_spread": 0.059,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 85,
+      "ev_cents": 0.66,
+      "ev_yes": 0.66,
+      "ev_no": -4.66,
+      "fee_cents": 1,
+      "kelly": 0.0276,
+      "gap_points": 2.7,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 93.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Salt Lake City",
+   "series": "KXRAINSLC",
+   "station": "CLISLC",
+   "icao": "KSLC",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINSLC-26SEP03",
+      "yes_bid": 11,
+      "yes_ask": 13,
+      "no_ask": 89,
+      "no_bid": 87,
+      "mid": 12.0,
+      "spread": 2,
+      "volume": 547,
+      "open_interest": 1841,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.171,
+      "REFS": 0.14,
+      "NBM": 0.01,
+      "NDFD": 0.01,
+      "MOS": 0.207,
+      "ECMWF_ENS": 0.28,
+      "GEFS": 0.308,
+      "ICON_EPS": 0.32,
+      "GEM_EPS": 0.304,
+      "UKMO_ENS": 0.361
+     },
+     "consensus": 0.1568,
+     "models": {
+      "HREF": 0.171,
+      "REFS": 0.14,
+      "NBM": 0.01,
+      "NDFD": 0.01,
+      "MOS": 0.207,
+      "ECMWF_ENS": 0.28,
+      "GEFS": 0.308,
+      "ICON_EPS": 0.32,
+      "GEM_EPS": 0.304,
+      "UKMO_ENS": 0.361
+     },
+     "families": {
+      "cam": 0.1555,
+      "blend": 0.01,
+      "stat": 0.207,
+      "global": 0.3146
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.351,
+     "family_spread": 0.305,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 13,
+      "ev_cents": 1.68,
+      "ev_yes": 1.68,
+      "ev_no": -5.68,
+      "fee_cents": 1,
+      "kelly": 0.0077,
+      "gap_points": 3.7,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 72.0,
+     "coverage": {
+      "wet_fraction": 0.1698,
+      "centre_wet": false,
+      "multiplier": 0.35,
+      "applied": false
+     }
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINSLC-26SEP04",
+      "yes_bid": 41,
+      "yes_ask": 44,
+      "no_ask": 59,
+      "no_bid": 56,
+      "mid": 42.5,
+      "spread": 3,
+      "volume": 1002,
+      "open_interest": 1236,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.328,
+      "REFS": 0.348,
+      "NBM": 0.528,
+      "NDFD": 0.628,
+      "MOS": 0.394,
+      "ECMWF_ENS": 0.488,
+      "GEFS": 0.604,
+      "ICON_EPS": 0.514,
+      "GEM_EPS": 0.57,
+      "UKMO_ENS": 0.525
+     },
+     "consensus": 0.4662,
+     "models": {
+      "HREF": 0.328,
+      "REFS": 0.348,
+      "NBM": 0.528,
+      "NDFD": 0.628,
+      "MOS": 0.394,
+      "ECMWF_ENS": 0.488,
+      "GEFS": 0.604,
+      "ICON_EPS": 0.514,
+      "GEM_EPS": 0.57,
+      "UKMO_ENS": 0.525
+     },
+     "families": {
+      "cam": 0.338,
+      "blend": 0.578,
+      "stat": 0.394,
+      "global": 0.5402
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.3,
+     "family_spread": 0.24,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 44,
+      "ev_cents": 0.62,
+      "ev_yes": 0.62,
+      "ev_no": -7.62,
+      "fee_cents": 2,
+      "kelly": 0.0117,
+      "gap_points": 4.1,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 56.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Tampa",
+   "series": "KXRAINTPA",
+   "station": "CLITPA",
+   "icao": "KTPA",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINTPA-26SEP03",
+      "yes_bid": 31,
+      "yes_ask": 34,
+      "no_ask": 69,
+      "no_bid": 66,
+      "mid": 32.5,
+      "spread": 3,
+      "volume": 536,
+      "open_interest": 799,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.086,
+      "REFS": 0.16,
+      "NBM": 0.216,
+      "NDFD": 0.246,
+      "MOS": 0.205,
+      "ECMWF_ENS": 0.323,
+      "GEFS": 0.27,
+      "ICON_EPS": 0.333,
+      "GEM_EPS": 0.243,
+      "UKMO_ENS": 0.331
+     },
+     "consensus": 0.2078,
+     "models": {
+      "HREF": 0.086,
+      "REFS": 0.16,
+      "NBM": 0.216,
+      "NDFD": 0.246,
+      "MOS": 0.205,
+      "ECMWF_ENS": 0.323,
+      "GEFS": 0.27,
+      "ICON_EPS": 0.333,
+      "GEM_EPS": 0.243,
+      "UKMO_ENS": 0.331
+     },
+     "families": {
+      "cam": 0.123,
+      "blend": 0.231,
+      "stat": 0.205,
+      "global": 0.3
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.247,
+     "family_spread": 0.177,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 69,
+      "ev_cents": 8.22,
+      "ev_yes": -15.22,
+      "ev_no": 8.22,
+      "fee_cents": 2,
+      "kelly": 0.0824,
+      "gap_points": -11.7,
+      "flag": "high",
+      "illiquid": false
+     },
+     "predictability": 75.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINTPA-26SEP04",
+      "yes_bid": 65,
+      "yes_ask": 67,
+      "no_ask": 35,
+      "no_bid": 33,
+      "mid": 66.0,
+      "spread": 2,
+      "volume": 2176,
+      "open_interest": 751,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.685,
+      "REFS": 0.633,
+      "NBM": 0.791,
+      "NDFD": 0.822,
+      "MOS": 0.55,
+      "ECMWF_ENS": 0.742,
+      "GEFS": 0.666,
+      "ICON_EPS": 0.649,
+      "GEM_EPS": 0.689,
+      "UKMO_ENS": 0.729
+     },
+     "consensus": 0.7014,
+     "models": {
+      "HREF": 0.685,
+      "REFS": 0.633,
+      "NBM": 0.791,
+      "NDFD": 0.822,
+      "MOS": 0.55,
+      "ECMWF_ENS": 0.742,
+      "GEFS": 0.666,
+      "ICON_EPS": 0.649,
+      "GEM_EPS": 0.689,
+      "UKMO_ENS": 0.729
+     },
+     "families": {
+      "cam": 0.659,
+      "blend": 0.8065,
+      "stat": 0.55,
+      "global": 0.695
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.272,
+     "family_spread": 0.256,
+     "low_confidence": false,
+     "edge": {
+      "side": "YES",
+      "price": 67,
+      "ev_cents": 1.14,
+      "ev_yes": 1.14,
+      "ev_no": -7.14,
+      "fee_cents": 2,
+      "kelly": 0.0237,
+      "gap_points": 4.1,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 67.0,
+     "coverage": null
+    }
+   }
+  },
+  {
+   "city": "Las Vegas",
+   "series": "KXRAINLAS",
+   "station": "CLILAS",
+   "icao": "KLAS",
+   "tz": "America/New_York",
+   "verified": false,
+   "settlement_sources": [
+    {
+     "name": "The Weather Company"
+    }
+   ],
+   "days": {
+    "0": {
+     "date": "2026-09-03",
+     "market": {
+      "ticker": "KXRAINLAS-26SEP03",
+      "yes_bid": 56,
+      "yes_ask": 60,
+      "no_ask": 44,
+      "no_bid": 40,
+      "mid": 58.0,
+      "spread": 4,
+      "volume": 1443,
+      "open_interest": 1071,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.5,
+      "REFS": 0.44,
+      "NBM": 0.473,
+      "NDFD": 0.493,
+      "MOS": 0.376,
+      "ECMWF_ENS": 0.5,
+      "GEFS": 0.435,
+      "ICON_EPS": 0.481,
+      "GEM_EPS": 0.551,
+      "UKMO_ENS": 0.503
+     },
+     "consensus": 0.4705,
+     "models": {
+      "HREF": 0.5,
+      "REFS": 0.44,
+      "NBM": 0.473,
+      "NDFD": 0.493,
+      "MOS": 0.376,
+      "ECMWF_ENS": 0.5,
+      "GEFS": 0.435,
+      "ICON_EPS": 0.481,
+      "GEM_EPS": 0.551,
+      "UKMO_ENS": 0.503
+     },
+     "families": {
+      "cam": 0.47,
+      "blend": 0.483,
+      "stat": 0.376,
+      "global": 0.494
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.175,
+     "family_spread": 0.118,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 44,
+      "ev_cents": 6.95,
+      "ev_yes": -14.95,
+      "ev_no": 6.95,
+      "fee_cents": 2,
+      "kelly": 0.04,
+      "gap_points": -11.0,
+      "flag": "watch",
+      "illiquid": false
+     },
+     "predictability": 84.0,
+     "coverage": null
+    },
+    "1": {
+     "date": "2026-09-04",
+     "market": {
+      "ticker": "KXRAINLAS-26SEP04",
+      "yes_bid": 94,
+      "yes_ask": 95,
+      "no_ask": 6,
+      "no_bid": 5,
+      "mid": 94.5,
+      "spread": 1,
+      "volume": 272,
+      "open_interest": 251,
+      "close_time": null,
+      "fee_multiplier": 0.07
+     },
+     "raw_models": {
+      "HREF": 0.902,
+      "REFS": 0.883,
+      "NBM": 0.96,
+      "NDFD": 0.922,
+      "MOS": 0.859,
+      "ECMWF_ENS": 0.91,
+      "GEFS": 0.932,
+      "ICON_EPS": 0.983,
+      "GEM_EPS": 0.867,
+      "UKMO_ENS": 0.884
+     },
+     "consensus": 0.9094,
+     "models": {
+      "HREF": 0.902,
+      "REFS": 0.883,
+      "NBM": 0.96,
+      "NDFD": 0.922,
+      "MOS": 0.859,
+      "ECMWF_ENS": 0.91,
+      "GEFS": 0.932,
+      "ICON_EPS": 0.983,
+      "GEM_EPS": 0.867,
+      "UKMO_ENS": 0.884
+     },
+     "families": {
+      "cam": 0.8925,
+      "blend": 0.941,
+      "stat": 0.859,
+      "global": 0.9152
+     },
+     "n_models": 10,
+     "n_families": 4,
+     "spread": 0.124,
+     "family_spread": 0.082,
+     "low_confidence": false,
+     "edge": {
+      "side": "NO",
+      "price": 6,
+      "ev_cents": 2.06,
+      "ev_yes": -5.06,
+      "ev_no": 2.06,
+      "fee_cents": 1,
+      "kelly": 0.0081,
+      "gap_points": -3.6,
+      "flag": null,
+      "illiquid": false
+     },
+     "predictability": 81.0,
+     "coverage": {
+      "wet_fraction": 0.1792,
+      "centre_wet": false,
+      "multiplier": 0.35,
+      "applied": false
+     }
+    }
+   }
+  }
+ ],
+ "_sample": true
+}

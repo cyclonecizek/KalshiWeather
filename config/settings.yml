@@ -1,0 +1,253 @@
+# Threshold the whole board is built around.
+# Kalshi daily rain settles Yes only if the station's official daily total is
+# strictly greater than 0.00", with trace counted as 0. The smallest reportable
+# increment is 0.01", so ">0" and ">=0.01" are the same event.
+threshold_inches: 0.01
+threshold_mm: 0.254
+
+# ---------------------------------------------------------------------------
+# Model families.
+#
+# These are NOT five independent opinions. NBM ingests MOS and (through Oct 6
+# 2026) HREF. NDFD is forecaster-edited NBM. Averaging all of them flat
+# double-counts the blend and drowns out the convection-allowing signal.
+# So: average WITHIN a family, then weight ACROSS families.
+# ---------------------------------------------------------------------------
+families:
+  cam:
+    label: Convection-allowing
+    weight: 0.35
+    members: [HREF, REFS]
+  blend:
+    label: Blend
+    weight: 0.30
+    members: [NBM, NDFD]
+  stat:
+    label: Statistical
+    weight: 0.10
+    members: [MOS]
+  global:
+    label: Global ensembles
+    weight: 0.25
+    members: [ECMWF_ENS, GEFS, ICON_EPS, GEM_EPS, UKMO_ENS]
+  mlm:
+    label: meteoblue mLM
+    weight: 0.15
+    members: [METEOBLUE]
+
+# Families that return nothing are dropped and the remaining weights are
+# renormalized. If only one family survives, the row is marked low-confidence.
+min_families_for_signal: 2
+
+# ---------------------------------------------------------------------------
+# Edge. A flat "10 points off" rule treats a 10-point gap at 50c the same as
+# one at 5c; the second is worth roughly six times as much per dollar risked.
+# Everything below is in cents per contract, net of Kalshi's quadratic fee and
+# net of crossing the spread.
+# ---------------------------------------------------------------------------
+edge:
+  fee_multiplier: 0.07      # Kalshi: ceil(multiplier * C * P * (1-P)); overridden
+                            # per-series from the API when available
+  flag_high_cents: 8.0
+  flag_watch_cents: 4.0
+  min_volume: 200           # contracts traded; below this the "price" is noise
+  max_spread_cents: 6       # wider than this and you can't get filled at mid
+  kelly_cap: 0.25           # fraction of full Kelly to suggest
+
+# ---------------------------------------------------------------------------
+# Calibration offsets, applied as logit shifts before blending.
+# Start at 0. After ~30 days of history/ you can fit these from outcomes.
+# HREF/REFS ensprod probabilities are NEIGHBOURHOOD maxima -- they answer
+# "will it rain somewhere in a ~40km radius", which runs high for a point
+# station. Expect to end up with a negative offset on those two.
+# ---------------------------------------------------------------------------
+calibration:
+  HREF: 0.0
+  REFS: 0.0
+  NBM: 0.0
+  NDFD: 0.0
+  MOS: 0.0
+  ECMWF_ENS: 0.0
+  GEFS: 0.0
+  ICON_EPS: 0.0
+  GEM_EPS: 0.0
+  UKMO_ENS: 0.0
+  # meteoblue defines POP at >0.2 mm; Kalshi's bar is 0.254 mm. Theirs
+  # answers an easier question so it reads high. Start negative and fit
+  # the real value from history/.
+  METEOBLUE: -0.15
+
+# Correlation assumption when stitching two 12-hour POPs into one daily
+# probability. 0 = independent (too high), 1 = pure max (too low).
+pop_stitch_rho: 0.5
+
+# ---------------------------------------------------------------------------
+# Source endpoints. The GRIB paths change with NCEP implementations -- run
+# `python -m pipeline.probe` to list what's actually on the server today
+# rather than trusting these.
+# ---------------------------------------------------------------------------
+sources:
+  kalshi:
+    base: https://external-api.kalshi.com/trade-api/v2
+
+  openmeteo:
+    ensemble_base: https://ensemble-api.open-meteo.com/v1/ensemble
+    models:
+      ECMWF_ENS: ecmwf_ifs025_ensemble
+      GEFS: ncep_gefs025
+      ICON_EPS: icon_seamless
+      GEM_EPS: gem_global_ensemble
+      UKMO_ENS: ukmo_global_ensemble
+
+  ndfd:
+    base: https://digital.weather.gov/xml/sample_products/browser_interface/ndfdXMLclient.php
+
+  mos:
+    # GFS MOS short-range (MAV). NAM MOS (MET) retires 2026-10-06 along with
+    # the NAM, so don't build a dependency on it.
+    mav: https://www.nws.noaa.gov/cgi-bin/mos/getmav.pl
+    enabled: true
+
+  href:
+    # RETIRES 2026-10-06 12Z with NAM/SREF/HiresW/NAM-MOS. Keep until then for
+    # a side-by-side against REFS, then delete this block.
+    base: https://nomads.ncep.noaa.gov/pub/data/nccf/com/href/prod
+    pattern: "href.{ymd}/ensprod/href.t{cc}z.conus.prob.f{fff}.grib2"
+    idx_regex: ":APCP:surface:.*acc fcst:prob >0.254:"
+    cycles: [0, 6, 12, 18]
+    retires: "2026-10-06"
+
+  refs:
+    # Real-time parallel feed went up on NOMADS ~2026-08-11; operational
+    # 2026-10-06 12Z. Path WILL move from the parallel dir to prod on that
+    # date. AWS mirror: s3://noaa-rrfs-pds/
+    base: https://nomads.ncep.noaa.gov/pub/data/nccf/com/rrfs/para
+    pattern: "refs.{ymd}/{cc}/ensprod/refs.t{cc}z.conus.prob.f{fff}.grib2"
+    idx_regex: ":APCP:surface:.*acc fcst:prob >0.254:"
+    cycles: [0, 6, 12, 18]
+    aws_bucket: noaa-rrfs-pds
+    aws_prefix: "rrfs_a/refs.{ymd}/{cc}/ensprod/"
+
+  nbm:
+    base: https://nomads.ncep.noaa.gov/pub/data/nccf/com/blend/prod
+    pattern: "blend.{ymd}/{cc}/core/blend.t{cc}z.core.f{fff}.co.grib2"
+    idx_regex: ":APCP:surface:.*acc fcst:prob >0.254:"
+    cycles: [1, 7, 13, 19]
+
+# ===========================================================================
+# TEMPERATURE MARKETS (KXHIGH*, KXLOW*)
+#
+# Different beast from rain. These settle on the NWS Daily Climate Report --
+# not The Weather Company -- and they're brackets, not a single binary. You
+# need a full predictive distribution of the daily high, then you integrate
+# it over each bracket.
+# ===========================================================================
+temperature:
+  series_prefixes: [KXHIGH]      # add KXLOW to trade lows off the same machinery
+
+  families:
+    global_ens:
+      label: Global ensembles
+      weight: 0.50
+      members: [ECMWF_ENS, GEFS, ICON_EPS, GEM_EPS, UKMO_ENS]
+    blend:
+      label: NWS guidance
+      weight: 0.30
+      members: [NDFD, MOS]
+    mlm:
+      label: meteoblue mLM
+      weight: 0.20
+      members: [METEOBLUE]
+
+  # Sigma used to turn a deterministic forecast into a distribution.
+  # These are placeholders -- replace with each source's actual mean absolute
+  # error at YOUR stations once history/ has a month in it. Day 2 is wider
+  # than day 1 and the gap grows in transitional seasons.
+  deterministic_sigma:
+    NDFD: {0: 2.2, 1: 3.0}
+    MOS:  {0: 2.6, 1: 3.4}
+    METEOBLUE: {0: 1.9, 1: 2.7}
+
+  # Per-city grid-to-station correction, in degrees F, added to the median.
+  # This is the biggest lever on the board. Fit it from history/ -- do not
+  # guess. Airport stations generally run warm against the surrounding grid;
+  # park and coastal stations run cool.
+  bias: {}          # e.g.  New York: -1.2
+
+  # Ensembles under-disperse 2m temperature, which underprices the outer
+  # brackets. >1 widens. Fit per city; this is the global default.
+  spread_factor: 1.15
+
+  edge:
+    fee_multiplier: 0.07
+    flag_high_cents: 6.0
+    flag_watch_cents: 3.0
+    min_volume: 100
+    max_spread_cents: 5
+    kelly_cap: 0.20
+
+  sources:
+    meteoblue:
+      base: https://my.meteoblue.com/packages
+      # Set METEOBLUE_KEY as an Actions secret. Without it this source is
+      # skipped and its family weight is redistributed.
+      #
+      # NOT available through Windy's Point Forecast API -- that serves
+      # arome/icon/gfs/nam/hrrr/canHrdps only. meteoblue on Windy is a
+      # licensed display layer; scraping it breaks their terms.
+      api_key: null
+
+      # --- which probabilistic extras to pull -------------------------
+      # predictability and precipitation_probability ride along in
+      # basic-day at no extra cost -- always on.
+      #
+      # rainSPOT needs sub-daily resolution, so it upgrades the call from
+      # basic-day to basic-3h and roughly doubles the credit cost. It buys
+      # you a direct measurement of the area-to-point discount that the
+      # HREF/REFS neighbourhood probabilities need.
+      use_rainspot: true
+      # Which package carries rainSPOT. Check the sample URL meteoblue gave
+      # you: `basic-1h_basic-day` means your key covers basic-1h. Asking for
+      # a package your key lacks fails the whole call.
+      rainspot_package: basic-1h
+      # temperature_spread is a separate package on top. It replaces the
+      # guessed sigmas in deterministic_sigma with meteoblue's own ensemble
+      # standard deviation, per city per day.
+      use_temperature_spread: false
+
+      # How hard meteoblue's confidence score widens the temperature
+      # distribution. 0 disables. 0.6 means a 50%-predictability day gets
+      # 1.3x the spread of a 100% day.
+      predictability_k: 0.6
+
+      # Multiply CAM (HREF/REFS) probabilities by the rainSPOT wet-area
+      # fraction. Leave OFF until you have checked that the rainSPOT
+      # footprint is comparable to the ~40 km CAM neighbourhood radius --
+      # meteoblue documents the 7x7 layout but not the cell spacing.
+      # The coverage figure is recorded on the board either way.
+      apply_coverage_to_cam: false
+      coverage_floor: 0.35
+
+      # --- free-trial budget -------------------------------------------
+      # The trial is 10,000,000 credits for one year. Verify these costs in
+      # meteoblue's own configurator -- they are estimates.
+      credit_costs:
+        basic_day: 4000
+        basic_3h: 8000
+        basic_1h: 8000
+        # trend-day is usually NOT on a trial key. If use_temperature_spread
+        # errors, that's why.
+        trend_day: 4000
+      trial_credits: 10000000
+      max_calls_per_day: 25
+      cache_hours: 8          # reuse a cached value this many hours
+      cache_path: .cache/meteoblue.json
+      cities: []              # empty = all; list names to spend on fewer
+
+      # --- redistribution ----------------------------------------------
+      # docs/data/*.json is committed and served publicly by GitHub Pages.
+      # Emitting meteoblue's forecast values there republishes their data,
+      # which their licence restricts independently of whether your own use
+      # is commercial. Left false, mLM still feeds the blended consensus --
+      # it just isn't itemised in the published file.
+      publish_values: false
