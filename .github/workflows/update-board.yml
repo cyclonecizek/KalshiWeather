@@ -20,7 +20,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
 
@@ -41,6 +41,7 @@ jobs:
       # A partial board beats a stale one, so a single dead source does not
       # fail the job. Each build exits non-zero only if it got nothing at all.
       - name: Build rain board
+        timeout-minutes: 12
         run: python -m pipeline.build
         continue-on-error: true
 
@@ -56,6 +57,7 @@ jobs:
           restore-keys: meteoblue-
 
       - name: Build temperature board
+        timeout-minutes: 8
         run: python -m pipeline.build_temp
         env:
           METEOBLUE_KEY: ${{ secrets.METEOBLUE_KEY }}
