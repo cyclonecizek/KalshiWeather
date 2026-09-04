@@ -1,0 +1,84 @@
+name: Probe endpoints
+
+# Runs pipeline/probe.py on a GitHub runner so you can check every data
+# source without a terminal. Actions -> Probe endpoints -> Run workflow,
+# then read the result on the run's summary page (not buried in the log).
+#
+# Run this before trusting anything in config/settings.yml. NCEP moves GRIB
+# paths, Kalshi adds and renames city series, and the settings file records
+# what was true when it was written rather than what is true today.
+
+on:
+  workflow_dispatch:
+    inputs:
+      verbose:
+        description: 'Include the full log in the summary'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install ecCodes
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libeccodes-dev
+
+      - name: Install Python deps
+        run: pip install -r requirements.txt
+
+      - name: Probe
+        id: probe
+        env:
+          METEOBLUE_KEY: ${{ secrets.METEOBLUE_KEY }}
+        run: |
+          set -o pipefail
+          python -m pipeline.probe 2>&1 | tee probe.txt || true
+
+      - name: Write summary
+        if: always()
+        run: |
+          {
+            echo "## Endpoint probe"
+            echo ""
+            echo "Run at $(date -u '+%Y-%m-%d %H:%M UTC')"
+            echo ""
+            echo '```'
+            cat probe.txt
+            echo '```'
+            echo ""
+            echo "### Reading this"
+            echo ""
+            echo "- **Kalshi**: every series should list a settlement source."
+            echo "  Rain markets settle on The Weather Company, high temperature"
+            echo "  on the NWS Daily Climate Report. Anything else means that"
+            echo "  series has different rules from the rest."
+            echo "- **Open-Meteo**: each model should report its member count."
+            echo "  A model showing 0 members is misconfigured, not down."
+            echo "- **HREF / REFS / NBM**: \`MISS\` on every forecast hour means"
+            echo "  the path moved. If files are found but zero records match"
+            echo "  \`idx_regex\`, the probe prints a candidate APCP line \u2014 copy"
+            echo "  the relevant part of it into \`idx_regex\` in settings.yml."
+            echo "- **REFS** lives in the NOMADS parallel directory until it goes"
+            echo "  operational, then moves to production. HREF disappears the"
+            echo "  same day."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: probe-output
+          path: probe.txt
+          retention-days: 14

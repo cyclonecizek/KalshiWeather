@@ -1,0 +1,59 @@
+name: Deploy Pages
+
+# Publishes docs/ as a static site without Jekyll touching it.
+#
+# The "deploy from a branch" flow pipes your folder through Jekyll unless it
+# finds a .nojekyll file, and its folder picker only ever offers "/" and
+# "/docs" whether or not those exist -- so a misplaced directory shows up as
+# a confusing Ruby stack trace about a theme stylesheet you never wrote.
+#
+# This uploads docs/ as an artifact and serves it verbatim. No Jekyll, no
+# .nojekyll dependency, and a clear error if the path is wrong.
+#
+# To use: Settings -> Pages -> Source: "GitHub Actions".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it -- a half-deployed
+# site is worse than a slightly stale one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fail loudly if docs/ is missing
+        run: |
+          if [ ! -f docs/index.html ]; then
+            echo "docs/index.html not found. Repo root contains:"
+            ls -a
+            echo "The site folder is probably nested one level down."
+            exit 1
+          fi
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
