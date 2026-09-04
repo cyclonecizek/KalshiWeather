@@ -32,10 +32,16 @@ class Kalshi:
 
     # -- discovery ---------------------------------------------------------
 
-    def discover_rain_series(self):
-        """Every series whose ticker looks like a daily-rain city market.
+    def discover_series(self, prefix="KXRAIN"):
+        """Every series under a prefix, classified by cadence.
 
-        Returns {ticker: {title, fee_multiplier, settlement_sources}}.
+        The ticker tells you almost nothing. A trailing M means monthly --
+        KXRAINNYCM is "Monthly rain in New York" -- and there is no matching
+        marker for daily. Titles and settlement sources vary per series:
+        the same city can have three rain markets settling on NWS, on the
+        USGS, and on a climatological report respectively.
+
+        So classify, don't pattern-match, and never auto-pick a series.
         """
         out = {}
         cursor = None
@@ -43,17 +49,27 @@ class Kalshi:
             page = self._get("/series", limit=200, cursor=cursor)
             for s in page.get("series", []):
                 t = s.get("ticker", "")
-                if re.fullmatch(r"KXRAIN[A-Z]{2,5}", t):
-                    out[t] = {
-                        "title": s.get("title"),
-                        "fee_multiplier": s.get("fee_multiplier"),
-                        "settlement_sources": s.get("settlement_sources", []),
-                        "contract_terms_url": s.get("contract_terms_url"),
-                    }
+                if not t.startswith(prefix):
+                    continue
+                title = s.get("title") or ""
+                out[t] = {
+                    "title": title,
+                    "cadence": classify_cadence(t, title),
+                    "fee_multiplier": s.get("fee_multiplier"),
+                    "settlement_sources": [
+                        x.get("name", "?") if isinstance(x, dict) else str(x)
+                        for x in (s.get("settlement_sources") or [])
+                    ],
+                    "contract_terms_url": s.get("contract_terms_url"),
+                }
             cursor = page.get("cursor")
             if not cursor:
                 break
         return out
+
+    # kept for callers that still expect the old name
+    def discover_rain_series(self):
+        return self.discover_series("KXRAIN")
 
     # -- quotes ------------------------------------------------------------
 
@@ -96,6 +112,44 @@ class Kalshi:
             "close_time": market.get("close_time"),
             "expiration_time": market.get("expiration_time"),
         }
+
+
+_MONTHLY = re.compile(r"month", re.I)
+_WEEKLY = re.compile(r"week(end|ly)", re.I)
+_DAILY = re.compile(r"daily", re.I)
+
+
+def classify_cadence(ticker: str, title: str) -> str:
+    """-> 'daily' | 'monthly' | 'weekly' | 'special' | 'unknown'
+
+    'unknown' is the honest answer for most of them and means: go look at the
+    actual markets under this series before trading it.
+    """
+    if _MONTHLY.search(title) or ticker.endswith("M"):
+        return "monthly"
+    if _WEEKLY.search(title):
+        return "weekly"
+    if _DAILY.search(title):
+        return "daily"
+    if "SB" in ticker or "super bowl" in title.lower():
+        return "special"
+    return "unknown"
+
+
+def effective_fee_rate(fee_multiplier, base=0.07):
+    """Kalshi's fee coefficient, from the API's multiplier field.
+
+    The API returns fee_multiplier=1 for these markets. That is a multiplier
+    ON the standard quadratic fee, not the coefficient itself -- feeding 1
+    into ceil(m * P * (1-P) * 100) gives 25c on a 50c contract instead of
+    1.75c, which rejects every trade on the board as unprofitable.
+    """
+    try:
+        m = float(fee_multiplier)
+    except (TypeError, ValueError):
+        return base
+    # Anything >= 1 is a scaling factor; anything smaller is already a rate.
+    return base * m if m >= 1.0 else m
 
 
 def pick_daily_market(markets, target_date: str):
