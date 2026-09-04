@@ -70,7 +70,7 @@ def fetch(cities, cfg, threshold_mm=0.254, day_offsets=(0, 1)):
                     # naive local time per city below instead. See note.
                     "timezone": "auto",
                 },
-                timeout=90,
+                timeout=240,
             )
             r.raise_for_status()
             payload = r.json()
