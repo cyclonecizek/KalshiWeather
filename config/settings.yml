@@ -117,6 +117,10 @@ sources:
     # a side-by-side against REFS, then delete this block.
     base: https://nomads.ncep.noaa.gov/pub/data/nccf/com/href/prod
     pattern: "href.{ymd}/ensprod/href.t{cc}z.conus.prob.f{ff}.grib2"
+    # The 2026-09-04 probe found only >12.7, >25.4 and >50.8 mm (0.5", 1",
+    # 2") in the records it printed. If 0.254 really is absent from the
+    # .prob. file, the 0.01in neighbourhood product is in a sibling file --
+    # the next probe prints the full threshold menu so we can tell.
     idx_regex: ":APCP:surface:.*acc fcst:prob >0.254:"
     cycles: [0, 6, 12, 18]
     retires: "2026-10-06"
@@ -126,7 +130,12 @@ sources:
     # 2026-10-06 12Z. Path WILL move from the parallel dir to prod on that
     # date. AWS mirror: s3://noaa-rrfs-pds/
     base: https://nomads.ncep.noaa.gov/pub/data/nccf/com/rrfs/para
-    pattern: "refs.{ymd}/{cc}/ensprod/refs.t{cc}z.conus.prob.f{fff}.grib2"
+    # The 2026-09-04 walk found rrfs.YYYYMMDD/ and firewx.YYYYMMDD/ under
+    # para/, and para/ + v1.0/ one level up. No refs.* anywhere, so the
+    # product sits inside rrfs.YYYYMMDD -- the next probe descends to find
+    # the cycle and ensprod layout.
+    discover_prefixes: [rrfs, refs, firewx]
+    pattern: "rrfs.{ymd}/{cc}/ensprod/refs.t{cc}z.conus.prob.f{fff}.grib2"
     idx_regex: ":APCP:surface:.*acc fcst:prob >0.254:"
     cycles: [0, 6, 12, 18]
     aws_bucket: noaa-rrfs-pds
