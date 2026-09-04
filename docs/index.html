@@ -172,7 +172,7 @@ footer p{margin:0 0 9px}
 
 <section id="rainboard">
   <h2>Rain — will the station record ≥0.01"</h2>
-  <p class="lede">Each line runs from the market's mid price to the model consensus; longer line, bigger disagreement. Model columns are grouped by family because they are not independent — NBM ingests MOS, HREF and HRRR, and NDFD is forecaster-edited NBM. There is no separate convection-allowing column: HREF publishes no 0.01" probability and REFS has no ensemble product on NOMADS, so that signal reaches the board second-hand through NBM. <strong>Pred</strong> is meteoblue's forecast-confidence score; <strong>Cov</strong> is the rainSPOT wet-area fraction around the station, which discounts neighbourhood CAM probabilities toward a point (a <code>*</code> means it was applied, not just recorded).</p>
+  <p class="lede">Each line runs from the market's mid price to the model consensus; longer line, bigger disagreement. Model columns are grouped by family because they are not independent — NBM ingests MOS, HREF and HRRR, and NDFD is forecaster-edited NBM. There is no convection-allowing column — HREF publishes no 0.01" probability and REFS has no ensemble product on NOMADS, so that signal reaches the board second-hand through NBM — and no MOS column, since the NWS bulletin server blocks datacentre IPs. <strong>Pred</strong> is meteoblue's forecast-confidence score; <strong>Cov</strong> is the rainSPOT wet-area fraction around the station, which discounts neighbourhood CAM probabilities toward a point (a <code>*</code> means it was applied, not just recorded).</p>
   <div id="rain-body"></div>
 </section>
 
