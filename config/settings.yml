@@ -14,13 +14,21 @@ threshold_mm: 0.254
 # So: average WITHIN a family, then weight ACROSS families.
 # ---------------------------------------------------------------------------
 families:
-  cam:
-    label: Convection-allowing
-    weight: 0.35
-    members: [HREF, REFS]
+  # NO CONVECTION-ALLOWING FAMILY.
+  #
+  # The 2026-09-04 probe settled this. HREF's ensprod prob file carries only
+  # 12.7 / 25.4 / 50.8 / 76.2 / 127 / 203.2 mm -- 0.5" through 8". Those
+  # products exist for flash-flood guidance; there is no 0.01" record to
+  # read. And REFS ensemble output is not on NOMADS at all: rrfs.YYYYMMDD/CC/
+  # holds only deterministic rrfs.tCCz.2dfld.*.grib2 files, with no ensprod/
+  # directory under either para/ or v1.0/.
+  #
+  # The CAM signal is not lost, it is just second-hand: NBM ingests HREF and
+  # HRRR, so it reaches the board through the blend. That is why `blend`
+  # carries the largest weight here.
   blend:
     label: Blend
-    weight: 0.30
+    weight: 0.45
     members: [NBM, NDFD]
   stat:
     label: Statistical
@@ -32,7 +40,7 @@ families:
     members: [ECMWF_ENS, GEFS, ICON_EPS, GEM_EPS, UKMO_ENS]
   mlm:
     label: meteoblue mLM
-    weight: 0.15
+    weight: 0.20
     members: [METEOBLUE]
 
 # Families that return nothing are dropped and the remaining weights are
@@ -113,6 +121,7 @@ sources:
     enabled: true
 
   href:
+    enabled: false      # no 0.01in threshold exists in the prob file
     # RETIRES 2026-10-06 12Z with NAM/SREF/HiresW/NAM-MOS. Keep until then for
     # a side-by-side against REFS, then delete this block.
     base: https://nomads.ncep.noaa.gov/pub/data/nccf/com/href/prod
@@ -126,6 +135,7 @@ sources:
     retires: "2026-10-06"
 
   refs:
+    enabled: false      # no ensprod/ on NOMADS; only deterministic RRFS
     # Real-time parallel feed went up on NOMADS ~2026-08-11; operational
     # 2026-10-06 12Z. Path WILL move from the parallel dir to prod on that
     # date. AWS mirror: s3://noaa-rrfs-pds/
@@ -234,11 +244,12 @@ temperature:
       # 1.3x the spread of a 100% day.
       predictability_k: 0.6
 
-      # Multiply CAM (HREF/REFS) probabilities by the rainSPOT wet-area
-      # fraction. Leave OFF until you have checked that the rainSPOT
-      # footprint is comparable to the ~40 km CAM neighbourhood radius --
-      # meteoblue documents the 7x7 layout but not the cell spacing.
-      # The coverage figure is recorded on the board either way.
+      # This scaled the CAM family, which no longer exists -- there is no
+      # neighbourhood-maximum source left to discount. Keep it off. The
+      # rainSPOT wet-area fraction is still recorded on the board as a
+      # coverage diagnostic, and it stays useful: a low wet fraction on a
+      # high-probability day means scattered convection, where a point
+      # station is a very different bet from the surrounding area.
       apply_coverage_to_cam: false
       coverage_floor: 0.35
 
