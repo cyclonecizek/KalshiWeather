@@ -13,9 +13,9 @@
 # the series list but returned NO OPEN MARKETS. They are legacy. Don't use
 # them.
 #
-# rain_code is null everywhere below because the probe only printed 3 of the
-# 44 markets. The next probe run prints the full suffix list; fill them in
-# from that. Confirmed so far: TTN, SFO, SEA.
+# rain_code values below are the complete suffix list from the 2026-09-04
+# probe: 22 codes across 44 markets (22 cities x 2 days). San Diego has a
+# temperature market but no rain market, so its rain_code stays null.
 #
 # SETTLEMENT. Rain (KXRAIN) settles on The Weather Company. Every active
 # KXHIGH* series below also settles on The Weather Company -- NOT the NWS
@@ -29,26 +29,26 @@
 rain_series: KXRAIN
 
 cities:
-  - {name: New York,      series_high: KXHIGHNY,    rain_code: null, station: CLINYC, icao: KNYC, lat: 40.779, lon: -73.969, elevation_m: 39,   tz: America/New_York,    verified: false}
-  - {name: Newark,        series_high: KXHIGHTEWR,  rain_code: null, station: CLIEWR, icao: KEWR, lat: 40.683, lon: -74.169, elevation_m: 5,    tz: America/New_York,    verified: false}
+  - {name: New York,      series_high: KXHIGHNY,    rain_code: NYC, station: CLINYC, icao: KNYC, lat: 40.779, lon: -73.969, elevation_m: 39,   tz: America/New_York,    verified: false}
+  - {name: Newark,        series_high: KXHIGHTEWR,  rain_code: EWR, station: CLIEWR, icao: KEWR, lat: 40.683, lon: -74.169, elevation_m: 5,    tz: America/New_York,    verified: false}
   - {name: Trenton,       series_high: KXHIGHTTTN,  rain_code: TTN,  station: CLITTN, icao: KTTN, lat: 40.277, lon: -74.816, elevation_m: 65,   tz: America/New_York,    verified: false}
-  - {name: Philadelphia,  series_high: KXHIGHPHIL,  rain_code: null, station: CLIPHL, icao: KPHL, lat: 39.868, lon: -75.231, elevation_m: 11,   tz: America/New_York,    verified: false}
-  - {name: Boston,        series_high: KXHIGHTBOS,  rain_code: null, station: CLIBOS, icao: KBOS, lat: 42.361, lon: -71.010, elevation_m: 6,    tz: America/New_York,    verified: false}
-  - {name: Washington DC, series_high: KXHIGHTDC,   rain_code: null, station: CLIDCA, icao: KDCA, lat: 38.848, lon: -77.034, elevation_m: 5,    tz: America/New_York,    verified: false}
-  - {name: Atlanta,       series_high: KXHIGHTATL,  rain_code: null, station: CLIATL, icao: KATL, lat: 33.630, lon: -84.442, elevation_m: 313,  tz: America/New_York,    verified: false}
-  - {name: Miami,         series_high: KXHIGHMIA,   rain_code: null, station: CLIMIA, icao: KMIA, lat: 25.791, lon: -80.316, elevation_m: 3,    tz: America/New_York,    verified: false}
-  - {name: Chicago,       series_high: KXHIGHCHI,   rain_code: null, station: CLIORD, icao: KORD, lat: 41.995, lon: -87.934, elevation_m: 205,  tz: America/Chicago,     verified: false}
-  - {name: Minneapolis,   series_high: KXHIGHTMIN,  rain_code: null, station: CLIMSP, icao: KMSP, lat: 44.883, lon: -93.229, elevation_m: 256,  tz: America/Chicago,     verified: false}
-  - {name: Dallas,        series_high: KXHIGHTDAL,  rain_code: null, station: CLIDFW, icao: KDFW, lat: 32.897, lon: -97.037, elevation_m: 185,  tz: America/Chicago,     verified: false}
-  - {name: Houston,       series_high: KXHIGHTHOU,  rain_code: null, station: CLIHOU, icao: KHOU, lat: 29.645, lon: -95.279, elevation_m: 14,   tz: America/Chicago,     verified: false}
-  - {name: Austin,        series_high: KXHIGHAUS,   rain_code: null, station: CLIAUS, icao: KAUS, lat: 30.183, lon: -97.680, elevation_m: 165,  tz: America/Chicago,     verified: false}
-  - {name: San Antonio,   series_high: KXHIGHTSATX, rain_code: null, station: CLISAT, icao: KSAT, lat: 29.534, lon: -98.470, elevation_m: 247,  tz: America/Chicago,     verified: false}
-  - {name: Oklahoma City, series_high: KXHIGHTOKC,  rain_code: null, station: CLIOKC, icao: KOKC, lat: 35.389, lon: -97.601, elevation_m: 396,  tz: America/Chicago,     verified: false}
-  - {name: New Orleans,   series_high: KXHIGHTNOLA, rain_code: null, station: CLIMSY, icao: KMSY, lat: 29.993, lon: -90.258, elevation_m: 2,    tz: America/Chicago,     verified: false}
-  - {name: Denver,        series_high: KXHIGHDEN,   rain_code: null, station: CLIDEN, icao: KDEN, lat: 39.847, lon: -104.656, elevation_m: 1656, tz: America/Denver,     verified: false}
-  - {name: Phoenix,       series_high: KXHIGHTPHX,  rain_code: null, station: CLIPHX, icao: KPHX, lat: 33.428, lon: -112.004, elevation_m: 337, tz: America/Phoenix,     verified: false}
-  - {name: Las Vegas,     series_high: KXHIGHTLV,   rain_code: null, station: CLILAS, icao: KLAS, lat: 36.072, lon: -115.163, elevation_m: 665, tz: America/Los_Angeles, verified: false}
-  - {name: Los Angeles,   series_high: KXHIGHLAX,   rain_code: null, station: CLILAX, icao: KLAX, lat: 33.938, lon: -118.389, elevation_m: 38,  tz: America/Los_Angeles, verified: false}
+  - {name: Philadelphia,  series_high: KXHIGHPHIL,  rain_code: PHIL, station: CLIPHL, icao: KPHL, lat: 39.868, lon: -75.231, elevation_m: 11,   tz: America/New_York,    verified: false}
+  - {name: Boston,        series_high: KXHIGHTBOS,  rain_code: BOS, station: CLIBOS, icao: KBOS, lat: 42.361, lon: -71.010, elevation_m: 6,    tz: America/New_York,    verified: false}
+  - {name: Washington DC, series_high: KXHIGHTDC,   rain_code: DC, station: CLIDCA, icao: KDCA, lat: 38.848, lon: -77.034, elevation_m: 5,    tz: America/New_York,    verified: false}
+  - {name: Atlanta,       series_high: KXHIGHTATL,  rain_code: ATL, station: CLIATL, icao: KATL, lat: 33.630, lon: -84.442, elevation_m: 313,  tz: America/New_York,    verified: false}
+  - {name: Miami,         series_high: KXHIGHMIA,   rain_code: MIA, station: CLIMIA, icao: KMIA, lat: 25.791, lon: -80.316, elevation_m: 3,    tz: America/New_York,    verified: false}
+  - {name: Chicago,       series_high: KXHIGHCHI,   rain_code: CHI, station: CLIORD, icao: KORD, lat: 41.995, lon: -87.934, elevation_m: 205,  tz: America/Chicago,     verified: false}
+  - {name: Minneapolis,   series_high: KXHIGHTMIN,  rain_code: MIN, station: CLIMSP, icao: KMSP, lat: 44.883, lon: -93.229, elevation_m: 256,  tz: America/Chicago,     verified: false}
+  - {name: Dallas,        series_high: KXHIGHTDAL,  rain_code: DAL, station: CLIDFW, icao: KDFW, lat: 32.897, lon: -97.037, elevation_m: 185,  tz: America/Chicago,     verified: false}
+  - {name: Houston,       series_high: KXHIGHTHOU,  rain_code: HOU, station: CLIHOU, icao: KHOU, lat: 29.645, lon: -95.279, elevation_m: 14,   tz: America/Chicago,     verified: false}
+  - {name: Austin,        series_high: KXHIGHAUS,   rain_code: AUS, station: CLIAUS, icao: KAUS, lat: 30.183, lon: -97.680, elevation_m: 165,  tz: America/Chicago,     verified: false}
+  - {name: San Antonio,   series_high: KXHIGHTSATX, rain_code: SATX, station: CLISAT, icao: KSAT, lat: 29.534, lon: -98.470, elevation_m: 247,  tz: America/Chicago,     verified: false}
+  - {name: Oklahoma City, series_high: KXHIGHTOKC,  rain_code: OKC, station: CLIOKC, icao: KOKC, lat: 35.389, lon: -97.601, elevation_m: 396,  tz: America/Chicago,     verified: false}
+  - {name: New Orleans,   series_high: KXHIGHTNOLA, rain_code: NOLA, station: CLIMSY, icao: KMSY, lat: 29.993, lon: -90.258, elevation_m: 2,    tz: America/Chicago,     verified: false}
+  - {name: Denver,        series_high: KXHIGHDEN,   rain_code: DEN, station: CLIDEN, icao: KDEN, lat: 39.847, lon: -104.656, elevation_m: 1656, tz: America/Denver,     verified: false}
+  - {name: Phoenix,       series_high: KXHIGHTPHX,  rain_code: PHX, station: CLIPHX, icao: KPHX, lat: 33.428, lon: -112.004, elevation_m: 337, tz: America/Phoenix,     verified: false}
+  - {name: Las Vegas,     series_high: KXHIGHTLV,   rain_code: LV, station: CLILAS, icao: KLAS, lat: 36.072, lon: -115.163, elevation_m: 665, tz: America/Los_Angeles, verified: false}
+  - {name: Los Angeles,   series_high: KXHIGHLAX,   rain_code: LAX, station: CLILAX, icao: KLAX, lat: 33.938, lon: -118.389, elevation_m: 38,  tz: America/Los_Angeles, verified: false}
   - {name: San Diego,     series_high: KXHIGHTSAN,  rain_code: null, station: CLISAN, icao: KSAN, lat: 32.734, lon: -117.183, elevation_m: 4,   tz: America/Los_Angeles, verified: false}
   - {name: San Francisco, series_high: KXHIGHTSFO,  rain_code: SFO,  station: CLISFO, icao: KSFO, lat: 37.620, lon: -122.365, elevation_m: 4,   tz: America/Los_Angeles, verified: false}
   - {name: Seattle,       series_high: KXHIGHTSEA,  rain_code: SEA,  station: CLISEA, icao: KSEA, lat: 47.444, lon: -122.314, elevation_m: 132, tz: America/Los_Angeles, verified: false}
