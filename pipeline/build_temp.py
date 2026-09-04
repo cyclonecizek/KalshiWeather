@@ -16,7 +16,7 @@ from pathlib import Path
 
 from .brackets import (build_ladder, check_arbitrage, coverage_gaps,
                        implied_distribution)
-from .kalshi import Kalshi
+from .kalshi import SCHEMA_VERSION, Kalshi
 from .sources import meteoblue, temp_sources
 from .tempdist import (Dist, adjust, blend_quantiles, members_to_quantiles,
                        normal_quantiles)
