@@ -54,7 +54,7 @@ def fetch_openmeteo(cities, cfg, day_offsets=(0, 1)):
                 "hourly": "temperature_2m", "models": model_id,
                 "forecast_days": 3, "timezone": "auto",
                 "temperature_unit": "fahrenheit",
-            }, timeout=90)
+            }, timeout=240)
             r.raise_for_status()
             payload = r.json()
         except Exception as exc:  # noqa: BLE001
@@ -153,7 +153,12 @@ def fetch_mos_maxt(cities, cfg, day_offsets=(0, 1)):
     out = {}
     for c in cities:
         try:
-            r = requests.get(cfg["mav"], params={"sta": c["icao"]}, timeout=45)
+            r = requests.get(cfg["mav"], params={"sta": c["icao"]},
+                             headers={"User-Agent": (
+                                 "Mozilla/5.0 (Macintosh; Intel Mac OS X "
+                                 "10_15_7) AppleWebKit/537.36 (KHTML, like "
+                                 "Gecko) Chrome/125.0 Safari/537.36")},
+                             timeout=45)
             r.raise_for_status()
             text = r.text
         except Exception as exc:  # noqa: BLE001
