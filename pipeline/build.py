@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .blend import blend, evaluate
-from .kalshi import Kalshi, pick_daily_market
+from .kalshi import Kalshi, pick_city_market
 from .sources import gribprob, meteoblue, nws_text, openmeteo
 from .util import load_yaml, local_date_str
 
@@ -92,28 +92,30 @@ def main():
     discovered = run("kalshi-discovery", kal.discover_rain_series) or {}
     print(f"  kalshi: {len(discovered)} rain series discovered")
 
+    # The live daily rain market is ONE series carrying a market per city,
+    # keyed by the ticker suffix (KXRAIN-26SEP04-TTN). The old per-city
+    # series (KXRAINDNYC, KXRAINSEA, ...) still exist but have no open
+    # markets. Fetch the shared series once and slice it per city.
+    shared_ticker = (load_yaml(ROOT / "config" / "cities.yml")
+                     .get("rain_series") or "KXRAIN")
+    shared = run("kalshi-rain-markets",
+                 lambda: kal.markets_for_series(shared_ticker)) or []
+    print(f"  kalshi: {len(shared)} open markets in {shared_ticker}")
+
     # ---- assemble ------------------------------------------------------
     rows = []
     for c in cities:
-        ticker = c.get("series")
-        if ticker not in discovered and discovered:
-            match = _match_series(c["name"], discovered)
-            if match:
-                ticker = match
-        if not ticker:
+        code = c.get("rain_code")
+        if not code:
             continue
-
-        meta = discovered.get(ticker, {})
-        try:
-            markets = kal.markets_for_series(ticker)
-        except Exception as exc:  # noqa: BLE001
-            print(f"  {c['name']}: market fetch failed ({exc})")
-            continue
+        ticker = shared_ticker
+        meta = discovered.get(shared_ticker, {})
+        markets = shared
 
         days = {}
         for off in DAY_OFFSETS:
             date_str = local_date_str(c["tz"], off)
-            m = pick_daily_market(markets, date_str)
+            m = pick_city_market(markets, date_str, code)
             if not m:
                 continue
             q = Kalshi.quote(m)
@@ -160,7 +162,7 @@ def main():
         if days:
             rows.append({
                 "city": c["name"],
-                "series": ticker,
+                "series": f"{ticker}-{code}",
                 "station": c.get("station"),
                 "icao": c.get("icao"),
                 "tz": c["tz"],
