@@ -20,10 +20,12 @@ Two caveats worth carrying in your head while reading these numbers:
 
 from __future__ import annotations
 
+import time
+
 import requests
 
-from ..gribtools import (fetch_record, pick_window_records, read_idx,
-                         sampler_from_bytes)
+from ..gribtools import (candidate_fhours, fetch_record, pick_window_records,
+                         read_idx, sampler_from_bytes)
 from ..util import aligned_cycle, local_day_window, stitch_pops
 
 # Rough wall-clock delay from cycle time to data being on NOMADS.
@@ -31,7 +33,7 @@ LAG_HOURS = {"HREF": 3.5, "REFS": 3.5, "NBM": 2.0}
 
 
 def fetch(model_key, cities, cfg, rho=0.5, day_offsets=(0, 1),
-          max_fhour=60, fhour_step=1):
+          max_fhour=60, fhour_step=6):
     """-> {city: {offset: prob}}, plus the cycle used."""
     session = requests.Session()
     lag = LAG_HOURS.get(model_key, 3.0)
@@ -59,11 +61,13 @@ def fetch(model_key, cities, cfg, rho=0.5, day_offsets=(0, 1),
         print(f"  {model_key}: no usable cycle for any city")
         return {}, None
 
-    def catalogue_for(ymd, cc):
-        if (ymd, cc) in catalogues:
-            return catalogues[(ymd, cc)]
+    def catalogue_for(ymd, cc, s_h, e_h):
+        hours = candidate_fhours(s_h, e_h, fhour_step, max_fhour)
+        key = (ymd, cc, tuple(hours))
+        if key in catalogues:
+            return catalogues[key]
         cat = []
-        for fh in range(fhour_step, max_fhour + 1, fhour_step):
+        for fh in hours:
             url = f"{cfg['base'].rstrip('/')}/" + cfg["pattern"].format(
                 ymd=ymd, cc=f"{cc:02d}", fff=f"{fh:03d}", ff=f"{fh:02d}")
             try:
@@ -71,7 +75,7 @@ def fetch(model_key, cities, cfg, rho=0.5, day_offsets=(0, 1),
                     cat.append((url, r))
             except Exception:
                 continue
-        catalogues[(ymd, cc)] = cat
+        catalogues[key] = cat
         return cat
 
     sampler_cache = {}
@@ -84,8 +88,17 @@ def fetch(model_key, cities, cfg, rho=0.5, day_offsets=(0, 1),
         return sampler_cache[k]
 
     used_cycles = set()
+    print(f"  {model_key}: {len(groups)} distinct windows to cover")
+    t0 = time.monotonic()
+    budget_s = cfg.get("budget_seconds", 420)
     for (ymd, cc, s_h, e_h), members in sorted(groups.items()):
-        cat = catalogue_for(ymd, cc)
+        if time.monotonic() - t0 > budget_s:
+            print(f"    budget of {budget_s}s spent; skipping remaining "
+                  f"windows. A partial board beats a hung job.")
+            break
+        names = ", ".join(sorted({c["name"] for c, _ in members}))
+        print(f"    {ymd} {cc:02d}Z f{s_h:03d}-f{e_h:03d}  ({names})")
+        cat = catalogue_for(ymd, cc, s_h, e_h)
         if not cat:
             print(f"  {model_key}: no inventory for {ymd} {cc:02d}Z "
                   f"(path may have moved -- run pipeline.probe)")
@@ -114,6 +127,7 @@ def fetch(model_key, cities, cfg, rho=0.5, day_offsets=(0, 1),
             if p is not None:
                 out[c["name"]][off] = min(max(p, 0.0), 1.0)
 
+    print(f"  {model_key}: finished in {time.monotonic()-t0:.0f}s")
     n = sum(1 for v in out.values() if v)
     print(f"  {model_key}: {n} cities, {len(groups)} windows, "
           f"cycles {sorted(used_cycles)}")
