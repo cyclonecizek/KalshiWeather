@@ -111,6 +111,8 @@ def fetch(model_key, cities, cfg, rho=0.5, day_offsets=(0, 1),
             continue
         try:
             samplers = [sampler_for(url_of[id(r)], r) for r in chosen]
+            print(f"      {len(samplers)} record(s), units="
+                  f"{samplers[0].units_note}")
         except Exception as exc:  # noqa: BLE001
             print(f"  {model_key}: record fetch failed ({exc})")
             continue
@@ -122,7 +124,7 @@ def fetch(model_key, cities, cfg, rho=0.5, day_offsets=(0, 1),
                 v = sm.at(c["lat"], c["lon"])
                 if v is None:
                     continue
-                parts.append(v / 100.0 if v > 1.0 else v)
+                parts.append(v)   # Sampler already normalised the units
             p = stitch_pops(parts, rho=rho)
             if p is not None:
                 out[c["name"]][off] = min(max(p, 0.0), 1.0)
