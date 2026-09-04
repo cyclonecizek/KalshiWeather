@@ -13,6 +13,11 @@ import requests
 
 UA = {"User-Agent": "kalshi-rain-board/1.0"}
 
+# Bumped whenever the market payload handling changes. build.py prints it, so
+# a log tells you immediately whether the running code understands the
+# dollars-denominated schema rather than leaving you to infer it.
+SCHEMA_VERSION = "2026-09-04-dollars"
+
 
 class Kalshi:
     def __init__(self, base: str):
@@ -95,6 +100,7 @@ class Kalshi:
         """
         fixed = 0
         for m in markets[:limit]:
+            normalize(m)
             if m.get("yes_bid") is not None and m.get("yes_ask") is not None:
                 continue
             t = m.get("ticker")
@@ -142,8 +148,11 @@ class Kalshi:
         yes_bid/yes_ask are in cents. `mid` is the fair reference price;
         `no_ask` is what you actually pay to take the NO side.
         """
+        market = normalize(market)
         yb = market.get("yes_bid")
         ya = market.get("yes_ask")
+        if yb is None and ya is None:
+            _report_unparsed(market)
         if yb is None and ya is None:
             # No book at all. last_price is stale but better than dropping
             # the contract from the ladder, which breaks the overround
@@ -166,30 +175,122 @@ class Kalshi:
             "no_bid": 100 - ya,
             "mid": (yb + ya) / 2.0,
             "spread": spread,
+            # No volume field exists in this API version, so liquidity is
+            # judged on open interest. Reported separately so the gate can
+            # use whichever is actually populated.
             "volume": market.get("volume") or 0,
             "open_interest": market.get("open_interest") or 0,
+            "liquidity": (market.get("volume")
+                          or market.get("open_interest") or 0),
             "close_time": market.get("close_time"),
             "expiration_time": market.get("expiration_time"),
         }
 
 
+_REPORTED = []
+
+
+def _report_unparsed(market):
+    """Print a market's actual field names the first couple of times a quote
+    fails. Guessing at a schema from a silent None is the slowest possible
+    way to debug this."""
+    if len(_REPORTED) >= 2:
+        return
+    _REPORTED.append(1)
+    keys = sorted(k for k in market if not k.startswith("_"))
+    print(f"    [schema] no price parsed from {market.get('ticker')}")
+    print(f"    [schema] fields present: {', '.join(keys)}")
+    for k in keys:
+        if "price" in k or "bid" in k or "ask" in k:
+            print(f"    [schema]   {k} = {market[k]!r}")
+
+
+def _cents(v):
+    """Dollar string or number -> integer cents. '0.4200' -> 42."""
+    if v is None or v == "":
+        return None
+    try:
+        return int(round(float(v) * 100))
+    except (TypeError, ValueError):
+        return None
+
+
+def _num(v):
+    if v is None or v == "":
+        return None
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def normalize(m: dict) -> dict:
+    """Rewrite a market into integer-cent fields the rest of the code expects.
+
+    The API returns everything as dollar-denominated STRINGS, and it does not
+    return a yes side at all -- only `no_bid_dollars` and `no_ask_dollars`.
+    Yes prices have to be derived:
+
+        yes_bid = 100 - no_ask        (what you can sell YES for)
+        yes_ask = 100 - no_bid        (what you must pay to buy YES)
+
+    Verified against a live payload: no_ask 0.42 / no_bid 0.35 gives
+    yes_bid 58 / yes_ask 65, with last_price 0.61 sitting between them.
+
+    There is also no `volume` field. Only `open_interest_fp`. A liquidity
+    gate written against `volume` therefore tags every contract on the board
+    as thin and shows you nothing.
+    """
+    if m.get("yes_bid") is None:
+        no_ask = _cents(m.get("no_ask_dollars"))
+        if no_ask is not None:
+            m["yes_bid"] = max(0, 100 - no_ask)
+    if m.get("yes_ask") is None:
+        no_bid = _cents(m.get("no_bid_dollars"))
+        if no_bid is not None:
+            m["yes_ask"] = min(100, 100 - no_bid)
+
+    if m.get("no_bid") is None:
+        m["no_bid"] = _cents(m.get("no_bid_dollars"))
+    if m.get("no_ask") is None:
+        m["no_ask"] = _cents(m.get("no_ask_dollars"))
+
+    if m.get("last_price") is None:
+        m["last_price"] = _cents(m.get("last_price_dollars"))
+    if m.get("previous_price") is None:
+        m["previous_price"] = _cents(m.get("previous_price_dollars"))
+
+    if m.get("open_interest") is None:
+        oi = _num(m.get("open_interest_fp"))
+        if oi is not None:
+            m["open_interest"] = int(oi)
+    if m.get("volume") is None:
+        v = _num(m.get("volume_fp"))
+        m["volume"] = int(v) if v is not None else None
+
+    return m
+
+
 def _book_top(ob):
     """Best yes bid and yes ask from an orderbook payload.
 
-    Kalshi books quote both sides in YES terms: the top of the `no` side at
-    price p implies a yes ask of 100 - p.
+    Comes back as `orderbook_fp` with `yes_dollars` / `no_dollars`, each a
+    list of [price_string, size_string] in dollars. A no bid at p implies a
+    yes ask of 100 - p.
     """
-    def top(side):
-        rows = ob.get(side) or []
-        if not rows:
-            return None
-        try:
-            return max(int(r[0]) for r in rows if r)
-        except (ValueError, TypeError, IndexError):
-            return None
+    book = ob.get("orderbook_fp") or ob.get("orderbook") or ob
+    def top(*keys):
+        for k in keys:
+            rows = book.get(k)
+            if rows:
+                vals = [_cents(r[0]) for r in rows if r]
+                vals = [v for v in vals if v is not None]
+                if vals:
+                    return max(vals)
+        return None
 
-    yes_bid = top("yes")
-    no_bid = top("no")
+    yes_bid = top("yes_dollars", "yes")
+    no_bid = top("no_dollars", "no")
     yes_ask = None if no_bid is None else 100 - no_bid
     return yes_bid, yes_ask
 
