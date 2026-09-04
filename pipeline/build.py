@@ -18,7 +18,7 @@ from pathlib import Path
 from .blend import blend, evaluate
 from .kalshi import SCHEMA_VERSION, Kalshi, pick_city_market
 from .sources import gribprob, meteoblue, nws_text, openmeteo
-from .util import load_yaml, local_date_str
+from .util import load_yaml, local_date_str, local_day_window
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "docs" / "data"
@@ -154,7 +154,17 @@ def main():
                 mp_public = mp
 
             b = blend(mp, settings, cam_multiplier=mult)
+            # How much of the contract window is already in the past. At 1am
+            # UTC "today" in Los Angeles is 82% gone: the models are
+            # describing weather that has largely happened and the market has
+            # converged. Those rows are not tradeable signal.
+            w_start, w_end = local_day_window(c["tz"], off)
+            span = (w_end - w_start).total_seconds()
+            gone = (datetime.now(timezone.utc) - w_start).total_seconds()
+            elapsed = max(0.0, min(1.0, gone / span))
+
             entry = {"date": date_str, "market": q, "raw_models": mp_public,
+                     "elapsed": round(elapsed, 3),
                      "predictability": rec.get("predictability"),
                      "coverage": None if spot is None else {
                          "wet_fraction": spot["wet_fraction"],
