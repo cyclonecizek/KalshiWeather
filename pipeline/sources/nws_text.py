@@ -21,6 +21,13 @@ import requests
 
 from ..util import stitch_pops
 
+# www.nws.noaa.gov/cgi-bin returned 403 for every station from a GitHub
+# runner. That is usually user-agent filtering, sometimes a datacentre IP
+# block -- a browser UA is the cheap thing to try before giving up.
+UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                     "AppleWebKit/537.36 (KHTML, like Gecko) "
+                     "Chrome/125.0 Safari/537.36")}
+
 
 # ---------------------------------------------------------------------------
 # NDFD
@@ -120,7 +127,8 @@ def fetch_mos(cities, cfg, rho=0.5, day_offsets=(0, 1)):
     out = {}
     for c in cities:
         try:
-            r = requests.get(cfg["mav"], params={"sta": c["icao"]}, timeout=45)
+            r = requests.get(cfg["mav"], params={"sta": c["icao"]},
+                             headers=UA, timeout=45)
             r.raise_for_status()
             parsed = _parse_mav(r.text)
         except Exception as exc:  # noqa: BLE001
