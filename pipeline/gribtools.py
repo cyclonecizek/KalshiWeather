@@ -93,6 +93,14 @@ class Sampler:
         from scipy.spatial import cKDTree
 
         self.values = values.ravel()
+        # Decide percent-vs-fraction ONCE from the whole field, not per value.
+        # The old per-value rule was `v/100 if v > 1 else v`, which silently
+        # turns a genuine 0.5% probability into 50%. Every low-probability
+        # city on the board would read as a coin flip.
+        finite = self.values[np.isfinite(self.values)]
+        vmax = float(finite.max()) if finite.size else 0.0
+        self.scale = 0.01 if vmax > 1.0 else 1.0
+        self.units_note = ("percent" if self.scale == 0.01 else "fraction")
         key = _grid_key(lats, lons)
         tree = _TREES.get(key)
         if tree is None:
@@ -117,7 +125,9 @@ class Sampler:
         ])
         _, idx = self.tree.query(q)
         v = self.values[idx]
-        return None if np.ma.is_masked(v) or np.isnan(v) else float(v)
+        if np.ma.is_masked(v) or np.isnan(v):
+            return None
+        return float(v) * self.scale
 
 
 def sampler_from_bytes(blob: bytes) -> Sampler:
