@@ -73,6 +73,7 @@ tbody tr:hover td{background:#E5E9E5}
 .flag-thin{color:var(--thin)}
 .nil{color:var(--rule-strong)}
 .unver{color:var(--ink-soft);font-size:10px;font-family:"IBM Plex Mono",monospace;margin-left:5px}
+tr.expired td{opacity:.45}
 
 #ops table{min-width:820px}
 #ops th:first-child,#ops td:first-child{position:sticky;left:0;background:var(--panel);z-index:2}
@@ -242,6 +243,9 @@ function opportunities(){
   if(RAIN) for(const c of RAIN.cities){
     const d = c.days[DAY];
     if(!d || !d.edge || !d.edge.flag || d.edge.flag==='thin') continue;
+    // A window that has already elapsed is not a trade. The market has
+    // converged and the "model probability" describes past weather.
+    if(d.elapsed!=null && d.elapsed>0.9) continue;
     out.push({kind:'rain', city:c.city, contract:'≥0.01"',
       model:d.consensus, price:d.edge.price, side:d.edge.side,
       ev:d.edge.ev_cents, kelly:d.edge.kelly, vol:d.market.volume, flag:d.edge.flag});
@@ -363,8 +367,10 @@ function drawRain(){
     const d=r.d, mk=d.market, e=d.edge;
     const cell=(p,c)=>'<td class="'+(c||'')+'" style="background:'+probColor(p)+
       ';color:'+txtOn(p)+'">'+fmt(p)+'</td>';
+    const over = (d.elapsed!=null && d.elapsed>0.9);
     let t='<td class="city">'+r.city.city+
-      (r.city.verified?'':'<span class="unver" title="settlement station not verified">?</span>')+'</td>';
+      (r.city.verified?'':'<span class="unver" title="settlement station not verified">?</span>')+
+      (over?'<span class="unver" title="this contract window has already elapsed — not a forecast">expired</span>':'')+'</td>';
     t+='<td>'+mk.mid.toFixed(1)+'</td><td>'+mk.yes_bid+'–'+mk.yes_ask+'</td><td>'+
        mk.volume.toLocaleString()+'</td>';
     groups.forEach(g=>g.members.forEach((m,i)=>t+=cell(d.raw_models?d.raw_models[m]:null,i===0?'fam':'')));
@@ -383,7 +389,7 @@ function drawRain(){
       t+='<td class="side '+fc+'">'+e.side+' '+e.price+'</td><td class="'+fc+'">'+
          (e.ev_cents>0?'+':'')+e.ev_cents.toFixed(1)+'</td>';
     } else t+='<td class="nil">·</td><td class="nil">·</td>';
-    return '<tr data-city="'+r.city.city+'">'+t+'</tr>';
+    return '<tr class="'+(over?'expired':'')+'" data-city="'+r.city.city+'">'+t+'</tr>';
   }).join('');
 
   host.innerHTML='<div class="strip"><svg viewBox="0 0 '+W+' '+H+
