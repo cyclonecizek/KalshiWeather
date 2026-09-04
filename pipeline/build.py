@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .blend import blend, evaluate
-from .kalshi import Kalshi, pick_city_market
+from .kalshi import SCHEMA_VERSION, Kalshi, pick_city_market
 from .sources import gribprob, meteoblue, nws_text, openmeteo
 from .util import load_yaml, local_date_str
 
@@ -32,7 +32,8 @@ def main():
     rho = settings.get("pop_stitch_rho", 0.5)
     thr_mm = settings.get("threshold_mm", 0.254)
 
-    print(f"building board for {len(cities)} cities")
+    print(f"building board for {len(cities)} cities "
+          f"| kalshi schema {SCHEMA_VERSION}")
 
     # ---- model guidance ------------------------------------------------
     probs = {}          # {MODEL: {city: {offset: p}}}
