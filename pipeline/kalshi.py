@@ -152,6 +152,32 @@ def effective_fee_rate(fee_multiplier, base=0.07):
     return base * m if m >= 1.0 else m
 
 
+def pick_city_market(markets, target_date: str, city_code: str):
+    """Find one city's market inside a shared multi-city series.
+
+    KXRAIN is a single series carrying ~44 markets, one per city, with the
+    city as the ticker suffix: KXRAIN-26SEP04-TTN. Date and city both have
+    to match, so this is not the same lookup as a per-city series.
+    """
+    from datetime import datetime
+
+    stamp = datetime.strptime(target_date, "%Y-%m-%d").strftime("%y%b%d").upper()
+    code = (city_code or "").upper()
+    for m in markets:
+        t = (m.get("ticker") or "").upper()
+        if not t.endswith("-" + code):
+            continue
+        if stamp in t or (m.get("close_time") or "")[:10] >= target_date:
+            if stamp in t:
+                return m
+    # fall back on close_time when the date stamp format differs
+    for m in markets:
+        t = (m.get("ticker") or "").upper()
+        if t.endswith("-" + code) and (m.get("close_time") or "")[:10] == target_date:
+            return m
+    return None
+
+
 def pick_daily_market(markets, target_date: str):
     """Find the single yes/no 'will it rain' market for a given local date.
 
