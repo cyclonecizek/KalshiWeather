@@ -70,10 +70,13 @@ def main():
     if ndfd:
         probs["NDFD"] = ndfd
 
-    mos = run("mos", lambda: nws_text.fetch_mos(
-        cities, src["mos"], rho, DAY_OFFSETS))
-    if mos:
-        probs["MOS"] = mos
+    if src["mos"].get("enabled", True):
+        mos = run("mos", lambda: nws_text.fetch_mos(
+            cities, src["mos"], rho, DAY_OFFSETS))
+        if mos:
+            probs["MOS"] = mos
+    else:
+        print("  mos: disabled in settings")
 
     for key, cfg_key in (("HREF", "href"), ("REFS", "refs"), ("NBM", "nbm")):
         cfg = src.get(cfg_key)
