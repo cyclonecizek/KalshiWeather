@@ -54,7 +54,8 @@ def discover_path(base, want_prefix, depth=3):
     except Exception as exc:  # noqa: BLE001
         print(f"    unreachable: {type(exc).__name__} {exc}")
         return
-    hits = [n for n in top if want_prefix.lower() in n.lower()]
+    hits = ([n for n in top if want_prefix.lower() in n.lower()]
+            if want_prefix else list(top))
     print(f"    {len(top)} entries; {len(hits)} matching '{want_prefix}'")
     for n in sorted(top)[:25]:
         print(f"      {n}")
@@ -104,14 +105,25 @@ def probe_grib(name, cfg):
             if r.acc_start is not None:
                 windows.add(r.acc_end - r.acc_start)
         if not hits:
-            print("        --- no regex match. Candidate APCP lines: ---")
-            shown = 0
+            print("        --- no regex match. EVERY APCP prob threshold "
+                  "in this file: ---")
+            seen_thr = set()
             for r in recs:
-                if ":APCP:" in r.line and "prob" in r.line:
-                    print(f"        {r.line}")
-                    shown += 1
-                    if shown >= 3:
-                        break
+                if ":APCP:" not in r.line or "prob >" not in r.line:
+                    continue
+                thr = r.line.split("prob >")[1].split(":")[0]
+                if thr in seen_thr:
+                    continue
+                seen_thr.add(thr)
+                print(f"        {r.line}")
+            if not seen_thr:
+                print("        (none -- this file has no APCP probabilities)")
+            else:
+                print(f"        thresholds present (mm): "
+                      f"{sorted(seen_thr, key=float)}")
+                print("        0.254 mm = 0.01 in. If it is absent here, the "
+                      "0.01in product lives in a different HREF file "
+                      "(try .eas. or .pmmn. instead of .prob.)")
 
     if found:
         if windows:
@@ -125,8 +137,9 @@ def probe_grib(name, cfg):
     else:
         print("  no file reachable -- walking the tree to find the real path:")
         root = cfg["base"].rsplit("/", 1)[0]
-        discover_path(cfg["base"], cfg["pattern"].split(".")[0])
-        discover_path(root, cfg["pattern"].split(".")[0])
+        for prefix in cfg.get("discover_prefixes", [cfg["pattern"].split(".")[0]]):
+            discover_path(cfg["base"], prefix)
+        discover_path(root, "")
 
 
 def probe_kalshi(base):
@@ -181,7 +194,16 @@ def probe_markets(base, prefixes=("KXRAIN", "KXHIGH")):
             if not ms:
                 print("    no open markets")
                 continue
-            print(f"    {len(ms)} open markets; first 3:")
+            print(f"    {len(ms)} open markets")
+            # A single series can carry one market per city, with the city as
+            # the ticker suffix (KXRAIN-26SEP04-TTN). Surface the whole set --
+            # that suffix list is what cities.yml needs.
+            suffixes = sorted({(m.get("ticker") or "").split("-")[-1]
+                               for m in ms})
+            if len(suffixes) > 3:
+                print(f"    city codes in ticker suffix ({len(suffixes)}): "
+                      f"{' '.join(suffixes)}")
+            print("    first 3 markets:")
             for m in ms[:3]:
                 print(f"      {m.get('ticker')}  close={m.get('close_time')}")
                 print(f"        {m.get('title') or m.get('subtitle')}")
