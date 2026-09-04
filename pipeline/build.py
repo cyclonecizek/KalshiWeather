@@ -119,10 +119,13 @@ def main():
         for off in DAY_OFFSETS:
             date_str = local_date_str(c["tz"], off)
             m = pick_city_market(markets, date_str, code)
+            if m is not None:
+                kal.hydrate([m])
             if not m:
                 continue
             q = Kalshi.quote(m)
             if not q:
+                print(f"  {c['name']} {date_str}: market found but no quote")
                 continue
             q["fee_multiplier"] = meta.get("fee_multiplier")
 
