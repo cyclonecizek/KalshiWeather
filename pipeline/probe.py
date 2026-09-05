@@ -297,6 +297,61 @@ def probe_meteoblue(cfg):
     print(f"  rainspot present: {'rainspot' in sub_block}")
 
 
+def probe_nbm_temperature(cfg):
+    """Does NBM publish temperature percentiles, and in which file?
+
+    Worth finding out rather than assuming. The board's temperature spread
+    currently comes from multi-model ensemble disagreement plus a
+    `spread_factor` constant I picked. Ensemble disagreement measures how
+    much models differ from each other, which is not the same quantity as
+    point-station forecast error and is usually larger -- which is why the
+    board's intervals come out wider than the market's.
+
+    NBM percentiles would replace that guess with post-processed guidance
+    whose entire purpose is calibrated probability. Percentiles usually live
+    in the `qmd` (quantile) file rather than `core`.
+    """
+    print("\n=== NBM temperature percentiles ===")
+    try:
+        ymd, cc = latest_cycle(cfg["cycles"], 2.0)
+    except Exception as exc:  # noqa: BLE001
+        print(f"  cycle resolution failed: {exc}")
+        return
+
+    base = cfg["base"].rstrip("/")
+    fh = 24
+    candidates = [
+        ("core", f"{base}/blend.{ymd}/{cc:02d}/core/"
+                 f"blend.t{cc:02d}z.core.f{fh:03d}.co.grib2"),
+        ("qmd",  f"{base}/blend.{ymd}/{cc:02d}/qmd/"
+                 f"blend.t{cc:02d}z.qmd.f{fh:03d}.co.grib2"),
+    ]
+    for name, url in candidates:
+        print(f"\n  {name}: {url.rsplit('/', 1)[-1]}")
+        try:
+            recs = read_idx(url)
+        except Exception as exc:  # noqa: BLE001
+            print(f"    unreachable ({type(exc).__name__})")
+            continue
+
+        tmp = [r for r in recs
+               if ":TMP:" in r.line or ":TMAX:" in r.line]
+        print(f"    {len(recs)} records, {len(tmp)} temperature")
+        pct, plain = [], []
+        for r in tmp:
+            (pct if ("prob" in r.line or "%" in r.line
+                     or "ile" in r.line.lower()) else plain).append(r.line)
+        for line in pct[:12]:
+            print(f"      {line}")
+        if not pct:
+            for line in plain[:6]:
+                print(f"      {line}")
+            print("    -> no percentile-looking temperature records here")
+        else:
+            print(f"    -> {len(pct)} percentile-style temperature records. "
+                  f"Copy the level wording into a new idx_regex.")
+
+
 def survey_cycles(name, cfg, fhour=12, hours=range(24)):
     """Which NBM cycles actually carry the 6- and 12-hour products.
 
@@ -373,6 +428,10 @@ def main():
         if key in s:
             probe_grib(name, s[key])
     if "nbm" in s:
+        try:
+            probe_nbm_temperature(s["nbm"])
+        except Exception as exc:  # noqa: BLE001
+            print(f"\n  NBM temperature probe failed: {exc}")
         try:
             survey_cycles("NBM", s["nbm"])
         except Exception as exc:  # noqa: BLE001
