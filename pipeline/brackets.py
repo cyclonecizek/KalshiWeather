@@ -97,6 +97,55 @@ def _label(lo, hi):
     return f"{lo}–{hi}"
 
 
+def split_ladders(ladder):
+    """Separate overlapping bracket sets for the same event.
+
+    Kalshi sometimes lists two complete ladders on one day -- observed on
+    2026-09-05, Boston carried <70,70-71,...,>77 AND <80,80-81,...,>87
+    simultaneously, presumably a re-strike as the forecast moved.
+
+    Treated as one set they are neither exclusive nor exhaustive, and
+    normalising across both produces a distribution spanning the union of
+    the two: a 15-degree "market range" and a row of 1-cent brackets that
+    look like enormous edges. A +98c edge is not an opportunity, it is this.
+
+    Chains brackets where each one starts exactly where the last ended.
+    -> list of coherent ladders, richest book first.
+    """
+    remaining = sorted(ladder,
+                       key=lambda b: (b["lo"] if b["lo"] is not None else -9999))
+    chains = []
+    while remaining:
+        chain = [remaining.pop(0)]
+        progressed = True
+        while progressed:
+            progressed = False
+            tail = chain[-1]
+            if tail["hi"] is None:          # open-ended top closes the chain
+                break
+            for i, b in enumerate(remaining):
+                if b["lo"] is not None and b["lo"] == tail["hi"] + 1:
+                    chain.append(remaining.pop(i))
+                    progressed = True
+                    break
+        chains.append(chain)
+
+    def weight(ch):
+        return sum((b.get("market") or {}).get("open_interest", 0) or 0
+                   for b in ch)
+
+    chains.sort(key=lambda ch: (-weight(ch), -len(ch)))
+    return chains
+
+
+def pick_ladder(ladder):
+    """The one coherent ladder to trade, plus how many were discarded."""
+    chains = split_ladders(ladder)
+    if len(chains) <= 1:
+        return ladder, 0
+    return chains[0], len(chains) - 1
+
+
 def implied_distribution(ladder):
     """Market-implied probabilities, normalized to sum to 1.
 
