@@ -164,6 +164,7 @@ footer p{margin:0 0 9px}
 </nav>
 
 <div id="notices"></div>
+<div id="suspect-note"></div>
 
 <section id="ops">
   <h2>Where you disagree with the market</h2>
@@ -272,6 +273,7 @@ function opportunities(){
   if(RAIN) for(const c of RAIN.cities){
     const d = c.days[DAY];
     if(!d || !d.edge || !d.edge.flag || d.edge.flag==='thin') continue;
+    if(d.edge.flag==='suspect') continue;
     // A window that has already elapsed is not a trade. The market has
     // converged and the "model probability" describes past weather.
     if(d.elapsed!=null && d.elapsed>0.9) continue;
@@ -290,7 +292,8 @@ function opportunities(){
     const d = c.days[DAY];
     if(!d) continue;
     for(const b of d.ladder){
-      if(!b.edge || !b.edge.flag || b.edge.flag==='thin') continue;
+      if(!b.edge || !b.edge.flag || b.edge.flag==='thin'
+         || b.edge.flag==='suspect') continue;
       // Compare the two DISTRIBUTIONS in degrees, then name the bracket.
       const mf = d.market_forecast, df = d.distribution;
       const mine = df ? df.median : null, mkt = mf ? mf.median : null;
@@ -315,6 +318,16 @@ function drawOps(){
   // Gap column is sortable for scanning the board as a forecaster would
   rows.sort(sortBy(OSORT, get));
   document.getElementById('c-ops').textContent = rows.length ? rows.length : '';
+  let susp = 0;
+  if(RAIN) for(const c of RAIN.cities){ const d=c.days[DAY];
+    if(d && d.edge && d.edge.flag==='suspect') susp++; }
+  if(TEMP) for(const c of TEMP.cities){ const d=c.days[DAY]; if(!d) continue;
+    for(const b of d.ladder) if(b.edge && b.edge.flag==='suspect') susp++; }
+  const sn=document.getElementById('suspect-note');
+  if(sn) sn.innerHTML = susp ? ('<div class="notice"><strong>'+susp+
+    ' row(s) hidden as implausible.</strong> Edges above 25\u00a2 do not occur '+
+    'on liquid markets \u2014 they indicate a data fault upstream, most often a '+
+    'merged bracket ladder or a mis-parsed price, not an opportunity.</div>') : '';
   const tb = document.querySelector('#opstbl tbody');
   tb.innerHTML = rows.length ? rows.map(r => {
     const fc = 'flag-'+r.flag;
