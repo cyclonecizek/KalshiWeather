@@ -197,5 +197,56 @@ class Dist:
         return v0 + (v1 - v0) * (p - q0) / (q1 - q0)
 
 
+def apply_observation(quants, obs_max, heat_left, tolerance=0.5,
+                      min_spread=1.4, qs=QUANTILES):
+    """Fold an already-observed daily maximum into the forecast quantiles.
+
+    Two effects, both large late in the day:
+
+    1. FLOOR. The final high cannot be below what the station has already
+       recorded. Every quantile is lifted to at least `obs_max - tolerance`,
+       which zeroes out all the brackets underneath it. The tolerance exists
+       because settlement comes from The Weather Company, not this METAR,
+       and the two can differ by a few tenths.
+
+    2. COLLAPSE. Uncertainty about the high is uncertainty about how much
+       further it climbs. At 8pm there is almost no climbing left, so the
+       distribution should tighten around the observed value rather than
+       keep the width it had at dawn. `heat_left` (1 at midnight, ~0.15 by
+       4pm, ~0.01 by 8pm) scales the spread above the floor.
+
+    A morning forecast spanning 84-92F, with 89 already recorded at 6pm,
+    becomes something tight just above 89 -- and the 84-86 bracket the market
+    may still be pricing at 15c becomes worth nothing.
+    """
+    if not quants:
+        return None
+    if obs_max is None:
+        return list(quants)
+
+    floor = obs_max - tolerance
+    shrunk = []
+    for q in quants:
+        above = max(0.0, q - floor)
+        shrunk.append(floor + above * max(0.02, heat_left))
+    # Keep it monotone and never below the floor.
+    out, prev = [], -1e9
+    for v in shrunk:
+        v = max(v, floor, prev)
+        out.append(v)
+        prev = v
+
+    # Never collapse to a point. Settlement comes from The Weather Company,
+    # not from this station's METAR, and the two disagree often enough that
+    # a 100%-confident bracket is a lie. `min_spread` is the residual
+    # settlement-source uncertainty that survives no matter how late it is.
+    width = out[-1] - out[0]
+    if width < min_spread:
+        mid = out[len(out) // 2]
+        k = min_spread / max(width, 1e-6)
+        out = [mid + (v - mid) * k for v in out]
+    return out
+
+
 def c_to_f(c):
     return None if c is None else c * 9.0 / 5.0 + 32.0
