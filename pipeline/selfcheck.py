@@ -50,6 +50,7 @@ MANIFEST = {
     "pipeline.sources.meteoblue": [
         "fetch", "coverage_multiplier", "predictability_widening",
     ],
+    "pipeline.sources.nbm_temp": ["fetch"],
     "pipeline.sources.observations": [
         "fetch", "condition_rain", "heating_remaining",
     ],
@@ -57,7 +58,8 @@ MANIFEST = {
 
 # Sources the board can run without. A missing one degrades the board;
 # anything else stops it.
-OPTIONAL = {"pipeline.sources.observations", "pipeline.sources.meteoblue"}
+OPTIONAL = {"pipeline.sources.observations", "pipeline.sources.meteoblue",
+            "pipeline.sources.nbm_temp"}
 
 
 def check():
