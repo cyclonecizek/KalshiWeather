@@ -111,6 +111,49 @@ def implied_distribution(ladder):
     return [r / total for r in raw], total - 1.0
 
 
+def implied_quantiles(ladder, probs, qs=(0.1, 0.5, 0.9)):
+    """Turn a bracket ladder back into a temperature forecast.
+
+    A price is a forecast wearing different units. If the market prices the
+    88-89 bracket at 33c and 90-91 at 21c, it is making a distributional
+    statement about tomorrow's high, and it can be read back out as a median
+    and an interval.
+
+    That is the comparison a forecaster actually wants: "I say 91, the market
+    says 88." Reading it as "the 90-91 contract is 22c" buries a 3-degree
+    disagreement inside a price.
+
+    Walks the cumulative distribution and interpolates within the bracket
+    where each quantile falls. Open-ended end brackets get a nominal 3-degree
+    width so the tails don't run away.
+    """
+    pts = []
+    cum = 0.0
+    for b, p in zip(ladder, probs):
+        if p is None:
+            continue
+        lo, hi = b.get("lo"), b.get("hi")
+        # Continuity: bracket [lo, hi] covers temperature lo-0.5 to hi+0.5.
+        left = (hi + 0.5 - 3.0) if lo is None else lo - 0.5
+        right = (lo - 0.5 + 3.0) if hi is None else hi + 0.5
+        pts.append((left, right, cum, cum + p))
+        cum += p
+    if not pts or cum <= 0:
+        return {}
+
+    out = {}
+    for q in qs:
+        target = q * cum
+        for left, right, c0, c1 in pts:
+            if c1 >= target:
+                frac = 0.0 if c1 == c0 else (target - c0) / (c1 - c0)
+                out[q] = round(left + (right - left) * frac, 1)
+                break
+        else:
+            out[q] = round(pts[-1][1], 1)
+    return out
+
+
 def check_arbitrage(ladder):
     """Coherence checks that don't depend on any forecast being right."""
     n = len(ladder)
