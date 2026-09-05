@@ -1,6 +1,8 @@
 {
- "generated_at": "2026-09-05T02:38:28.213274+00:00",
+ "generated_at": "2026-09-05T03:15:06.706507+00:00",
  "threshold_inches": 0.01,
+ "meteoblue_enabled": true,
+ "meteoblue_published": true,
  "families": {
   "blend": {
    "label": "Blend",
@@ -30,7 +32,7 @@
   }
  },
  "model_runs": {
-  "NBM": "2026090500"
+  "NBM": "2026090501"
  },
  "errors": [],
  "cities": [
@@ -56,9 +58,9 @@
       "no_bid": 0,
       "mid": 99.5,
       "spread": 1,
-      "volume": 97178,
-      "open_interest": 89056,
-      "liquidity": 97178,
+      "volume": 103911,
+      "open_interest": 95789,
+      "liquidity": 103911,
       "close_time": "2026-09-05T05:00:00Z",
       "expiration_time": "2026-09-06T05:00:00Z",
       "fee_multiplier": 1
@@ -73,15 +75,29 @@
       "NDFD": 0.03,
       "NBM": 0.14044334000000003
      },
-     "elapsed": 0.943,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.3258,
+      "only_blend": 0.0852,
+      "only_global": 0.8982,
+      "only_mlm": 0.0,
+      "blend_without_mlm": 0.4231
+     },
+     "elapsed": 0.969,
      "predictability": 55.0,
+     "observed": {
+      "precip_mm": 2.794,
+      "wet": true,
+      "source": "iowa",
+      "elapsed": 0.969
+     },
      "coverage": {
       "wet_fraction": 1.0,
       "centre_wet": true,
       "multiplier": 1.0,
       "applied": false
      },
-     "consensus": 0.325782061638235,
+     "consensus": 0.98,
      "models": {
       "ECMWF_ENS": 0.9903846153846154,
       "GEFS": 0.984375,
@@ -102,16 +118,18 @@
      "spread": 0.9903837546765191,
      "family_spread": 0.8982244898399435,
      "low_confidence": false,
+     "consensus_forecast": 0.3258,
+     "obs_effect": "observed",
      "edge": {
       "side": "NO",
       "price": 1,
-      "ev_cents": 65.42,
+      "ev_cents": 0.0,
       "ev_yes": null,
-      "ev_no": 65.42,
+      "ev_no": 0.0,
       "fee_cents": 1,
-      "kelly": 0.1677,
-      "gap_points": -66.9,
-      "flag": "high",
+      "kelly": 0.0025,
+      "gap_points": -1.5,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -126,58 +144,68 @@
       "no_bid": 93,
       "mid": 6.0,
       "spread": 2,
-      "volume": 617,
-      "open_interest": 608,
-      "liquidity": 617,
+      "volume": 755,
+      "open_interest": 742,
+      "liquidity": 755,
       "close_time": "2026-09-06T05:00:00Z",
       "expiration_time": "2026-09-07T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.4519230769230769,
+      "ECMWF_ENS": 0.27884615384615385,
       "GEFS": 0.484375,
       "ICON_EPS": 0.13414634146341464,
       "GEM_EPS": 0.1590909090909091,
       "UKMO_ENS": 0.23684210526315788,
       "METEOBLUE": 0.06,
       "NDFD": 0.23385,
-      "NBM": 0.07400600000000004
+      "NBM": 0.06935300000000003
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.163,
+      "only_blend": 0.1516,
+      "only_global": 0.2587,
+      "only_mlm": 0.0521,
+      "blend_without_mlm": 0.1961
      },
      "elapsed": 0.0,
      "predictability": 85.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.17509363112042642,
+     "consensus": 0.16296978304350335,
      "models": {
-      "ECMWF_ENS": 0.4519230769230769,
+      "ECMWF_ENS": 0.27884615384615385,
       "GEFS": 0.484375,
       "ICON_EPS": 0.13414634146341464,
       "GEM_EPS": 0.1590909090909091,
       "UKMO_ENS": 0.23684210526315788,
       "METEOBLUE": 0.052077719239263756,
       "NDFD": 0.23385,
-      "NBM": 0.07400600000000004
+      "NBM": 0.06935300000000003
      },
      "families": {
-      "blend": 0.153928,
-      "global": 0.2932754865481117,
+      "blend": 0.1516015,
+      "global": 0.2586601019327271,
       "mlm": 0.052077719239263756
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.43229728076073626,
-     "family_spread": 0.24119776730884795,
+     "family_spread": 0.20658238269346335,
      "low_confidence": false,
      "edge": {
       "side": "YES",
       "price": 7,
-      "ev_cents": 3.51,
-      "ev_yes": 3.51,
-      "ev_no": -17.51,
-      "fee_cents": 7,
-      "kelly": 0.0283,
-      "gap_points": 11.5,
-      "flag": null,
-      "illiquid": false
+      "ev_cents": 8.3,
+      "ev_yes": 8.3,
+      "ev_no": -12.3,
+      "fee_cents": 1,
+      "kelly": 0.025,
+      "gap_points": 10.3,
+      "flag": "high",
+      "illiquid": false,
+      "depth": 29
      }
     }
    }
@@ -204,9 +232,9 @@
       "no_bid": 99,
       "mid": 0.5,
       "spread": 1,
-      "volume": 21021,
+      "volume": 21114,
       "open_interest": 6168,
-      "liquidity": 21021,
+      "liquidity": 21114,
       "close_time": "2026-09-05T05:00:00Z",
       "expiration_time": "2026-09-06T05:00:00Z",
       "fee_multiplier": 1
@@ -221,15 +249,29 @@
       "NDFD": 0.04,
       "NBM": 0.09662146000000008
      },
-     "elapsed": 0.943,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.3046,
+      "only_blend": 0.0683,
+      "only_global": 0.8558,
+      "only_mlm": 0.0,
+      "blend_without_mlm": 0.3956
+     },
+     "elapsed": 0.969,
      "predictability": 55.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "iowa",
+      "elapsed": 0.969
+     },
      "coverage": {
       "wet_fraction": 1.0,
       "centre_wet": true,
       "multiplier": 1.0,
       "applied": false
      },
-     "consensus": 0.3046067284386784,
+     "consensus": 0.011198435231837722,
      "models": {
       "ECMWF_ENS": 0.9903846153846154,
       "GEFS": 0.953125,
@@ -250,16 +292,18 @@
      "spread": 0.9903837546765191,
      "family_spread": 0.8558325829663294,
      "low_confidence": false,
+     "consensus_forecast": 0.3046,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
       "price": 1,
-      "ev_cents": 28.46,
-      "ev_yes": 28.46,
+      "ev_cents": -0.88,
+      "ev_yes": -0.88,
       "ev_no": null,
       "fee_cents": 1,
-      "kelly": 0.0744,
-      "gap_points": 30.0,
-      "flag": "high",
+      "kelly": 0.0003,
+      "gap_points": 0.6,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -269,11 +313,11 @@
       "ticker": "KXRAIN-26SEP05-EWR",
       "title": "Will it rain in Newark on Sep 5, 2026?",
       "yes_bid": 4,
-      "yes_ask": 8,
+      "yes_ask": 10,
       "no_ask": 96,
-      "no_bid": 92,
-      "mid": 6.0,
-      "spread": 4,
+      "no_bid": 90,
+      "mid": 7.0,
+      "spread": 6,
       "volume": 199,
       "open_interest": 199,
       "liquidity": 199,
@@ -282,48 +326,57 @@
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.41346153846153844,
+      "ECMWF_ENS": 0.3942307692307692,
       "GEFS": 0.390625,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.3409090909090909,
       "UKMO_ENS": 0.18421052631578946,
       "METEOBLUE": 0.06,
       "NDFD": 0.18409999999999996,
-      "NBM": 0.07856594000000003
+      "NBM": 0.06470000000000001
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.1526,
+      "only_blend": 0.1244,
+      "only_global": 0.2644,
+      "only_mlm": 0.0521,
+      "blend_without_mlm": 0.1826
      },
      "elapsed": 0.0,
      "predictability": 83.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.1569273936938395,
+     "consensus": 0.15257678796307028,
      "models": {
-      "ECMWF_ENS": 0.41346153846153844,
+      "ECMWF_ENS": 0.3942307692307692,
       "GEFS": 0.390625,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.3409090909090909,
       "UKMO_ENS": 0.18421052631578946,
       "METEOBLUE": 0.052077719239263756,
       "NDFD": 0.18409999999999996,
-      "NBM": 0.07856594000000003
+      "NBM": 0.06470000000000001
      },
      "families": {
-      "blend": 0.13133297,
-      "global": 0.26828025552752766,
+      "blend": 0.12439999999999998,
+      "global": 0.2644341016813738,
       "mlm": 0.052077719239263756
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.4012664165103189,
-     "family_spread": 0.2162025362882639,
+     "spread": 0.3820356472795497,
+     "family_spread": 0.21235638244211008,
      "low_confidence": false,
      "edge": {
       "side": "YES",
-      "price": 8,
-      "ev_cents": -0.31,
-      "ev_yes": -0.31,
-      "ev_no": -15.69,
-      "fee_cents": 8,
-      "kelly": 0.0209,
-      "gap_points": 9.7,
+      "price": 10,
+      "ev_cents": 4.26,
+      "ev_yes": 4.26,
+      "ev_no": -12.26,
+      "fee_cents": 1,
+      "kelly": 0.0146,
+      "gap_points": 8.3,
       "flag": "thin",
       "illiquid": true
      }
@@ -352,15 +405,15 @@
       "no_bid": 0,
       "mid": 99.5,
       "spread": 1,
-      "volume": 17519,
-      "open_interest": 13657,
-      "liquidity": 17519,
+      "volume": 17987,
+      "open_interest": 14124,
+      "liquidity": 17987,
       "close_time": "2026-09-05T05:00:00Z",
       "expiration_time": "2026-09-06T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.9519230769230769,
+      "ECMWF_ENS": 0.9326923076923077,
       "GEFS": 0.953125,
       "ICON_EPS": 0.6463414634146342,
       "GEM_EPS": 0.8863636363636364,
@@ -369,17 +422,31 @@
       "NDFD": 0.14,
       "NBM": 0.173968305
      },
-     "elapsed": 0.943,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.4073,
+      "only_blend": 0.157,
+      "only_global": 0.8784,
+      "only_mlm": 0.2415,
+      "blend_without_mlm": 0.4568
+     },
+     "elapsed": 0.969,
      "predictability": 55.0,
+     "observed": {
+      "precip_mm": 3.048,
+      "wet": true,
+      "source": "awc",
+      "elapsed": 0.969
+     },
      "coverage": {
       "wet_fraction": 1.0,
       "centre_wet": true,
       "multiplier": 1.0,
       "applied": false
      },
-     "consensus": 0.40851357363920926,
+     "consensus": 0.98,
      "models": {
-      "ECMWF_ENS": 0.9519230769230769,
+      "ECMWF_ENS": 0.9326923076923077,
       "GEFS": 0.953125,
       "ICON_EPS": 0.6463414634146342,
       "GEM_EPS": 0.8863636363636364,
@@ -390,24 +457,26 @@
      },
      "families": {
       "blend": 0.1569841525,
-      "global": 0.8822874774455327,
+      "global": 0.8784413235993789,
       "mlm": 0.24147266187669028
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.8336842105263158,
-     "family_spread": 0.7253033249455327,
+     "family_spread": 0.7214571710993789,
      "low_confidence": false,
+     "consensus_forecast": 0.4073,
+     "obs_effect": "observed",
      "edge": {
       "side": "NO",
       "price": 1,
-      "ev_cents": 57.15,
+      "ev_cents": 0.0,
       "ev_yes": null,
-      "ev_no": 57.15,
+      "ev_no": 0.0,
       "fee_cents": 1,
-      "kelly": 0.1468,
-      "gap_points": -58.6,
-      "flag": "high",
+      "kelly": 0.0025,
+      "gap_points": -1.5,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -422,56 +491,65 @@
       "no_bid": 80,
       "mid": 14.5,
       "spread": 11,
-      "volume": 275,
+      "volume": 276,
       "open_interest": 256,
-      "liquidity": 275,
+      "liquidity": 276,
       "close_time": "2026-09-06T05:00:00Z",
       "expiration_time": "2026-09-07T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.47115384615384615,
+      "ECMWF_ENS": 0.3173076923076923,
       "GEFS": 0.109375,
       "ICON_EPS": 0.23170731707317074,
       "GEM_EPS": 0.3409090909090909,
       "UKMO_ENS": 0.2894736842105263,
       "METEOBLUE": 0.02,
       "NDFD": 0.04480000000000005,
-      "NBM": 0.12321694500000002
+      "NBM": 0.010000000000000005
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0988,
+      "only_blend": 0.0274,
+      "only_global": 0.2578,
+      "only_mlm": 0.0173,
+      "blend_without_mlm": 0.1231
      },
      "elapsed": 0.0,
      "predictability": 63.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.1341017420415326,
+     "consensus": 0.09878177557037873,
      "models": {
-      "ECMWF_ENS": 0.47115384615384615,
+      "ECMWF_ENS": 0.3173076923076923,
       "GEFS": 0.109375,
       "ICON_EPS": 0.23170731707317074,
       "GEM_EPS": 0.3409090909090909,
       "UKMO_ENS": 0.2894736842105263,
       "METEOBLUE": 0.017262249401513,
       "NDFD": 0.04480000000000005,
-      "NBM": 0.12321694500000002
+      "NBM": 0.010000000000000005
      },
      "families": {
-      "blend": 0.08400847250000004,
-      "global": 0.28852378766932685,
+      "blend": 0.02740000000000003,
+      "global": 0.257754556900096,
       "mlm": 0.017262249401513
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.45389159675233315,
-     "family_spread": 0.27126153826781385,
+     "spread": 0.3309090909090909,
+     "family_spread": 0.24049230749858302,
      "low_confidence": false,
      "edge": {
       "side": "NO",
       "price": 91,
-      "ev_cents": -13.41,
-      "ev_yes": -23.59,
-      "ev_no": -13.41,
-      "fee_cents": 9,
+      "ev_cents": -1.88,
+      "ev_yes": -12.12,
+      "ev_no": -1.88,
+      "fee_cents": 1,
       "kelly": 0.0,
-      "gap_points": -1.1,
+      "gap_points": -4.6,
       "flag": "thin",
       "illiquid": true
      }
@@ -494,21 +572,21 @@
      "market": {
       "ticker": "KXRAIN-26SEP04-PHIL",
       "title": "Will it rain in Philadelphia on Sep 4, 2026?",
-      "yes_bid": 4,
-      "yes_ask": 7,
-      "no_ask": 96,
-      "no_bid": 93,
-      "mid": 5.5,
-      "spread": 3,
-      "volume": 47653,
-      "open_interest": 12149,
-      "liquidity": 47653,
+      "yes_bid": 23,
+      "yes_ask": 28,
+      "no_ask": 77,
+      "no_bid": 72,
+      "mid": 25.5,
+      "spread": 5,
+      "volume": 50627,
+      "open_interest": 12652,
+      "liquidity": 50627,
       "close_time": "2026-09-05T05:00:00Z",
       "expiration_time": "2026-09-06T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.9903846153846154,
+      "ECMWF_ENS": 0.9711538461538461,
       "GEFS": 0.984375,
       "ICON_EPS": 0.573170731707317,
       "GEM_EPS": 0.9318181818181818,
@@ -517,17 +595,31 @@
       "NDFD": 0.27,
       "NBM": 0.22495768
      },
-     "elapsed": 0.943,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.5015,
+      "only_blend": 0.2475,
+      "only_global": 0.8868,
+      "only_mlm": 0.4626,
+      "blend_without_mlm": 0.5132
+     },
+     "elapsed": 0.969,
      "predictability": 50.0,
+     "observed": {
+      "precip_mm": 12.192,
+      "wet": true,
+      "source": "iowa",
+      "elapsed": 0.969
+     },
      "coverage": {
       "wet_fraction": 1.0,
       "centre_wet": true,
       "multiplier": 1.0,
       "applied": false
      },
-     "consensus": 0.5027763088948691,
+     "consensus": 0.98,
      "models": {
-      "ECMWF_ENS": 0.9903846153846154,
+      "ECMWF_ENS": 0.9711538461538461,
       "GEFS": 0.984375,
       "ICON_EPS": 0.573170731707317,
       "GEM_EPS": 0.9318181818181818,
@@ -538,25 +630,28 @@
      },
      "families": {
       "blend": 0.24747884,
-      "global": 0.890686547887286,
+      "global": 0.8868403940411321,
       "mlm": 0.46257015465625045
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.7654269353846155,
-     "family_spread": 0.643207707887286,
+     "spread": 0.7594173200000001,
+     "family_spread": 0.6393615540411322,
      "low_confidence": false,
+     "consensus_forecast": 0.5015,
+     "obs_effect": "observed",
      "edge": {
       "side": "YES",
-      "price": 7,
-      "ev_cents": 36.28,
-      "ev_yes": 36.28,
-      "ev_no": -50.28,
-      "fee_cents": 7,
-      "kelly": 0.1163,
-      "gap_points": 44.8,
+      "price": 28,
+      "ev_cents": 68.0,
+      "ev_yes": 68.0,
+      "ev_no": -77.0,
+      "fee_cents": 2,
+      "kelly": 0.2431,
+      "gap_points": 72.5,
       "flag": "high",
-      "illiquid": false
+      "illiquid": false,
+      "depth": 3
      }
     },
     "1": {
@@ -564,67 +659,76 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-PHIL",
       "title": "Will it rain in Philadelphia on Sep 5, 2026?",
-      "yes_bid": 25,
-      "yes_ask": 26,
-      "no_ask": 75,
-      "no_bid": 74,
-      "mid": 25.5,
-      "spread": 1,
-      "volume": 346,
-      "open_interest": 231,
-      "liquidity": 346,
+      "yes_bid": 19,
+      "yes_ask": 22,
+      "no_ask": 81,
+      "no_bid": 78,
+      "mid": 20.5,
+      "spread": 3,
+      "volume": 415,
+      "open_interest": 287,
+      "liquidity": 415,
       "close_time": "2026-09-06T05:00:00Z",
       "expiration_time": "2026-09-07T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.7019230769230769,
+      "ECMWF_ENS": 0.5673076923076923,
       "GEFS": 0.515625,
       "ICON_EPS": 0.2804878048780488,
       "GEM_EPS": 0.7045454545454546,
       "UKMO_ENS": 0.5526315789473685,
       "METEOBLUE": 0.03,
       "NDFD": 0.04480000000000005,
-      "NBM": 0.343596
+      "NBM": 0.05950000000000003
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.1971,
+      "only_blend": 0.0522,
+      "only_global": 0.5241,
+      "only_mlm": 0.0259,
+      "blend_without_mlm": 0.2483
      },
      "elapsed": 0.0,
      "predictability": 54.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.0204,
       "centre_wet": false,
       "multiplier": 0.35,
       "applied": false
      },
-     "consensus": 0.2696865329358159,
+     "consensus": 0.19714954832043133,
      "models": {
-      "ECMWF_ENS": 0.7019230769230769,
+      "ECMWF_ENS": 0.5673076923076923,
       "GEFS": 0.515625,
       "ICON_EPS": 0.2804878048780488,
       "GEM_EPS": 0.7045454545454546,
       "UKMO_ENS": 0.5526315789473685,
       "METEOBLUE": 0.02592959285653557,
       "NDFD": 0.04480000000000005,
-      "NBM": 0.343596
+      "NBM": 0.05950000000000003
      },
      "families": {
-      "blend": 0.19419800000000004,
-      "global": 0.5510425830587897,
+      "blend": 0.052150000000000044,
+      "global": 0.5241195061357129,
       "mlm": 0.02592959285653557
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.678615861688919,
-     "family_spread": 0.5251129902022541,
+     "family_spread": 0.49818991327917733,
      "low_confidence": false,
      "edge": {
-      "side": "YES",
-      "price": 26,
-      "ev_cents": -19.03,
-      "ev_yes": -19.03,
-      "ev_no": -20.97,
-      "fee_cents": 20,
-      "kelly": 0.0033,
-      "gap_points": 1.5,
+      "side": "NO",
+      "price": 81,
+      "ev_cents": -2.71,
+      "ev_yes": -4.29,
+      "ev_no": -2.71,
+      "fee_cents": 2,
+      "kelly": 0.0,
+      "gap_points": -0.8,
       "flag": null,
       "illiquid": false
      }
@@ -653,15 +757,15 @@
       "no_bid": 99,
       "mid": 0.5,
       "spread": 1,
-      "volume": 9082,
-      "open_interest": 6516,
-      "liquidity": 9082,
+      "volume": 9176,
+      "open_interest": 6609,
+      "liquidity": 9176,
       "close_time": "2026-09-05T05:00:00Z",
       "expiration_time": "2026-09-06T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.6442307692307693,
+      "ECMWF_ENS": 0.7211538461538461,
       "GEFS": 0.140625,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.4318181818181818,
@@ -670,17 +774,31 @@
       "NDFD": 0.03,
       "NBM": 0.030000000000000013
      },
-     "elapsed": 0.943,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.1075,
+      "only_blend": 0.03,
+      "only_global": 0.2875,
+      "only_mlm": 0.0086,
+      "blend_without_mlm": 0.137
+     },
+     "elapsed": 0.969,
      "predictability": 82.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "awc",
+      "elapsed": 0.969
+     },
      "coverage": {
       "wet_fraction": 0.0204,
       "centre_wet": false,
       "multiplier": 0.35,
       "applied": false
      },
-     "consensus": 0.1025510629600351,
+     "consensus": 0.00351848907517871,
      "models": {
-      "ECMWF_ENS": 0.6442307692307693,
+      "ECMWF_ENS": 0.7211538461538461,
       "GEFS": 0.140625,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.4318181818181818,
@@ -691,24 +809,26 @@
      },
      "families": {
       "blend": 0.030000000000000006,
-      "global": 0.2720896040737183,
+      "global": 0.2874742194583337,
       "mlm": 0.00861908546280537
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.635611683767964,
-     "family_spread": 0.2634705186109129,
+     "spread": 0.7125347606910408,
+     "family_spread": 0.2788551339955283,
      "low_confidence": false,
+     "consensus_forecast": 0.1075,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
       "price": 1,
-      "ev_cents": 8.26,
-      "ev_yes": 8.26,
+      "ev_cents": -1.65,
+      "ev_yes": -1.65,
       "ev_no": null,
       "fee_cents": 1,
-      "kelly": 0.0234,
-      "gap_points": 9.8,
-      "flag": "high",
+      "kelly": 0.0,
+      "gap_points": -0.1,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -718,61 +838,70 @@
       "ticker": "KXRAIN-26SEP05-BOS",
       "title": "Will it rain in Boston on Sep 5, 2026?",
       "yes_bid": 29,
-      "yes_ask": 35,
+      "yes_ask": 34,
       "no_ask": 71,
-      "no_bid": 65,
-      "mid": 32.0,
-      "spread": 6,
-      "volume": 102,
-      "open_interest": 80,
-      "liquidity": 102,
+      "no_bid": 66,
+      "mid": 31.5,
+      "spread": 5,
+      "volume": 117,
+      "open_interest": 93,
+      "liquidity": 117,
       "close_time": "2026-09-06T05:00:00Z",
       "expiration_time": "2026-09-07T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.9134615384615384,
+      "ECMWF_ENS": 0.8557692307692307,
       "GEFS": 0.765625,
       "ICON_EPS": 0.10975609756097561,
       "GEM_EPS": 0.3409090909090909,
       "UKMO_ENS": 0.34210526315789475,
       "METEOBLUE": 0.27,
       "NDFD": 0.26465,
-      "NBM": 0.18652600000000003
+      "NBM": 0.05852188000000001
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.2828,
+      "only_blend": 0.1616,
+      "only_global": 0.4828,
+      "only_mlm": 0.2415,
+      "blend_without_mlm": 0.2951
      },
      "elapsed": 0.0,
      "predictability": 70.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.31525215959736674,
+     "consensus": 0.28275892490505905,
      "models": {
-      "ECMWF_ENS": 0.9134615384615384,
+      "ECMWF_ENS": 0.8557692307692307,
       "GEFS": 0.765625,
       "ICON_EPS": 0.10975609756097561,
       "GEM_EPS": 0.3409090909090909,
       "UKMO_ENS": 0.34210526315789475,
       "METEOBLUE": 0.24147266187669028,
       "NDFD": 0.26465,
-      "NBM": 0.18652600000000003
+      "NBM": 0.05852188000000001
      },
      "families": {
-      "blend": 0.225588,
-      "global": 0.4943713980178999,
+      "blend": 0.16158594,
+      "global": 0.4828329364794384,
       "mlm": 0.24147266187669028
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.8037054409005628,
-     "family_spread": 0.2687833980178999,
+     "spread": 0.7972473507692307,
+     "family_spread": 0.32124699647943844,
      "low_confidence": false,
      "edge": {
       "side": "NO",
       "price": 71,
-      "ev_cents": -23.53,
-      "ev_yes": -26.47,
-      "ev_no": -23.53,
-      "fee_cents": 21,
-      "kelly": 0.0,
-      "gap_points": -0.5,
+      "ev_cents": -1.28,
+      "ev_yes": -7.72,
+      "ev_no": -1.28,
+      "fee_cents": 2,
+      "kelly": 0.0062,
+      "gap_points": -3.2,
       "flag": "thin",
       "illiquid": true
      }
@@ -795,21 +924,21 @@
      "market": {
       "ticker": "KXRAIN-26SEP04-DC",
       "title": "Will it rain in Washington DC on Sep 4, 2026?",
-      "yes_bid": 2,
-      "yes_ask": 4,
-      "no_ask": 98,
-      "no_bid": 96,
-      "mid": 3.0,
-      "spread": 2,
-      "volume": 126604,
-      "open_interest": 24278,
-      "liquidity": 126604,
+      "yes_bid": 1,
+      "yes_ask": 2,
+      "no_ask": 99,
+      "no_bid": 98,
+      "mid": 1.5,
+      "spread": 1,
+      "volume": 127222,
+      "open_interest": 24328,
+      "liquidity": 127222,
       "close_time": "2026-09-05T05:00:00Z",
       "expiration_time": "2026-09-06T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.9326923076923077,
+      "ECMWF_ENS": 0.9519230769230769,
       "GEFS": 0.984375,
       "ICON_EPS": 0.5487804878048781,
       "GEM_EPS": 0.8863636363636364,
@@ -818,17 +947,31 @@
       "NDFD": 0.17,
       "NBM": 0.3812038000000001
      },
-     "elapsed": 0.943,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.4684,
+      "only_blend": 0.2756,
+      "only_global": 0.869,
+      "only_mlm": 0.2883,
+      "blend_without_mlm": 0.5222
+     },
+     "elapsed": 0.969,
      "predictability": 51.0,
+     "observed": {
+      "precip_mm": 21.336,
+      "wet": true,
+      "source": "iowa",
+      "elapsed": 0.969
+     },
      "coverage": {
       "wet_fraction": 1.0,
       "centre_wet": true,
       "multiplier": 1.0,
       "applied": false
      },
-     "consensus": 0.4671816579471907,
+     "consensus": 0.98,
      "models": {
-      "ECMWF_ENS": 0.9326923076923077,
+      "ECMWF_ENS": 0.9519230769230769,
       "GEFS": 0.984375,
       "ICON_EPS": 0.5487804878048781,
       "GEM_EPS": 0.8863636363636364,
@@ -839,25 +982,28 @@
      },
      "families": {
       "blend": 0.27560190000000007,
-      "global": 0.8651791284774276,
+      "global": 0.8690252823235814,
       "mlm": 0.28827600797571235
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.814375,
-     "family_spread": 0.5895772284774276,
+     "family_spread": 0.5934233823235814,
      "low_confidence": false,
+     "consensus_forecast": 0.4684,
+     "obs_effect": "observed",
      "edge": {
       "side": "YES",
-      "price": 4,
-      "ev_cents": 38.72,
-      "ev_yes": 38.72,
-      "ev_no": -46.72,
-      "fee_cents": 4,
-      "kelly": 0.1112,
-      "gap_points": 43.7,
+      "price": 2,
+      "ev_cents": 95.0,
+      "ev_yes": 95.0,
+      "ev_no": -98.0,
+      "fee_cents": 1,
+      "kelly": 0.2449,
+      "gap_points": 96.5,
       "flag": "high",
-      "illiquid": false
+      "illiquid": false,
+      "depth": 592
      }
     },
     "1": {
@@ -865,69 +1011,79 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-DC",
       "title": "Will it rain in Washington DC on Sep 5, 2026?",
-      "yes_bid": 38,
+      "yes_bid": 36,
       "yes_ask": 39,
-      "no_ask": 62,
+      "no_ask": 64,
       "no_bid": 61,
-      "mid": 38.5,
-      "spread": 1,
-      "volume": 1128,
-      "open_interest": 729,
-      "liquidity": 1128,
+      "mid": 37.5,
+      "spread": 3,
+      "volume": 1276,
+      "open_interest": 843,
+      "liquidity": 1276,
       "close_time": "2026-09-06T05:00:00Z",
       "expiration_time": "2026-09-07T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.7980769230769231,
+      "ECMWF_ENS": 0.8173076923076923,
       "GEFS": 0.796875,
       "ICON_EPS": 0.9634146341463414,
       "GEM_EPS": 0.9772727272727273,
       "UKMO_ENS": 0.8157894736842105,
       "METEOBLUE": 0.56,
       "NDFD": 0.3229,
-      "NBM": 0.41089420000000004
+      "NBM": 0.16726303999999997
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.5102,
+      "only_blend": 0.2451,
+      "only_global": 0.8741,
+      "only_mlm": 0.5228,
+      "blend_without_mlm": 0.5065
      },
      "elapsed": 0.0,
      "predictability": 43.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.8367,
       "centre_wet": true,
       "multiplier": 0.837,
       "applied": false
      },
-     "consensus": 0.5638333266182844,
+     "consensus": 0.5102470848490536,
      "models": {
-      "ECMWF_ENS": 0.7980769230769231,
+      "ECMWF_ENS": 0.8173076923076923,
       "GEFS": 0.796875,
       "ICON_EPS": 0.9634146341463414,
       "GEM_EPS": 0.9772727272727273,
       "UKMO_ENS": 0.8157894736842105,
       "METEOBLUE": 0.5227747438902236,
       "NDFD": 0.3229,
-      "NBM": 0.41089420000000004
+      "NBM": 0.16726303999999997
      },
      "families": {
-      "blend": 0.36689710000000003,
-      "global": 0.8702857516360405,
+      "blend": 0.24508152,
+      "global": 0.8741319054821943,
       "mlm": 0.5227747438902236
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.6543727272727273,
-     "family_spread": 0.5033886516360404,
+     "spread": 0.8100096872727274,
+     "family_spread": 0.6290503854821943,
      "low_confidence": false,
      "edge": {
       "side": "YES",
       "price": 39,
-      "ev_cents": -6.62,
-      "ev_yes": -6.62,
-      "ev_no": -42.38,
-      "fee_cents": 24,
-      "kelly": 0.0712,
-      "gap_points": 17.9,
-      "flag": null,
-      "illiquid": false
+      "ev_cents": 10.02,
+      "ev_yes": 10.02,
+      "ev_no": -17.02,
+      "fee_cents": 2,
+      "kelly": 0.0493,
+      "gap_points": 13.5,
+      "flag": "high",
+      "illiquid": false,
+      "depth": 33
      }
     }
    }
@@ -948,21 +1104,21 @@
      "market": {
       "ticker": "KXRAIN-26SEP04-ATL",
       "title": "Will it rain in Atlanta on Sep 4, 2026?",
-      "yes_bid": 0,
-      "yes_ask": 1,
-      "no_ask": 100,
-      "no_bid": 99,
-      "mid": 0.5,
+      "yes_bid": 1,
+      "yes_ask": 2,
+      "no_ask": 99,
+      "no_bid": 98,
+      "mid": 1.5,
       "spread": 1,
-      "volume": 12011,
-      "open_interest": 6468,
-      "liquidity": 12011,
+      "volume": 12095,
+      "open_interest": 6532,
+      "liquidity": 12095,
       "close_time": "2026-09-05T05:00:00Z",
       "expiration_time": "2026-09-06T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.625,
+      "ECMWF_ENS": 0.6634615384615384,
       "GEFS": 0.046875,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.20454545454545456,
@@ -971,12 +1127,26 @@
       "NDFD": 0.0,
       "NBM": 0.010000000000000005
      },
-     "elapsed": 0.943,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0633,
+      "only_blend": 0.005,
+      "only_global": 0.1907,
+      "only_mlm": 0.0,
+      "blend_without_mlm": 0.0822
+     },
+     "elapsed": 0.969,
      "predictability": 93.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "awc",
+      "elapsed": 0.969
+     },
      "coverage": null,
-     "consensus": 0.060805805384965085,
+     "consensus": 0.002024026937574863,
      "models": {
-      "ECMWF_ENS": 0.625,
+      "ECMWF_ENS": 0.6634615384615384,
       "GEFS": 0.046875,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.20454545454545456,
@@ -987,24 +1157,26 @@
      },
      "families": {
       "blend": 0.005000000000000003,
-      "global": 0.18298627319407165,
+      "global": 0.19067858088637935,
       "mlm": 8.607080963148306e-07
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.625,
-     "family_spread": 0.18298541248597533,
+     "spread": 0.6634615384615384,
+     "family_spread": 0.19067772017828302,
      "low_confidence": false,
+     "consensus_forecast": 0.0633,
+     "obs_effect": "conditioned",
      "edge": {
-      "side": "YES",
-      "price": 1,
-      "ev_cents": 4.08,
-      "ev_yes": 4.08,
-      "ev_no": null,
+      "side": "NO",
+      "price": 99,
+      "ev_cents": -0.2,
+      "ev_yes": -2.8,
+      "ev_no": -0.2,
       "fee_cents": 1,
-      "kelly": 0.0128,
-      "gap_points": 5.6,
-      "flag": "watch",
+      "kelly": 0.1994,
+      "gap_points": -1.3,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -1013,67 +1185,76 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-ATL",
       "title": "Will it rain in Atlanta on Sep 5, 2026?",
-      "yes_bid": 27,
-      "yes_ask": 29,
-      "no_ask": 73,
-      "no_bid": 71,
+      "yes_bid": 26,
+      "yes_ask": 30,
+      "no_ask": 74,
+      "no_bid": 70,
       "mid": 28.0,
-      "spread": 2,
-      "volume": 174,
-      "open_interest": 136,
-      "liquidity": 174,
+      "spread": 4,
+      "volume": 195,
+      "open_interest": 140,
+      "liquidity": 195,
       "close_time": "2026-09-06T05:00:00Z",
       "expiration_time": "2026-09-07T05:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.7980769230769231,
+      "ECMWF_ENS": 0.7019230769230769,
       "GEFS": 0.359375,
       "ICON_EPS": 0.6219512195121951,
       "GEM_EPS": 0.6590909090909091,
       "UKMO_ENS": 0.18421052631578946,
       "METEOBLUE": 0.26,
       "NDFD": 0.297,
-      "NBM": 0.13198300000000002
+      "NBM": 0.08321800000000004
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.3007,
+      "only_blend": 0.1901,
+      "only_global": 0.5053,
+      "only_mlm": 0.2322,
+      "blend_without_mlm": 0.3211
      },
      "elapsed": 0.0,
      "predictability": 69.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.0612,
       "centre_wet": false,
       "multiplier": 0.35,
       "applied": false
      },
-     "consensus": 0.31777869579423357,
+     "consensus": 0.3006527246403874,
      "models": {
-      "ECMWF_ENS": 0.7980769230769231,
+      "ECMWF_ENS": 0.7019230769230769,
       "GEFS": 0.359375,
       "ICON_EPS": 0.6219512195121951,
       "GEM_EPS": 0.6590909090909091,
       "UKMO_ENS": 0.18421052631578946,
       "METEOBLUE": 0.23219316435870116,
       "NDFD": 0.297,
-      "NBM": 0.13198300000000002
+      "NBM": 0.08321800000000004
      },
      "families": {
-      "blend": 0.2144915,
-      "global": 0.5245409155991634,
+      "blend": 0.19010900000000003,
+      "global": 0.5053101463683941,
       "mlm": 0.23219316435870116
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.6660939230769232,
-     "family_spread": 0.3100494155991634,
+     "spread": 0.6187050769230769,
+     "family_spread": 0.3152011463683941,
      "low_confidence": false,
      "edge": {
       "side": "YES",
-      "price": 29,
-      "ev_cents": -18.22,
-      "ev_yes": -18.22,
-      "ev_no": -24.78,
-      "fee_cents": 21,
-      "kelly": 0.0098,
-      "gap_points": 3.8,
+      "price": 30,
+      "ev_cents": -1.93,
+      "ev_yes": -1.93,
+      "ev_no": -6.07,
+      "fee_cents": 2,
+      "kelly": 0.0002,
+      "gap_points": 2.1,
       "flag": "thin",
       "illiquid": true
      }
@@ -1119,15 +1300,29 @@
       "NDFD": 0.2,
       "NBM": 0.31955999999999996
      },
-     "elapsed": 0.943,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.577,
+      "only_blend": 0.2598,
+      "only_global": 0.8966,
+      "only_mlm": 0.7532,
+      "blend_without_mlm": 0.5244
+     },
+     "elapsed": 0.969,
      "predictability": 53.0,
+     "observed": {
+      "precip_mm": 0.762,
+      "wet": true,
+      "source": "iowa",
+      "elapsed": 0.969
+     },
      "coverage": {
       "wet_fraction": 1.0,
       "centre_wet": true,
       "multiplier": 1.0,
       "applied": false
      },
-     "consensus": 0.5770388803878372,
+     "consensus": 0.98,
      "models": {
       "ECMWF_ENS": 0.9903846153846154,
       "GEFS": 0.984375,
@@ -1148,16 +1343,18 @@
      "spread": 0.7903846153846155,
      "family_spread": 0.6367998843326121,
      "low_confidence": false,
+     "consensus_forecast": 0.577,
+     "obs_effect": "observed",
      "edge": {
       "side": "NO",
       "price": 1,
-      "ev_cents": 40.3,
+      "ev_cents": 0.0,
       "ev_yes": null,
-      "ev_no": 40.3,
+      "ev_no": 0.0,
       "fee_cents": 1,
-      "kelly": 0.1043,
-      "gap_points": -41.8,
-      "flag": "high",
+      "kelly": 0.0025,
+      "gap_points": -1.5,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -1166,15 +1363,15 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-MIA",
       "title": "Will it rain in Miami on Sep 5, 2026?",
-      "yes_bid": 84,
-      "yes_ask": 85,
-      "no_ask": 16,
-      "no_bid": 15,
+      "yes_bid": 83,
+      "yes_ask": 86,
+      "no_ask": 17,
+      "no_bid": 14,
       "mid": 84.5,
-      "spread": 1,
-      "volume": 998,
-      "open_interest": 881,
-      "liquidity": 998,
+      "spread": 3,
+      "volume": 1033,
+      "open_interest": 916,
+      "liquidity": 1033,
       "close_time": "2026-09-06T05:00:00Z",
       "expiration_time": "2026-09-07T05:00:00Z",
       "fee_multiplier": 1
@@ -1187,17 +1384,26 @@
       "UKMO_ENS": 0.868421052631579,
       "METEOBLUE": 0.96,
       "NDFD": 0.7375499999999999,
-      "NBM": 0.8179848000000001
+      "NBM": 0.401437125
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.7834,
+      "only_blend": 0.5695,
+      "only_global": 0.9617,
+      "only_mlm": 0.9538,
+      "blend_without_mlm": 0.7325
      },
      "elapsed": 0.0,
      "predictability": 49.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.9592,
       "centre_wet": true,
       "multiplier": 0.959,
       "applied": false
      },
-     "consensus": 0.8771037324691003,
+     "consensus": 0.7833805055941003,
      "models": {
       "ECMWF_ENS": 0.9903846153846154,
       "GEFS": 0.984375,
@@ -1206,27 +1412,27 @@
       "UKMO_ENS": 0.868421052631579,
       "METEOBLUE": 0.953825534676032,
       "NDFD": 0.7375499999999999,
-      "NBM": 0.8179848000000001
+      "NBM": 0.401437125
      },
      "families": {
-      "blend": 0.7777674,
+      "blend": 0.5694935624999999,
       "global": 0.9616516546675404,
       "mlm": 0.953825534676032
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.2528346153846155,
-     "family_spread": 0.18388425466754044,
+     "spread": 0.5889474903846155,
+     "family_spread": 0.3921580921675405,
      "low_confidence": false,
      "edge": {
-      "side": "YES",
-      "price": 85,
-      "ev_cents": -10.29,
-      "ev_yes": -10.29,
-      "ev_no": -17.71,
-      "fee_cents": 13,
-      "kelly": 0.0452,
-      "gap_points": 3.2,
+      "side": "NO",
+      "price": 17,
+      "ev_cents": 3.66,
+      "ev_yes": -8.66,
+      "ev_no": 3.66,
+      "fee_cents": 1,
+      "kelly": 0.014,
+      "gap_points": -6.2,
       "flag": null,
       "illiquid": false
      }
@@ -1249,15 +1455,15 @@
      "market": {
       "ticker": "KXRAIN-26SEP04-CHI",
       "title": "Will it rain in Chicago on Sep 4, 2026?",
-      "yes_bid": 57,
-      "yes_ask": 58,
-      "no_ask": 43,
-      "no_bid": 42,
-      "mid": 57.5,
-      "spread": 1,
-      "volume": 29600,
-      "open_interest": 8807,
-      "liquidity": 29600,
+      "yes_bid": 53,
+      "yes_ask": 55,
+      "no_ask": 47,
+      "no_bid": 45,
+      "mid": 54.0,
+      "spread": 2,
+      "volume": 44477,
+      "open_interest": 13400,
+      "liquidity": 44477,
       "close_time": "2026-09-05T06:00:00Z",
       "expiration_time": "2026-09-06T06:00:00Z",
       "fee_multiplier": 1
@@ -1269,18 +1475,32 @@
       "GEM_EPS": 0.8409090909090909,
       "UKMO_ENS": 0.868421052631579,
       "METEOBLUE": 0.47,
-      "NDFD": 0.29,
+      "NDFD": 0.52,
       "NBM": 0.10108928000000009
      },
-     "elapsed": 0.902,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.5133,
+      "only_blend": 0.3105,
+      "only_global": 0.8563,
+      "only_mlm": 0.4329,
+      "blend_without_mlm": 0.5374
+     },
+     "elapsed": 0.927,
      "predictability": 47.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "awc",
+      "elapsed": 0.927
+     },
      "coverage": {
       "wet_fraction": 0.8571,
       "centre_wet": true,
       "multiplier": 0.857,
       "applied": false
      },
-     "consensus": 0.461581218427326,
+     "consensus": 0.05121448739298495,
      "models": {
       "ECMWF_ENS": 0.9903846153846154,
       "GEFS": 0.984375,
@@ -1288,30 +1508,33 @@
       "GEM_EPS": 0.8409090909090909,
       "UKMO_ENS": 0.868421052631579,
       "METEOBLUE": 0.4328716670307969,
-      "NDFD": 0.29,
+      "NDFD": 0.52,
       "NBM": 0.10108928000000009
      },
      "families": {
-      "blend": 0.19554464000000005,
+      "blend": 0.31054464000000004,
       "global": 0.8563301469070084,
       "mlm": 0.4328716670307969
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.8892953353846154,
-     "family_spread": 0.6607855069070083,
+     "family_spread": 0.5457855069070083,
      "low_confidence": false,
+     "consensus_forecast": 0.5133,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "NO",
-      "price": 43,
-      "ev_cents": -14.16,
-      "ev_yes": -36.84,
-      "ev_no": -14.16,
-      "fee_cents": 25,
-      "kelly": 0.0476,
-      "gap_points": -11.3,
-      "flag": null,
-      "illiquid": false
+      "price": 47,
+      "ev_cents": 45.88,
+      "ev_yes": -51.88,
+      "ev_no": 45.88,
+      "fee_cents": 2,
+      "kelly": 0.2258,
+      "gap_points": -48.9,
+      "flag": "high",
+      "illiquid": false,
+      "depth": 14
      }
     },
     "1": {
@@ -1319,15 +1542,15 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-CHI",
       "title": "Will it rain in Chicago on Sep 5, 2026?",
-      "yes_bid": 64,
-      "yes_ask": 66,
-      "no_ask": 36,
-      "no_bid": 34,
-      "mid": 65.0,
-      "spread": 2,
-      "volume": 1123,
-      "open_interest": 583,
-      "liquidity": 1123,
+      "yes_bid": 73,
+      "yes_ask": 76,
+      "no_ask": 27,
+      "no_bid": 24,
+      "mid": 74.5,
+      "spread": 3,
+      "volume": 1520,
+      "open_interest": 722,
+      "liquidity": 1520,
       "close_time": "2026-09-06T06:00:00Z",
       "expiration_time": "2026-09-07T06:00:00Z",
       "fee_multiplier": 1
@@ -1340,17 +1563,26 @@
       "UKMO_ENS": 0.6052631578947368,
       "METEOBLUE": 0.1,
       "NDFD": 0.024900000000000026,
-      "NBM": 0.367201
+      "NBM": 0.13435000000000002
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.2681,
+      "only_blend": 0.0796,
+      "only_global": 0.6631,
+      "only_mlm": 0.0873,
+      "blend_without_mlm": 0.3221
      },
      "elapsed": 0.0,
      "predictability": 53.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.7347,
       "centre_wet": true,
       "multiplier": 0.735,
       "applied": false
      },
-     "consensus": 0.3204994185035879,
+     "consensus": 0.2681079435035879,
      "models": {
       "ECMWF_ENS": 0.9326923076923077,
       "GEFS": 0.828125,
@@ -1359,29 +1591,30 @@
       "UKMO_ENS": 0.6052631578947368,
       "METEOBLUE": 0.08728663078582546,
       "NDFD": 0.024900000000000026,
-      "NBM": 0.367201
+      "NBM": 0.13435000000000002
      },
      "families": {
-      "blend": 0.19605050000000002,
+      "blend": 0.07962500000000003,
       "global": 0.6631274013214,
       "mlm": 0.08728663078582546
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.9077923076923077,
-     "family_spread": 0.5758407705355746,
+     "family_spread": 0.5835024013214,
      "low_confidence": false,
      "edge": {
       "side": "NO",
-      "price": 36,
-      "ev_cents": 7.95,
-      "ev_yes": -56.95,
-      "ev_no": 7.95,
-      "fee_cents": 24,
-      "kelly": 0.1248,
-      "gap_points": -33.0,
-      "flag": "watch",
-      "illiquid": false
+      "price": 27,
+      "ev_cents": 44.19,
+      "ev_yes": -51.19,
+      "ev_no": 44.19,
+      "fee_cents": 2,
+      "kelly": 0.1582,
+      "gap_points": -47.7,
+      "flag": "high",
+      "illiquid": false,
+      "depth": 0
      }
     }
    }
@@ -1408,9 +1641,9 @@
       "no_bid": 99,
       "mid": 0.5,
       "spread": 1,
-      "volume": 10688,
-      "open_interest": 7357,
-      "liquidity": 10688,
+      "volume": 10781,
+      "open_interest": 7416,
+      "liquidity": 10781,
       "close_time": "2026-09-05T06:00:00Z",
       "expiration_time": "2026-09-06T06:00:00Z",
       "fee_multiplier": 1
@@ -1425,10 +1658,24 @@
       "NDFD": 0.02,
       "NBM": 0.014950000000000015
      },
-     "elapsed": 0.902,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.168,
+      "only_blend": 0.0175,
+      "only_global": 0.4944,
+      "only_mlm": 0.0086,
+      "blend_without_mlm": 0.2157
+     },
+     "elapsed": 0.927,
      "predictability": 61.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "awc",
+      "elapsed": 0.927
+     },
      "coverage": null,
-     "consensus": 0.16804531019066068,
+     "consensus": 0.013340558169028238,
      "models": {
       "ECMWF_ENS": 0.7788461538461539,
       "GEFS": 0.828125,
@@ -1449,16 +1696,18 @@
      "spread": 0.8195059145371947,
      "family_spread": 0.4857533224566179,
      "low_confidence": false,
+     "consensus_forecast": 0.168,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
       "price": 1,
-      "ev_cents": 14.8,
-      "ev_yes": 14.8,
+      "ev_cents": -0.67,
+      "ev_yes": -0.67,
       "ev_no": null,
       "fee_cents": 1,
-      "kelly": 0.0399,
-      "gap_points": 16.3,
-      "flag": "high",
+      "kelly": 0.0008,
+      "gap_points": 0.8,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -1467,21 +1716,21 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-MIN",
       "title": "Will it rain in Minneapolis on Sep 5, 2026?",
-      "yes_bid": 14,
-      "yes_ask": 16,
-      "no_ask": 86,
-      "no_bid": 84,
-      "mid": 15.0,
-      "spread": 2,
-      "volume": 578,
-      "open_interest": 461,
-      "liquidity": 578,
+      "yes_bid": 15,
+      "yes_ask": 18,
+      "no_ask": 85,
+      "no_bid": 82,
+      "mid": 16.5,
+      "spread": 3,
+      "volume": 633,
+      "open_interest": 496,
+      "liquidity": 633,
       "close_time": "2026-09-06T06:00:00Z",
       "expiration_time": "2026-09-07T06:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.125,
+      "ECMWF_ENS": 0.10576923076923077,
       "GEFS": 0.203125,
       "ICON_EPS": 0.35365853658536583,
       "GEM_EPS": 0.6590909090909091,
@@ -1490,12 +1739,21 @@
       "NDFD": 0.3696,
       "NBM": 0.08240446199999998
      },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.2947,
+      "only_blend": 0.226,
+      "only_global": 0.3959,
+      "only_mlm": 0.2883,
+      "blend_without_mlm": 0.2966
+     },
      "elapsed": 0.0,
      "predictability": 61.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.29592571346559016,
+     "consensus": 0.29469494423482095,
      "models": {
-      "ECMWF_ENS": 0.125,
+      "ECMWF_ENS": 0.10576923076923077,
       "GEFS": 0.203125,
       "ICON_EPS": 0.35365853658536583,
       "GEM_EPS": 0.6590909090909091,
@@ -1506,25 +1764,26 @@
      },
      "families": {
       "blend": 0.226002231,
-      "global": 0.399753836503676,
+      "global": 0.3959076826575222,
       "mlm": 0.28827600797571235
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.5766864470909091,
-     "family_spread": 0.17375160550367602,
+     "family_spread": 0.1699054516575222,
      "low_confidence": false,
      "edge": {
       "side": "YES",
-      "price": 16,
-      "ev_cents": -0.41,
-      "ev_yes": -0.41,
-      "ev_no": -28.59,
-      "fee_cents": 14,
-      "kelly": 0.0405,
-      "gap_points": 14.6,
-      "flag": null,
-      "illiquid": false
+      "price": 18,
+      "ev_cents": 9.47,
+      "ev_yes": 9.47,
+      "ev_no": -15.47,
+      "fee_cents": 2,
+      "kelly": 0.035,
+      "gap_points": 13.0,
+      "flag": "high",
+      "illiquid": false,
+      "depth": 1
      }
     }
    }
@@ -1559,7 +1818,7 @@
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.8942307692307693,
+      "ECMWF_ENS": 0.8173076923076923,
       "GEFS": 0.765625,
       "ICON_EPS": 0.18292682926829268,
       "GEM_EPS": 0.4772727272727273,
@@ -1568,17 +1827,31 @@
       "NDFD": 0.01,
       "NBM": 0.06410797500000001
      },
-     "elapsed": 0.902,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.1988,
+      "only_blend": 0.0371,
+      "only_global": 0.5381,
+      "only_mlm": 0.0433,
+      "blend_without_mlm": 0.2453
+     },
+     "elapsed": 0.927,
      "predictability": 75.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "iowa",
+      "elapsed": 0.927
+     },
      "coverage": {
       "wet_fraction": 0.1429,
       "centre_wet": false,
       "multiplier": 0.35,
       "applied": false
      },
-     "consensus": 0.20375697599346376,
+     "consensus": 0.016052906369896314,
      "models": {
-      "ECMWF_ENS": 0.8942307692307693,
+      "ECMWF_ENS": 0.8173076923076923,
       "GEFS": 0.765625,
       "ICON_EPS": 0.18292682926829268,
       "GEM_EPS": 0.4772727272727273,
@@ -1589,24 +1862,26 @@
      },
      "families": {
       "blend": 0.0370539875,
-      "global": 0.5534847493648842,
+      "global": 0.5381001339802688,
       "mlm": 0.043337225311742694
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.8842307692307693,
-     "family_spread": 0.5164307618648842,
+     "spread": 0.8073076923076923,
+     "family_spread": 0.5010461464802688,
      "low_confidence": false,
+     "consensus_forecast": 0.1988,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
       "price": 1,
-      "ev_cents": 18.38,
-      "ev_yes": 18.38,
+      "ev_cents": -0.39,
+      "ev_yes": -0.39,
       "ev_no": null,
       "fee_cents": 1,
-      "kelly": 0.0489,
-      "gap_points": 19.9,
-      "flag": "high",
+      "kelly": 0.0015,
+      "gap_points": 1.1,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -1615,21 +1890,21 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-DAL",
       "title": "Will it rain in Dallas on Sep 5, 2026?",
-      "yes_bid": 5,
-      "yes_ask": 9,
-      "no_ask": 95,
-      "no_bid": 91,
+      "yes_bid": 6,
+      "yes_ask": 8,
+      "no_ask": 94,
+      "no_bid": 92,
       "mid": 7.0,
-      "spread": 4,
-      "volume": 392,
-      "open_interest": 291,
-      "liquidity": 392,
+      "spread": 2,
+      "volume": 394,
+      "open_interest": 293,
+      "liquidity": 394,
       "close_time": "2026-09-06T06:00:00Z",
       "expiration_time": "2026-09-07T06:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.47115384615384615,
+      "ECMWF_ENS": 0.2403846153846154,
       "GEFS": 0.015625,
       "ICON_EPS": 0.036585365853658534,
       "GEM_EPS": 0.06818181818181818,
@@ -1638,17 +1913,26 @@
       "NDFD": 0.024900000000000026,
       "NBM": 0.039355980000000006
      },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0884,
+      "only_blend": 0.0321,
+      "only_global": 0.2248,
+      "only_mlm": 0.0086,
+      "blend_without_mlm": 0.1122
+     },
      "elapsed": 0.0,
      "predictability": 89.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.0612,
       "centre_wet": false,
       "multiplier": 0.35,
       "applied": false
      },
-     "consensus": 0.1031410363517198,
+     "consensus": 0.08837180558248903,
      "models": {
-      "ECMWF_ENS": 0.47115384615384615,
+      "ECMWF_ENS": 0.2403846153846154,
       "GEFS": 0.015625,
       "ICON_EPS": 0.036585365853658534,
       "GEM_EPS": 0.06818181818181818,
@@ -1659,23 +1943,23 @@
      },
      "families": {
       "blend": 0.032127990000000016,
-      "global": 0.270940784985233,
+      "global": 0.22478693883138684,
       "mlm": 0.00861908546280537
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.7545388092740368,
-     "family_spread": 0.2623216995224276,
+     "family_spread": 0.21616785336858146,
      "low_confidence": false,
      "edge": {
       "side": "YES",
-      "price": 9,
-      "ev_cents": -7.69,
-      "ev_yes": -7.69,
-      "ev_no": -10.31,
-      "fee_cents": 9,
-      "kelly": 0.0036,
-      "gap_points": 3.3,
+      "price": 8,
+      "ev_cents": -0.16,
+      "ev_yes": -0.16,
+      "ev_no": -3.84,
+      "fee_cents": 1,
+      "kelly": 0.0023,
+      "gap_points": 1.8,
       "flag": null,
       "illiquid": false
      }
@@ -1698,15 +1982,15 @@
      "market": {
       "ticker": "KXRAIN-26SEP04-HOU",
       "title": "Will it rain in Houston on Sep 4, 2026?",
-      "yes_bid": 2,
+      "yes_bid": 4,
       "yes_ask": 5,
-      "no_ask": 98,
+      "no_ask": 96,
       "no_bid": 95,
-      "mid": 3.5,
-      "spread": 3,
-      "volume": 35736,
-      "open_interest": 9843,
-      "liquidity": 35736,
+      "mid": 4.5,
+      "spread": 1,
+      "volume": 36322,
+      "open_interest": 9818,
+      "liquidity": 36322,
       "close_time": "2026-09-05T06:00:00Z",
       "expiration_time": "2026-09-06T06:00:00Z",
       "fee_multiplier": 1
@@ -1721,15 +2005,29 @@
       "NDFD": 0.16,
       "NBM": 0.1627328
      },
-     "elapsed": 0.902,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.4885,
+      "only_blend": 0.1614,
+      "only_global": 0.9167,
+      "only_mlm": 0.5329,
+      "blend_without_mlm": 0.4753
+     },
+     "elapsed": 0.927,
      "predictability": 51.0,
+     "observed": {
+      "precip_mm": 0.254,
+      "wet": true,
+      "source": "awc",
+      "elapsed": 0.927
+     },
      "coverage": {
       "wet_fraction": 1.0,
       "centre_wet": true,
       "multiplier": 1.0,
       "applied": false
      },
-     "consensus": 0.4885193874083063,
+     "consensus": 0.98,
      "models": {
       "ECMWF_ENS": 0.9711538461538461,
       "GEFS": 0.984375,
@@ -1750,17 +2048,20 @@
      "spread": 0.824375,
      "family_spread": 0.755302445435694,
      "low_confidence": false,
+     "consensus_forecast": 0.4885,
+     "obs_effect": "observed",
      "edge": {
       "side": "YES",
       "price": 5,
-      "ev_cents": 38.85,
-      "ev_yes": 38.85,
-      "ev_no": -48.85,
-      "fee_cents": 5,
-      "kelly": 0.1154,
-      "gap_points": 45.4,
+      "ev_cents": 92.0,
+      "ev_yes": 92.0,
+      "ev_no": -95.0,
+      "fee_cents": 1,
+      "kelly": 0.2447,
+      "gap_points": 93.5,
       "flag": "high",
-      "illiquid": false
+      "illiquid": false,
+      "depth": 417
      }
     },
     "1": {
@@ -1768,69 +2069,78 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-HOU",
       "title": "Will it rain in Houston on Sep 5, 2026?",
-      "yes_bid": 66,
-      "yes_ask": 68,
-      "no_ask": 34,
-      "no_bid": 32,
-      "mid": 67.0,
-      "spread": 2,
-      "volume": 629,
-      "open_interest": 460,
-      "liquidity": 629,
+      "yes_bid": 59,
+      "yes_ask": 67,
+      "no_ask": 41,
+      "no_bid": 33,
+      "mid": 63.0,
+      "spread": 8,
+      "volume": 675,
+      "open_interest": 449,
+      "liquidity": 675,
       "close_time": "2026-09-06T06:00:00Z",
       "expiration_time": "2026-09-07T06:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.9903846153846154,
+      "ECMWF_ENS": 0.9519230769230769,
       "GEFS": 0.671875,
       "ICON_EPS": 0.5487804878048781,
       "GEM_EPS": 0.8409090909090909,
       "UKMO_ENS": 0.9210526315789473,
       "METEOBLUE": 0.57,
       "NDFD": 0.7025,
-      "NBM": 0.5853016053
+      "NBM": 0.32648678500000006
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.6059,
+      "only_blend": 0.5145,
+      "only_global": 0.7869,
+      "only_mlm": 0.5329,
+      "blend_without_mlm": 0.6277
      },
      "elapsed": 0.0,
      "predictability": 54.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.7959,
       "centre_wet": true,
       "multiplier": 0.796,
       "applied": false
      },
-     "consensus": 0.6665979549047463,
+     "consensus": 0.6059030818757078,
      "models": {
-      "ECMWF_ENS": 0.9903846153846154,
+      "ECMWF_ENS": 0.9519230769230769,
       "GEFS": 0.671875,
       "ICON_EPS": 0.5487804878048781,
       "GEM_EPS": 0.8409090909090909,
       "UKMO_ENS": 0.9210526315789473,
       "METEOBLUE": 0.5329151168212356,
       "NDFD": 0.7025,
-      "NBM": 0.5853016053
+      "NBM": 0.32648678500000006
      },
      "families": {
-      "blend": 0.6439008026499999,
-      "global": 0.7946003651355064,
+      "blend": 0.5144933925,
+      "global": 0.7869080574431987,
       "mlm": 0.5329151168212356
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.4574694985633798,
-     "family_spread": 0.26168524831427076,
+     "spread": 0.6254362919230768,
+     "family_spread": 0.27241466494319866,
      "low_confidence": false,
      "edge": {
-      "side": "YES",
-      "price": 68,
-      "ev_cents": -23.34,
-      "ev_yes": -23.34,
-      "ev_no": -23.66,
-      "fee_cents": 22,
+      "side": "NO",
+      "price": 41,
+      "ev_cents": -3.59,
+      "ev_yes": -8.41,
+      "ev_no": -3.59,
+      "fee_cents": 2,
       "kelly": 0.0,
-      "gap_points": -0.3,
-      "flag": null,
-      "illiquid": false
+      "gap_points": -2.4,
+      "flag": "thin",
+      "illiquid": true
      }
     }
    }
@@ -1851,21 +2161,21 @@
      "market": {
       "ticker": "KXRAIN-26SEP04-AUS",
       "title": "Will it rain in Austin on Sep 4, 2026?",
-      "yes_bid": 1,
-      "yes_ask": 2,
-      "no_ask": 99,
-      "no_bid": 98,
-      "mid": 1.5,
+      "yes_bid": 0,
+      "yes_ask": 1,
+      "no_ask": 100,
+      "no_bid": 99,
+      "mid": 0.5,
       "spread": 1,
-      "volume": 42753,
-      "open_interest": 8715,
-      "liquidity": 42753,
+      "volume": 43454,
+      "open_interest": 9278,
+      "liquidity": 43454,
       "close_time": "2026-09-05T06:00:00Z",
       "expiration_time": "2026-09-06T06:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.9326923076923077,
+      "ECMWF_ENS": 0.9903846153846154,
       "GEFS": 0.984375,
       "ICON_EPS": 0.7439024390243902,
       "GEM_EPS": 0.4318181818181818,
@@ -1874,17 +2184,31 @@
       "NDFD": 0.07,
       "NBM": 0.1908224
      },
-     "elapsed": 0.902,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.3782,
+      "only_blend": 0.1304,
+      "only_global": 0.8248,
+      "only_mlm": 0.2415,
+      "blend_without_mlm": 0.419
+     },
+     "elapsed": 0.927,
      "predictability": 51.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "iowa",
+      "elapsed": 0.927
+     },
      "coverage": {
       "wet_fraction": 1.0,
       "centre_wet": true,
       "multiplier": 1.0,
       "applied": false
      },
-     "consensus": 0.3744779691315553,
+     "consensus": 0.03408698517502917,
      "models": {
-      "ECMWF_ENS": 0.9326923076923077,
+      "ECMWF_ENS": 0.9903846153846154,
       "GEFS": 0.984375,
       "ICON_EPS": 0.7439024390243902,
       "GEM_EPS": 0.4318181818181818,
@@ -1895,24 +2219,26 @@
      },
      "families": {
       "blend": 0.1304112,
-      "global": 0.8132944278122392,
+      "global": 0.8248328893507006,
       "mlm": 0.24147266187669028
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.9143749999999999,
-     "family_spread": 0.6828832278122392,
+     "spread": 0.9203846153846154,
+     "family_spread": 0.6944216893507007,
      "low_confidence": false,
+     "consensus_forecast": 0.3782,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
-      "price": 2,
-      "ev_cents": 33.45,
-      "ev_yes": 33.45,
-      "ev_no": -37.45,
-      "fee_cents": 2,
-      "kelly": 0.0904,
-      "gap_points": 35.9,
-      "flag": "high",
+      "price": 1,
+      "ev_cents": 1.41,
+      "ev_yes": 1.41,
+      "ev_no": null,
+      "fee_cents": 1,
+      "kelly": 0.0061,
+      "gap_points": 2.9,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -1927,56 +2253,65 @@
       "no_bid": 73,
       "mid": 26.5,
       "spread": 1,
-      "volume": 934,
+      "volume": 936,
       "open_interest": 677,
-      "liquidity": 934,
+      "liquidity": 936,
       "close_time": "2026-09-06T06:00:00Z",
       "expiration_time": "2026-09-07T06:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.7980769230769231,
+      "ECMWF_ENS": 0.7596153846153846,
       "GEFS": 0.859375,
       "ICON_EPS": 0.2804878048780488,
       "GEM_EPS": 0.7045454545454546,
       "UKMO_ENS": 0.39473684210526316,
       "METEOBLUE": 0.15,
       "NDFD": 0.15004999999999996,
-      "NBM": 0.11575482480000002
+      "NBM": 0.07279213120000004
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.2724,
+      "only_blend": 0.1114,
+      "only_global": 0.5998,
+      "only_mlm": 0.1319,
+      "blend_without_mlm": 0.3144
      },
      "elapsed": 0.0,
      "predictability": 79.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.28451638958814834,
+     "consensus": 0.27238824506660986,
      "models": {
-      "ECMWF_ENS": 0.7980769230769231,
+      "ECMWF_ENS": 0.7596153846153846,
       "GEFS": 0.859375,
       "ICON_EPS": 0.2804878048780488,
       "GEM_EPS": 0.7045454545454546,
       "UKMO_ENS": 0.39473684210526316,
       "METEOBLUE": 0.1318612801451487,
       "NDFD": 0.15004999999999996,
-      "NBM": 0.11575482480000002
+      "NBM": 0.07279213120000004
      },
      "families": {
-      "blend": 0.1329024124,
-      "global": 0.6074444049211379,
+      "blend": 0.11142106560000001,
+      "global": 0.5997520972288302,
       "mlm": 0.1318612801451487
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.7436201752,
-     "family_spread": 0.47558312477598924,
+     "spread": 0.7865828688,
+     "family_spread": 0.4883310316288302,
      "low_confidence": false,
      "edge": {
       "side": "YES",
       "price": 27,
-      "ev_cents": -18.55,
-      "ev_yes": -18.55,
-      "ev_no": -22.45,
-      "fee_cents": 20,
-      "kelly": 0.005,
-      "gap_points": 2.0,
+      "ev_cents": -1.76,
+      "ev_yes": -1.76,
+      "ev_no": -3.24,
+      "fee_cents": 2,
+      "kelly": 0.0008,
+      "gap_points": 0.7,
       "flag": null,
       "illiquid": false
      }
@@ -1999,21 +2334,21 @@
      "market": {
       "ticker": "KXRAIN-26SEP04-SATX",
       "title": "Will it rain in San Antonio on Sep 4, 2026?",
-      "yes_bid": 1,
-      "yes_ask": 5,
-      "no_ask": 99,
-      "no_bid": 95,
-      "mid": 3.0,
+      "yes_bid": 2,
+      "yes_ask": 6,
+      "no_ask": 98,
+      "no_bid": 94,
+      "mid": 4.0,
       "spread": 4,
-      "volume": 26297,
-      "open_interest": 5454,
-      "liquidity": 26297,
+      "volume": 26502,
+      "open_interest": 5613,
+      "liquidity": 26502,
       "close_time": "2026-09-05T06:00:00Z",
       "expiration_time": "2026-09-06T06:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.875,
+      "ECMWF_ENS": 0.9326923076923077,
       "GEFS": 0.890625,
       "ICON_EPS": 0.4268292682926829,
       "GEM_EPS": 0.4772727272727273,
@@ -2022,17 +2357,31 @@
       "NDFD": 0.08,
       "NBM": 0.10118140000000012
      },
-     "elapsed": 0.902,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.3226,
+      "only_blend": 0.0906,
+      "only_global": 0.7402,
+      "only_mlm": 0.1953,
+      "blend_without_mlm": 0.3606
+     },
+     "elapsed": 0.927,
      "predictability": 55.0,
+     "observed": {
+      "precip_mm": 0.508,
+      "wet": true,
+      "source": "awc",
+      "elapsed": 0.927
+     },
      "coverage": {
       "wet_fraction": 0.9388,
       "centre_wet": true,
       "multiplier": 0.939,
       "applied": false
      },
-     "consensus": 0.31887275967347845,
+     "consensus": 0.98,
      "models": {
-      "ECMWF_ENS": 0.875,
+      "ECMWF_ENS": 0.9326923076923077,
       "GEFS": 0.890625,
       "ICON_EPS": 0.4268292682926829,
       "GEM_EPS": 0.4772727272727273,
@@ -2043,25 +2392,28 @@
      },
      "families": {
       "blend": 0.09059070000000005,
-      "global": 0.7286822412183451,
+      "global": 0.7402207027568067,
       "mlm": 0.19534185862438244
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.8936842105263159,
-     "family_spread": 0.6380915412183451,
+     "family_spread": 0.6496300027568067,
      "low_confidence": false,
+     "consensus_forecast": 0.3226,
+     "obs_effect": "observed",
      "edge": {
       "side": "YES",
-      "price": 5,
-      "ev_cents": 21.89,
-      "ev_yes": 21.89,
-      "ev_no": -31.89,
-      "fee_cents": 5,
-      "kelly": 0.0708,
-      "gap_points": 28.9,
+      "price": 6,
+      "ev_cents": 91.0,
+      "ev_yes": 91.0,
+      "ev_no": -97.0,
+      "fee_cents": 1,
+      "kelly": 0.2447,
+      "gap_points": 94.0,
       "flag": "high",
-      "illiquid": false
+      "illiquid": false,
+      "depth": 33
      }
     },
     "1": {
@@ -2069,69 +2421,78 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-SATX",
       "title": "Will it rain in San Antonio on Sep 5, 2026?",
-      "yes_bid": 26,
-      "yes_ask": 29,
-      "no_ask": 74,
-      "no_bid": 71,
-      "mid": 27.5,
-      "spread": 3,
-      "volume": 723,
-      "open_interest": 619,
-      "liquidity": 723,
+      "yes_bid": 30,
+      "yes_ask": 37,
+      "no_ask": 70,
+      "no_bid": 63,
+      "mid": 33.5,
+      "spread": 7,
+      "volume": 771,
+      "open_interest": 647,
+      "liquidity": 771,
       "close_time": "2026-09-06T06:00:00Z",
       "expiration_time": "2026-09-07T06:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.7980769230769231,
+      "ECMWF_ENS": 0.9134615384615384,
       "GEFS": 0.703125,
       "ICON_EPS": 0.4268292682926829,
       "GEM_EPS": 0.5227272727272727,
       "UKMO_ENS": 0.868421052631579,
       "METEOBLUE": 0.26,
       "NDFD": 0.11275000000000003,
-      "NBM": 0.19082725759999997
+      "NBM": 0.10024010400000008
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.3211,
+      "only_blend": 0.1065,
+      "only_global": 0.6869,
+      "only_mlm": 0.2322,
+      "blend_without_mlm": 0.3477
      },
      "elapsed": 0.0,
      "predictability": 68.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.6735,
       "centre_wet": false,
       "multiplier": 0.673,
       "applied": false
      },
-     "consensus": 0.33413679983312256,
+     "consensus": 0.32113930565773796,
      "models": {
-      "ECMWF_ENS": 0.7980769230769231,
+      "ECMWF_ENS": 0.9134615384615384,
       "GEFS": 0.703125,
       "ICON_EPS": 0.4268292682926829,
       "GEM_EPS": 0.5227272727272727,
       "UKMO_ENS": 0.868421052631579,
       "METEOBLUE": 0.23219316435870116,
       "NDFD": 0.11275000000000003,
-      "NBM": 0.19082725759999997
+      "NBM": 0.10024010400000008
      },
      "families": {
-      "blend": 0.1517886288,
-      "global": 0.6638359033456915,
+      "blend": 0.10649505200000006,
+      "global": 0.6869128264226145,
       "mlm": 0.23219316435870116
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.755671052631579,
-     "family_spread": 0.5120472745456915,
+     "spread": 0.8132214344615384,
+     "family_spread": 0.5804177744226144,
      "low_confidence": false,
      "edge": {
-      "side": "YES",
-      "price": 29,
-      "ev_cents": -16.59,
-      "ev_yes": -16.59,
-      "ev_no": -27.41,
-      "fee_cents": 21,
-      "kelly": 0.0155,
-      "gap_points": 5.9,
-      "flag": null,
-      "illiquid": false
+      "side": "NO",
+      "price": 70,
+      "ev_cents": -4.11,
+      "ev_yes": -6.89,
+      "ev_no": -4.11,
+      "fee_cents": 2,
+      "kelly": 0.0,
+      "gap_points": -1.4,
+      "flag": "thin",
+      "illiquid": true
      }
     }
    }
@@ -2158,15 +2519,15 @@
       "no_bid": 99,
       "mid": 0.5,
       "spread": 1,
-      "volume": 5347,
+      "volume": 5440,
       "open_interest": 4367,
-      "liquidity": 5347,
+      "liquidity": 5440,
       "close_time": "2026-09-05T06:00:00Z",
       "expiration_time": "2026-09-06T06:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.0673076923076923,
+      "ECMWF_ENS": 0.18269230769230768,
       "GEFS": 0.015625,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.06818181818181818,
@@ -2175,12 +2536,26 @@
       "NDFD": 0.0,
       "NBM": 0.0
      },
-     "elapsed": 0.902,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0229,
+      "only_blend": 0.0,
+      "only_global": 0.0715,
+      "only_mlm": 0.0,
+      "blend_without_mlm": 0.0297
+     },
+     "elapsed": 0.927,
      "predictability": 88.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "awc",
+      "elapsed": 0.927
+     },
      "coverage": null,
-     "consensus": 0.015504646018016242,
+     "consensus": 0.0016889081973764375,
      "models": {
-      "ECMWF_ENS": 0.0673076923076923,
+      "ECMWF_ENS": 0.18269230769230768,
       "GEFS": 0.015625,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.06818181818181818,
@@ -2191,23 +2566,25 @@
      },
      "families": {
       "blend": 0.0,
-      "global": 0.048451400172356524,
+      "global": 0.0715283232492796,
       "mlm": 8.607080963148306e-07
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.07894736842105263,
-     "family_spread": 0.048451400172356524,
+     "spread": 0.18269230769230768,
+     "family_spread": 0.0715283232492796,
      "low_confidence": false,
+     "consensus_forecast": 0.0229,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
       "price": 1,
-      "ev_cents": -0.45,
-      "ev_yes": -0.45,
+      "ev_cents": -1.83,
+      "ev_yes": -1.83,
       "ev_no": null,
       "fee_cents": 1,
-      "kelly": 0.0014,
-      "gap_points": 1.1,
+      "kelly": 0.0,
+      "gap_points": -0.3,
       "flag": null,
       "illiquid": false
      }
@@ -2223,15 +2600,15 @@
       "no_bid": 98,
       "mid": 1.5,
       "spread": 1,
-      "volume": 1090,
-      "open_interest": 1090,
-      "liquidity": 1090,
+      "volume": 1324,
+      "open_interest": 1284,
+      "liquidity": 1324,
       "close_time": "2026-09-06T06:00:00Z",
       "expiration_time": "2026-09-07T06:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.125,
+      "ECMWF_ENS": 0.18269230769230768,
       "GEFS": 0.015625,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.022727272727272728,
@@ -2240,12 +2617,21 @@
       "NDFD": 0.014950000000000015,
       "NBM": 0.0
      },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0233,
+      "only_blend": 0.0075,
+      "only_global": 0.0624,
+      "only_mlm": 0.0,
+      "blend_without_mlm": 0.0303
+     },
      "elapsed": 0.0,
      "predictability": 87.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.01965161280123303,
+     "consensus": 0.02334392049354072,
      "models": {
-      "ECMWF_ENS": 0.125,
+      "ECMWF_ENS": 0.18269230769230768,
       "GEFS": 0.015625,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.022727272727272728,
@@ -2256,23 +2642,23 @@
      },
      "families": {
       "blend": 0.007475000000000008,
-      "global": 0.050898952619908976,
+      "global": 0.06243741415837051,
       "mlm": 8.607080963148306e-07
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.125,
-     "family_spread": 0.05089809191181266,
+     "spread": 0.18269230769230768,
+     "family_spread": 0.06243655345027419,
      "low_confidence": false,
      "edge": {
-      "side": "NO",
-      "price": 99,
-      "ev_cents": -1.97,
-      "ev_yes": -2.03,
-      "ev_no": -1.97,
+      "side": "YES",
+      "price": 2,
+      "ev_cents": -0.67,
+      "ev_yes": -0.67,
+      "ev_no": -2.33,
       "fee_cents": 1,
-      "kelly": 0.0,
-      "gap_points": 0.5,
+      "kelly": 0.0009,
+      "gap_points": 0.8,
       "flag": null,
       "illiquid": false
      }
@@ -2318,15 +2704,29 @@
       "NDFD": 0.27,
       "NBM": 0.5500191999999999
      },
-     "elapsed": 0.902,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.672,
+      "only_blend": 0.41,
+      "only_global": 0.8869,
+      "only_mlm": 0.8857,
+      "blend_without_mlm": 0.6082
+     },
+     "elapsed": 0.927,
      "predictability": 55.0,
+     "observed": {
+      "precip_mm": 28.448,
+      "wet": true,
+      "source": "iowa",
+      "elapsed": 0.927
+     },
      "coverage": {
       "wet_fraction": 0.9388,
       "centre_wet": true,
       "multiplier": 0.939,
       "applied": false
      },
-     "consensus": 0.6720211886455832,
+     "consensus": 0.98,
      "models": {
       "ECMWF_ENS": 0.9903846153846154,
       "GEFS": 0.984375,
@@ -2347,16 +2747,18 @@
      "spread": 0.7203846153846154,
      "family_spread": 0.47690754655690903,
      "low_confidence": false,
+     "consensus_forecast": 0.672,
+     "obs_effect": "observed",
      "edge": {
       "side": "NO",
       "price": 1,
-      "ev_cents": 30.8,
+      "ev_cents": 0.0,
       "ev_yes": null,
-      "ev_no": 30.8,
+      "ev_no": 0.0,
       "fee_cents": 1,
-      "kelly": 0.0803,
-      "gap_points": -32.3,
-      "flag": "high",
+      "kelly": 0.0025,
+      "gap_points": -1.5,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -2365,15 +2767,15 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-NOLA",
       "title": "Will it rain in New Orleans on Sep 5, 2026?",
-      "yes_bid": 75,
-      "yes_ask": 76,
-      "no_ask": 25,
-      "no_bid": 24,
-      "mid": 75.5,
-      "spread": 1,
-      "volume": 1447,
-      "open_interest": 1258,
-      "liquidity": 1447,
+      "yes_bid": 77,
+      "yes_ask": 80,
+      "no_ask": 23,
+      "no_bid": 20,
+      "mid": 78.5,
+      "spread": 3,
+      "volume": 1640,
+      "open_interest": 1450,
+      "liquidity": 1640,
       "close_time": "2026-09-06T06:00:00Z",
       "expiration_time": "2026-09-07T06:00:00Z",
       "fee_multiplier": 1
@@ -2386,17 +2788,26 @@
       "UKMO_ENS": 0.9736842105263158,
       "METEOBLUE": 0.69,
       "NDFD": 0.59795,
-      "NBM": 0.5961319232
+      "NBM": 0.27017276320000005
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.6383,
+      "only_blend": 0.4341,
+      "only_global": 0.9122,
+      "only_mlm": 0.657,
+      "blend_without_mlm": 0.6328
      },
      "elapsed": 0.0,
      "predictability": 52.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.9388,
       "centre_wet": true,
       "multiplier": 0.939,
       "applied": false
      },
-     "consensus": 0.7116892010350493,
+     "consensus": 0.6383483900350493,
      "models": {
       "ECMWF_ENS": 0.9903846153846154,
       "GEFS": 0.984375,
@@ -2405,29 +2816,30 @@
       "UKMO_ENS": 0.9736842105263158,
       "METEOBLUE": 0.6570373461775195,
       "NDFD": 0.59795,
-      "NBM": 0.5961319232
+      "NBM": 0.27017276320000005
      },
      "families": {
-      "blend": 0.5970409616,
+      "blend": 0.4340613816,
       "global": 0.9121943084194367,
       "mlm": 0.6570373461775195
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.39425269218461545,
-     "family_spread": 0.31515334681943674,
+     "spread": 0.7202118521846154,
+     "family_spread": 0.4781329268194367,
      "low_confidence": false,
      "edge": {
       "side": "NO",
-      "price": 25,
-      "ev_cents": -15.17,
-      "ev_yes": -23.83,
-      "ev_no": -15.17,
-      "fee_cents": 19,
-      "kelly": 0.0128,
-      "gap_points": -4.3,
-      "flag": null,
-      "illiquid": false
+      "price": 23,
+      "ev_cents": 11.17,
+      "ev_yes": -18.17,
+      "ev_no": 11.17,
+      "fee_cents": 2,
+      "kelly": 0.0427,
+      "gap_points": -14.7,
+      "flag": "high",
+      "illiquid": false,
+      "depth": 20
      }
     }
    }
@@ -2454,15 +2866,15 @@
       "no_bid": 99,
       "mid": 0.5,
       "spread": 1,
-      "volume": 11647,
-      "open_interest": 7457,
-      "liquidity": 11647,
+      "volume": 12308,
+      "open_interest": 7199,
+      "liquidity": 12308,
       "close_time": "2026-09-05T07:00:00Z",
       "expiration_time": "2026-09-06T07:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.20192307692307693,
+      "ECMWF_ENS": 0.22115384615384615,
       "GEFS": 0.171875,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.25,
@@ -2471,12 +2883,26 @@
       "NDFD": 0.13,
       "NBM": 0.09909999999999998
      },
-     "elapsed": 0.86,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.1051,
+      "only_blend": 0.1145,
+      "only_global": 0.1363,
+      "only_mlm": 0.0433,
+      "blend_without_mlm": 0.1236
+     },
+     "elapsed": 0.885,
      "predictability": 90.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "awc",
+      "elapsed": 0.885
+     },
      "coverage": null,
-     "consensus": 0.10390283707597159,
+     "consensus": 0.012693053025625733,
      "models": {
-      "ECMWF_ENS": 0.20192307692307693,
+      "ECMWF_ENS": 0.22115384615384615,
       "GEFS": 0.171875,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.25,
@@ -2487,24 +2913,26 @@
      },
      "families": {
       "blend": 0.11454999999999999,
-      "global": 0.13246179766959615,
+      "global": 0.13630795151574998,
       "mlm": 0.043337225311742694
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.23780487804878048,
-     "family_spread": 0.08912457235785345,
+     "family_spread": 0.09297072620400729,
      "low_confidence": false,
+     "consensus_forecast": 0.1051,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
       "price": 1,
-      "ev_cents": 8.39,
-      "ev_yes": 8.39,
+      "ev_cents": -0.73,
+      "ev_yes": -0.73,
       "ev_no": null,
       "fee_cents": 1,
-      "kelly": 0.0237,
-      "gap_points": 9.9,
-      "flag": "high",
+      "kelly": 0.0007,
+      "gap_points": 0.8,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -2513,67 +2941,76 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-DEN",
       "title": "Will it rain in Denver on Sep 5, 2026?",
-      "yes_bid": 24,
-      "yes_ask": 26,
-      "no_ask": 76,
-      "no_bid": 74,
+      "yes_bid": 23,
+      "yes_ask": 27,
+      "no_ask": 77,
+      "no_bid": 73,
       "mid": 25.0,
-      "spread": 2,
-      "volume": 1120,
-      "open_interest": 702,
-      "liquidity": 1120,
+      "spread": 4,
+      "volume": 1275,
+      "open_interest": 771,
+      "liquidity": 1275,
       "close_time": "2026-09-06T07:00:00Z",
       "expiration_time": "2026-09-07T07:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.27884615384615385,
+      "ECMWF_ENS": 0.2980769230769231,
       "GEFS": 0.671875,
       "ICON_EPS": 0.2073170731707317,
       "GEM_EPS": 0.3409090909090909,
       "UKMO_ENS": 0.4473684210526316,
       "METEOBLUE": 0.11,
       "NDFD": 0.2889999999999999,
-      "NBM": 0.17239330900000005
+      "NBM": 0.12663999999999997
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.2414,
+      "only_blend": 0.2078,
+      "only_global": 0.3931,
+      "only_mlm": 0.0962,
+      "blend_without_mlm": 0.2848
      },
      "elapsed": 0.0,
      "predictability": 75.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.2653,
       "centre_wet": false,
       "multiplier": 0.35,
       "applied": false
      },
-     "consensus": 0.25049245863828,
+     "consensus": 0.24142873334404918,
      "models": {
-      "ECMWF_ENS": 0.27884615384615385,
+      "ECMWF_ENS": 0.2980769230769231,
       "GEFS": 0.671875,
       "ICON_EPS": 0.2073170731707317,
       "GEM_EPS": 0.3409090909090909,
       "UKMO_ENS": 0.4473684210526316,
       "METEOBLUE": 0.09615111660282205,
       "NDFD": 0.2889999999999999,
-      "NBM": 0.17239330900000005
+      "NBM": 0.12663999999999997
      },
      "families": {
-      "blend": 0.2306966545,
-      "global": 0.38926314779572163,
+      "blend": 0.20781999999999995,
+      "global": 0.39310930164187546,
       "mlm": 0.09615111660282205
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.575723883397178,
-     "family_spread": 0.2931120311928996,
+     "family_spread": 0.2969581850390534,
      "low_confidence": false,
      "edge": {
       "side": "NO",
-      "price": 76,
-      "ev_cents": -20.05,
-      "ev_yes": -20.95,
-      "ev_no": -20.05,
-      "fee_cents": 19,
+      "price": 77,
+      "ev_cents": -3.14,
+      "ev_yes": -4.86,
+      "ev_no": -3.14,
+      "fee_cents": 2,
       "kelly": 0.0,
-      "gap_points": 0.0,
+      "gap_points": -0.9,
       "flag": null,
       "illiquid": false
      }
@@ -2596,21 +3033,21 @@
      "market": {
       "ticker": "KXRAIN-26SEP04-PHX",
       "title": "Will it rain in Phoenix on Sep 4, 2026?",
-      "yes_bid": 1,
-      "yes_ask": 2,
-      "no_ask": 99,
-      "no_bid": 98,
-      "mid": 1.5,
+      "yes_bid": 0,
+      "yes_ask": 1,
+      "no_ask": 100,
+      "no_bid": 99,
+      "mid": 0.5,
       "spread": 1,
-      "volume": 8701,
-      "open_interest": 5137,
-      "liquidity": 8701,
+      "volume": 9543,
+      "open_interest": 5654,
+      "liquidity": 9543,
       "close_time": "2026-09-05T07:00:00Z",
       "expiration_time": "2026-09-06T07:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.7019230769230769,
+      "ECMWF_ENS": 0.9134615384615384,
       "GEFS": 0.640625,
       "ICON_EPS": 0.25609756097560976,
       "GEM_EPS": 0.75,
@@ -2619,12 +3056,26 @@
       "NDFD": 0.04,
       "NBM": 0.04445300000000006
      },
-     "elapsed": 0.818,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.1966,
+      "only_blend": 0.0422,
+      "only_global": 0.5489,
+      "only_mlm": 0.0086,
+      "blend_without_mlm": 0.2528
+     },
+     "elapsed": 0.844,
      "predictability": 83.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "iowa",
+      "elapsed": 0.844
+     },
      "coverage": null,
-     "consensus": 0.18308710916617169,
+     "consensus": 0.03357710799713465,
      "models": {
-      "ECMWF_ENS": 0.7019230769230769,
+      "ECMWF_ENS": 0.9134615384615384,
       "GEFS": 0.640625,
       "ICON_EPS": 0.25609756097560976,
       "GEM_EPS": 0.75,
@@ -2635,24 +3086,26 @@
      },
      "families": {
       "blend": 0.04222650000000003,
-      "global": 0.5065712328428952,
+      "global": 0.5488789251505876,
       "mlm": 0.00861908546280537
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.7413809145371947,
-     "family_spread": 0.4979521473800898,
+     "spread": 0.9048424529987331,
+     "family_spread": 0.5402598396877822,
      "low_confidence": false,
+     "consensus_forecast": 0.1966,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
-      "price": 2,
-      "ev_cents": 14.31,
-      "ev_yes": 14.31,
-      "ev_no": -18.31,
-      "fee_cents": 2,
-      "kelly": 0.0416,
-      "gap_points": 16.8,
-      "flag": "high",
+      "price": 1,
+      "ev_cents": 1.36,
+      "ev_yes": 1.36,
+      "ev_no": null,
+      "fee_cents": 1,
+      "kelly": 0.006,
+      "gap_points": 2.9,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -2675,48 +3128,57 @@
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.0673076923076923,
+      "ECMWF_ENS": 0.028846153846153848,
       "GEFS": 0.046875,
       "ICON_EPS": 0.036585365853658534,
       "GEM_EPS": 0.11363636363636363,
       "UKMO_ENS": 0.07894736842105263,
       "METEOBLUE": 0.03,
       "NDFD": 0.0397,
-      "NBM": 0.06774459635000006
+      "NBM": 0.058522835450000074
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0476,
+      "only_blend": 0.0491,
+      "only_global": 0.061,
+      "only_mlm": 0.0259,
+      "blend_without_mlm": 0.054
      },
      "elapsed": 0.0,
      "predictability": 83.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.05211335510975429,
+     "consensus": 0.047576920445715834,
      "models": {
-      "ECMWF_ENS": 0.0673076923076923,
+      "ECMWF_ENS": 0.028846153846153848,
       "GEFS": 0.046875,
       "ICON_EPS": 0.036585365853658534,
       "GEM_EPS": 0.11363636363636363,
       "UKMO_ENS": 0.07894736842105263,
       "METEOBLUE": 0.02592959285653557,
       "NDFD": 0.0397,
-      "NBM": 0.06774459635000006
+      "NBM": 0.058522835450000074
      },
      "families": {
-      "blend": 0.05372229817500003,
-      "global": 0.06867035804375342,
+      "blend": 0.04911141772500004,
+      "global": 0.060978050351445726,
       "mlm": 0.02592959285653557
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.08770677077982807,
-     "family_spread": 0.04274076518721785,
+     "family_spread": 0.03504845749491016,
      "low_confidence": false,
      "edge": {
       "side": "YES",
       "price": 3,
-      "ev_cents": -0.79,
-      "ev_yes": -0.79,
-      "ev_no": -5.21,
-      "fee_cents": 3,
-      "kelly": 0.0057,
-      "gap_points": 2.7,
+      "ev_cents": 0.76,
+      "ev_yes": 0.76,
+      "ev_no": -3.76,
+      "fee_cents": 1,
+      "kelly": 0.0045,
+      "gap_points": 2.3,
       "flag": null,
       "illiquid": false
      }
@@ -2762,10 +3224,24 @@
       "NDFD": 0.0,
       "NBM": 0.0
      },
-     "elapsed": 0.818,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0055,
+      "only_blend": 0.0,
+      "only_global": 0.0173,
+      "only_mlm": 0.0,
+      "blend_without_mlm": 0.0072
+     },
+     "elapsed": 0.844,
      "predictability": 95.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "iowa",
+      "elapsed": 0.844
+     },
      "coverage": null,
-     "consensus": 0.0055348263639860605,
+     "consensus": 0.0008654565183447982,
      "models": {
       "ECMWF_ENS": 0.009615384615384616,
       "GEFS": 0.015625,
@@ -2786,15 +3262,17 @@
      "spread": 0.02631578947368421,
      "family_spread": 0.01729571375351221,
      "low_confidence": false,
+     "consensus_forecast": 0.0055,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
       "price": 1,
-      "ev_cents": -1.45,
-      "ev_yes": -1.45,
+      "ev_cents": -1.91,
+      "ev_yes": -1.91,
       "ev_no": null,
       "fee_cents": 1,
       "kelly": 0.0,
-      "gap_points": 0.1,
+      "gap_points": -0.4,
       "flag": null,
       "illiquid": false
      }
@@ -2810,9 +3288,9 @@
       "no_bid": 98,
       "mid": 1.5,
       "spread": 1,
-      "volume": 565,
-      "open_interest": 451,
-      "liquidity": 565,
+      "volume": 799,
+      "open_interest": 685,
+      "liquidity": 799,
       "close_time": "2026-09-06T08:00:00Z",
       "expiration_time": "2026-09-07T08:00:00Z",
       "fee_multiplier": 1
@@ -2825,12 +3303,21 @@
       "UKMO_ENS": 0.18421052631578946,
       "METEOBLUE": 0.02,
       "NDFD": 0.30000000000000004,
-      "NBM": 0.019850500000000045
+      "NBM": 0.014950000000000015
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0905,
+      "only_blend": 0.1575,
+      "only_global": 0.0489,
+      "only_mlm": 0.0173,
+      "blend_without_mlm": 0.1123
      },
      "elapsed": 0.0,
      "predictability": 87.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.09157657142136666,
+     "consensus": 0.09047395892136666,
      "models": {
       "ECMWF_ENS": 0.009615384615384616,
       "GEFS": 0.015625,
@@ -2839,29 +3326,30 @@
       "UKMO_ENS": 0.18421052631578946,
       "METEOBLUE": 0.017262249401513,
       "NDFD": 0.30000000000000004,
-      "NBM": 0.019850500000000045
+      "NBM": 0.014950000000000015
      },
      "families": {
-      "blend": 0.15992525000000005,
+      "blend": 0.15747500000000003,
       "global": 0.04887466112193327,
       "mlm": 0.017262249401513
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.2903846153846154,
-     "family_spread": 0.14266300059848705,
+     "family_spread": 0.14021275059848703,
      "low_confidence": false,
      "edge": {
       "side": "YES",
       "price": 2,
-      "ev_cents": 5.16,
-      "ev_yes": 5.16,
-      "ev_no": -9.16,
-      "fee_cents": 2,
-      "kelly": 0.0183,
-      "gap_points": 7.7,
+      "ev_cents": 6.05,
+      "ev_yes": 6.05,
+      "ev_no": -9.05,
+      "fee_cents": 1,
+      "kelly": 0.018,
+      "gap_points": 7.5,
       "flag": "watch",
-      "illiquid": false
+      "illiquid": false,
+      "depth": 360
      }
     }
    }
@@ -2888,9 +3376,9 @@
       "no_bid": 99,
       "mid": 0.5,
       "spread": 1,
-      "volume": 11715,
-      "open_interest": 9000,
-      "liquidity": 11715,
+      "volume": 11809,
+      "open_interest": 9093,
+      "liquidity": 11809,
       "close_time": "2026-09-05T08:00:00Z",
       "expiration_time": "2026-09-06T08:00:00Z",
       "fee_multiplier": 1
@@ -2905,10 +3393,24 @@
       "NDFD": 0.0,
       "NBM": 0.0
      },
-     "elapsed": 0.818,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0201,
+      "only_blend": 0.0,
+      "only_global": 0.0628,
+      "only_mlm": 0.0,
+      "blend_without_mlm": 0.0261
+     },
+     "elapsed": 0.844,
      "predictability": 84.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "awc",
+      "elapsed": 0.844
+     },
      "coverage": null,
-     "consensus": 0.020080280909440605,
+     "consensus": 0.003159400831114434,
      "models": {
       "ECMWF_ENS": 0.009615384615384616,
       "GEFS": 0.015625,
@@ -2929,15 +3431,17 @@
      "spread": 0.25,
      "family_spread": 0.06275025920805767,
      "low_confidence": false,
+     "consensus_forecast": 0.0201,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
       "price": 1,
-      "ev_cents": 0.01,
-      "ev_yes": 0.01,
+      "ev_cents": -1.68,
+      "ev_yes": -1.68,
       "ev_no": null,
       "fee_cents": 1,
-      "kelly": 0.0025,
-      "gap_points": 1.5,
+      "kelly": 0.0,
+      "gap_points": -0.2,
       "flag": null,
       "illiquid": false
      }
@@ -2947,62 +3451,71 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-LAX",
       "title": "Will it rain in Los Angeles on Sep 5, 2026?",
-      "yes_bid": 8,
+      "yes_bid": 7,
       "yes_ask": 11,
-      "no_ask": 92,
+      "no_ask": 93,
       "no_bid": 89,
-      "mid": 9.5,
-      "spread": 3,
-      "volume": 567,
-      "open_interest": 542,
-      "liquidity": 567,
+      "mid": 9.0,
+      "spread": 4,
+      "volume": 572,
+      "open_interest": 547,
+      "liquidity": 572,
       "close_time": "2026-09-06T08:00:00Z",
       "expiration_time": "2026-09-07T08:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.028846153846153848,
+      "ECMWF_ENS": 0.10576923076923077,
       "GEFS": 0.078125,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.06818181818181818,
       "UKMO_ENS": 0.4473684210526316,
       "METEOBLUE": 0.02,
       "NDFD": 0.24380000000000002,
-      "NBM": 0.05430400000000006
+      "NBM": 0.024900000000000026
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.11,
+      "only_blend": 0.1344,
+      "only_global": 0.1423,
+      "only_mlm": 0.0173,
+      "blend_without_mlm": 0.1377
      },
      "elapsed": 0.0,
      "predictability": 85.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.11166557432438469,
+     "consensus": 0.1099727512474616,
      "models": {
-      "ECMWF_ENS": 0.028846153846153848,
+      "ECMWF_ENS": 0.10576923076923077,
       "GEFS": 0.078125,
       "ICON_EPS": 0.012195121951219513,
       "GEM_EPS": 0.06818181818181818,
       "UKMO_ENS": 0.4473684210526316,
       "METEOBLUE": 0.017262249401513,
       "NDFD": 0.24380000000000002,
-      "NBM": 0.05430400000000006
+      "NBM": 0.024900000000000026
      },
      "families": {
-      "blend": 0.14905200000000005,
-      "global": 0.12694330300636464,
+      "blend": 0.13435000000000002,
+      "global": 0.14232791839098,
       "mlm": 0.017262249401513
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.43517329910141206,
-     "family_spread": 0.13178975059848705,
+     "family_spread": 0.125065668989467,
      "low_confidence": false,
      "edge": {
       "side": "YES",
       "price": 11,
-      "ev_cents": -9.83,
-      "ev_yes": -9.83,
-      "ev_no": -11.17,
-      "fee_cents": 10,
-      "kelly": 0.0005,
-      "gap_points": 1.7,
+      "ev_cents": -1.0,
+      "ev_yes": -1.0,
+      "ev_no": -5.0,
+      "fee_cents": 1,
+      "kelly": 0.0,
+      "gap_points": 2.0,
       "flag": null,
       "illiquid": false
      }
@@ -3048,15 +3561,29 @@
       "NDFD": 0.0,
       "NBM": 0.02975100000000002
      },
-     "elapsed": 0.818,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0982,
+      "only_blend": 0.0149,
+      "only_global": 0.2797,
+      "only_mlm": 0.0086,
+      "blend_without_mlm": 0.1249
+     },
+     "elapsed": 0.844,
      "predictability": 69.0,
+     "observed": {
+      "precip_mm": 0.0,
+      "wet": false,
+      "source": "awc",
+      "elapsed": 0.844
+     },
      "coverage": {
       "wet_fraction": 0.1429,
       "centre_wet": true,
       "multiplier": 0.35,
       "applied": false
      },
-     "consensus": 0.09819038208958976,
+     "consensus": 0.015993610207299613,
      "models": {
       "ECMWF_ENS": 0.5673076923076923,
       "GEFS": 0.203125,
@@ -3077,16 +3604,18 @@
      "spread": 0.5673076923076923,
      "family_spread": 0.27111221901577126,
      "low_confidence": false,
+     "consensus_forecast": 0.0982,
+     "obs_effect": "conditioned",
      "edge": {
       "side": "YES",
       "price": 1,
-      "ev_cents": 7.82,
-      "ev_yes": 7.82,
+      "ev_cents": -0.4,
+      "ev_yes": -0.4,
       "ev_no": null,
       "fee_cents": 1,
-      "kelly": 0.0223,
-      "gap_points": 9.3,
-      "flag": "watch",
+      "kelly": 0.0015,
+      "gap_points": 1.1,
+      "flag": null,
       "illiquid": false
      }
     },
@@ -3101,9 +3630,9 @@
       "no_bid": 97,
       "mid": 2.5,
       "spread": 1,
-      "volume": 408,
-      "open_interest": 396,
-      "liquidity": 408,
+      "volume": 439,
+      "open_interest": 427,
+      "liquidity": 439,
       "close_time": "2026-09-06T08:00:00Z",
       "expiration_time": "2026-09-07T08:00:00Z",
       "fee_multiplier": 1
@@ -3116,12 +3645,21 @@
       "UKMO_ENS": 0.02631578947368421,
       "METEOBLUE": 0.02,
       "NDFD": 0.010000000000000005,
-      "NBM": 0.03930795510000006
+      "NBM": 0.02975100000000002
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.0214,
+      "only_blend": 0.0199,
+      "only_global": 0.0264,
+      "only_mlm": 0.0173,
+      "blend_without_mlm": 0.0226
      },
      "elapsed": 0.0,
      "predictability": 81.0,
+     "observed": null,
      "coverage": null,
-     "consensus": 0.023508326570062823,
+     "consensus": 0.02135801167256281,
      "models": {
       "ECMWF_ENS": 0.009615384615384616,
       "GEFS": 0.015625,
@@ -3130,10 +3668,10 @@
       "UKMO_ENS": 0.02631578947368421,
       "METEOBLUE": 0.017262249401513,
       "NDFD": 0.010000000000000005,
-      "NBM": 0.03930795510000006
+      "NBM": 0.02975100000000002
      },
      "families": {
-      "blend": 0.024653977550000032,
+      "blend": 0.01987550000000001,
       "global": 0.026386622844421302,
       "mlm": 0.017262249401513
      },
@@ -3145,12 +3683,12 @@
      "edge": {
       "side": "NO",
       "price": 98,
-      "ev_cents": -2.35,
-      "ev_yes": -3.65,
-      "ev_no": -2.35,
-      "fee_cents": 2,
+      "ev_cents": -1.14,
+      "ev_yes": -1.86,
+      "ev_no": -1.14,
+      "fee_cents": 1,
       "kelly": 0.0,
-      "gap_points": -0.1,
+      "gap_points": -0.4,
       "flag": null,
       "illiquid": false
      }
@@ -3173,21 +3711,21 @@
      "market": {
       "ticker": "KXRAIN-26SEP04-SEA",
       "title": "Will it rain in Seattle on Sep 4, 2026?",
-      "yes_bid": 5,
-      "yes_ask": 10,
-      "no_ask": 95,
-      "no_bid": 90,
-      "mid": 7.5,
-      "spread": 5,
-      "volume": 44289,
-      "open_interest": 11570,
-      "liquidity": 44289,
+      "yes_bid": 3,
+      "yes_ask": 6,
+      "no_ask": 97,
+      "no_bid": 94,
+      "mid": 4.5,
+      "spread": 3,
+      "volume": 46835,
+      "open_interest": 12414,
+      "liquidity": 46835,
       "close_time": "2026-09-05T08:00:00Z",
       "expiration_time": "2026-09-06T08:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.9519230769230769,
+      "ECMWF_ENS": 0.9134615384615384,
       "GEFS": 0.703125,
       "ICON_EPS": 0.6463414634146342,
       "GEM_EPS": 0.4318181818181818,
@@ -3196,17 +3734,31 @@
       "NDFD": 0.09,
       "NBM": 0.09604175000000006
      },
-     "elapsed": 0.818,
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.3039,
+      "only_blend": 0.093,
+      "only_global": 0.6916,
+      "only_mlm": 0.1771,
+      "blend_without_mlm": 0.3418
+     },
+     "elapsed": 0.844,
      "predictability": 55.0,
+     "observed": {
+      "precip_mm": 0.254,
+      "wet": true,
+      "source": "iowa",
+      "elapsed": 0.844
+     },
      "coverage": {
       "wet_fraction": 0.7347,
       "centre_wet": true,
       "multiplier": 0.735,
       "applied": false
      },
-     "consensus": 0.3063539538706764,
+     "consensus": 0.98,
      "models": {
-      "ECMWF_ENS": 0.9519230769230769,
+      "ECMWF_ENS": 0.9134615384615384,
       "GEFS": 0.703125,
       "ICON_EPS": 0.6463414634146342,
       "GEM_EPS": 0.4318181818181818,
@@ -3217,25 +3769,28 @@
      },
      "families": {
       "blend": 0.09302087500000003,
-      "global": 0.699273123378547,
+      "global": 0.6915808156862393,
       "mlm": 0.17707461147626674
      },
      "n_models": 8,
      "n_families": 3,
-     "spread": 0.8619230769230769,
-     "family_spread": 0.606252248378547,
+     "spread": 0.8234615384615385,
+     "family_spread": 0.5985599406862393,
      "low_confidence": false,
+     "consensus_forecast": 0.3039,
+     "obs_effect": "observed",
      "edge": {
       "side": "YES",
-      "price": 10,
-      "ev_cents": 10.64,
-      "ev_yes": 10.64,
-      "ev_no": -30.64,
-      "fee_cents": 10,
-      "kelly": 0.0573,
-      "gap_points": 23.1,
+      "price": 6,
+      "ev_cents": 91.0,
+      "ev_yes": 91.0,
+      "ev_no": -96.0,
+      "fee_cents": 1,
+      "kelly": 0.2447,
+      "gap_points": 93.5,
       "flag": "high",
-      "illiquid": false
+      "illiquid": false,
+      "depth": 66
      }
     },
     "1": {
@@ -3243,69 +3798,79 @@
      "market": {
       "ticker": "KXRAIN-26SEP05-SEA",
       "title": "Will it rain in Seattle on Sep 5, 2026?",
-      "yes_bid": 52,
-      "yes_ask": 57,
-      "no_ask": 48,
-      "no_bid": 43,
-      "mid": 54.5,
-      "spread": 5,
-      "volume": 435,
-      "open_interest": 233,
-      "liquidity": 435,
+      "yes_bid": 55,
+      "yes_ask": 59,
+      "no_ask": 45,
+      "no_bid": 41,
+      "mid": 57.0,
+      "spread": 4,
+      "volume": 1070,
+      "open_interest": 855,
+      "liquidity": 1070,
       "close_time": "2026-09-06T08:00:00Z",
       "expiration_time": "2026-09-07T08:00:00Z",
       "fee_multiplier": 1
      },
      "raw_models": {
-      "ECMWF_ENS": 0.6826923076923077,
+      "ECMWF_ENS": 0.6442307692307693,
       "GEFS": 0.859375,
       "ICON_EPS": 0.2073170731707317,
       "GEM_EPS": 0.25,
       "UKMO_ENS": 0.34210526315789475,
       "METEOBLUE": 0.26,
       "NDFD": 0.25344999999999995,
-      "NBM": 0.312495627
+      "NBM": 0.24188205440000002
+     },
+     "mlm_present": true,
+     "variants": {
+      "blend_all": 0.3122,
+      "only_blend": 0.2477,
+      "only_global": 0.4606,
+      "only_mlm": 0.2322,
+      "blend_without_mlm": 0.3362
      },
      "elapsed": 0.0,
      "predictability": 67.0,
+     "observed": null,
      "coverage": {
       "wet_fraction": 0.5306,
       "centre_wet": false,
       "multiplier": 0.531,
       "applied": false
      },
-     "consensus": 0.3305975310948411,
+     "consensus": 0.3122479387983026,
      "models": {
-      "ECMWF_ENS": 0.6826923076923077,
+      "ECMWF_ENS": 0.6442307692307693,
       "GEFS": 0.859375,
       "ICON_EPS": 0.2073170731707317,
       "GEM_EPS": 0.25,
       "UKMO_ENS": 0.34210526315789475,
       "METEOBLUE": 0.23219316435870116,
       "NDFD": 0.25344999999999995,
-      "NBM": 0.312495627
+      "NBM": 0.24188205440000002
      },
      "families": {
-      "blend": 0.2829728135,
-      "global": 0.4682979288041868,
+      "blend": 0.24766602719999997,
+      "global": 0.46060562111187914,
       "mlm": 0.23219316435870116
      },
      "n_models": 8,
      "n_families": 3,
      "spread": 0.6520579268292683,
-     "family_spread": 0.23610476444548564,
+     "family_spread": 0.22841245675317798,
      "low_confidence": false,
      "edge": {
       "side": "NO",
-      "price": 48,
-      "ev_cents": -6.06,
-      "ev_yes": -48.94,
-      "ev_no": -6.06,
-      "fee_cents": 25,
-      "kelly": 0.0911,
-      "gap_points": -21.4,
-      "flag": null,
-      "illiquid": false
+      "price": 45,
+      "ev_cents": 21.78,
+      "ev_yes": -29.78,
+      "ev_no": 21.78,
+      "fee_cents": 2,
+      "kelly": 0.1081,
+      "gap_points": -25.8,
+      "flag": "high",
+      "illiquid": false,
+      "depth": 5
      }
     }
    }
