@@ -368,8 +368,20 @@ def evaluate_bracket(p, quote, fee_mult, tcfg):
         return None
 
     p_side = p if side == "YES" else 1.0 - p
-    illiquid = (quote.get("liquidity", quote["volume"]) < ecfg["min_volume"]
-                or quote["spread"] > ecfg["max_spread_cents"])
+    # Say WHY, not just that. A row dropped without a reason is
+    # indistinguishable from a row that was never computed, and the two need
+    # very different responses.
+    reasons = []
+    liq = quote.get("liquidity", quote["volume"])
+    if liq < ecfg["min_volume"]:
+        reasons.append(f"only {liq} open interest")
+    if quote["spread"] > ecfg["max_spread_cents"]:
+        # NOTE: ev is already computed at the ask, so the spread has been
+        # paid for once. This gate is about whether the quote is TRUSTWORTHY,
+        # not about cost -- a wide book often means a stale or nominal price.
+        reasons.append(f"{quote['spread']}c spread")
+    illiquid = bool(reasons)
+
 
     if illiquid:
         flag = "thin"
@@ -389,6 +401,7 @@ def evaluate_bracket(p, quote, fee_mult, tcfg):
         "fee_cents": kalshi_fee_cents(price, fee_mult),
         "kelly": round(kelly_fraction(p_side, price, ecfg["kelly_cap"]), 4),
         "flag": flag, "illiquid": illiquid,
+        "gated_because": "; ".join(reasons) or None,
     }
 
 
