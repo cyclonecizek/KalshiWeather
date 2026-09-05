@@ -17,7 +17,16 @@ from pathlib import Path
 
 from .blend import blend, evaluate, variants
 from .kalshi import SCHEMA_VERSION, Kalshi, pick_city_market
-from .sources import gribprob, meteoblue, nws_text, observations, openmeteo
+from .sources import gribprob, meteoblue, nws_text, openmeteo
+
+# Optional. Intraday observations sharpen the board a lot, but a missing
+# module is not a reason to publish nothing -- the whole point of the
+# per-source try/except further down is that one dead input degrades the
+# board rather than killing it, and an import should behave the same way.
+try:
+    from .sources import observations
+except ImportError:
+    observations = None
 from .util import load_yaml, local_date_str, local_day_window
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -34,6 +43,9 @@ def main():
 
     print(f"building board for {len(cities)} cities "
           f"| kalshi schema {SCHEMA_VERSION}")
+    from .selfcheck import report
+    if not report():
+        return 1
 
     # ---- model guidance ------------------------------------------------
     probs = {}          # {MODEL: {city: {offset: p}}}
@@ -103,8 +115,13 @@ def main():
             probs[key], runs[key] = res
 
     obs_cfg = src.get("observations", {})
-    obs = run("observations", lambda: observations.fetch(
-        cities, DAY_OFFSETS, obs_cfg)) or {}
+    if observations is None:
+        print("  observations: pipeline/sources/observations.py is missing -- "
+              "the board will run without the intraday layer")
+        obs = {}
+    else:
+        obs = run("observations", lambda: observations.fetch(
+            cities, DAY_OFFSETS, obs_cfg)) or {}
 
     # ---- market --------------------------------------------------------
     kal = Kalshi(src["kalshi"]["base"])
@@ -174,7 +191,7 @@ def main():
 
             b = blend(mp, settings, cam_multiplier=mult)
             ob = (obs.get(c["name"]) or {}).get(off)
-            if b is not None and ob is not None:
+            if b is not None and ob is not None and observations is not None:
                 adj, why = observations.condition_rain(
                     b["consensus"], ob,
                     1.0 - obs_cfg.get("rain_observed_p", 0.98))
