@@ -106,6 +106,21 @@ sources:
   kalshi:
     base: https://external-api.kalshi.com/trade-api/v2
 
+  # Intraday station observations. Worth more than any additional model:
+  # by mid-afternoon the day's high is largely set, and a recorded 0.01"
+  # decides a rain contract outright. Three providers, tried in order,
+  # because www.nws.noaa.gov already blocks GitHub runners.
+  observations:
+    enabled: true
+    # Degrees of slack under the observed max before the floor bites. Covers
+    # the gap between this station's METAR and The Weather Company's report.
+    tolerance_f: 0.5
+    # Residual width that survives however late it is. Stops the board
+    # printing a 100%-confident bracket.
+    min_spread_f: 1.4
+    # Certainty cap once rain is already on the ground.
+    rain_observed_p: 0.98
+
   openmeteo:
     ensemble_base: https://ensemble-api.open-meteo.com/v1/ensemble
     models:
@@ -166,8 +181,20 @@ sources:
     base: https://nomads.ncep.noaa.gov/pub/data/nccf/com/blend/prod
     pattern: "blend.{ymd}/{cc}/core/blend.t{cc}z.core.f{fff}.co.grib2"
     idx_regex: ":APCP:surface:.*acc fcst:prob >0.254:"
-    # NBM core runs every hour, so take whatever is freshest.
-    cycles: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+    # NBM core runs hourly, but ONLY the 00/06/12/18Z cycles carry the 6- and
+    # 12-hour accumulation products. A 2026-09-04 probe of the 22Z cycle found
+    # 154 records with 1-hour windows only; the 00Z cycle had 208+ records
+    # with [1, 6, 12].
+    #
+    # That matters enormously. Aligning to a station's local midnight lands on
+    # an off-cycle (04Z, 05Z, 07Z...), where the only records available are
+    # one hour wide. The tiler then stitched 5-6, 11-12, 17-18 and 23-24 into
+    # what it called a daily probability -- four hours of coverage out of
+    # twenty-four, silently understating every city.
+    #
+    # Major cycles only. The window picker's 3-hour tolerance still gets a
+    # 04Z-04Z day out of the 00Z run as 6-18 plus 18-30.
+    cycles: [0, 6, 12, 18]
 
 # ===========================================================================
 # TEMPERATURE MARKETS (KXHIGH*, KXLOW*)
