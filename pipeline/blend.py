@@ -78,10 +78,61 @@ def blend(model_probs: dict, settings: dict, cam_multiplier: float = 1.0):
     }
 
 
+def variants(model_probs: dict, settings: dict, publish_mlm=False):
+    """Several competing consensuses from the same inputs, for scoring.
+
+    The only honest way to answer "is meteoblue better than the blend" is to
+    run both against real outcomes and compare Brier scores. A claim from a
+    vendor's marketing page is not evidence about YOUR stations and YOUR
+    settlement source.
+
+    So every run records what each configuration WOULD have said. After a few
+    weeks `pipeline.score` grades them side by side, and if mLM wins you can
+    switch on evidence instead of instinct.
+
+    Costs nothing extra: the model values are already fetched.
+    """
+    fams = settings["families"]
+    cal = settings.get("calibration", {})
+    adjusted = {k: apply_calibration(v, cal.get(k, 0.0))
+                for k, v in model_probs.items() if v is not None}
+
+    def mean_of(keys):
+        vals = [adjusted[k] for k in keys if k in adjusted]
+        return sum(vals) / len(vals) if vals else None
+
+    out = {}
+    full = blend(model_probs, settings)
+    if full:
+        out["blend_all"] = round(full["consensus"], 4)
+
+    # Each family alone.
+    for fam_key, fam in fams.items():
+        v = mean_of(fam["members"])
+        if v is None:
+            continue
+        # A solo mLM number IS meteoblue's forecast. Withhold it for the same
+        # reason the model column is withheld -- this file is published.
+        if fam_key == "mlm" and not publish_mlm:
+            continue
+        out[f"only_{fam_key}"] = round(v, 4)
+
+    # The blend with mLM removed, so its marginal contribution is measurable
+    # without ever publishing its value.
+    no_mlm = {k: v for k, v in model_probs.items() if k != "METEOBLUE"}
+    b2 = blend(no_mlm, settings)
+    if b2:
+        out["blend_without_mlm"] = round(b2["consensus"], 4)
+
+    return out
+
+
 def evaluate(consensus: float, quote: dict, settings: dict):
     """Which side to take, how much it's worth, and whether to flag it."""
+    from .kalshi import effective_fee_rate
     ecfg = settings["edge"]
-    mult = quote.get("fee_multiplier") or ecfg["fee_multiplier"]
+    mult = effective_fee_rate(quote.get("fee_multiplier"),
+                              ecfg["fee_multiplier"])
 
     ev_yes = edge_for_side(consensus, quote["yes_ask"], mult)
     ev_no = edge_for_side(1.0 - consensus, quote["no_ask"], mult)
@@ -98,7 +149,7 @@ def evaluate(consensus: float, quote: dict, settings: dict):
     # Liquidity gates: an 18-cent "edge" on a market with 30 contracts of
     # volume and a 9-cent spread is not an edge, it's an empty book.
     illiquid = (
-        quote["volume"] < ecfg["min_volume"]
+        quote.get("liquidity", quote["volume"]) < ecfg["min_volume"]
         or quote["spread"] > ecfg["max_spread_cents"]
     )
 
