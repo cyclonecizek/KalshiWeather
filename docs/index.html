@@ -27,6 +27,11 @@ header{padding:26px 0 14px;display:flex;flex-wrap:wrap;gap:20px;
   align-items:flex-end;justify-content:space-between}
 h1{font-size:27px;font-weight:600;margin:0;letter-spacing:-.02em}
 .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-soft);margin-top:6px}
+.bankroll{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft)}
+.bankroll input{width:90px;padding:7px 8px;border:1px solid var(--rule-strong);
+  background:var(--panel);color:var(--ink);font:500 13px "IBM Plex Mono",monospace;border-radius:2px}
+.bankroll input:focus-visible{outline:2px solid var(--model);outline-offset:-2px}
+.bankroll .hint{font-size:11.5px;max-width:190px;line-height:1.3}
 .daypick{display:flex;border:1px solid var(--rule-strong);border-radius:2px;overflow:hidden}
 .daypick button{font:500 13px/1 "IBM Plex Sans",sans-serif;background:transparent;
   color:var(--ink-soft);border:0;padding:9px 18px;cursor:pointer}
@@ -141,6 +146,11 @@ footer p{margin:0 0 9px}
     <h1>Weather board</h1>
     <div class="meta" id="stamp">loading…</div>
   </div>
+  <div class="bankroll">
+    <label for="bank">Bankroll $</label>
+    <input id="bank" type="number" min="0" step="50" value="500">
+    <span class="hint">turns the suggested stake into contracts and dollars</span>
+  </div>
   <div class="daypick" role="group" aria-label="Forecast day">
     <button id="d0" aria-pressed="true">Today</button>
     <button id="d1" aria-pressed="false">Tomorrow</button>
@@ -156,17 +166,18 @@ footer p{margin:0 0 9px}
 <div id="notices"></div>
 
 <section id="ops">
-  <h2>Everything mispriced today</h2>
-  <p class="lede">Both market types in one list, ranked by expected value in cents per contract after fees and after crossing the spread. Thin books are excluded.</p>
+  <h2>Where you disagree with the market</h2>
+  <p class="lede">A contract price <em>is</em> a forecast. 42¢ on a rain market means the market's PoP is 42%; a bracket ladder is a full temperature distribution, so it can be read back as a median and a range. Both sides are shown in weather units — degrees and PoP points — with the trade as the conclusion rather than the starting point. Ranked by edge after fees and spread; thin books excluded. <strong>Buy</strong> is how many contracts that works out to at your bankroll, and what they cost; <strong>Available</strong> is how many the order book can actually fill at that price right now.</p>
   <div class="tablewrap"><table id="opstbl">
     <thead><tr>
-      <th data-k="city" tabindex="0">Contract</th>
-      <th data-k="model" tabindex="0">Model</th>
-      <th data-k="price" tabindex="0">Price</th>
-      <th>Side</th>
-      <th data-k="ev" tabindex="0">EV ¢</th>
-      <th data-k="kelly" tabindex="0">Kelly</th>
-      <th data-k="vol" tabindex="0">Vol</th>
+      <th data-k="city" tabindex="0">City</th>
+      <th data-k="model" tabindex="0" title="what the blended guidance says">Your forecast</th>
+      <th data-k="mkt" tabindex="0" title="the same thing, read back out of the market's prices">Market says</th>
+      <th data-k="gap" tabindex="0" title="how far apart the two forecasts are, in weather units">Gap</th>
+      <th title="the contract that disagreement implies">Trade</th>
+      <th data-k="ev" tabindex="0" title="expected profit per contract after fees and spread">Edge ¢</th>
+      <th data-k="kelly" tabindex="0" title="fractional Kelly stake, converted to contracts at your bankroll and capped by what the book can fill">Buy</th>
+      <th data-k="vol" tabindex="0" title="contracts available at that price right now, from the order book">Available</th>
     </tr></thead><tbody></tbody>
   </table></div>
 </section>
@@ -179,7 +190,7 @@ footer p{margin:0 0 9px}
 
 <section id="tempboard">
   <h2>High temperature — which bracket the day lands in</h2>
-  <p class="lede">Filled bars are the blended model probability per bracket; the dashed line is what the market implies once its overround is stripped. A shifted line means disagreement about where the high lands, a flatter or peakier one means disagreement about how confident to be.</p>
+  <p class="lede">Filled bars are your blended forecast per bracket; the dashed line is the market's. Each card header gives both as a median and 80% range, so you can read the disagreement the way you would read two model solutions: a shifted line means they disagree on where the high lands, a flatter or peakier one means they disagree on how confident to be.</p>
   <div id="temp-body"></div>
 </section>
 
@@ -204,6 +215,24 @@ function probColor(p){
   return cssv(RAMP[Math.min(RAMP.length-1, Math.floor(p*RAMP.length))]);
 }
 const txtOn = p => (p!=null && p>=0.62) ? '#F4F5F2' : cssv('--ink');
+let BANKROLL = 500;
+
+function sizeTxt(r){
+  // Kelly is a fraction of bankroll. On its own "6%" is unusable, so turn it
+  // into contracts at the quoted price -- then cap by what the book can
+  // actually fill, because a suggested 300 contracts against 40 available is
+  // not a plan.
+  if(!r.kelly || r.kelly<=0) return '·';
+  const stake = BANKROLL * r.kelly;
+  let n = Math.floor(stake / (r.price/100));
+  if(n < 1) return '<span title="stake too small for one contract at this price">under 1</span>';
+  let capped = false;
+  if(r.depth!=null && n > r.depth){ n = r.depth; capped = true; }
+  const cost = n * r.price/100;
+  return n.toLocaleString()+' @ $'+cost.toFixed(0)+
+    (capped?'<span class="unver" title="reduced to the size the order book can fill">capped</span>':'');
+}
+
 function flagColor(f){
   if(f==='high') return cssv('--high');
   if(f==='watch') return cssv('--watch');
@@ -246,18 +275,35 @@ function opportunities(){
     // A window that has already elapsed is not a trade. The market has
     // converged and the "model probability" describes past weather.
     if(d.elapsed!=null && d.elapsed>0.9) continue;
-    out.push({kind:'rain', city:c.city, contract:'≥0.01"',
-      model:d.consensus, price:d.edge.price, side:d.edge.side,
-      ev:d.edge.ev_cents, kelly:d.edge.kelly, vol:d.market.volume, flag:d.edge.flag});
+    // Both forecasts in PoP points; the market's is just its mid price.
+    const mine = d.consensus*100, mkt = d.market.mid;
+    out.push({kind:'rain', city:c.city,
+      mineTxt: mine.toFixed(0)+'% PoP', mktTxt: mkt.toFixed(0)+'% PoP',
+      gapTxt: (mine-mkt>0?'+':'')+(mine-mkt).toFixed(0)+' pts',
+      gap: Math.abs(mine-mkt), model:mine, mkt:mkt,
+      trade: d.edge.side+' rain @ '+d.edge.price+'¢',
+      price:d.edge.price, side:d.edge.side,
+      ev:d.edge.ev_cents, kelly:d.edge.kelly, vol:d.market.volume,
+      depth:d.edge.depth, flag:d.edge.flag});
   }
   if(TEMP) for(const c of TEMP.cities){
     const d = c.days[DAY];
     if(!d) continue;
     for(const b of d.ladder){
       if(!b.edge || !b.edge.flag || b.edge.flag==='thin') continue;
-      out.push({kind:'temp', city:c.city, contract:b.label+'°',
-        model:b.model_p, price:b.edge.price, side:b.edge.side,
-        ev:b.edge.ev_cents, kelly:b.edge.kelly, vol:b.market.volume, flag:b.edge.flag});
+      // Compare the two DISTRIBUTIONS in degrees, then name the bracket.
+      const mf = d.market_forecast, df = d.distribution;
+      const mine = df ? df.median : null, mkt = mf ? mf.median : null;
+      const gap = (mine!=null && mkt!=null) ? mine-mkt : null;
+      out.push({kind:'temp', city:c.city,
+        mineTxt: df ? df.median.toFixed(1)+'° ('+df.p10.toFixed(0)+'–'+df.p90.toFixed(0)+')' : '·',
+        mktTxt: mf ? mf.median.toFixed(1)+'° ('+mf.p10.toFixed(0)+'–'+mf.p90.toFixed(0)+')' : '·',
+        gapTxt: gap==null ? '·' : ((gap>0?'+':'')+gap.toFixed(1)+'°F'),
+        gap: gap==null?0:Math.abs(gap), model:mine, mkt:mkt,
+        trade: b.edge.side+' '+b.label+'° @ '+b.edge.price+'¢',
+        price:b.edge.price, side:b.edge.side,
+        ev:b.edge.ev_cents, kelly:b.edge.kelly, vol:b.market.volume,
+        depth:b.edge.depth, flag:b.edge.flag});
     }
   }
   return out;
@@ -265,6 +311,8 @@ function opportunities(){
 function drawOps(){
   const rows = opportunities();
   const get = r => OSORT.key==='city' ? r.city : r[OSORT.key];
+  // default sort stays on edge -- that is what decides anything -- but the
+  // Gap column is sortable for scanning the board as a forecaster would
   rows.sort(sortBy(OSORT, get));
   document.getElementById('c-ops').textContent = rows.length ? rows.length : '';
   const tb = document.querySelector('#opstbl tbody');
@@ -272,13 +320,15 @@ function drawOps(){
     const fc = 'flag-'+r.flag;
     return '<tr data-city="'+r.city+'">'+
       '<td class="city"><span class="kind '+r.kind+'">'+(r.kind==='rain'?'RAIN':'TEMP')+'</span>'+
-        r.city+' '+r.contract+'</td>'+
-      '<td>'+(r.model*100).toFixed(1)+'</td>'+
-      '<td>'+r.price+'</td>'+
-      '<td class="side '+fc+'">'+r.side+'</td>'+
+        r.city+'</td>'+
+      '<td>'+r.mineTxt+'</td>'+
+      '<td>'+r.mktTxt+'</td>'+
+      '<td class="'+fc+'" style="font-weight:600">'+r.gapTxt+'</td>'+
+      '<td class="side">'+r.trade+'</td>'+
       '<td class="'+fc+'">+'+r.ev.toFixed(1)+'</td>'+
-      '<td>'+(r.kelly*100).toFixed(1)+'%</td>'+
-      '<td>'+r.vol.toLocaleString()+'</td></tr>';
+      '<td>'+sizeTxt(r)+'</td>'+
+      '<td'+(r.depth!=null&&r.depth<20?' class="flag-thin"':'')+'>'+
+        (r.depth!=null ? r.depth.toLocaleString() : '~'+r.vol.toLocaleString()+' OI')+'</td></tr>';
   }).join('')
    : '<tr><td colspan="7" style="text-align:center;color:var(--ink-soft);padding:30px">'+
      'Nothing clears the threshold on this day. That is the normal state of an efficient book.</td></tr>';
@@ -356,12 +406,13 @@ function drawRain(){
   const groups = rainFamilies();
   let g1='<tr class="groups"><th></th><th colspan="3">Market</th>';
   groups.forEach(g=>g1+='<th class="fam" colspan="'+g.members.length+'">'+g.label+'</th>');
-  g1+='<th class="fam" colspan="6">Signal</th></tr>';
+  g1+='<th class="fam" colspan="8">Signal</th></tr>';
   const Hd=(k,l,c)=>'<th data-k="'+k+'" tabindex="0" class="'+(c||'')+'">'+l+'</th>';
   let g2='<tr>'+Hd('city','City')+Hd('mid','Mid')+'<th>Bid–Ask</th><th>Vol</th>';
   groups.forEach(g=>g.members.forEach((m,i)=>g2+=Hd(m,m,i===0?'fam':'')));
   g2+=Hd('cons','Model','fam')+Hd('spread','Range')+Hd('pred','Pred')+Hd('cov','Cov')+
-      '<th>Side</th>'+Hd('ev','EV ¢')+'</tr>';
+      '<th title="meteoblue mLM">mLM</th><th>Obs</th><th>Side</th>'+
+      Hd('ev','EV ¢')+'</tr>';
 
   const body = data.map(r=>{
     const d=r.d, mk=d.market, e=d.edge;
@@ -380,10 +431,26 @@ function drawRain(){
     // used to discount neighbourhood CAM probabilities toward a point.
     t+='<td class="'+(d.predictability!=null&&d.predictability<60?'flag-watch':'')+'">'+
        (d.predictability==null?'·':Math.round(d.predictability))+'</td>';
+    // What the gauge has already caught today. `wet` means the contract is
+    // effectively decided; a late dry reading means the morning forecast has
+    // been conditioned down.
+    const ob=d.observed;
+    const obTxt = !ob ? '·' : (ob.wet ? 'WET' : (ob.precip_mm>0
+        ? ob.precip_mm.toFixed(2)+'mm' : 'dry '+Math.round(ob.elapsed*100)+'%'));
     const cv=d.coverage;
     t+='<td title="'+(cv?('wet area '+Math.round(cv.wet_fraction*100)+'%'+
         (cv.applied?', applied':', not applied')):'no rainSPOT')+'">'+
        (cv?Math.round(cv.wet_fraction*100)+(cv.applied?'*':''):'·')+'</td>';
+    // meteoblue's own value is withheld unless publish_values is on, because
+    // docs/data is public and republishing their forecast is restricted.
+    // A dot means it fed the consensus without being disclosed.
+    let mlm='·';
+    if(RAIN.meteoblue_published && d.raw_models && d.raw_models.METEOBLUE!=null)
+      mlm = pct(d.raw_models.METEOBLUE);
+    else if(d.mlm_present) mlm = '<span title="contributed to the consensus; '+
+      'value withheld under publish_values: false">●</span>';
+    t+='<td>'+mlm+'</td>';
+    t+='<td'+(ob&&ob.wet?' class="flag-high"':'')+'>'+obTxt+'</td>';
     if(e){
       const fc=e.flag?'flag-'+e.flag:'';
       t+='<td class="side '+fc+'">'+e.side+' '+e.price+'</td><td class="'+fc+'">'+
@@ -466,7 +533,8 @@ function drawTemp(){
   document.getElementById('c-temp').textContent=n;
   host.innerHTML='<div class="grid">'+cells+'</div>'+
     '<div class="legend" style="border-top:0;padding-top:0;margin-bottom:4px">'+
-    '<span><i class="sq f"></i>model</span><span><i class="l"></i>market, overround stripped</span>'+
+    '<span><i class="sq f"></i>your forecast</span>'+
+    '<span><i class="l"></i>market\u2019s forecast (overround stripped)</span>'+
     '<span>shaded card = flagged bracket inside</span><span>¢ in header = raw overround</span>'+
     '<span>pred = meteoblue confidence; × = spread widening applied</span></div>';
 }
@@ -479,6 +547,10 @@ function setDay(d){
   document.getElementById('d1').setAttribute('aria-pressed',d==='1');
   render();
 }
+document.getElementById('bank').addEventListener('input', e => {
+  BANKROLL = Math.max(0, parseFloat(e.target.value) || 0);
+  drawOps();
+});
 document.getElementById('d0').addEventListener('click',()=>setDay('0'));
 document.getElementById('d1').addEventListener('click',()=>setDay('1'));
 
@@ -506,6 +578,18 @@ Promise.all([grab('data/board.json'), grab('data/board_temp.json')]).then(functi
       ' settlement stations unverified.</strong> Open each market\'s rules and confirm the station '+
       'before sizing anything. Kalshi\'s temperature markets use Midway for Chicago and Hobby for '+
       'Houston; assume nothing carries over to rain.</div>');
+    if(RAIN && !RAIN.meteoblue_enabled) notices.push('<div class="notice info">'+
+      '<strong>meteoblue is not feeding the rain board.</strong> Its 0.23 weight '+
+      'is redistributed across the other families. If <code>METEOBLUE_KEY</code> '+
+      'is set as a secret, check that the workflow step passes it through with '+
+      'an <code>env:</code> block \u2014 the secret alone is not enough.</div>');
+    if(RAIN && RAIN.meteoblue_enabled && !RAIN.meteoblue_published)
+      notices.push('<div class="notice info"><strong>mLM values are withheld.</strong> '+
+      'It feeds the consensus and the mLM column shows \u25cf where it contributed, '+
+      'but the number itself is not published because this repo is public and '+
+      'redistributing their forecast is restricted. Set '+
+      '<code>publish_values: true</code> only if the repo is private or you have '+
+      'permission.</div>');
     if(TEMP && !TEMP.meteoblue_enabled) notices.push('<div class="notice info">'+
       '<strong>meteoblue mLM not connected.</strong> Its family weight is redistributed. Set '+
       '<code>METEOBLUE_KEY</code> to enable — it is the only source here that post-processes '+
