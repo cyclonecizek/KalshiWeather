@@ -155,6 +155,10 @@ def evaluate(consensus: float, quote: dict, settings: dict):
 
     if illiquid:
         flag = "thin"
+    elif ev >= ecfg.get("implausible_cents", 25.0):
+        # Too good to be true, so treat it as a fault report rather than a
+        # trade. Real mispricings on these markets are single digits.
+        flag = "suspect"
     elif ev >= ecfg["flag_high_cents"]:
         flag = "high"
     elif ev >= ecfg["flag_watch_cents"]:
