@@ -126,8 +126,9 @@ def fetch(cities, cfg, day_offsets=(0, 1), max_fhour=60):
         def sample(rec):
             k = (url_of[id(rec)], rec.offset)
             if k not in samplers:
+                # kind="raw" -- these are kelvin, not probabilities.
                 samplers[k] = sampler_from_bytes(
-                    fetch_record(url_of[id(rec)], rec, session))
+                    fetch_record(url_of[id(rec)], rec, session), kind="raw")
             return samplers[k]
 
         try:
@@ -143,13 +144,28 @@ def fetch(cities, cfg, day_offsets=(0, 1), max_fhour=60):
                 continue
             # GRIB carries kelvin; a standard deviation in kelvin is the same
             # magnitude in celsius, so it scales by 9/5 with no offset.
-            mean_f = (mu - 273.15) * 9.0 / 5.0 + 32.0 if mu > 200 else mu
+            if mu > 200:                       # kelvin
+                mean_f = (mu - 273.15) * 9.0 / 5.0 + 32.0
+            elif mu > 60:                        # already fahrenheit
+                mean_f = mu
+            else:                                # celsius
+                mean_f = mu * 9.0 / 5.0 + 32.0
             sd = sm_sd.at(c["lat"], c["lon"]) if sm_sd else None
             sd_f = sd * 9.0 / 5.0 if sd is not None else None
             rec = {"mean_f": round(mean_f, 2)}
             if sd_f is not None and sd_f > 0:
                 rec["sd_f"] = round(sd_f, 2)
             out[c["name"]][off] = rec
+
+    # A sanity line, because a units error here is invisible in the output
+    # and shows up 30 degrees later in the blended median.
+    sample_vals = [r["mean_f"] for v in out.values() for r in v.values()]
+    if sample_vals:
+        lo, hi = min(sample_vals), max(sample_vals)
+        print(f"  nbm_temp: TMAX range {lo:.0f}-{hi:.0f}F across cities")
+        if lo < 0 or hi > 130:
+            print("  nbm_temp: THAT RANGE IS NOT PLAUSIBLE -- unit handling "
+                  "is wrong somewhere between the GRIB decode and here")
 
     got = sum(1 for v in out.values() if v)
     with_sd = sum(1 for v in out.values()
