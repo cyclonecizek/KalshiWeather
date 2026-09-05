@@ -341,10 +341,14 @@ def survey_cycles(name, cfg, fhour=12, hours=range(24)):
         if n is None:
             print(f"  {cc:02d}Z  unreachable")
             continue
-        tag = "FULL" if any(w >= 6 for w in wins) else "1h only"
-        if any(w >= 6 for w in wins):
+        has_long = any(w >= 6 for w in wins)
+        tag = "FULL" if has_long else "1h only"
+        if has_long:
             full.append(cc)
-        print(f"  {cc:02d}Z  {n:4d} records  windows={sorted(wins) or '-':<12} {tag}")
+        # str() first -- a list has no __format__, so a width spec on it
+        # raises TypeError and takes the whole survey down.
+        wtxt = ",".join(str(w) for w in sorted(wins)) or "-"
+        print(f"  {cc:02d}Z  {n:4d} records  windows={wtxt:<12} {tag}")
 
     print()
     if full:
@@ -369,7 +373,12 @@ def main():
         if key in s:
             probe_grib(name, s[key])
     if "nbm" in s:
-        survey_cycles("NBM", s["nbm"])
+        try:
+            survey_cycles("NBM", s["nbm"])
+        except Exception as exc:  # noqa: BLE001
+            import traceback
+            print(f"\n  cycle survey failed: {exc}")
+            traceback.print_exc()
     return 0
 
 
