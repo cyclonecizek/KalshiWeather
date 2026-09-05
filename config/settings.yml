@@ -74,7 +74,12 @@ edge:
   # contract as thin and shows you an empty board. Observed open interest on
   # live weather markets runs from 0 to ~6600, median a few hundred.
   min_volume: 200
-  max_spread_cents: 6       # wider than this and you can't get filled at mid
+  # Rain books run wider than temperature books -- 8c is common. Since EV is
+  # already computed at the ask, the spread has been paid for once; this gate
+  # exists to catch quotes that are nominal rather than real, not to charge
+  # for the spread a second time. Set high enough that a genuine 20c edge
+  # survives, low enough to drop a book with nothing behind it.
+  max_spread_cents: 10
   kelly_cap: 0.25           # fraction of full Kelly to suggest
 
 # ---------------------------------------------------------------------------
@@ -347,4 +352,43 @@ temperature:
       # which their licence restricts independently of whether your own use
       # is commercial. Left false, mLM still feeds the blended consensus --
       # it just isn't itemised in the published file.
-      publish_values: true
+      publish_values: false
+
+# ===========================================================================
+# EXECUTION -- paper only.
+#
+# Everything an agent would need to place orders, with the sending step
+# removed. It reads the same boards, applies the policy below, sizes against
+# real book depth, and writes what it WOULD have done to docs/data/paper/.
+#
+# Thresholds here are deliberately stricter than the display ones. The board
+# shows what is worth looking at; this records what would be worth money.
+# ===========================================================================
+execution:
+  live: false                    # not implemented, and not until calibrated
+
+  # --- gates: reasons not to trade at all ---------------------------------
+  # The important one. Every calibration knob is a guess until the scorer has
+  # fitted it against outcomes, and trading an unfitted model is trading a
+  # hypothesis. Set false only once temperature.bias is populated.
+  require_calibration: true
+  max_data_age_minutes: 180      # a stale board is a wrong board
+  max_source_errors: 1
+
+  # --- which rows qualify -------------------------------------------------
+  min_edge_cents: 6.0            # above the 4c display threshold
+  max_edge_cents: 25.0           # above this is a data fault, not an edge
+  max_spread_cents: 5
+  min_depth: 25                  # contracts actually available at the price
+  max_elapsed: 0.75              # skip a day that is three-quarters gone
+
+  # --- sizing -------------------------------------------------------------
+  bankroll_dollars: 500.0
+  daily_budget_dollars: 50.0     # hard stop across all orders per day
+  max_per_market_dollars: 15.0   # no single contract dominates the book
+
+  # Post inside the spread instead of crossing it. Paying the ask donates
+  # several cents of a single-digit edge, and the maker fee is lower than the
+  # taker fee. The trade-off is that a limit order may not fill -- the ledger
+  # records the order, not an assumed fill.
+  limit_improvement_cents: 1
