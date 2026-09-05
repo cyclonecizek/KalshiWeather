@@ -148,10 +148,20 @@ def evaluate(consensus: float, quote: dict, settings: dict):
 
     # Liquidity gates: an 18-cent "edge" on a market with 30 contracts of
     # volume and a 9-cent spread is not an edge, it's an empty book.
-    illiquid = (
-        quote.get("liquidity", quote["volume"]) < ecfg["min_volume"]
-        or quote["spread"] > ecfg["max_spread_cents"]
-    )
+    # Say WHY, not just that. A row dropped without a reason is
+    # indistinguishable from a row that was never computed, and the two need
+    # very different responses.
+    reasons = []
+    liq = quote.get("liquidity", quote["volume"])
+    if liq < ecfg["min_volume"]:
+        reasons.append(f"only {liq} open interest")
+    if quote["spread"] > ecfg["max_spread_cents"]:
+        # NOTE: ev is already computed at the ask, so the spread has been
+        # paid for once. This gate is about whether the quote is TRUSTWORTHY,
+        # not about cost -- a wide book often means a stale or nominal price.
+        reasons.append(f"{quote['spread']}c spread")
+    illiquid = bool(reasons)
+
 
     if illiquid:
         flag = "thin"
@@ -175,6 +185,7 @@ def evaluate(consensus: float, quote: dict, settings: dict):
         "fee_cents": kalshi_fee_cents(price, mult),
         "kelly": round(kelly, 4),
         "gap_points": round((consensus * 100.0) - quote["mid"], 1),
+        "gated_because": "; ".join(reasons) or None,
         "flag": flag,
         "illiquid": illiquid,
     }
