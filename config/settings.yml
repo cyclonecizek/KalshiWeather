@@ -60,6 +60,13 @@ min_families_for_signal: 2
 edge:
   fee_multiplier: 0.07      # Kalshi: ceil(multiplier * C * P * (1-P)); overridden
                             # per-series from the API when available
+  # An edge this large on a liquid market does not exist. Seeing one means
+  # something upstream is broken -- a merged bracket ladder, a mis-parsed
+  # price, a stale forecast -- so it is flagged as suspect rather than
+  # presented as the best trade on the board. On 2026-09-05 this would have
+  # caught +98c rows produced by two overlapping ladders being normalised
+  # together.
+  implausible_cents: 25.0
   flag_high_cents: 8.0
   flag_watch_cents: 4.0
   # Judged on OPEN INTEREST, not volume -- this API version returns no
@@ -245,6 +252,7 @@ temperature:
 
   edge:
     fee_multiplier: 0.07
+    implausible_cents: 25.0
     flag_high_cents: 6.0
     flag_watch_cents: 3.0
     min_volume: 100         # open interest; see the rain note above
@@ -316,4 +324,4 @@ temperature:
       # which their licence restricts independently of whether your own use
       # is commercial. Left false, mLM still feeds the blended consensus --
       # it just isn't itemised in the published file.
-      publish_values: true
+      publish_values: false
