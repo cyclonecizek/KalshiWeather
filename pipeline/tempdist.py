@@ -225,10 +225,24 @@ def apply_observation(quants, obs_max, heat_left, tolerance=0.5,
         return list(quants)
 
     floor = obs_max - tolerance
-    shrunk = []
-    for q in quants:
-        above = max(0.0, q - floor)
-        shrunk.append(floor + above * max(0.02, heat_left))
+
+    # Collapse toward the ANCHOR, not toward the floor.
+    #
+    # The floor is only a lower bound: the day cannot end colder than what has
+    # already been recorded. It is not a statement that the day will end THERE.
+    # Shrinking every quantile toward it meant that a station reading 55F at
+    # 8pm dragged a 90F forecast down to about 56F -- the observation
+    # overwriting the forecast instead of truncating it.
+    #
+    # The anchor is whichever is higher: the observed maximum, or the
+    # forecast's own median. Late in the day the distribution tightens around
+    # that, which is the intended behaviour -- there is little time left for
+    # the high to move -- without ever pulling the centre below where the
+    # forecast already sat.
+    mid = quants[len(quants) // 2]
+    anchor = max(floor, mid)
+    keep = max(0.02, heat_left)
+    shrunk = [max(floor, anchor + (q - anchor) * keep) for q in quants]
     # Keep it monotone and never below the floor.
     out, prev = [], -1e9
     for v in shrunk:
