@@ -223,3 +223,23 @@ def pick_window_records(recs, idx_regex: str, cycle_hour: int,
             tiled.append(r)
             cursor = r.acc_end
     return tiled
+
+
+def window_coverage(records, want_start_h, want_end_h):
+    """Fraction of the target window the chosen records actually span.
+
+    Without this a set of four 1-hour records looks like a valid tiling of a
+    24-hour day, and the resulting "daily probability" describes four hours.
+    Nothing downstream can detect that -- the number is a plausible-looking
+    float either way.
+    """
+    span = max(1e-6, want_end_h - want_start_h)
+    covered = 0.0
+    for r in records:
+        if r.acc_start is None or r.acc_end is None:
+            continue
+        lo = max(r.acc_start, want_start_h)
+        hi = min(r.acc_end, want_end_h)
+        if hi > lo:
+            covered += hi - lo
+    return min(1.0, covered / span)
