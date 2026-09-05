@@ -17,7 +17,7 @@ from pathlib import Path
 from .brackets import (build_ladder, check_arbitrage, coverage_gaps,
                        implied_distribution, implied_quantiles, pick_ladder)
 from .kalshi import SCHEMA_VERSION, Kalshi
-from .sources import meteoblue, temp_sources
+from .sources import meteoblue, nbm_temp, temp_sources
 
 try:
     from .sources import observations          # optional; see build.py
@@ -79,6 +79,14 @@ def main():
             point["MOS"] = v
     else:
         print("  mos: disabled in settings")
+    nbmt_cfg = tcfg["sources"].get("nbm_temp", {})
+    nbmt = run("nbm-temp", lambda: nbm_temp.fetch(
+        cities, nbmt_cfg, DAY_OFFSETS)) if nbmt_cfg.get("enabled") else None
+    if nbmt:
+        point["NBM_T"] = {
+            city: {off: r["mean_f"] for off, r in days.items()}
+            for city, days in nbmt.items() if days}
+
     mb_cfg = tcfg["sources"]["meteoblue"]
     mb = run("meteoblue", lambda: meteoblue.fetch(cities, mb_cfg, DAY_OFFSETS))
     if mb:
@@ -140,6 +148,8 @@ def main():
             dist, diag = build_distribution(
                 c, off, members, point, tcfg, errors,
                 extras=(mb.get(c["name"]) or {}).get(off) or {},
+                nbm_sigma=((nbmt or {}).get(c["name"]) or {}).get(off, {})
+                          .get("sd_f"),
                 obs=(obs.get(c["name"]) or {}).get(off),
                 obs_cfg=obs_cfg)
             ladder = build_ladder(day_markets, Kalshi.quote)
@@ -231,7 +241,7 @@ def main():
 # ---------------------------------------------------------------------------
 
 def build_distribution(city, off, members, point, tcfg, errors, extras=None,
-                       obs=None, obs_cfg=None):
+                       obs=None, obs_cfg=None, nbm_sigma=None):
     """Family quantile curves -> Vincentized, bias-corrected Dist.
 
     Two meteoblue extras change the numbers here:
@@ -269,6 +279,10 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
                     # the placeholder whenever it came back.
                     if m == "METEOBLUE" and extras.get("temp_spread"):
                         s = float(extras["temp_spread"])
+                    # NBM ships its own ensemble sigma, so this member does
+                    # not need a placeholder at all.
+                    if m == "NBM_T" and nbm_sigma:
+                        s = float(nbm_sigma)
                     curves.append(normal_quantiles(mu, s))
                     # meteoblue's licence restricts republishing their data,
                     # and docs/data/ is committed and served publicly. Record
@@ -302,6 +316,8 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
     diag["_predictability"] = pred
     diag["_predictability_widening"] = round(widen, 3)
     diag["_n_families"] = len(fam_sets)
+    if nbm_sigma:
+        diag["_nbm_sigma_f"] = round(float(nbm_sigma), 2)
 
     quants = adjust(blended, bias, sf_eff)
 
