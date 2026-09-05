@@ -561,6 +561,9 @@ function drawTemp(){
     const dg=d.diagnostics||{};
     let sub=dist?('median '+dist.median.toFixed(1)+'°  ·  80% '+
       dist.p10.toFixed(0)+'–'+dist.p90.toFixed(0)+'°'):'no model distribution';
+    if(dg._observed_max!=null) sub+='   \u00b7   obs '+dg._observed_max.toFixed(0)+'\u00b0';
+    if(dg._obs_rejected!=null) sub+='   \u00b7   <span class="flag-high">obs '+
+      dg._obs_rejected.toFixed(0)+'\u00b0 rejected</span>';
     if(dg._predictability!=null)
       sub+='  ·  pred '+Math.round(dg._predictability)+'%'+
            (dg._predictability_widening>1.01?' ×'+dg._predictability_widening.toFixed(2):'');
