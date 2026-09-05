@@ -27,6 +27,13 @@ header{padding:26px 0 14px;display:flex;flex-wrap:wrap;gap:20px;
   align-items:flex-end;justify-content:space-between}
 h1{font-size:27px;font-weight:600;margin:0;letter-spacing:-.02em}
 .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-soft);margin-top:6px}
+.kindpick{display:inline-flex;border:1px solid var(--rule-strong);border-radius:2px;
+  overflow:hidden;margin-bottom:12px}
+.kindpick button{font:500 12.5px/1 "IBM Plex Sans",sans-serif;background:transparent;
+  color:var(--ink-soft);border:0;padding:8px 15px;cursor:pointer}
+.kindpick button + button{border-left:1px solid var(--rule-strong)}
+.kindpick button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.kindpick button:focus-visible{outline:2px solid var(--model);outline-offset:-2px}
 .bankroll{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft)}
 .bankroll input{width:90px;padding:7px 8px;border:1px solid var(--rule-strong);
   background:var(--panel);color:var(--ink);font:500 13px "IBM Plex Mono",monospace;border-radius:2px}
@@ -166,10 +173,16 @@ footer p{margin:0 0 9px}
 <div id="notices"></div>
 <div id="suspect-note"></div>
 <div id="width-note"></div>
+<div id="gated-note"></div>
 
 <section id="ops">
   <h2>Where you disagree with the market</h2>
   <p class="lede">A contract price <em>is</em> a forecast. 42¢ on a rain market means the market's PoP is 42%; a bracket ladder is a full temperature distribution, so it can be read back as a median and a range. Both sides are shown in weather units — degrees and PoP points — with the trade as the conclusion rather than the starting point. Ranked by edge after fees and spread; thin books excluded. <strong>Buy</strong> is how many contracts that works out to at your bankroll, and what they cost; <strong>Available</strong> is how many the order book can actually fill at that price right now. <strong>Width</strong> is your 80% interval divided by the market's — two forecasts can share a median and still disagree completely about confidence, and that disagreement is what most of these trades are actually about.</p>
+  <div class="kindpick" role="group" aria-label="Market type">
+    <button id="k-all" aria-pressed="true">All</button>
+    <button id="k-rain" aria-pressed="false">Rain</button>
+    <button id="k-temp" aria-pressed="false">Temperature</button>
+  </div>
   <div class="tablewrap"><table id="opstbl">
     <thead><tr>
       <th data-k="city" tabindex="0">City</th>
@@ -270,12 +283,14 @@ function highlight(city, on){
 }
 
 /* ---------------- unified opportunities ---------------- */
-function opportunities(){
+function opportunities(includeGated){
   const out = [];
   if(RAIN) for(const c of RAIN.cities){
     const d = c.days[DAY];
-    if(!d || !d.edge || !d.edge.flag || d.edge.flag==='thin') continue;
+    if(!d || !d.edge || !d.edge.flag) continue;
     if(d.edge.flag==='suspect') continue;
+    const gated = d.edge.flag==='thin';
+    if(gated && !includeGated) continue;
     // A window that has already elapsed is not a trade. The market has
     // converged and the "model probability" describes past weather.
     if(d.elapsed!=null && d.elapsed>0.9) continue;
@@ -288,14 +303,16 @@ function opportunities(){
       trade: d.edge.side+' rain @ '+d.edge.price+'¢',
       price:d.edge.price, side:d.edge.side,
       ev:d.edge.ev_cents, kelly:d.edge.kelly, vol:d.market.volume,
-      depth:d.edge.depth, flag:d.edge.flag});
+      depth:d.edge.depth, flag:d.edge.flag, gated:gated,
+      why:d.edge.gated_because});
   }
   if(TEMP) for(const c of TEMP.cities){
     const d = c.days[DAY];
     if(!d) continue;
     for(const b of d.ladder){
-      if(!b.edge || !b.edge.flag || b.edge.flag==='thin'
-         || b.edge.flag==='suspect') continue;
+      if(!b.edge || !b.edge.flag || b.edge.flag==='suspect') continue;
+      const gatedT = b.edge.flag==='thin';
+      if(gatedT && !includeGated) continue;
       // Compare the two DISTRIBUTIONS in degrees, then name the bracket.
       const mf = d.market_forecast, df = d.distribution;
       const mine = df ? df.median : null, mkt = mf ? mf.median : null;
@@ -314,18 +331,42 @@ function opportunities(){
         trade: b.edge.side+' '+b.label+'° @ '+b.edge.price+'¢',
         price:b.edge.price, side:b.edge.side,
         ev:b.edge.ev_cents, kelly:b.edge.kelly, vol:b.market.volume,
-        depth:b.edge.depth, flag:b.edge.flag});
+        depth:b.edge.depth, flag:b.edge.flag, gated:gatedT,
+        why:b.edge.gated_because});
     }
   }
   return out;
 }
+let SHOW_GATED = false;
+let KIND = 'all';          // 'all' | 'rain' | 'temp' 
+
 function drawOps(){
-  const rows = opportunities();
+  // Filter before sorting and before counting, so the count in the nav and
+  // the held-back note both describe what is actually on screen.
+  const pass = r => KIND === 'all' || r.kind === KIND;
+  const rows = opportunities(SHOW_GATED).filter(pass);
   const get = r => OSORT.key==='city' ? r.city : r[OSORT.key];
   // default sort stays on edge -- that is what decides anything -- but the
   // Gap column is sortable for scanning the board as a forecaster would
   rows.sort(sortBy(OSORT, get));
-  document.getElementById('c-ops').textContent = rows.length ? rows.length : '';
+  document.getElementById('c-ops').textContent =
+    rows.filter(r=>!r.gated).length || '';
+  // Count what is being withheld and why, so an empty table is never
+  // ambiguous between "no edges" and "edges you were not shown".
+  const hidden = opportunities(true).filter(r => r.gated && pass(r));
+  const byWhy = {};
+  hidden.forEach(r=>{ const k=r.why||'thin book'; byWhy[k]=(byWhy[k]||0)+1; });
+  const gn=document.getElementById('gated-note');
+  if(gn) gn.innerHTML = hidden.length
+    ? ('<div class="notice"><strong>'+hidden.length+' row(s) held back on '+
+       'liquidity.</strong> '+Object.entries(byWhy).map(kv=>kv[1]+' \u00d7 '+kv[0])
+       .join(', ')+'. Their edge is already net of paying the ask, so a wide '+
+       'spread is a reason to doubt the quote is real, not a second charge. '+
+       '<a href="#" id="toggle-gated">'+(SHOW_GATED?'hide':'show')+' them</a>.</div>')
+    : '';
+  const tg=document.getElementById('toggle-gated');
+  if(tg) tg.addEventListener('click', e => {
+    e.preventDefault(); SHOW_GATED = !SHOW_GATED; drawOps(); });
   let susp = 0;
   if(RAIN) for(const c of RAIN.cities){ const d=c.days[DAY];
     if(d && d.edge && d.edge.flag==='suspect') susp++; }
@@ -362,14 +403,17 @@ function drawOps(){
       '<td class="'+fc+'" style="font-weight:600">'+r.gapTxt+'</td>'+
       '<td'+(r.width!=null&&(r.width>1.4||r.width<0.7)?' class="flag-watch"':'')+'>'+
         (r.width==null?'·':'×'+r.width.toFixed(2))+'</td>'+
-      '<td class="side">'+r.trade+'</td>'+
+      '<td class="side">'+r.trade+
+        (r.gated?'<span class="unver" title="'+(r.why||'')+'">gated</span>':'')+
+        '</td>'+
       '<td class="'+fc+'">+'+r.ev.toFixed(1)+'</td>'+
       '<td>'+sizeTxt(r)+'</td>'+
       '<td'+(r.depth!=null&&r.depth<20?' class="flag-thin"':'')+'>'+
         (r.depth!=null ? r.depth.toLocaleString() : '~'+r.vol.toLocaleString()+' OI')+'</td></tr>';
   }).join('')
    : '<tr><td colspan="7" style="text-align:center;color:var(--ink-soft);padding:30px">'+
-     'Nothing clears the threshold on this day. That is the normal state of an efficient book.</td></tr>';
+     (KIND==='all' ? 'Nothing clears the threshold on this day. That is the normal state of an efficient book.'
+       : 'Nothing in '+(KIND==='rain'?'rain':'temperature')+' clears the threshold. Try All.')+'</td></tr>';
   tb.querySelectorAll('tr[data-city]').forEach(tr=>{
     tr.addEventListener('mouseenter',()=>highlight(tr.dataset.city,true));
     tr.addEventListener('mouseleave',()=>highlight(tr.dataset.city,false));
@@ -588,6 +632,15 @@ function setDay(d){
   document.getElementById('d1').setAttribute('aria-pressed',d==='1');
   render();
 }
+function setKind(k){
+  KIND = k;
+  ['all','rain','temp'].forEach(x =>
+    document.getElementById('k-'+x).setAttribute('aria-pressed', x===k));
+  drawOps();
+}
+['all','rain','temp'].forEach(k =>
+  document.getElementById('k-'+k).addEventListener('click', () => setKind(k)));
+
 document.getElementById('bank').addEventListener('input', e => {
   BANKROLL = Math.max(0, parseFloat(e.target.value) || 0);
   drawOps();
