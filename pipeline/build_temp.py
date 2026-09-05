@@ -17,9 +17,21 @@ from pathlib import Path
 from .brackets import (build_ladder, check_arbitrage, coverage_gaps,
                        implied_distribution, implied_quantiles)
 from .kalshi import SCHEMA_VERSION, Kalshi
-from .sources import meteoblue, observations, temp_sources
-from .tempdist import (Dist, adjust, apply_observation, blend_quantiles,
-                       members_to_quantiles, normal_quantiles)
+from .sources import meteoblue, temp_sources
+
+try:
+    from .sources import observations          # optional; see build.py
+except ImportError:
+    observations = None
+from .tempdist import (Dist, adjust, blend_quantiles, members_to_quantiles,
+                       normal_quantiles)
+
+# Optional, same reasoning as the observations import: a stale tempdist.py
+# should cost the intraday correction, not the whole board.
+try:
+    from .tempdist import apply_observation
+except ImportError:
+    apply_observation = None
 from .util import (edge_for_side, kalshi_fee_cents, kelly_fraction, load_yaml,
                    local_date_str)
 
@@ -33,6 +45,12 @@ def main():
     cities = load_yaml(ROOT / "config" / "cities.yml")["cities"]
     tcfg = settings["temperature"]
     src = settings["sources"]
+
+    print(f"building temperature board for {len(cities)} cities "
+          f"| kalshi schema {SCHEMA_VERSION}")
+    from .selfcheck import report
+    if not report():
+        return 1
 
     errors = []
 
@@ -74,8 +92,13 @@ def main():
               "(METEOBLUE_KEY env / settings temperature.sources.meteoblue.api_key)")
 
     obs_cfg = src.get("observations", {})
-    obs = run("observations", lambda: observations.fetch(
-        cities, DAY_OFFSETS, obs_cfg)) or {}
+    if observations is None:
+        print("  observations: pipeline/sources/observations.py is missing -- "
+              "the board will run without the intraday layer")
+        obs = {}
+    else:
+        obs = run("observations", lambda: observations.fetch(
+            cities, DAY_OFFSETS, obs_cfg)) or {}
 
     # ---- market --------------------------------------------------------
     kal = Kalshi(src["kalshi"]["base"])
@@ -282,7 +305,8 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
     # largest correction available on an afternoon board: an observed max
     # zeroes every bracket beneath it, and late in the day it collapses the
     # rest toward that value.
-    if obs and obs.get("max_f") is not None:
+    if (obs and obs.get("max_f") is not None and observations is not None
+            and apply_observation is not None):
         cfgo = obs_cfg or {}
         heat = observations.heating_remaining(obs.get("local_hour", 12))
         quants = apply_observation(
