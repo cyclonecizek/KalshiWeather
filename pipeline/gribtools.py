@@ -89,18 +89,30 @@ def _grid_key(lats, lons):
 class Sampler:
     """Nearest-gridpoint lookup on an unstructured/curvilinear GRIB grid."""
 
-    def __init__(self, values: np.ndarray, lats: np.ndarray, lons: np.ndarray):
+    def __init__(self, values: np.ndarray, lats: np.ndarray, lons: np.ndarray,
+                 kind: str = "raw"):
         from scipy.spatial import cKDTree
 
         self.values = values.ravel()
-        # Decide percent-vs-fraction ONCE from the whole field, not per value.
-        # The old per-value rule was `v/100 if v > 1 else v`, which silently
-        # turns a genuine 0.5% probability into 50%. Every low-probability
-        # city on the board would read as a coin flip.
-        finite = self.values[np.isfinite(self.values)]
-        vmax = float(finite.max()) if finite.size else 0.0
-        self.scale = 0.01 if vmax > 1.0 else 1.0
-        self.units_note = ("percent" if self.scale == 0.01 else "fraction")
+        # Unit handling is OPT-IN, and only for probabilities.
+        #
+        # This used to auto-detect percent-vs-fraction from the field maximum
+        # for every field. That is right for a probability and catastrophic
+        # for anything else: NBM temperature is in kelvin, so a 320 K field
+        # looked like percent, got multiplied by 0.01, and produced a 3 F
+        # forecast that dragged the blended median down by 30 degrees.
+        #
+        # A field's units are a property of the field, not something to infer
+        # from its values, so the caller now says which it is.
+        self.kind = kind
+        if kind == "probability":
+            finite = self.values[np.isfinite(self.values)]
+            vmax = float(finite.max()) if finite.size else 0.0
+            self.scale = 0.01 if vmax > 1.0 else 1.0
+            self.units_note = "percent" if self.scale == 0.01 else "fraction"
+        else:
+            self.scale = 1.0
+            self.units_note = "raw (unscaled)"
         key = _grid_key(lats, lons)
         tree = _TREES.get(key)
         if tree is None:
@@ -130,8 +142,12 @@ class Sampler:
         return float(v) * self.scale
 
 
-def sampler_from_bytes(blob: bytes) -> Sampler:
-    """Decode one GRIB record and wrap it in a Sampler."""
+def sampler_from_bytes(blob: bytes, kind: str = "raw") -> Sampler:
+    """Decode one GRIB record and wrap it in a Sampler.
+
+    `kind="probability"` enables percent-vs-fraction detection. Leave it at
+    "raw" for temperatures, wind, anything with real units.
+    """
     import os
 
     import pygrib
@@ -160,7 +176,7 @@ def sampler_from_bytes(blob: bytes) -> Sampler:
                 _LATLONS[meta] = (lats, lons)
                 print(f"      cached grid geometry {msg.Ni}x{msg.Nj}")
         grbs.close()
-        return Sampler(np.asarray(vals), lats, lons)
+        return Sampler(np.asarray(vals), lats, lons, kind=kind)
     finally:
         try:
             os.unlink(path)
