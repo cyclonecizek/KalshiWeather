@@ -25,7 +25,7 @@ import time
 import requests
 
 from ..gribtools import (candidate_fhours, fetch_record, pick_window_records,
-                         read_idx, sampler_from_bytes)
+                         read_idx, sampler_from_bytes, window_coverage)
 from ..util import aligned_cycle, local_day_window, stitch_pops
 
 # Rough wall-clock delay from cycle time to data being on NOMADS.
@@ -84,7 +84,7 @@ def fetch(model_key, cities, cfg, rho=0.5, day_offsets=(0, 1),
         k = (url, rec.offset)
         if k not in sampler_cache:
             sampler_cache[k] = sampler_from_bytes(
-                fetch_record(url, rec, session))
+                fetch_record(url, rec, session), kind="probability")
         return sampler_cache[k]
 
     used_cycles = set()
@@ -109,6 +109,15 @@ def fetch(model_key, cities, cfg, rho=0.5, day_offsets=(0, 1),
         chosen = pick_window_records(recs_only, cfg["idx_regex"], cc, s_h, e_h)
         if not chosen:
             continue
+        cov = window_coverage(chosen, s_h, e_h)
+        min_cov = cfg.get("min_window_coverage", 0.75)
+        if cov < min_cov:
+            print(f"      SKIPPED: records cover only {cov:.0%} of the "
+                  f"{e_h - s_h}h window. Dropping rather than reporting a "
+                  f"daily probability built from {cov * (e_h - s_h):.0f} "
+                  f"hours of data.")
+            continue
+        print(f"      coverage {cov:.0%} from {len(chosen)} record(s)")
         try:
             samplers = [sampler_for(url_of[id(r)], r) for r in chosen]
             print(f"      {len(samplers)} record(s), units="
