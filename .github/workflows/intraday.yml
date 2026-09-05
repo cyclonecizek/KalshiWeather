@@ -1,0 +1,77 @@
+name: Intraday refresh
+
+# The whole point of the observation layer is being timely, so this runs
+# hourly through the US daytime rather than four times a day.
+#
+# By mid-afternoon a station has largely set its high, which zeroes every
+# bracket below it, and a recorded 0.01" decides a rain contract outright.
+# A board refreshed once at 15:40Z cannot see any of that.
+#
+# 14:00-04:00 UTC covers roughly 9am-9pm Eastern through 6am-9pm Pacific.
+# Outside that window the four scheduled runs in update-board.yml suffice.
+
+on:
+  schedule:
+    # Every two hours through the US day. Hourly plus the four scheduled
+    # runs plus the deploy was enough concurrent traffic that runs queued
+    # behind each other and got dropped.
+    - cron: "5 14,16,18,20,22 * * *"
+    - cron: "5 0,2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Shared with update-board so two builders never commit at once, but the
+# deploy sits in its own group -- see deploy-pages.yml.
+concurrency:
+  group: board
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install ecCodes
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libeccodes-dev
+      - run: pip install -r requirements.txt
+
+      - name: Restore meteoblue cache
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: meteoblue-${{ github.run_id }}
+          restore-keys: meteoblue-
+
+      - name: Build rain board
+        timeout-minutes: 10
+        env:
+          METEOBLUE_KEY: ${{ secrets.METEOBLUE_KEY }}
+        run: python -m pipeline.build
+        continue-on-error: true
+
+      - name: Build temperature board
+        timeout-minutes: 8
+        env:
+          METEOBLUE_KEY: ${{ secrets.METEOBLUE_KEY }}
+        run: python -m pipeline.build_temp
+        continue-on-error: true
+
+      - name: Commit
+        run: |
+          git config user.name  "board-bot"
+          git config user.email "board-bot@users.noreply.github.com"
+          git pull --rebase --autostash || true
+          git add docs/data
+          git diff --staged --quiet || {
+            git commit -m "intraday $(date -u '+%Y-%m-%d %H:%MZ')"
+            git push
+          }
