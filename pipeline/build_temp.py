@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .brackets import (build_ladder, check_arbitrage, coverage_gaps,
-                       implied_distribution, implied_quantiles)
+                       implied_distribution, implied_quantiles, pick_ladder)
 from .kalshi import SCHEMA_VERSION, Kalshi
 from .sources import meteoblue, temp_sources
 
@@ -143,6 +143,10 @@ def main():
                 obs=(obs.get(c["name"]) or {}).get(off),
                 obs_cfg=obs_cfg)
             ladder = build_ladder(day_markets, Kalshi.quote)
+            ladder, dropped = pick_ladder(ladder)
+            if dropped:
+                print(f"  {c['name']} {date_str}: {dropped} overlapping "
+                      f"ladder(s) discarded, kept {len(ladder)} brackets")
             if not ladder:
                 print(f"  {c['name']} {date_str}: {len(day_markets)} markets "
                       f"but no usable quotes")
@@ -337,6 +341,10 @@ def evaluate_bracket(p, quote, fee_mult, tcfg):
 
     if illiquid:
         flag = "thin"
+    elif ev >= ecfg.get("implausible_cents", 25.0):
+        # Too good to be true, so treat it as a fault report rather than a
+        # trade. Real mispricings on these markets are single digits.
+        flag = "suspect"
     elif ev >= ecfg["flag_high_cents"]:
         flag = "high"
     elif ev >= ecfg["flag_watch_cents"]:
@@ -391,9 +399,10 @@ def _is_for_date(m, date_str):
     d = datetime.strptime(date_str, "%Y-%m-%d")
     stamp = d.strftime("%y%b%d").upper()
     ev = ((m.get("event_ticker") or "") + (m.get("ticker") or "")).upper()
-    if stamp in ev:
-        return True
-    return (m.get("close_time") or "")[:10] == date_str
+    # Ticker stamp only. The close_time fallback was wrong: a Sep 5 contract
+    # closes on Sep 6, so it matched BOTH day 0 and day 1 and pulled the same
+    # markets into two different ladders.
+    return stamp in ev
 
 
 if __name__ == "__main__":
