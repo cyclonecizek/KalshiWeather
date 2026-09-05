@@ -15,11 +15,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .brackets import (build_ladder, check_arbitrage, coverage_gaps,
-                       implied_distribution)
+                       implied_distribution, implied_quantiles)
 from .kalshi import SCHEMA_VERSION, Kalshi
-from .sources import meteoblue, temp_sources
-from .tempdist import (Dist, adjust, blend_quantiles, members_to_quantiles,
-                       normal_quantiles)
+from .sources import meteoblue, observations, temp_sources
+from .tempdist import (Dist, adjust, apply_observation, blend_quantiles,
+                       members_to_quantiles, normal_quantiles)
 from .util import (edge_for_side, kalshi_fee_cents, kelly_fraction, load_yaml,
                    local_date_str)
 
@@ -73,6 +73,10 @@ def main():
         print("  meteoblue: no key set, skipping "
               "(METEOBLUE_KEY env / settings temperature.sources.meteoblue.api_key)")
 
+    obs_cfg = src.get("observations", {})
+    obs = run("observations", lambda: observations.fetch(
+        cities, DAY_OFFSETS, obs_cfg)) or {}
+
     # ---- market --------------------------------------------------------
     kal = Kalshi(src["kalshi"]["base"])
     series_map = {}
@@ -112,7 +116,9 @@ def main():
 
             dist, diag = build_distribution(
                 c, off, members, point, tcfg, errors,
-                extras=(mb.get(c["name"]) or {}).get(off) or {})
+                extras=(mb.get(c["name"]) or {}).get(off) or {},
+                obs=(obs.get(c["name"]) or {}).get(off),
+                obs_cfg=obs_cfg)
             ladder = build_ladder(day_markets, Kalshi.quote)
             if not ladder:
                 print(f"  {c['name']} {date_str}: {len(day_markets)} markets "
@@ -131,10 +137,21 @@ def main():
                 p = dist.prob_between(b["lo"], b["hi"])
                 b["model_p"] = round(p, 4)
                 b["edge"] = evaluate_bracket(p, b["market"], fee_mult, tcfg)
+                if b["edge"] and b["edge"].get("flag") in ("high", "watch"):
+                    b["edge"]["depth"] = _depth_for(
+                        kal, b["market"]["ticker"], b["edge"]["side"])
+
+            mq = implied_quantiles(ladder, implied)
 
             days[str(off)] = {
                 "date": date_str,
                 "ladder": ladder,
+                # The market's own forecast, recovered from its prices, so
+                # the board can compare forecast to forecast rather than
+                # probability to cents.
+                "market_forecast": None if not mq else {
+                    "median": mq.get(0.5), "p10": mq.get(0.1),
+                    "p90": mq.get(0.9)},
                 "overround": None if overround is None else round(overround, 4),
                 "arbitrage": check_arbitrage(ladder),
                 "gaps": coverage_gaps(ladder),
@@ -186,7 +203,8 @@ def main():
 
 # ---------------------------------------------------------------------------
 
-def build_distribution(city, off, members, point, tcfg, errors, extras=None):
+def build_distribution(city, off, members, point, tcfg, errors, extras=None,
+                       obs=None, obs_cfg=None):
     """Family quantile curves -> Vincentized, bias-corrected Dist.
 
     Two meteoblue extras change the numbers here:
@@ -257,7 +275,25 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None):
     diag["_predictability"] = pred
     diag["_predictability_widening"] = round(widen, 3)
     diag["_n_families"] = len(fam_sets)
-    return Dist(adjust(blended, bias, sf_eff)), diag
+
+    quants = adjust(blended, bias, sf_eff)
+
+    # Fold in what the station has already recorded. This is the single
+    # largest correction available on an afternoon board: an observed max
+    # zeroes every bracket beneath it, and late in the day it collapses the
+    # rest toward that value.
+    if obs and obs.get("max_f") is not None:
+        cfgo = obs_cfg or {}
+        heat = observations.heating_remaining(obs.get("local_hour", 12))
+        quants = apply_observation(
+            quants, obs["max_f"], heat,
+            tolerance=cfgo.get("tolerance_f", 0.5),
+            min_spread=cfgo.get("min_spread_f", 1.4))
+        diag["_observed_max"] = obs["max_f"]
+        diag["_heat_remaining"] = round(heat, 3)
+        diag["_obs_source"] = obs.get("source")
+
+    return Dist(quants), diag
 
 
 def evaluate_bracket(p, quote, fee_mult, tcfg):
@@ -290,6 +326,16 @@ def evaluate_bracket(p, quote, fee_mult, tcfg):
         "kelly": round(kelly_fraction(p_side, price, ecfg["kelly_cap"]), 4),
         "flag": flag, "illiquid": illiquid,
     }
+
+
+def _depth_for(kal, ticker, side):
+    """Contracts available at the quoted price. Only called for flagged rows."""
+    from .kalshi import book_depth
+    try:
+        yes_n, no_n = book_depth(kal.orderbook(ticker))
+    except Exception:  # noqa: BLE001
+        return None
+    return yes_n if side == "YES" else no_n
 
 
 def discover(kal, prefixes):
