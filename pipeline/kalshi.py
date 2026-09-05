@@ -271,6 +271,39 @@ def normalize(m: dict) -> dict:
     return m
 
 
+def book_depth(ob):
+    """How many contracts you can actually buy at the quoted price.
+
+    Open interest counts what everybody already holds; it says nothing about
+    whether you can get filled. The number that matters is the size resting
+    at the top of the book you would be lifting.
+
+    Buying YES means taking the best NO offer, so YES depth is the size at
+    the highest no price. Buying NO takes the best YES offer.
+
+    -> (yes_available, no_available) in contracts.
+    """
+    book = ob.get("orderbook_fp") or ob.get("orderbook") or ob
+
+    def top_size(*keys):
+        for k in keys:
+            rows = book.get(k)
+            if not rows:
+                continue
+            best, size = None, 0.0
+            for r in rows:
+                c = _cents(r[0])
+                if c is None:
+                    continue
+                if best is None or c > best:
+                    best, size = c, _num(r[1]) or 0.0
+            if best is not None:
+                return int(size)
+        return None
+
+    return top_size("no_dollars", "no"), top_size("yes_dollars", "yes")
+
+
 def _book_top(ob):
     """Best yes bid and yes ask from an orderbook payload.
 
