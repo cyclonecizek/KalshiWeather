@@ -3,7 +3,7 @@ name: Update board
 on:
   schedule:
     # Each run lands after a guidance cycle has finished posting.
-    # NBM 13Z completes ~15:20Z; HREF/REFS 12Z ~15:30Z.
+    # NBM runs hourly; cycles are picked per city to match local midnight.
     - cron: "40 15 * * *"   # after 12Z  -- the one that matters most
     - cron: "40 21 * * *"   # after 18Z
     - cron: "40 03 * * *"   # after 00Z
@@ -38,17 +38,13 @@ jobs:
       - name: Install Python deps
         run: pip install -r requirements.txt
 
-      # A partial board beats a stale one, so a single dead source does not
-      # fail the job. Each build exits non-zero only if it got nothing at all.
-      - name: Build rain board
-        timeout-minutes: 12
-        run: python -m pipeline.build
-        continue-on-error: true
-
-      # Actions runners are ephemeral, so without this the meteoblue cache is
-      # empty every run and you pay 4 calls per city per day instead of 1.
-      # The cache is Actions-private, not served by Pages -- which also keeps
-      # meteoblue's data out of the public repo.
+      # MUST come before the first build. Runners are ephemeral, so without a
+      # restored cache every build refetches meteoblue from scratch -- and
+      # since both boards share one cached call per city per day, restoring
+      # after the rain step means paying for the same data twice.
+      #
+      # The Actions cache is also not served by Pages, which keeps
+      # meteoblue's data out of the published site.
       - name: Restore meteoblue cache
         uses: actions/cache@v4
         with:
@@ -56,17 +52,31 @@ jobs:
           key: meteoblue-${{ github.run_id }}
           restore-keys: meteoblue-
 
-      - name: Build temperature board
-        timeout-minutes: 8
-        run: python -m pipeline.build_temp
+      # A partial board beats a stale one, so a single dead source does not
+      # fail the job. Each build exits non-zero only if it got nothing at all.
+      #
+      # Both steps need their own env block. A repository secret is NOT
+      # automatically visible to a step -- this is the single most common
+      # reason the board reports "meteoblue: no key set".
+      - name: Build rain board
+        timeout-minutes: 12
         env:
           METEOBLUE_KEY: ${{ secrets.METEOBLUE_KEY }}
+        run: python -m pipeline.build
+        continue-on-error: true
+
+      - name: Build temperature board
+        timeout-minutes: 8
+        env:
+          METEOBLUE_KEY: ${{ secrets.METEOBLUE_KEY }}
+        run: python -m pipeline.build_temp
         continue-on-error: true
 
       - name: Commit
         run: |
           git config user.name  "board-bot"
           git config user.email "board-bot@users.noreply.github.com"
+          git pull --rebase --autostash || true
           git add docs/data
           if git diff --staged --quiet; then
             echo "no change"
