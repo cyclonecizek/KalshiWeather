@@ -2,22 +2,26 @@ name: Deploy Pages
 
 # Publishes docs/ as a static site without Jekyll touching it.
 #
-# The "deploy from a branch" flow pipes your folder through Jekyll unless it
-# finds a .nojekyll file, and its folder picker only ever offers "/" and
-# "/docs" whether or not those exist -- so a misplaced directory shows up as
-# a confusing Ruby stack trace about a theme stylesheet you never wrote.
+# TRIGGERING. A `push` trigger is NOT enough here. When Update board commits
+# new JSON it authenticates with the default GITHUB_TOKEN, and GitHub
+# deliberately does not let a GITHUB_TOKEN push start another workflow -- it
+# is their loop guard. The result is a repo whose data updates on schedule
+# while the published site never rebuilds.
 #
-# This uploads docs/ as an artifact and serves it verbatim. No Jekyll, no
-# .nojekyll dependency, and a clear error if the path is wrong.
-#
-# To use: Settings -> Pages -> Source: "GitHub Actions".
+# `workflow_run` is exempt from that rule, so this chains off the builders
+# directly. The schedule below is a backstop in case a run is missed.
 
 on:
+  workflow_run:
+    workflows: ["Update board", "Intraday refresh"]
+    types: [completed]
   push:
     branches: [main]
     paths:
       - 'docs/**'
       - '.github/workflows/deploy-pages.yml'
+  schedule:
+    - cron: "20 16 * * *"
   workflow_dispatch:
 
 permissions:
@@ -25,10 +29,11 @@ permissions:
   pages: write
   id-token: write
 
-# Let a running deploy finish rather than cancelling it -- a half-deployed
-# site is worse than a slightly stale one.
+# Deliberately NOT the "board" group. Sharing a concurrency group with the
+# hourly builders meant deploys queued behind them and got cancelled --
+# GitHub keeps only one pending run per group.
 concurrency:
-  group: pages
+  group: pages-deploy
   cancel-in-progress: false
 
 jobs:
@@ -39,21 +44,23 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main          # workflow_run checks out the default SHA, which
+                             # predates the data commit we want to publish
 
       - name: Fail loudly if docs/ is missing
         run: |
           if [ ! -f docs/index.html ]; then
             echo "docs/index.html not found. Repo root contains:"
             ls -a
-            echo "The site folder is probably nested one level down."
             exit 1
           fi
+          echo "publishing board generated at:"
+          python3 -c "import json;print(' ',json.load(open('docs/data/board.json'))['generated_at'])" || true
 
       - uses: actions/configure-pages@v5
-
       - uses: actions/upload-pages-artifact@v3
         with:
           path: docs
-
       - id: deployment
         uses: actions/deploy-pages@v4
