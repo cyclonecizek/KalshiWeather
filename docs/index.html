@@ -165,16 +165,18 @@ footer p{margin:0 0 9px}
 
 <div id="notices"></div>
 <div id="suspect-note"></div>
+<div id="width-note"></div>
 
 <section id="ops">
   <h2>Where you disagree with the market</h2>
-  <p class="lede">A contract price <em>is</em> a forecast. 42¢ on a rain market means the market's PoP is 42%; a bracket ladder is a full temperature distribution, so it can be read back as a median and a range. Both sides are shown in weather units — degrees and PoP points — with the trade as the conclusion rather than the starting point. Ranked by edge after fees and spread; thin books excluded. <strong>Buy</strong> is how many contracts that works out to at your bankroll, and what they cost; <strong>Available</strong> is how many the order book can actually fill at that price right now.</p>
+  <p class="lede">A contract price <em>is</em> a forecast. 42¢ on a rain market means the market's PoP is 42%; a bracket ladder is a full temperature distribution, so it can be read back as a median and a range. Both sides are shown in weather units — degrees and PoP points — with the trade as the conclusion rather than the starting point. Ranked by edge after fees and spread; thin books excluded. <strong>Buy</strong> is how many contracts that works out to at your bankroll, and what they cost; <strong>Available</strong> is how many the order book can actually fill at that price right now. <strong>Width</strong> is your 80% interval divided by the market's — two forecasts can share a median and still disagree completely about confidence, and that disagreement is what most of these trades are actually about.</p>
   <div class="tablewrap"><table id="opstbl">
     <thead><tr>
       <th data-k="city" tabindex="0">City</th>
       <th data-k="model" tabindex="0" title="what the blended guidance says">Your forecast</th>
       <th data-k="mkt" tabindex="0" title="the same thing, read back out of the market's prices">Market says</th>
-      <th data-k="gap" tabindex="0" title="how far apart the two forecasts are, in weather units">Gap</th>
+      <th data-k="gap" tabindex="0" title="difference between the two medians">Gap</th>
+      <th data-k="width" tabindex="0" title="your 80% interval divided by the market's. Above 1 means you are less confident than the market; below 1, more.">Width</th>
       <th title="the contract that disagreement implies">Trade</th>
       <th data-k="ev" tabindex="0" title="expected profit per contract after fees and spread">Edge ¢</th>
       <th data-k="kelly" tabindex="0" title="fractional Kelly stake, converted to contracts at your bankroll and capped by what the book can fill">Buy</th>
@@ -282,7 +284,7 @@ function opportunities(){
     out.push({kind:'rain', city:c.city,
       mineTxt: mine.toFixed(0)+'% PoP', mktTxt: mkt.toFixed(0)+'% PoP',
       gapTxt: (mine-mkt>0?'+':'')+(mine-mkt).toFixed(0)+' pts',
-      gap: Math.abs(mine-mkt), model:mine, mkt:mkt,
+      gap: Math.abs(mine-mkt), model:mine, mkt:mkt, width:null,
       trade: d.edge.side+' rain @ '+d.edge.price+'¢',
       price:d.edge.price, side:d.edge.side,
       ev:d.edge.ev_cents, kelly:d.edge.kelly, vol:d.market.volume,
@@ -303,6 +305,12 @@ function opportunities(){
         mktTxt: mf ? mf.median.toFixed(1)+'° ('+mf.p10.toFixed(0)+'–'+mf.p90.toFixed(0)+')' : '·',
         gapTxt: gap==null ? '·' : ((gap>0?'+':'')+gap.toFixed(1)+'°F'),
         gap: gap==null?0:Math.abs(gap), model:mine, mkt:mkt,
+        // Two forecasts can share a median and still disagree completely.
+        // A ratio near 2 means you are spreading mass over twice as many
+        // brackets as the market, which makes every central bracket look
+        // overpriced -- an appearance of edge that is really a spread
+        // calibration problem.
+        width: (df&&mf&&(mf.p90-mf.p10)>0) ? (df.p90-df.p10)/(mf.p90-mf.p10) : null,
         trade: b.edge.side+' '+b.label+'° @ '+b.edge.price+'¢',
         price:b.edge.price, side:b.edge.side,
         ev:b.edge.ev_cents, kelly:b.edge.kelly, vol:b.market.volume,
@@ -323,6 +331,21 @@ function drawOps(){
     if(d && d.edge && d.edge.flag==='suspect') susp++; }
   if(TEMP) for(const c of TEMP.cities){ const d=c.days[DAY]; if(!d) continue;
     for(const b of d.ladder) if(b.edge && b.edge.flag==='suspect') susp++; }
+  // One systematic error looks like many opportunities. If most flagged
+  // temperature trades are NO on a bracket near your own median, the board
+  // is not finding twelve mispricings -- your distribution is too wide.
+  const t = rows.filter(r=>r.kind==='temp');
+  const wides = t.filter(r=>r.width!=null && r.width>1.3).length;
+  const nos = t.filter(r=>r.side==='NO').length;
+  const wn = document.getElementById('width-note');
+  if(wn) wn.innerHTML = (t.length>=5 && (nos/t.length>0.7 || wides/t.length>0.5))
+    ? ('<div class="notice"><strong>'+nos+' of '+t.length+' temperature rows are '+
+       'NO, and '+wides+' show a width ratio above 1.3.</strong> That pattern is '+
+       'one systematic error repeated, not many separate edges: a forecast '+
+       'distribution wider than the market\u2019s makes every central bracket '+
+       'look overpriced. <code>spread_factor</code> and the '+
+       '<code>deterministic_sigma</code> values are still unfitted guesses \u2014 '+
+       'run Score calibration before treating any of these as real.</div>') : '';
   const sn=document.getElementById('suspect-note');
   if(sn) sn.innerHTML = susp ? ('<div class="notice"><strong>'+susp+
     ' row(s) hidden as implausible.</strong> Edges above 25\u00a2 do not occur '+
@@ -337,6 +360,8 @@ function drawOps(){
       '<td>'+r.mineTxt+'</td>'+
       '<td>'+r.mktTxt+'</td>'+
       '<td class="'+fc+'" style="font-weight:600">'+r.gapTxt+'</td>'+
+      '<td'+(r.width!=null&&(r.width>1.4||r.width<0.7)?' class="flag-watch"':'')+'>'+
+        (r.width==null?'·':'×'+r.width.toFixed(2))+'</td>'+
       '<td class="side">'+r.trade+'</td>'+
       '<td class="'+fc+'">+'+r.ev.toFixed(1)+'</td>'+
       '<td>'+sizeTxt(r)+'</td>'+
