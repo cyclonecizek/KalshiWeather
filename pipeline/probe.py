@@ -10,8 +10,10 @@ inventory lines so you can confirm the `idx_regex` matches a real record.
 
 from __future__ import annotations
 
+import os
 import re
 import sys
+from datetime import datetime, timedelta, timezone
 
 import requests
 
@@ -129,6 +131,12 @@ def probe_grib(name, cfg):
         if windows:
             print(f"  accumulation windows available: "
                   f"{sorted(windows)} hours")
+            if max(windows) <= 1:
+                print("  WARNING: only 1-hour windows in this cycle. Tiling a "
+                      "24-hour day from these needs 24 separate records; if "
+                      "the fetcher only probes every 6th forecast hour it "
+                      "will silently cover 4 hours and call it a day. Use a "
+                      "cycle that carries 6/12-hour products (00/06/12/18Z).")
             if 24 not in windows:
                 print("  NOTE: no 24-hour window. A local calendar day will be "
                       "tiled from shorter records, which costs one byte-range "
@@ -248,14 +256,120 @@ def probe_openmeteo(cfg):
             print(f"  {key:12s} FAIL {exc}")
 
 
+def probe_meteoblue(cfg):
+    print("\n=== meteoblue ===")
+    key = os.environ.get("METEOBLUE_KEY") or cfg.get("api_key")
+    if not key:
+        print("  no METEOBLUE_KEY in the environment.")
+        print("  1. Settings -> Secrets and variables -> Actions -> "
+              "METEOBLUE_KEY")
+        print("  2. every workflow step that builds a board needs "
+              "`env: METEOBLUE_KEY: ${{ secrets.METEOBLUE_KEY }}`")
+        return
+    print(f"  key present ({key[:4]}...{key[-2:]})")
+    sub = cfg.get("rainspot_package", "basic-1h")
+    pkgs = [sub, "basic-day"] if cfg.get("use_rainspot") else ["basic-day"]
+    if cfg.get("use_temperature_spread"):
+        pkgs.append("trend-day")
+    url = f"{cfg['base'].rstrip('/')}/{'_'.join(pkgs)}"
+    print(f"  requesting {'+'.join(pkgs)}")
+    try:
+        r = requests.get(url, params={
+            "lat": 40.78, "lon": -73.97, "apikey": key,
+            "format": "json", "temperature": "F", "tz": "America/New_York",
+        }, timeout=45)
+    except Exception as exc:  # noqa: BLE001
+        print(f"  request failed: {exc}")
+        return
+    if r.status_code != 200:
+        print(f"  HTTP {r.status_code}: {r.text[:300]}")
+        print("  A 4xx here usually means your key does not cover one of "
+              "these packages. trend-day is rarely on a trial key -- set "
+              "use_temperature_spread: false and retry.")
+        return
+    data = r.json()
+    day = data.get("data_day") or {}
+    print(f"  OK. data_day fields: {', '.join(sorted(day)[:10])}")
+    for k in ("temperature_max", "precipitation_probability", "predictability"):
+        v = (day.get(k) or [None])[0]
+        print(f"    {k:28s} {v}")
+    sub_block = data.get("data_1h") or data.get("data_3h") or {}
+    print(f"  rainspot present: {'rainspot' in sub_block}")
+
+
+def survey_cycles(name, cfg, fhour=12, hours=range(24)):
+    """Which NBM cycles actually carry the 6- and 12-hour products.
+
+    This is worth measuring rather than remembering. NBM core runs hourly,
+    but only some cycles publish the longer accumulation windows, and which
+    ones is exactly the sort of detail that changes between implementations
+    and that everybody misremembers.
+
+    Getting it wrong is not a small error: aligning to a cycle that only has
+    1-hour records makes the tiler stitch four hours of data into something
+    it labels a daily probability.
+
+    One inventory fetch per cycle, so the whole survey is ~24 cheap requests.
+    """
+    print(f"\n=== {name} cycle survey (f{fhour:03d}) ===")
+    print("  which cycles publish 6/12-hour accumulation windows?")
+    now = datetime.now(timezone.utc)
+    pat = re.compile(cfg["idx_regex"])
+    rows = []
+    for back in range(0, 30):
+        stamp = now - timedelta(hours=back + 4)
+        if stamp.hour not in hours:
+            continue
+        ymd, cc = stamp.strftime("%Y%m%d"), stamp.hour
+        if any(r[0] == cc for r in rows):
+            continue
+        url = f"{cfg['base'].rstrip('/')}/" + cfg["pattern"].format(
+            ymd=ymd, cc=f"{cc:02d}", fff=f"{fhour:03d}", ff=f"{fhour:02d}")
+        try:
+            recs = read_idx(url)
+        except Exception:
+            rows.append((cc, ymd, None, set()))
+            continue
+        hits = [r for r in recs if pat.search(r.line)]
+        wins = {r.acc_end - r.acc_start for r in hits
+                if r.acc_start is not None and r.acc_end is not None}
+        rows.append((cc, ymd, len(recs), wins))
+
+    rows.sort()
+    full = []
+    for cc, ymd, n, wins in rows:
+        if n is None:
+            print(f"  {cc:02d}Z  unreachable")
+            continue
+        tag = "FULL" if any(w >= 6 for w in wins) else "1h only"
+        if any(w >= 6 for w in wins):
+            full.append(cc)
+        print(f"  {cc:02d}Z  {n:4d} records  windows={sorted(wins) or '-':<12} {tag}")
+
+    print()
+    if full:
+        print(f"  -> cycles carrying 6h+ windows: {sorted(full)}")
+        print(f"  Put exactly this in settings.yml sources.{name.lower()}.cycles")
+    else:
+        print("  -> no cycle surveyed carried a 6h+ window. Either every "
+              "cycle is 1-hour only (in which case the day must be tiled "
+              "from 24 records and fhour_step must be 1), or the idx_regex "
+              "is wrong.")
+
+
 def main():
     s = load_yaml(ROOT / "config" / "settings.yml")["sources"]
+    probe_meteoblue(
+        load_yaml(ROOT / "config" / "settings.yml")["temperature"]
+        ["sources"]["meteoblue"])
     probe_kalshi(s["kalshi"]["base"])
     probe_markets(s["kalshi"]["base"])
     probe_openmeteo(s["openmeteo"])
     for name, key in (("HREF", "href"), ("REFS", "refs"), ("NBM", "nbm")):
         if key in s:
             probe_grib(name, s[key])
+    if "nbm" in s:
+        survey_cycles("NBM", s["nbm"])
     return 0
 
 
