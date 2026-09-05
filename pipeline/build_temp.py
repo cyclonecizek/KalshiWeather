@@ -325,6 +325,22 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
     # largest correction available on an afternoon board: an observed max
     # zeroes every bracket beneath it, and late in the day it collapses the
     # rest toward that value.
+    # Sanity-check the observation before trusting it. A station reading far
+    # below the forecast is much more likely to be a unit error, a stale
+    # record or a bad decode than a genuine 30-degree bust -- and because a
+    # low reading late in the day tightens the distribution, a bad one is
+    # both wrong and confident.
+    if obs and obs.get("max_f") is not None:
+        _mid = quants[len(quants) // 2]
+        _drop = _mid - obs["max_f"]
+        _limit = (obs_cfg or {}).get("max_below_forecast_f", 25.0)
+        if _drop > _limit:
+            print(f"  {city['name']}: IGNORING observed max "
+                  f"{obs['max_f']:.1f}F -- {_drop:.1f}F below the forecast "
+                  f"median {_mid:.1f}F, which is a data fault, not weather")
+            diag["_obs_rejected"] = obs["max_f"]
+            obs = None
+
     if (obs and obs.get("max_f") is not None and observations is not None
             and apply_observation is not None):
         cfgo = obs_cfg or {}
