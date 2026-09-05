@@ -127,6 +127,11 @@ sources:
     min_spread_f: 1.4
     # Certainty cap once rain is already on the ground.
     rain_observed_p: 0.98
+    # Reject an observed max more than this far below the forecast median.
+    # A real bust of that size is far rarer than a decode or unit error, and
+    # a bad reading late in the day is confidently wrong rather than just
+    # wrong.
+    max_below_forecast_f: 25.0
 
   openmeteo:
     ensemble_base: https://ensemble-api.open-meteo.com/v1/ensemble
