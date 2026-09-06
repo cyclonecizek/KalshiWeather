@@ -131,6 +131,8 @@ def evaluate(consensus: float, quote: dict, settings: dict):
     """Which side to take, how much it's worth, and whether to flag it."""
     from .kalshi import effective_fee_rate
     ecfg = settings["edge"]
+    if not quote.get("executable"):
+        return None
     mult = effective_fee_rate(quote.get("fee_multiplier"),
                               ecfg["fee_multiplier"])
 
@@ -144,7 +146,7 @@ def evaluate(consensus: float, quote: dict, settings: dict):
         return None
 
     p_side = consensus if side == "YES" else 1.0 - consensus
-    kelly = kelly_fraction(p_side, price, ecfg.get("kelly_cap", 0.25))
+    kelly = kelly_fraction(p_side, price, ecfg.get("kelly_cap", 0.25), mult)
 
     # Liquidity gates: an 18-cent "edge" on a market with 30 contracts of
     # volume and a 9-cent spread is not an edge, it's an empty book.
@@ -155,11 +157,11 @@ def evaluate(consensus: float, quote: dict, settings: dict):
     liq = quote.get("liquidity", quote["volume"])
     if liq < ecfg["min_volume"]:
         reasons.append(f"only {liq} open interest")
-    if quote["spread"] > ecfg["max_spread_cents"]:
+    if quote.get("spread") is None or quote["spread"] > ecfg["max_spread_cents"]:
         # NOTE: ev is already computed at the ask, so the spread has been
         # paid for once. This gate is about whether the quote is TRUSTWORTHY,
         # not about cost -- a wide book often means a stale or nominal price.
-        reasons.append(f"{quote['spread']}c spread")
+        reasons.append("missing or wide bid/ask spread")
     illiquid = bool(reasons)
 
 

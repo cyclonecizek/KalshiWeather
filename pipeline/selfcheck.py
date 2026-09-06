@@ -19,6 +19,12 @@ import sys
 # module -> symbols that must exist in it. Add an entry whenever a builder
 # starts importing something new; that is what keeps this honest.
 MANIFEST = {
+    "pipeline.run": ["run", "prepare", "validate"],
+    "pipeline.policy": ["eligibility", "allocate"],
+    "pipeline.sources.hourly": ["fetch", "complete_total", "rain_probability"],
+    "pipeline.performance": ["publish", "score_day"],
+    "pipeline.adjustments": ["create"],
+    "pipeline.settlement": ["configure_cities", "verify"],
     "pipeline.util": [
         "load_yaml", "local_day_window", "local_date_str", "aligned_cycle",
         "latest_cycle", "stitch_pops", "member_fraction", "kalshi_fee_cents",

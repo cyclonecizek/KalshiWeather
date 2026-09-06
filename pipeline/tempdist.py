@@ -4,27 +4,11 @@ Rain is one binary. Temperature is a set of mutually exclusive brackets, so
 a single number is useless -- you need the whole distribution and then you
 integrate it over each bracket.
 
-Three things in here matter more than they look:
+Quantile averaging sets the blend's location and shape; the builder also
+retains model disagreement when setting its spread. Whole-degree brackets
+use half-degree boundaries. Gaussian tails and spread assumptions remain
+subject to out-of-sample verification. Observations impose a physical floor.
 
-1. QUANTILE AVERAGING, NOT PROBABILITY AVERAGING.
-   Averaging two forecast distributions pointwise in probability space gives
-   you a fatter, flatter distribution than either input -- you manufacture
-   uncertainty that no model claimed. Averaging them in QUANTILE space
-   (Vincentization) preserves sharpness and just shifts the centre. For a
-   continuous variable being sliced into 2-degree brackets, that difference
-   moves real money.
-
-2. CONTINUITY CORRECTION.
-   The climate report publishes a whole number. A "75 to 76" bracket is the
-   event that the rounded high lands in {75, 76}, which is continuous
-   temperature in [74.5, 76.5). Getting this wrong biases every bracket by
-   roughly half a degree of probability mass.
-
-3. TAILS.
-   Ensembles are under-dispersed for 2m temperature, and the cheap
-   out-of-the-money brackets are exactly where under-dispersion costs you.
-   Beyond the outermost member we fit Gaussian tails rather than truncating,
-   and `spread_factor` lets you widen the whole thing once you have history.
 """
 
 from __future__ import annotations
@@ -44,7 +28,7 @@ def _ndtr(x):
 
 def members_to_quantiles(members, qs=QUANTILES):
     """Empirical quantiles of a member list, linear interpolation."""
-    v = sorted(m for m in members if m is not None)
+    v = sorted(m for m in members if isinstance(m,(int,float)) and math.isfinite(m))
     if len(v) < 3:
         return None
     out = []
@@ -135,7 +119,8 @@ def adjust(quants, bias=0.0, spread_factor=1.0):
 class Dist:
     """A continuous distribution defined by a quantile curve, with Gaussian tails."""
 
-    def __init__(self, quants, qs=QUANTILES):
+    def __init__(self, quants, qs=QUANTILES, floor=None):
+        self.floor = floor
         self.v = list(quants)
         self.q = list(qs)
         # Tail sigmas fitted from the outermost quantile pairs, so the tail
@@ -147,6 +132,8 @@ class Dist:
 
     def cdf(self, x):
         v, q = self.v, self.q
+        if self.floor is not None and x <= self.floor:
+            return 0.0
         if x <= v[0]:
             z = (x - v[0]) / self.lo_sigma + _probit(q[0])
             return min(_ndtr(z), q[0])
@@ -184,7 +171,8 @@ class Dist:
     def quantile(self, p):
         v, q = self.v, self.q
         if p <= q[0]:
-            return v[0] + self.lo_sigma * (_probit(p) - _probit(q[0]))
+            value = v[0] + self.lo_sigma * (_probit(p) - _probit(q[0]))
+            return max(self.floor,value) if self.floor is not None else value
         if p >= q[-1]:
             return v[-1] + self.hi_sigma * (_probit(p) - _probit(q[-1]))
         i = bisect_left(q, p)
@@ -197,69 +185,29 @@ class Dist:
         return v0 + (v1 - v0) * (p - q0) / (q1 - q0)
 
 
-def apply_observation(quants, obs_max, heat_left, tolerance=0.5,
-                      min_spread=1.4, qs=QUANTILES):
-    """Fold an already-observed daily maximum into the forecast quantiles.
+def apply_observation(quants, obs_max, heat_left=None, tolerance=0.5,
+                      min_spread=1.4, qs=QUANTILES, remaining=None):
+    """Condition on the observed maximum and remaining-hour trajectories.
 
-    Two effects, both large late in the day:
-
-    1. FLOOR. The final high cannot be below what the station has already
-       recorded. Every quantile is lifted to at least `obs_max - tolerance`,
-       which zeroes out all the brackets underneath it. The tolerance exists
-       because settlement comes from The Weather Company, not this METAR,
-       and the two can differ by a few tenths.
-
-    2. COLLAPSE. Uncertainty about the high is uncertainty about how much
-       further it climbs. At 8pm there is almost no climbing left, so the
-       distribution should tighten around the observed value rather than
-       keep the width it had at dawn. `heat_left` (1 at midnight, ~0.15 by
-       4pm, ~0.01 by 8pm) scales the spread above the floor.
-
-    A morning forecast spanning 84-92F, with 89 already recorded at 6pm,
-    becomes something tight just above 89 -- and the 84-86 bracket the market
-    may still be pricing at 15c becomes worth nothing.
+    Without trajectories only apply the floor; the clock is not evidence
+    that the original forecast will occur. Residual settlement uncertainty
+    is added before truncation so it cannot undo the physical lower bound.
     """
     if not quants:
         return None
     if obs_max is None:
         return list(quants)
-
     floor = obs_max - tolerance
-
-    # Collapse toward the ANCHOR, not toward the floor.
-    #
-    # The floor is only a lower bound: the day cannot end colder than what has
-    # already been recorded. It is not a statement that the day will end THERE.
-    # Shrinking every quantile toward it meant that a station reading 55F at
-    # 8pm dragged a 90F forecast down to about 56F -- the observation
-    # overwriting the forecast instead of truncating it.
-    #
-    # The anchor is whichever is higher: the observed maximum, or the
-    # forecast's own median. Late in the day the distribution tightens around
-    # that, which is the intended behaviour -- there is little time left for
-    # the high to move -- without ever pulling the centre below where the
-    # forecast already sat.
-    mid = quants[len(quants) // 2]
-    anchor = max(floor, mid)
-    keep = max(0.02, heat_left)
-    shrunk = [max(floor, anchor + (q - anchor) * keep) for q in quants]
-    # Keep it monotone and never below the floor.
-    out, prev = [], -1e9
-    for v in shrunk:
-        v = max(v, floor, prev)
-        out.append(v)
-        prev = v
-
-    # Never collapse to a point. Settlement comes from The Weather Company,
-    # not from this station's METAR, and the two disagree often enough that
-    # a 100%-confident bracket is a lie. `min_spread` is the residual
-    # settlement-source uncertainty that survives no matter how late it is.
-    width = out[-1] - out[0]
-    if width < min_spread:
-        mid = out[len(out) // 2]
-        k = min_spread / max(width, 1e-6)
-        out = [mid + (v - mid) * k for v in out]
-    return out
+    if remaining is not None:
+        values = [max(obs_max, v) for v in remaining if v is not None and math.isfinite(v)]
+        if not values:
+            values = [obs_max] * 3
+        base = members_to_quantiles(values) or [obs_max] * len(qs)
+    else:
+        base = list(quants)
+    sigma = max(0, min_spread) / (_probit(.99) - _probit(.01))
+    out = [max(floor, v + sigma * _probit(p)) for v,p in zip(base,qs)]
+    return sorted(out)
 
 
 def c_to_f(c):

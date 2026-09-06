@@ -7,6 +7,8 @@ hardcoded tickers in cities.yml because Kalshi adds and renames city series.
 from __future__ import annotations
 
 import re
+import math
+from datetime import datetime, timezone
 import time
 
 import requests
@@ -32,7 +34,11 @@ class Kalshi:
                 time.sleep(2 ** attempt)
                 continue
             r.raise_for_status()
-            return r.json()
+            data = r.json()
+            stamp = datetime.now(timezone.utc).isoformat()
+            for market in data.get('markets', []) + ([data['market']] if 'market' in data else []):
+                market['_retrieved_at'] = stamp
+            return data
         r.raise_for_status()
 
     # -- discovery ---------------------------------------------------------
@@ -107,9 +113,10 @@ class Kalshi:
             if not t:
                 continue
             try:
-                full = self.market(t)
+                full = normalize(self.market(t))
                 for k in ("yes_bid", "yes_ask", "no_bid", "no_ask", "volume",
-                          "open_interest", "last_price", "previous_price"):
+                          "open_interest", "last_price", "previous_price", "yes_ask_size_fp",
+                          "yes_bid_size_fp", "_retrieved_at"):
                     if full.get(k) is not None:
                         m[k] = full[k]
             except Exception:  # noqa: BLE001
@@ -143,48 +150,30 @@ class Kalshi:
 
     @staticmethod
     def quote(market: dict):
-        """Normalize a market into the numbers the board needs.
-
-        yes_bid/yes_ask are in cents. `mid` is the fair reference price;
-        `no_ask` is what you actually pay to take the NO side.
-        """
-        market = normalize(market)
-        yb = market.get("yes_bid")
-        ya = market.get("yes_ask")
-        if yb is None and ya is None:
-            _report_unparsed(market)
-        if yb is None and ya is None:
-            # No book at all. last_price is stale but better than dropping
-            # the contract from the ladder, which breaks the overround
-            # normalisation for every other bracket in the event.
-            lp = market.get("last_price") or market.get("previous_price")
-            if lp is None:
-                return None
-            yb = ya = lp
-        elif yb is None:
-            yb = max(1, ya - 2)
-        elif ya is None:
-            ya = min(99, yb + 2)
-        spread = ya - yb
-        return {
-            "ticker": market.get("ticker"),
-            "title": market.get("title") or market.get("subtitle"),
-            "yes_bid": yb,
-            "yes_ask": ya,
-            "no_ask": 100 - yb,
-            "no_bid": 100 - ya,
-            "mid": (yb + ya) / 2.0,
-            "spread": spread,
-            # No volume field exists in this API version, so liquidity is
-            # judged on open interest. Reported separately so the gate can
-            # use whichever is actually populated.
-            "volume": market.get("volume") or 0,
-            "open_interest": market.get("open_interest") or 0,
-            "liquidity": (market.get("volume")
-                          or market.get("open_interest") or 0),
-            "close_time": market.get("close_time"),
-            "expiration_time": market.get("expiration_time"),
-        }
+        """Only actual quotes are executable. Missing sides stay missing."""
+        m = normalize(dict(market))
+        yb, ya = m.get('yes_bid'), m.get('yes_ask')
+        valid = lambda x: isinstance(x, (int, float)) and math.isfinite(x) and 0 <= x <= 100
+        yb = yb if valid(yb) else None
+        ya = ya if valid(ya) else None
+        crossed = yb is not None and ya is not None and yb > ya
+        if crossed:
+            yb = ya = None
+        spread = ya-yb if yb is not None and ya is not None else None
+        return dict(ticker=m.get('ticker'),event_ticker=m.get('event_ticker'),
+            title=m.get('title') or m.get('subtitle'),yes_bid=yb,yes_ask=ya,
+            no_ask=None if yb is None else 100-yb,
+            no_bid=None if ya is None else 100-ya,
+            mid=(yb+ya)/2 if spread is not None else None,spread=spread,
+            last_price=m.get('last_price'),price_source='live_book' if spread is not None else 'unavailable',
+            executable=spread is not None,quote_error='crossed book' if crossed else None,
+            yes_depth=_num(m.get('yes_ask_size_fp')),no_depth=_num(m.get('yes_bid_size_fp')),
+            volume=m.get('volume') or 0,open_interest=m.get('open_interest') or 0,
+            liquidity=m.get('volume') or m.get('open_interest') or 0,
+            retrieved_at=m.get('_retrieved_at'),updated_at=m.get('updated_time'),
+            close_time=m.get('close_time'),expiration_time=m.get('expiration_time'),
+            status=m.get('status'),rules_primary=m.get('rules_primary'),
+            rules_secondary=m.get('rules_secondary'))
 
 
 _REPORTED = []
@@ -210,7 +199,7 @@ def _cents(v):
     if v is None or v == "":
         return None
     try:
-        return int(round(float(v) * 100))
+        return round(float(v) * 100, 6) if math.isfinite(float(v)) else None
     except (TypeError, ValueError):
         return None
 
@@ -219,113 +208,57 @@ def _num(v):
     if v is None or v == "":
         return None
     try:
-        return float(v)
+        return float(v) if math.isfinite(float(v)) else None
     except (TypeError, ValueError):
         return None
 
 
 def normalize(m: dict) -> dict:
-    """Rewrite a market into integer-cent fields the rest of the code expects.
-
-    The API returns everything as dollar-denominated STRINGS, and it does not
-    return a yes side at all -- only `no_bid_dollars` and `no_ask_dollars`.
-    Yes prices have to be derived:
-
-        yes_bid = 100 - no_ask        (what you can sell YES for)
-        yes_ask = 100 - no_bid        (what you must pay to buy YES)
-
-    Verified against a live payload: no_ask 0.42 / no_bid 0.35 gives
-    yes_bid 58 / yes_ask 65, with last_price 0.61 sitting between them.
-
-    There is also no `volume` field. Only `open_interest_fp`. A liquidity
-    gate written against `volume` therefore tags every contract on the board
-    as thin and shows you nothing.
-    """
-    if m.get("yes_bid") is None:
-        no_ask = _cents(m.get("no_ask_dollars"))
-        if no_ask is not None:
-            m["yes_bid"] = max(0, 100 - no_ask)
-    if m.get("yes_ask") is None:
-        no_bid = _cents(m.get("no_bid_dollars"))
-        if no_bid is not None:
-            m["yes_ask"] = min(100, 100 - no_bid)
-
-    if m.get("no_bid") is None:
-        m["no_bid"] = _cents(m.get("no_bid_dollars"))
-    if m.get("no_ask") is None:
-        m["no_ask"] = _cents(m.get("no_ask_dollars"))
-
-    if m.get("last_price") is None:
-        m["last_price"] = _cents(m.get("last_price_dollars"))
-    if m.get("previous_price") is None:
-        m["previous_price"] = _cents(m.get("previous_price_dollars"))
-
-    if m.get("open_interest") is None:
-        oi = _num(m.get("open_interest_fp"))
-        if oi is not None:
-            m["open_interest"] = int(oi)
-    if m.get("volume") is None:
-        v = _num(m.get("volume_fp"))
-        m["volume"] = int(v) if v is not None else None
-
+    """Support current dollar strings and legacy cent fields, including zero."""
+    for key in ('yes_bid','yes_ask','no_bid','no_ask','last_price','previous_price'):
+        if m.get(key) is None:
+            m[key] = _cents(m.get(key+'_dollars'))
+        else:
+            m[key] = _num(m[key])
+    for dest,other in [('yes_bid','no_ask'),('yes_ask','no_bid'),('no_bid','yes_ask'),('no_ask','yes_bid')]:
+        if m.get(dest) is None and m.get(other) is not None:
+            m[dest] = 100-m[other]
+    for key in ('volume','open_interest'):
+        if m.get(key) is None:m[key]=_num(m.get(key+'_fp'))
     return m
 
 
-def book_depth(ob):
-    """How many contracts you can actually buy at the quoted price.
+def _levels(ob,side):
+    book=ob.get('orderbook_fp') or ob.get('orderbook') or ob
+    for key,scale in [(side+'_dollars',100),(side,1)]:
+        rows=book.get(key)
+        if rows:
+            out=[]
+            for row in rows:
+                if len(row)<2:continue
+                p,n=_num(row[0]),_num(row[1])
+                if p is not None and n is not None and n>0 and 0<=p*scale<=100:
+                    out.append((round(p*scale,6),n))
+            return out
+    return []
 
-    Open interest counts what everybody already holds; it says nothing about
-    whether you can get filled. The number that matters is the size resting
-    at the top of the book you would be lifting.
 
-    Buying YES means taking the best NO offer, so YES depth is the size at
-    the highest no price. Buying NO takes the best YES offer.
-
-    -> (yes_available, no_available) in contracts.
-    """
-    book = ob.get("orderbook_fp") or ob.get("orderbook") or ob
-
-    def top_size(*keys):
-        for k in keys:
-            rows = book.get(k)
-            if not rows:
-                continue
-            best, size = None, 0.0
-            for r in rows:
-                c = _cents(r[0])
-                if c is None:
-                    continue
-                if best is None or c > best:
-                    best, size = c, _num(r[1]) or 0.0
-            if best is not None:
-                return int(size)
-        return None
-
-    return top_size("no_dollars", "no"), top_size("yes_dollars", "yes")
+def book_depth(ob,side=None,price=None):
+    """Depth at the requested executable price, never at an unrelated level."""
+    def available(opposite,ask=None):
+        rows=_levels(ob,opposite)
+        if not rows:return None
+        bid=max(p for p,n in rows)
+        if ask is not None and abs(100-bid-ask)>1e-6:return None
+        return sum(n for p,n in rows if p==bid)
+    if side:return available('no' if side=='YES' else 'yes',price)
+    return available('no'),available('yes')
 
 
 def _book_top(ob):
-    """Best yes bid and yes ask from an orderbook payload.
-
-    Comes back as `orderbook_fp` with `yes_dollars` / `no_dollars`, each a
-    list of [price_string, size_string] in dollars. A no bid at p implies a
-    yes ask of 100 - p.
-    """
-    book = ob.get("orderbook_fp") or ob.get("orderbook") or ob
-    def top(*keys):
-        for k in keys:
-            rows = book.get(k)
-            if rows:
-                vals = [_cents(r[0]) for r in rows if r]
-                vals = [v for v in vals if v is not None]
-                if vals:
-                    return max(vals)
-        return None
-
-    yes_bid = top("yes_dollars", "yes")
-    no_bid = top("no_dollars", "no")
-    yes_ask = None if no_bid is None else 100 - no_bid
-    return yes_bid, yes_ask
+    yes=_levels(ob,'yes');no=_levels(ob,'no')
+    return (max((p for p,n in yes),default=None),
+            100-max(p for p,n in no) if no else None)
 
 
 _MONTHLY = re.compile(r"month", re.I)
