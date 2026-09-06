@@ -256,6 +256,6 @@ def test_distribution_filters_nonfinite_members_and_respects_tail_floor():
 def test_publication_guard_rejects_old_schema(tmp_path):
  from pipeline.publication_check import check
  (tmp_path/'docs/assets').mkdir(parents=True);(tmp_path/'docs/data').mkdir()
- for path in ['index.html','assets/app.js','assets/math.js','assets/app.css']:(tmp_path/'docs'/path).write_text('asset')
+ for path in ['index.html','assets/app.js','assets/math.js','assets/decision.js','assets/app.css']:(tmp_path/'docs'/path).write_text('asset')
  (tmp_path/'docs/data/board.json').write_text('{"schema_version":1,"cities":[{}]}')
  with pytest.raises(ValueError,match='version-2'):check(tmp_path)
