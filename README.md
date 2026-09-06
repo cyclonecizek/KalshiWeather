@@ -4,6 +4,12 @@
 
 A station-based research dashboard for Kalshi daily high-temperature and rain markets. It compares weather guidance with executable market quotes, archives forecasts before settlement, and scores them against the outcomes. It does not send orders.
 
+## Weather-first decisions
+
+The Daily briefing starts with station forecasts and four review priorities, then translates each position into its weather outcome. A station workup explains the likely range, uncertainty, observation limitations, and meteorological questions to investigate. Cloud, radar, and frontal prompts are analysis questions, not diagnoses inferred from temperature guidance.
+
+The practice calculator makes YES/NO, cost including estimated fees, possible net gain, maximum loss, and break-even probability explicit. It uses an archived-in-memory quote snapshot until reset, checks its age again, and never enables an order or clears the server's eligibility checks. Its quantity is a hypothetical example, not a stake recommendation. Detailed trading tables are collapsed by default; Trading basics defines the terminology with official Kalshi references.
+
 ## Using the desk
 
 - **Market board:** today/tomorrow forecasts, station identifiers, market comparisons, source age, and paper-order eligibility. Enable research comparisons to see rows that fail the policy checks and their reasons.

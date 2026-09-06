@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def check(root=ROOT):
-    for name in ("index.html", "assets/app.js", "assets/math.js", "assets/app.css"):
+    for name in ("index.html", "assets/app.js", "assets/math.js", "assets/decision.js", "assets/app.css"):
         if not (root / "docs" / name).is_file():
             raise ValueError(f"Missing site asset: {name}")
     for name in ("board.json", "board_temp.json"):

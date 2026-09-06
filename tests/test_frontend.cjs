@@ -9,3 +9,68 @@ test('future timestamps cannot make a quote look fresh',()=>{
  const now=Date.now();
  assert.equal(M.age(new Date(now+3600000).toISOString(),now),Infinity);
 });
+
+const D=require('../docs/assets/decision.js');
+test('practice example includes the whole order fee and the full downside',()=>{
+ const e=D.example(.6,40,10,.07);
+ assert.equal(e.fee,.17);
+ assert.equal(e.cost,4.17);
+ assert.equal(e.maxLoss,4.17);
+ assert.ok(Math.abs(e.winNet-5.83)<1e-8);
+ assert.ok(Math.abs(e.breakEven-.417)<1e-8);
+ assert.ok(Math.abs(e.expectedNet-1.83)<1e-8);
+});
+test('high outcome probability can still be a negative value purchase',()=>{
+ const e=D.example(.7,85,1,.07);
+ assert.ok(e.expectedNet<0);
+ assert.ok(e.breakEven>.85);
+});
+test('missing prices, unknown fees and invalid practice inputs cannot produce a result',()=>{
+ for(const args of [[.6,null,1,.07],[.6,40,1,null],[1.2,40,1,.07],[.6,40,1.5,.07],[.6,40,0,.07],[.6,40,1001,.07],[NaN,40,1,.07]])assert.equal(D.example(...args),null);
+});
+test('NO temperature wording covers the entire complement, not only a colder high',()=>{
+ assert.equal(D.outcome('temperature',{label:'80–81°F'},'NO'),'High outside 80–81°F');
+ assert.equal(D.outcome('rain',{},'NO'),'No measurable rain at the station');
+});
+test('positive model edge does not clear missing verification',()=>{
+ const action=D.nextStep(['Settlement definition unverified','Out-of-sample calibration pending'],{ev_cents:20});
+ assert.equal(action.label,'Wait and investigate');
+ assert.ok(action.tasks.some(t=>t.includes('station')));
+ assert.ok(action.tasks.some(t=>t.includes('verified track record')));
+});
+test('suspect price differences rank behind ordinary review candidates',()=>{
+ const row={e:{flag:'watch',ev_cents:10},reasons:['calibration pending'],d:{data_quality:'ok'}};
+ assert.ok(D.reviewRank({...row,e:{flag:'suspect',ev_cents:80}})<D.reviewRank(row));
+});
+
+test('station walkthrough keeps practice estimates anchored across automatic refreshes',()=>{
+ const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+ const ids=new Map();
+ const element=id=>{
+  if(!ids.has(id))ids.set(id,{value:'',innerHTML:'',hidden:false,dataset:{},addEventListener(){},setAttribute(){},focus(){},scrollIntoView(){},querySelector(){return element('submit');},get valueAsNumber(){return this.value===''?NaN:Number(this.value);}});
+  return ids.get(id);
+ };
+ const context=vm.createContext({ForecastMath:M,ForecastDecision:D,structuredClone,Date,console,
+  setInterval(){},fetch:()=>new Promise(()=>{}),window:{scrollTo(){}},
+  document:{hidden:false,getElementById:element,querySelector:element,querySelectorAll:()=>[],addEventListener(){}}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../docs/assets/app.js'),'utf8'),context);
+ const at=new Date().toISOString();
+ const q={ticker:'EXAMPLE',yes_bid:35,yes_ask:40,no_ask:65,mid:37.5,spread:5,retrieved_at:at,yes_depth:20};
+ const edge={side:'YES',price:40,fee_rate:.07,ev_cents:10,eligibility:{eligible:false,reasons:['Out-of-sample calibration pending']}};
+ const d={date:'2026-09-06',window_start:at,window_end:new Date(Date.now()+86400000).toISOString(),kind:'temperature',data_quality:'partial',n_families:1,fee_verified:true,
+  distribution:{median:85,p10:80,p90:90,quantiles:M.Q.map(p=>80+10*p),floor:null},sources:{},settlement:{verified:false,reasons:[]},
+  ladder:[{label:'85°F or lower',lo:null,hi:85,model_p:.6,market:q,edge},{label:'86°F or higher',lo:86,hi:null,model_p:.4,market:{...q,ticker:'OTHER'},edge}]};
+ const board={kind:'temperature',generated_at:at,cities:[{city:'Test station',icao:'KTEST',tz:'UTC',days:{'0':d}}]};
+ context.fixture=board;
+ vm.runInContext("state.temperature=fixture;state.city='Test station';state.kind='temperature';drawBoard();drawDetail();",context);
+ assert.match(element('weather-briefing').innerHTML,/Daily high near 85/);
+ assert.match(element('practice-result').innerHTML,/Maximum loss/);
+ element('practice-probability').value='73';
+ vm.runInContext("state.temperature.cities[0].days['0'].ladder[0].market.yes_ask=70;drawDetail();",context);
+ assert.equal(element('practice-probability').value,'73');
+ assert.match(element('practice-result').innerHTML,/\$0\.42/);
+ assert.match(element('practice-result').innerHTML,/Wait and investigate/);
+ vm.runInContext('initPractice(true)',context);
+ assert.match(element('practice-result').innerHTML,/\$0\.72/);
+ assert.equal(element('practice-probability').value,'60.0');
+});
