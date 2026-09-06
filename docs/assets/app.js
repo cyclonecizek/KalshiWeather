@@ -20,7 +20,7 @@ function current(){return entry(state.kind);}
 function filteredCities(){const search=$('search').value.toLowerCase();return cities().filter(name=>{const r=entry('rain',name),t=entry('temperature',name);return [name,r.city?.icao,t.city?.icao].join(' ').toLowerCase().includes(search);});}
 function view(name){state.view=name;document.querySelectorAll('.view').forEach(el=>el.hidden=el.id!==name);document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.view===name?'page':'false'));if(name==='detail')drawDetail();if(name==='performance')drawPerformance();if(name==='journal')drawJournal();}
 function signals(){const rows=[];for(const kind of ['rain','temperature']){const b=state[kind];if(!b)continue;for(const c of b.cities){const d=c.days[state.day];if(!d)continue;const brackets=kind==='temperature'?d.ladder:[{market:d.market,edge:d.edge,model_p:d.consensus,label:'Rain'}];for(const bracket of brackets){const e=bracket.edge,q=bracket.market;if(!e||e.ev_cents<0)continue;const reasons=M.eligibility(e,q,b);rows.push({kind,city:c.city,d,b,q,e,bracket,reasons});}}}return rows.sort((a,b)=>b.e.ev_cents-a.e.ev_cents);}
-function drawBoard(){const names=filteredCities(),all=signals().filter(r=>names.includes(r.city)),usable=all.filter(r=>!r.reasons.length);
+function drawBoard(){drawBudget();drawMeteoblueOverview();const names=filteredCities(),all=signals().filter(r=>names.includes(r.city)),usable=all.filter(r=>!r.reasons.length);
 $('summary').innerHTML=metric(names.length,'Stations to assess')+metric(usable.length,'Ready for paper review')+metric(all.length-usable.length,'Comparisons needing investigation')+metric(state.adjustments.length,'Your recorded forecasts');
 drawReviewCards(all);
 $('city-rows').innerHTML=names.map(name=>{const t=entry('temperature',name),r=entry('rain',name),d=t.day,rd=r.day;const degraded=(d&&d.data_quality!=='ok')||(rd&&rd.data_quality!=='ok');return `<tr><td><button class="city-button" data-city="${esc(name)}">${esc(name)}</button><span class="sub">High: ${esc(t.city?.icao||'—')} · Rain: ${esc(r.city?.icao||'—')}</span></td><td>${num(d?.distribution?.median)}°<span class="sub">${num(d?.distribution?.p10,0)}–${num(d?.distribution?.p90,0)}° · 80%</span></td><td>${num(d?.market_forecast?.median)}°</td><td>${num(d?.observed?.max_f)}°</td><td>${pct(rd?.consensus)}</td><td>${rd?.market?.mid==null?'—':num(rd.market.mid,0)+'%'}</td><td><span class="badge ${degraded?'warn':''}">${degraded?'Partial':'Available'}</span><span class="sub">${esc(ageText(t.board?.generated_at||r.board?.generated_at))}</span></td></tr>`;}).join('')||'<tr><td colspan="7">No city data matches this view.</td></tr>';
@@ -49,6 +49,7 @@ $('bracket-title').textContent=state.kind==='temperature'?'Temperature brackets'
 const brackets=d.ladder||[{label:'Measurable rain',model_p:d.consensus,implied:d.market.mid==null?null:d.market.mid/100,market:d.market,edge:d.edge}];
 $('brackets').innerHTML=`<div class="table-wrap"><table><thead><tr><th>Outcome</th><th>Model</th><th>Market</th><th>YES bid / ask</th><th>Change</th></tr></thead><tbody>${brackets.map(b=>`<tr><td>${esc(b.label)}</td><td><span class="bar" style="width:${Math.max(0,b.model_p||0)*130}px"></span>${pct(b.model_p)}</td><td>${pct(b.implied)}</td><td>${num(b.market.yes_bid,2)} / ${num(b.market.yes_ask,2)}¢</td><td>${esc(b.changes?.summary||'—')}</td></tr>`).join('')}</tbody></table></div>`;
 const quotes=brackets.map(b=>b.market);$('source-status').innerHTML=`<div class="table-wrap"><table><thead><tr><th>Source</th><th>Retrieved / observed</th><th>Model run</th><th>Coverage</th></tr></thead><tbody>${sources.map(([name,v])=>`<tr><td>${esc(name)}</td><td>${esc(ageText(v.retrieved_at))}</td><td>${v.model_run_at?esc(time(v.model_run_at)):'Not supplied by provider'}</td><td>${v.member_count} members</td></tr>`).join('')}<tr><td>Station observations</td><td>${esc(ageText(d.observed?.latest_at))}</td><td>Observed, not modeled</td><td>${d.observed?pct(d.observed.coverage):'Unknown'}</td></tr><tr><td>Market quotes</td><td>${esc(ageText(quotes.map(q=>q.retrieved_at).filter(Boolean).sort()[0]))}</td><td>Snapshot</td><td>${quotes.filter(q=>q.executable).length}/${quotes.length} executable books</td></tr></tbody></table></div>`;
+$('source-status').innerHTML+=meteoblueStatus(board,d);
 $('shift-label').hidden=$('spread-label').hidden=state.kind==='rain';$('pop-label').hidden=state.kind!=='rain';$('shift').required=$('spread').required=state.kind==='temperature';$('pop').required=state.kind==='rain';previewAdjustment();}
 function previewAdjustment(){const {board,day:d}=draftContext();if(!d)return;const stale=M.age(board.generated_at)>180||Date.now()>=Date.parse(d.window_end);$('adjustment-form').querySelector('[type=submit]').disabled=stale;$('adjustment-note').textContent=stale?'Refresh to a current snapshot before saving an adjustment.':'Preview anchored to '+time(board.generated_at)+'. The original automated forecast will remain unchanged.';
 if(state.kind==='rain'){$('adjustment-preview').innerHTML=`<p>Automated: ${pct(d.consensus)} · Your preview: ${num(Number($('pop').value),0)}%</p>`;return;}
@@ -176,3 +177,73 @@ function drawPractice() {
 ['practice-probability','practice-quantity'].forEach(id=>$(id).addEventListener('input',drawPractice));
 $('practice-reset').addEventListener('click',()=>initPractice(true));
 document.querySelectorAll('[data-view-link]').forEach(b=>b.addEventListener('click',()=>view(b.dataset.viewLink)));
+
+
+function portfolioCandidates() {
+  const rows=[];
+  for(const kind of ['temperature','rain']) {
+    const board=state[kind];
+    for(const city of board?.cities||[]) {
+      const d=city.days[state.day]; if(!d) continue;
+      const brackets=d.ladder||[{market:d.market,edge:d.edge,model_p:d.consensus,label:'Measurable rain'}];
+      for(const bracket of brackets) {
+        const q=bracket.market, e=bracket.edge;
+        if(!q || !e) continue;
+        const personal=$('bet-model').value==='personal';
+        const saved=personal?D.savedProbability(state.adjustments,board,city.city,d,kind,q.ticker):null;
+        const yes=personal?saved?.probability:bracket.model_p;
+        const rate=d.fee_verified?e.fee_rate:null;
+        const yesCost=D.example(yes,q.yes_ask,1,rate), noCost=D.example(Number.isFinite(yes)?1-yes:NaN,q.no_ask,1,rate);
+        const side=yesCost && (!noCost || yesCost.expectedNet>=noCost.expectedNet)?'YES':noCost?'NO':e.side;
+        const p=Number.isFinite(yes)?(side==='YES'?yes:1-yes):NaN;
+        const price=side==='YES'?q.yes_ask:q.no_ask;
+        const reasons=M.eligibility(e,q,board).filter(r=>!/Portfolio budget exhausted|Paper order already recorded|Edge outside policy range|Insufficient confirmed depth/.test(r));
+        if(e.eligibility?.eligible!==true && !e.eligibility?.reasons?.length) reasons.push('Eligibility not confirmed');
+        if(personal && !saved) reasons.push('Save an adjustment for this exact forecast snapshot first');
+        if(personal && saved) reasons.push('Personal forecast calibration pending');
+        if(!d.fee_verified) reasons.push('Series fee metadata unverified');
+        if(!d.settlement?.verified) reasons.push('Settlement definition unverified');
+        if(d.data_quality!=='ok') reasons.push('Incomplete source data');
+        if((d.n_families||0)<2) reasons.push('Insufficient model families');
+        if(d.source_error_count>(board.execution_policy?.max_source_errors??1)) reasons.push('Too many source failures');
+        if(d.elapsed>(board.execution_policy?.max_elapsed??.75)) reasons.push('Reporting window nearly complete');
+        if(!Number.isFinite(q.spread) || q.spread>(board.execution_policy?.max_spread_cents??5)) reasons.push('Missing or wide spread');
+        if(!q.executable || !['active','open'].includes(q.status)) reasons.push('Executable open market required');
+        if(!Number.isFinite(Date.parse(q.close_time))) reasons.push('Market closing time unknown');
+        if(M.age(d.forecast_retrieved_at)>(board.execution_policy?.max_data_age_minutes||180)) reasons.push('Forecast stale or age unknown');
+        const depth=Number.isFinite(q[side==='YES'?'yes_depth':'no_depth'])?q[side==='YES'?'yes_depth':'no_depth']:e.side===side && e.price===price?e.depth:null;
+        const costs=D.example(p,price,1,d.fee_verified?e.fee_rate:null);
+        if(!Number.isFinite(depth) || depth<(board.execution_policy?.min_depth??25)) reasons.push('Insufficient confirmed depth');
+        if(costs && (costs.expectedNet*100>(board.execution_policy?.max_edge_cents??25) || costs.expectedNet*100<(board.execution_policy?.min_edge_cents??6))) reasons.push('Edge outside policy range');
+        rows.push({city:city.city,kind,event:[city.city,kind,d.date].join('|'),ticker:q.ticker,side,
+          label:D.outcome(kind,bracket,side),probability:p,price,feeRate:d.fee_verified?e.fee_rate:null,depth,
+          reasons,source:personal?(saved?`Your adjustment ${saved.id}`:'No matching saved adjustment'):'Automated model',date:d.date});
+      }
+    }
+  }
+  return rows;
+}
+function budgetTable(plan, hypothetical=false) {
+  const rows=plan.rows.filter(r=>r.contracts || r.fraction>0 || /Save an adjustment/.test(r.reasons.join(' ')));
+  return `<div class="table-wrap"><table><thead><tr><th>Station / outcome</th><th>Model chance / purchase price</th><th>${hypothetical?'Hypothetical':'Suggested'} contracts</th><th>Cost including fees</th><th>Why this amount?</th></tr></thead><tbody>${rows.map(r=>`<tr><td><button class="city-button" data-city="${esc(r.city)}" data-kind="${r.kind}">${esc(r.city)}</button><span class="sub">${esc(r.date)} · ${esc(r.label)} · ${esc(r.side)}</span><span class="sub">${esc(r.ticker)} · ${esc(r.source)}</span></td><td>${pct(r.probability)} / ${num(r.price,2)}¢</td><td>${r.contracts}</td><td>$${num(r.cost,2)}<span class="sub">Includes $${num(r.fee,2)} fee</span></td><td>${r.contracts?`Positive buffered model advantage, limited by budget and available contracts. Model-based average net: $${num(r.expectedNet,2)}; actual result can lose the full cost.`:esc(r.reasons.join('; '))}</td></tr>`).join('')||'<tr><td colspan="5">No positive, sizable comparisons for this forecast selection.</td></tr>'}</tbody></table></div>`;
+}
+function drawBudget() {
+  const candidates=portfolioCandidates();
+  const budget=$('bet-budget').valueAsNumber, committed=$('bet-committed').valueAsNumber;
+  const plan=D.allocate(candidates,budget,committed);
+  if(!plan) {$('budget-result').innerHTML=empty('Enter a budget from $1 to $100,000 and an existing commitment between $0 and that budget.');$('budget-hypothetical').innerHTML='';return;}
+  $('budget-result').innerHTML=`<div class="metrics">${metric('$'+num(plan.allocated,2),'Suggested new allocation / maximum loss')}${metric('$'+num(plan.remaining,2),'Keep uncommitted')}${metric('$'+num(plan.committed,2),'Already committed')}</div><p>${plan.allocated?'Review these model-based sizes at the quoted prices before deciding.':'Suggested new allocation: $0. Keep the money uncommitted until the checks below pass.'} This is a fresh plan, not additional bets on every refresh. No orders are placed or saved as fills.</p>`+budgetTable(plan);
+  const hypothetical=D.allocate(candidates.map(r=>({...r,reasons:r.reasons.filter(x=>!/calibration|Settlement definition unverified/i.test(x))})),budget,committed);
+  $('budget-hypothetical').innerHTML=`<p>Hypothetical total: $${num(hypothetical.allocated,2)}. Cash remaining: $${num(hypothetical.remaining,2)}. These amounts are not cleared for betting.</p>`+budgetTable(hypothetical,true);
+}
+function meteoblueStatus(board, day) {
+  if(!board) return '<p>Awaiting the next forecast update.</p>';
+  const info=board.meteoblue_status;
+  const message=info?.message||(board.meteoblue_published?'Detailed source diagnostics will appear after the next data update.':'Meteoblue is disabled for public display and excluded from the published model. Publication must be enabled in the repository configuration before the API is called.');
+  const source=day?.meteoblue;
+  return `<p>${esc(message)}</p>${day && board.meteoblue_published && !source?'<p>No usable Meteoblue guidance for this station and reporting day.</p>':''}${source?`<p>Daily high: ${num(source.tmax)}°F · Provider rain probability: ${pct(source.pop)} · Retrieved ${esc(ageText(source.retrieved_at))}.</p><p class="muted">Daily guidance has no hourly curve. Provider rain probability uses its own threshold and is not the final blended station probability.</p>`:''}${info?.failures?`<p>${info.failures} station request(s) failed. See the next update for recovery.</p>`:''}`;
+}
+function drawMeteoblueOverview() {
+  $('meteoblue-overview').innerHTML=['temperature','rain'].map(kind=>`<p class="eyebrow">${kind==='temperature'?'Temperature':'Rain'}</p>`+meteoblueStatus(state[kind])).join('');
+}
+for(const id of ['bet-budget','bet-committed','bet-model']) $(id).addEventListener('input',drawBudget);

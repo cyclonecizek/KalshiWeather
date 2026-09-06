@@ -167,6 +167,8 @@ def prepare(kind,settings):
                 'settlement':spec,'observed':ob,'sources':details,'forecast_retrieved_at':min((d['retrieved_at'] for d in details.values()),default=None),
                 'data_quality':'ok','generated_at':retrieved,'kind':kind,'source_error_count':len(errors),
                 'fee_verified':meta.get('fee_multiplier') is not None}
+            if mbcfg.get('publish_values') and mb.get(c['name'],{}).get(off):
+                day['meteoblue']=mb[c['name']][off]
             day['horizon']=horizon(day)
             if kind=='temperature':
                 dist,diag=build_distribution(c,off,members,point,tcfg,errors,obs=ob,obs_cfg=src.get('observations'),
@@ -220,6 +222,7 @@ def prepare(kind,settings):
         errors=sorted(set(errors)),source_status=list(quality.STATUS.values()),cities=rows,
         families=copy.deepcopy(tcfg['families'] if kind=='temperature' else settings['families']),
         meteoblue_enabled=bool(mb),meteoblue_published=bool(mbcfg.get('publish_values')),
+        meteoblue_status=meteoblue.publication_status(mbcfg,mb),
         restricted_source_policy='excluded_from_public_numeric_products' if not mbcfg.get('publish_values') else 'publication_enabled',
         execution_policy=copy.deepcopy(settings['execution']))
 
@@ -235,7 +238,7 @@ def validate(board):
             else:ps=[d['consensus']]
             if any(not isinstance(p,(int,float)) or not 0<=p<=1 for p in ps):raise ValueError('Invalid probability')
             if not board['meteoblue_published']:
-                if 'METEOBLUE' in d.get('models',{}) or 'mlm' in d.get('families',{}) or 'METEOBLUE' in d.get('diagnostics',{}):raise ValueError('Restricted source in public payload')
+                if d.get('meteoblue') or 'METEOBLUE' in d.get('models',{}) or 'mlm' in d.get('families',{}) or 'METEOBLUE' in d.get('diagnostics',{}):raise ValueError('Restricted source in public payload')
     json.dumps(board,allow_nan=False)
 
 def run(kind=None):

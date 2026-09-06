@@ -259,3 +259,66 @@ def test_publication_guard_rejects_old_schema(tmp_path):
  for path in ['index.html','assets/app.js','assets/math.js','assets/decision.js','assets/app.css']:(tmp_path/'docs'/path).write_text('asset')
  (tmp_path/'docs/data/board.json').write_text('{"schema_version":1,"cities":[{}]}')
  with pytest.raises(ValueError,match='version-2'):check(tmp_path)
+
+
+def test_meteoblue_public_status_does_not_expose_key_or_restricted_values(monkeypatch):
+ from pipeline.sources import meteoblue as mb
+ monkeypatch.setenv('METEOBLUE_KEY','secret-do-not-publish')
+ status=mb.publication_status({'publish_values':False},{'Test':{0:{'tmax':99}}})
+ assert status['state']=='publication_disabled'
+ assert '99' not in str(status) and 'secret-do-not-publish' not in str(status)
+ monkeypatch.delenv('METEOBLUE_KEY')
+ assert mb.publication_status({'publish_values':True},{})['state']=='missing_key'
+
+
+def test_meteoblue_failed_requests_count_against_budget_and_redact_secrets(tmp_path,monkeypatch,capsys):
+ from pipeline.sources import meteoblue as mb
+ import requests
+ monkeypatch.setenv('METEOBLUE_KEY','private-key')
+ calls=[]
+ def fail(*args,**kwargs):
+  calls.append(1)
+  raise requests.HTTPError('https://example.test/?apikey=private-key')
+ monkeypatch.setattr(mb.requests,'get',fail)
+ cities=[{'name':name,'tz':'UTC','lat':1,'lon':1} for name in ['A','B']]
+ cfg={'publish_values':True,'cache_path':str(tmp_path/'cache.json'),'max_calls_per_day':1}
+ assert mb.fetch(cities,cfg)=={}
+ assert len(calls)==1
+ status=mb.publication_status(cfg,{})
+ assert status['failures']==1 and status['budget_limited']==1
+ assert 'private-key' not in capsys.readouterr().out
+ assert sum(mb._load_cache(tmp_path/'cache.json')['calls'].values())==1
+
+
+def test_meteoblue_expired_cache_is_not_reissued_as_fresh(tmp_path,monkeypatch):
+ from pipeline.sources import meteoblue as mb
+ from datetime import datetime,timedelta,timezone
+ import json
+ monkeypatch.setenv('METEOBLUE_KEY','test')
+ now=datetime.now(timezone.utc)
+ cache=tmp_path/'cache.json'
+ cache.write_text(json.dumps({'data':{'A|'+now.date().isoformat():{'at':(now-timedelta(hours=9)).isoformat(),'days':{'0':{'tmax':80}}}},'calls':{now.date().isoformat():1}}))
+ assert mb.fetch([{'name':'A','tz':'UTC','lat':1,'lon':1}],{'cache_path':str(cache),'max_calls_per_day':1,'cache_hours':8})=={}
+ assert mb.STATUS['A']=='budget_exhausted'
+ assert not mb._fresh('not a date',timedelta(hours=8))
+ assert not mb._fresh(now.replace(tzinfo=None).isoformat(),timedelta(hours=8))
+
+
+def test_meteoblue_enabled_response_has_daily_values_and_real_retrieval_time(tmp_path,monkeypatch):
+ from pipeline.sources import meteoblue as mb
+ from datetime import datetime,timezone
+ monkeypatch.setenv('METEOBLUE_KEY','test')
+ date=datetime.now(timezone.utc).date().isoformat()
+ class Response:
+  def raise_for_status(self): pass
+  def json(self): return {'data_day':{'time':[date],'temperature_max':[81],'precipitation_probability':[30]}}
+ monkeypatch.setattr(mb.requests,'get',lambda *a,**k:Response())
+ cfg={'publish_values':True,'cache_path':str(tmp_path/'cache.json')}
+ cities=[{'name':'A','tz':'UTC','lat':1,'lon':1}]
+ first=mb.fetch(cities,cfg,(0,))
+ assert first['A'][0]['tmax']==81 and first['A'][0]['pop']==.3
+ assert mb.publication_status(cfg,first)['state']=='available'
+ assert mb._fresh(first['A'][0]['retrieved_at'],__import__('datetime').timedelta(minutes=1))
+ monkeypatch.setattr(mb.requests,'get',lambda *a,**k: (_ for _ in ()).throw(AssertionError('Should use cache')))
+ second=mb.fetch(cities,cfg,(0,))
+ assert second['A'][0]['tmax']==81
