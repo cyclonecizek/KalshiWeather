@@ -79,3 +79,44 @@ The repository needs Actions with contents-write access and GitHub Pages configu
 ## Data files
 
 `docs/data/board.json` and `board_temp.json` contain schema-version-2 boards. `history/` stores immutable issuance snapshots. `performance.json` contains paired verification records; `outcomes.json` caches final outcomes; `adjustments.json` stores owner adjustments; and `paper/ledger.json` stores paper proposals. History grows with each build and should be archived deliberately rather than deleting the evidence used for scoring.
+
+
+### Personal budget planner
+
+The daily briefing accepts a total loss budget (default $500), money already committed,
+and a choice of the automated model or saved owner forecast adjustments. Saved
+adjustments must match the current snapshot; stale adjustments do not silently fall
+back to the automated forecast. The planner compares both purchase sides, includes
+whole-order fees, and respects verified depth at the displayed price.
+
+Sizing uses quarter Kelly after reducing the chosen outcome probability by 5 percentage
+points. It caps a position at 5% of the entered budget, a city at 10%, and total
+commitments at 25%, leaving the rest unallocated. These are cautious design defaults,
+not a fitted joint weather-risk model or a guarantee against losses. Only one position
+per city/product/reporting day is included. The user must enter existing commitments;
+there is no account connection and a refresh is a replacement plan, not an instruction
+to add positions. Existing server paper-ledger dollar limits are replaced by this
+form's explicit budget, while forecast, settlement, calibration, freshness, price,
+and liquidity checks still apply. Personal forecast calibration remains pending.
+
+An expandable hypothetical view illustrates sizing while settlement/calibration
+verification is pending. It does not change the recommended plan and continues to
+block stale or missing data. No order is sent or fill recorded.
+
+### Meteoblue visibility and diagnostics
+
+`temperature.sources.meteoblue.publish_values` is enabled following the repository
+owner’s public-display authorization on 2026-09-06. The source requires
+`METEOBLUE_KEY` as a repository Actions secret. Setting publication to false disables
+API calls and excludes Meteoblue from the public blend. Data updates display
+per-station daily high, provider PoP and retrieval time, plus overall source status.
+Daily Meteoblue packages do not provide a curve in the hourly chart. Provider PoP
+is not the final Kalshi station-event probability.
+
+Public diagnostics distinguish disabled publication, absent credentials, request
+failures, daily call limits, and usable data. API exception URLs are not logged
+because they may contain credentials. Failed requests count toward the local daily
+call budget; expired cached forecasts are not reused as fresh data. A 25-call/day
+limit can refresh roughly 25 stations once daily, so an eight-hour cache does not
+provide uninterrupted full-network guidance. Set package, credit, call and refresh
+budgets according to the actual account allowance.

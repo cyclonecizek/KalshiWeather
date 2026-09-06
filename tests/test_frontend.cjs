@@ -73,4 +73,59 @@ test('station walkthrough keeps practice estimates anchored across automatic ref
  vm.runInContext('initPractice(true)',context);
  assert.match(element('practice-result').innerHTML,/\$0\.72/);
  assert.equal(element('practice-probability').value,'60.0');
+ // Exercise the actual board form, including hypothetical gates and saved model selection.
+ element('bet-budget').value='500'; element('bet-committed').value='0';
+ element('bet-model').value='automatic';
+ vm.runInContext(`fixture.snapshot_id='current';
+ const bd=fixture.cities[0].days['0'];
+ Object.assign(bd,{forecast_retrieved_at:fixture.generated_at,data_quality:'ok',n_families:2});
+ for(const b of bd.ladder) Object.assign(b.market,{yes_ask:40,no_ask:65,yes_depth:200,no_depth:200,executable:true,status:'open',close_time:new Date(Date.now()+3600000).toISOString()});
+ drawBudget();`,context);
+ assert.match(element('budget-result').innerHTML,/Suggested new allocation: \$0/);
+ assert.match(element('budget-hypothetical').innerHTML,/Hypothetical total: \$24\.60/);
+ assert.match(element('budget-result').innerHTML,/calibration pending/);
+ element('bet-model').value='personal';
+ vm.runInContext(`state.adjustments=[{id:'issue-1',city:'Test station',kind:'temperature',date:'2026-09-06',snapshot_id:'current',created_at:fixture.generated_at,tickers:['EXAMPLE','OTHER'],adjusted_probabilities:[.1,.9]}];drawBudget();`,context);
+ const candidates=vm.runInContext('portfolioCandidates()',context);
+ assert.equal(candidates[0].side,'NO');
+ assert.equal(candidates[0].probability,.9);
+ assert.equal(candidates[0].depth,200);
+ vm.runInContext(`fixture.generated_at=new Date(Date.now()-4*3600000).toISOString();drawBudget();`,context);
+ assert.match(element('budget-hypothetical').innerHTML,/Hypothetical total: \$0\.00/);
+ assert.match(element('meteoblue-overview').innerHTML,/disabled for public display/);
+});
+
+const candidate=(overrides={})=>({city:'A',event:'A|temperature|today',ticker:'A-HIGH',probability:.65,price:40,feeRate:.07,depth:1000,reasons:[],...overrides});
+test('a $500 plan uses whole contracts, fee-inclusive caps, and leaves a reserve',()=>{
+ const plan=D.allocate(Array.from({length:20},(_,i)=>candidate({city:`C${i}`,event:`E${i}`,ticker:`T${i}`})),500);
+ assert.ok(plan.allocated<=125);
+ assert.ok(plan.remaining>=375);
+ assert.equal(plan.allocated+plan.remaining,500);
+ assert.ok(plan.rows.every(r=>Number.isInteger(r.contracts)&&r.cost<=25));
+ for(const r of plan.rows.filter(r=>r.contracts))assert.equal(r.cost,Math.round(D.example(r.probability,r.price,r.contracts,r.feeRate).cost*100)/100);
+});
+test('same event brackets, duplicate tickers, city exposure and depth are capped',()=>{
+ const candidates=[candidate(),candidate({ticker:'A-OTHER'}),candidate({event:'A|rain|today',ticker:'RAIN'}),candidate({event:'A|third',ticker:'THIRD'}),candidate({city:'B',event:'B|high',ticker:'A-HIGH'}),candidate({city:'C',event:'C|high',ticker:'C',depth:3})];
+ const plan=D.allocate(candidates,500), funded=plan.rows.filter(r=>r.contracts);
+ assert.equal(funded.filter(r=>r.event==='A|temperature|today').length,1);
+ assert.equal(funded.filter(r=>r.ticker==='A-HIGH').length,1);
+ assert.ok(funded.filter(r=>r.city==='A').reduce((s,r)=>s+r.cost,0)<=50);
+ assert.ok(funded.find(r=>r.city==='C').contracts<=3);
+});
+test('commitments consume the allocation ceiling and invalid budgets fail closed',()=>{
+ assert.equal(D.allocate([candidate()],500,125).allocated,0);
+ assert.equal(D.allocate([candidate()],500,500).remaining,0);
+ for(const args of [[NaN,0],[0,0],[.5,0],[100001,0],[500,-1],[500,501]])assert.equal(D.allocate([candidate()],...args),null);
+});
+test('no allocation when model advantage vanishes, data is absent, or checks fail',()=>{
+ for(const c of [candidate({probability:.46}),candidate({feeRate:null}),candidate({depth:null}),candidate({probability:NaN}),candidate({reasons:['Quote stale']}),candidate({reasons:['Out-of-sample calibration pending']})])assert.equal(D.allocate([c],500).allocated,0);
+});
+test('saved forecast requires the current snapshot and coherent probabilities',()=>{
+ const now=Date.now(),saved={city:'A',date:'today',kind:'temperature',snapshot_id:'new',created_at:new Date(now-1000).toISOString(),tickers:['X','Y'],adjusted_probabilities:[.7,.3],id:'issue-1'};
+ const get=items=>D.savedProbability(items,{snapshot_id:'new'},'A',{date:'today'},'temperature','X',now);
+ assert.equal(get([saved]).probability,.7);
+ assert.equal(get([{...saved,snapshot_id:'old'}]),null);
+ assert.equal(get([{...saved,adjusted_probabilities:[.7,.8]}]),null);
+ assert.equal(get([{...saved,tickers:['X','X']}]),null);
+ assert.equal(get([{...saved,created_at:new Date(now+3600000).toISOString()}]),null);
 });

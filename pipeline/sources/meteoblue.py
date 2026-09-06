@@ -46,6 +46,26 @@ import requests
 THRESHOLD_MM = 0.254
 RAINSPOT_CELLS = 49
 RAINSPOT_CENTRE = 24          # middle of a 7x7 grid, ordered SW -> NE
+STATUS = {}
+
+
+def publication_status(cfg, data):
+    """Public diagnostics contain no credentials, response bodies, or hidden values."""
+    if not cfg.get('publish_values'):
+        return {'state': 'publication_disabled', 'message':
+                'Meteoblue is disabled for public display and excluded from the published model. '
+                'No API calls are made. Enable publish_values only with permission to publish the data.'}
+    if not (os.environ.get('METEOBLUE_KEY') or cfg.get('api_key')):
+        return {'state': 'missing_key', 'message':
+                'Meteoblue publication is enabled, but METEOBLUE_KEY is not available to the data workflow.'}
+    failures = sum(v == 'request_failed' for v in STATUS.values())
+    limited = sum(v == 'budget_exhausted' for v in STATUS.values())
+    message = (f'Meteoblue daily guidance is available for {len(data)} stations.' if data else
+               'No usable Meteoblue daily guidance was returned for this update.')
+    if limited:
+        message += f' The daily call limit prevented refreshing {limited} stations.'
+    return {'state': 'available' if data else 'unavailable', 'message': message,
+            'stations': len(data), 'failures': failures, 'budget_limited': limited}
 
 
 # ---------------------------------------------------------------------------
@@ -72,9 +92,12 @@ def _fresh(stamp, max_age):
         return False
     try:
         at = datetime.fromisoformat(stamp)
-    except ValueError:
+    except (ValueError, TypeError):
         return False
-    return datetime.now(timezone.utc) - at < max_age
+    if at.tzinfo is None:
+        return False
+    age = datetime.now(timezone.utc) - at
+    return timedelta(0) <= age < max_age
 
 
 def estimate_credits(cfg):
@@ -169,6 +192,7 @@ def _day_value(block, date_str, key):
 
 def fetch(cities, cfg, day_offsets=(0, 1)):
     """-> {city: {offset: {tmax, temp_spread, predictability, pop, rainspot}}}"""
+    STATUS.clear()
     key = os.environ.get("METEOBLUE_KEY") or cfg.get("api_key")
     if not key:
         return {}
@@ -204,15 +228,14 @@ def fetch(cities, cfg, day_offsets=(0, 1)):
         entry = cache["data"].get(ckey)
 
         if entry and _fresh(entry.get("at"), max_age):
-            out[c["name"]] = {int(k): v for k, v in entry["days"].items()}
+            out[c["name"]] = {int(k): {**v, 'retrieved_at': entry['at']} for k, v in entry["days"].items() if int(k) in day_offsets}
+            STATUS[c['name']] = 'cached'
             served += 1
             continue
 
         if spent >= budget:
-            # Out of budget: a stale mLM run still beats dropping the source.
-            if entry:
-                out[c["name"]] = {int(k): v for k, v in entry["days"].items()}
-                served += 1
+            # Never make an expired forecast look like a fresh retrieval.
+            STATUS[c['name']] = 'budget_exhausted'
             continue
 
         params = {
@@ -226,17 +249,19 @@ def fetch(cities, cfg, day_offsets=(0, 1)):
         # slice for free, which matters most at Denver, Salt Lake and Vegas.
         if c.get("elevation_m") is not None:
             params["asl"] = c["elevation_m"]
+        spent += 1
+        cache["calls"][today_utc] = spent
+        _save_cache(cache_path, cache)
         try:
             r = requests.get(url, params=params, timeout=45)
             r.raise_for_status()
             data = r.json()
         except Exception as exc:  # noqa: BLE001
-            print(f"  meteoblue {c['name']}: {exc}")
-            if entry:
-                out[c["name"]] = {int(k): v for k, v in entry["days"].items()}
+            # requests exception text may contain the API key in the URL.
+            print(f"  meteoblue {c['name']}: request failed ({type(exc).__name__})")
+            STATUS[c['name']] = 'request_failed'
             continue
 
-        spent += 1
         fetched += 1
 
         day = data.get("data_day") or {}
@@ -253,14 +278,18 @@ def fetch(cities, cfg, day_offsets=(0, 1)):
                              if cfg.get("use_rainspot") else None),
             }
             if any(v is not None for v in rec.values()):
+                rec['retrieved_at'] = datetime.now(timezone.utc).isoformat()
                 by_off[off] = rec
 
         if by_off:
+            STATUS[c['name']] = 'available'
             out[c["name"]] = by_off
             cache["data"][ckey] = {
                 "at": datetime.now(timezone.utc).isoformat(),
                 "days": {str(k): v for k, v in by_off.items()},
             }
+        else:
+            STATUS[c['name']] = 'empty_response'
 
     cache["calls"][today_utc] = spent
     cache["calls"] = dict(sorted(cache["calls"].items())[-400:])
