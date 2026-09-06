@@ -105,10 +105,10 @@ block stale or missing data. No order is sent or fill recorded.
 
 ### Meteoblue visibility and diagnostics
 
-`temperature.sources.meteoblue.publish_values: false` disables API calls and excludes
-Meteoblue from the public blend. This is why no Meteoblue values appear on the current
-site. To publish licensed daily guidance, explicitly enable that setting and supply
-`METEOBLUE_KEY` as a repository Actions secret. The next data update will display
+`temperature.sources.meteoblue.publish_values` is enabled following the repository
+owner’s public-display authorization on 2026-09-06. The source requires
+`METEOBLUE_KEY` as a repository Actions secret. Setting publication to false disables
+API calls and excludes Meteoblue from the public blend. Data updates display
 per-station daily high, provider PoP and retrieval time, plus overall source status.
 Daily Meteoblue packages do not provide a curve in the hourly chart. Provider PoP
 is not the final Kalshi station-event probability.
