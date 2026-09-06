@@ -42,43 +42,10 @@ def _daily_max_per_member(hourly, date_str):
 
 
 def fetch_openmeteo(cities, cfg, day_offsets=(0, 1)):
-    """-> {model_key: {city: {offset: [member_maxes_F]}}}"""
-    lats = ",".join(f"{c['lat']:.4f}" for c in cities)
-    lons = ",".join(f"{c['lon']:.4f}" for c in cities)
-
-    results = {}
-    for key, model_id in cfg["models"].items():
-        try:
-            r = requests.get(cfg["ensemble_base"], params={
-                "latitude": lats, "longitude": lons,
-                "hourly": "temperature_2m", "models": model_id,
-                "forecast_days": 3, "timezone": "auto",
-                "temperature_unit": "fahrenheit",
-            }, timeout=240)
-            r.raise_for_status()
-            payload = r.json()
-        except Exception as exc:  # noqa: BLE001
-            print(f"  temp openmeteo {key}: {exc}")
-            continue
-
-        if isinstance(payload, dict):
-            payload = [payload]
-
-        per_city = {}
-        for city, loc in zip(cities, payload):
-            hourly = loc.get("hourly") or {}
-            dates = sorted({t[:10] for t in (hourly.get("time") or [])})
-            by_off = {}
-            for off in day_offsets:
-                if off >= len(dates):
-                    continue
-                members = _daily_max_per_member(hourly, dates[off])
-                if len(members) >= 3:
-                    by_off[off] = members
-            per_city[city["name"]] = by_off
-        results[key] = per_city
-        print(f"  temp openmeteo {key}: {len(per_city)} cities")
-    return results
+    from . import hourly
+    data = hourly.fetch(cities, cfg, day_offsets)
+    return {m: {c: {off: d['maxima'] for off, d in days.items()}
+                for c, days in by_city.items()} for m, by_city in data.items()}
 
 
 # ---------------------------------------------------------------------------

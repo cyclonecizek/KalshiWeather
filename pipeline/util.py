@@ -168,13 +168,13 @@ def edge_for_side(p_model: float, price_cents: float, multiplier: float):
 
     p_model is the probability that THIS side pays out.
     """
-    if price_cents is None or price_cents <= 0 or price_cents >= 100:
+    if p_model is None or price_cents is None or not math.isfinite(p_model) or price_cents <= 0 or price_cents >= 100:
         return None
     fee = kalshi_fee_cents(price_cents, multiplier)
     return p_model * 100.0 - price_cents - fee
 
 
-def kelly_fraction(p_model: float, price_cents: float, cap: float = 0.25):
+def kelly_fraction(p_model: float, price_cents: float, cap: float = 0.25, multiplier: float = 0.07):
     """Fractional Kelly stake for a binary contract bought at price a.
 
         f* = (p - a) / (1 - a)
@@ -182,7 +182,9 @@ def kelly_fraction(p_model: float, price_cents: float, cap: float = 0.25):
     Capped, because your probability estimate is a blend of correlated models
     with unfitted calibration offsets and full Kelly on that is not a plan.
     """
-    a = price_cents / 100.0
+    if price_cents is None or p_model is None:
+        return 0.0
+    a = (price_cents + kalshi_fee_cents(price_cents, multiplier)) / 100.0
     if a >= 1.0 or p_model <= a:
         return 0.0
     return min((p_model - a) / (1.0 - a), 1.0) * cap

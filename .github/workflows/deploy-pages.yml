@@ -13,7 +13,7 @@ name: Deploy Pages
 
 on:
   workflow_run:
-    workflows: ["Update board", "Intraday refresh"]
+    workflows: ["Update board", "Intraday refresh", "Score calibration", "Record forecast adjustment"]
     types: [completed]
   push:
     branches: [main]
@@ -48,15 +48,8 @@ jobs:
           ref: main          # workflow_run checks out the default SHA, which
                              # predates the data commit we want to publish
 
-      - name: Fail loudly if docs/ is missing
-        run: |
-          if [ ! -f docs/index.html ]; then
-            echo "docs/index.html not found. Repo root contains:"
-            ls -a
-            exit 1
-          fi
-          echo "publishing board generated at:"
-          python3 -c "import json;print(' ',json.load(open('docs/data/board.json'))['generated_at'])" || true
+      - name: Validate the publication artifact
+        run: python3 -m pipeline.publication_check
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

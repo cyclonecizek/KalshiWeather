@@ -1,0 +1,53 @@
+name: Regression checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths: ['pipeline/**', 'tests/**', 'docs/assets/**', 'docs/index.html', 'requirements.txt']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -r requirements.txt pytest==9.1.1
+      - run: python -m pytest -q
+      - run: node --test tests/test_frontend.cjs
+      - run: python -m pipeline.selfcheck
+  live-smoke:
+    # No secrets or repository writes: validate the actual provider contracts
+    # in a disposable checkout before the new builder reaches main.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Build representative live station data
+        env:
+          WEATHER_CITIES: Chicago,New York,Los Angeles
+        run: |
+          # Remove full-size boards only inside this disposable CI checkout.
+          rm -f docs/data/board.json docs/data/board_temp.json
+          python -m pipeline.run
+      - run: python -m pipeline.publication_check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-weather-smoke
+          path: |
+            docs/data/board.json
+            docs/data/board_temp.json
+            docs/data/status.json
+          retention-days: 7

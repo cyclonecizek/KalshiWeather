@@ -153,6 +153,8 @@ def implied_distribution(ladder):
     it's the house edge baked into the spreads, and comparing an un-normalized
     market to a normalized model makes every bracket look overpriced.
     """
+    if coverage_gaps(ladder) or any(b["market"].get("mid") is None for b in ladder):
+        return [None]*len(ladder), None
     raw = [b["market"]["mid"] / 100.0 for b in ladder]
     total = sum(raw)
     if total <= 0:
@@ -203,27 +205,26 @@ def implied_quantiles(ladder, probs, qs=(0.1, 0.5, 0.9)):
     return out
 
 
-def check_arbitrage(ladder):
-    """Coherence checks that don't depend on any forecast being right."""
-    n = len(ladder)
-    if n < 2:
-        return None
-    yes_cost = sum(b["market"]["yes_ask"] for b in ladder)
-    no_cost = sum(b["market"]["no_ask"] for b in ladder)
-    flags = {}
-    if yes_cost < 100:
-        flags["buy_all_yes"] = round(100 - yes_cost, 2)
-    if no_cost < (n - 1) * 100:
-        flags["buy_all_no"] = round((n - 1) * 100 - no_cost, 2)
+def check_arbitrage(ladder, fee_mult=.07):
+    """Report only complete, disjoint ladders and net single-basket profit."""
+    from .util import kalshi_fee_cents
+    if len(ladder)<2 or coverage_gaps(ladder):return None
+    if any(not b['market'].get('executable') for b in ladder):return None
+    flags={}
+    for side,payout in [('yes',100),('no',(len(ladder)-1)*100)]:
+        prices=[b['market'].get(side+'_ask') for b in ladder]
+        if any(p is None for p in prices):continue
+        cost=sum(p+kalshi_fee_cents(p,fee_mult) for p in prices)
+        if cost<payout:flags['buy_all_'+side]=round(payout-cost,2)
     return flags or None
 
 
 def coverage_gaps(ladder):
-    """Holes or overlaps in the ladder -- usually means a parse went wrong."""
-    problems = []
-    for a, b in zip(ladder, ladder[1:]):
-        if a["hi"] is None or b["lo"] is None:
-            continue
-        if b["lo"] != a["hi"] + 1:
+    problems=[]
+    if not ladder:return ['No brackets']
+    if ladder[0]['lo'] is not None:problems.append('Missing lower tail')
+    if ladder[-1]['hi'] is not None:problems.append('Missing upper tail')
+    for a,b in zip(ladder,ladder[1:]):
+        if a['hi'] is None or b['lo'] is None or b['lo']!=a['hi']+1:
             problems.append(f"{a['label']} -> {b['label']}")
     return problems

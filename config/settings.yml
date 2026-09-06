@@ -216,10 +216,9 @@ sources:
 # ===========================================================================
 # TEMPERATURE MARKETS (KXHIGH*, KXLOW*)
 #
-# Different beast from rain. These settle on the NWS Daily Climate Report --
-# not The Weather Company -- and they're brackets, not a single binary. You
-# need a full predictive distribution of the daily high, then you integrate
-# it over each bracket.
+# Current market rules name The Weather Company. See settlement.json for
+# product-specific evidence and the provisional reporting-window status.
+# Integrate the predictive distribution over each temperature bracket.
 # ===========================================================================
 temperature:
   series_prefixes: [KXHIGH]      # add KXLOW to trade lows off the same machinery
@@ -268,6 +267,7 @@ temperature:
 
   # Ensembles under-disperse 2m temperature, which underprices the outer
   # brackets. >1 widens. Fit per city; this is the global default.
+  disagreement_factor: 1.0  # candidate default; validate out of sample
   spread_factor: 1.15
 
   edge:
@@ -350,8 +350,8 @@ temperature:
       # docs/data/*.json is committed and served publicly by GitHub Pages.
       # Emitting meteoblue's forecast values there republishes their data,
       # which their licence restricts independently of whether your own use
-      # is commercial. Left false, mLM still feeds the blended consensus --
-      # it just isn't itemised in the published file.
+      # is commercial. Left false, mLM is excluded from all public numeric
+      # products, including blends, to prevent algebraic reconstruction.
       publish_values: false
 
 # ===========================================================================
@@ -370,8 +370,11 @@ execution:
   # --- gates: reasons not to trade at all ---------------------------------
   # The important one. Every calibration knob is a guess until the scorer has
   # fitted it against outcomes, and trading an unfitted model is trading a
-  # hypothesis. Set false only once temperature.bias is populated.
+  # hypothesis. Approval evidence must match the model version and horizon
+  # in config/calibration.json; setting a bias alone is not validation.
   require_calibration: true
+  max_quote_age_minutes: 20
+  max_per_city_dollars: 25.0
   max_data_age_minutes: 180      # a stale board is a wrong board
   max_source_errors: 1
 
@@ -387,8 +390,4 @@ execution:
   daily_budget_dollars: 50.0     # hard stop across all orders per day
   max_per_market_dollars: 15.0   # no single contract dominates the book
 
-  # Post inside the spread instead of crossing it. Paying the ask donates
-  # several cents of a single-digit edge, and the maker fee is lower than the
-  # taker fee. The trade-off is that a limit order may not fill -- the ledger
-  # records the order, not an assumed fill.
-  limit_improvement_cents: 1
+  # Paper proposals use executable asks and taker fees. No fills are assumed.
