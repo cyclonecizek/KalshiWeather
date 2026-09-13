@@ -38,6 +38,10 @@ def test_full_eligibility_path_requires_review_matching_model():
     cfg,d,q,e=fixture();cfg['execution']['max_elapsed']=1
     approved={'New York|temperature|day_ahead':{'validated':True,'n':20,'model_version':'2','model_fingerprint':model_fingerprint()}}
     assert policy.eligibility('New York',d,q,e,cfg,approved,now=NOW)['eligible']
+    e['eligibility']=policy.eligibility('New York',d,q,e,cfg,approved,now=NOW)
+    e['kelly']=.10
+    policy.allocate([{'city':'New York','quote':q,'edge':e}],cfg)
+    assert e['suggested_contracts']>0 and 0<e['suggested_cost_dollars']<=15
     approved['New York|temperature|day_ahead']['model_fingerprint']='another-model'
     assert not policy.eligibility('New York',d,q,e,cfg,approved,now=NOW)['eligible']
 
