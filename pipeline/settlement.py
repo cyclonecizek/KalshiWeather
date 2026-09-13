@@ -42,6 +42,11 @@ def verify(city,markets,date=None):
                 close=datetime.fromisoformat(m['close_time'].replace('Z','+00:00'))
                 if abs((close-end).total_seconds())>60:reasons.append('Contract closing boundary differs from the verified reporting day')
         except (KeyError,ValueError,TypeError):reasons.append('Cannot confirm the current contract reporting boundary')
+    if markets:
+        first=markets[0]
+        spec['rules_url']='https://api.elections.kalshi.com/trade-api/v2/markets/'+str(first.get('ticker',''))
+        spec['rules_primary']=first.get('rules_primary','')
+        spec['rules_secondary']=first.get('rules_secondary','')
     if not markets:reasons.append('No current contract rules')
     if not spec.get('window_verified'):reasons.append('Reporting window needs source-specific confirmation')
     spec['verified']=not reasons

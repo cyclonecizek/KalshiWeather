@@ -65,16 +65,20 @@ def test_quote_refresh_preserves_forecast_snapshot_and_invalidates_failed_prices
     board={'kind':'temperature','snapshot_id':'original','generated_at':NOW.isoformat(),
            'cities':[{'city':'New York','series':'KXHIGHNY','days':{'0':d}}]}
     d['distribution']={'median':80,'quantiles':[80]*15}
+    d['ladder'].append({'model_p':.4,'market':{**q,'ticker':'OTHER'},'edge':deepcopy(e),'lo':81,'hi':None})
     before=deepcopy(d['distribution'])
     raw={**q,'_retrieved_at':NOW.isoformat(),'yes_ask':42,'yes_bid':41,
          'rules_primary':'Maximum temperature CLINYC according to The Weather Company'}
-    refresh(board,cfg,lambda _:raw,lambda _:1)
+    refresh(board,cfg,lambda ticker:{**raw,'ticker':ticker,'yes_ask':42 if ticker=='TEST' else 60,'yes_bid':41 if ticker=='TEST' else 59},lambda _:1)
     assert board['generated_at']==NOW.isoformat() and board['snapshot_id']=='original'
     assert d['distribution']==before and d['ladder'][0]['market']['yes_ask']==42
+    assert sum(b['implied'] for b in d['ladder'])==pytest.approx(1)
+    assert d['market_forecast']['median'] is not None
     stamp=d['ladder'][0]['market']['retrieved_at']
     def fail(_):raise requests.Timeout()
     refresh(board,cfg,fail,lambda _:1)
     assert d['ladder'][0]['market']['retrieved_at']==stamp
+    assert d['market_forecast'] is None
     assert not d['ladder'][0]['market']['executable']
     assert not d['ladder'][0]['edge']['eligibility']['eligible']
 

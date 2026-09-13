@@ -1,6 +1,5 @@
 """Refresh current contract quotes without reissuing or altering forecasts."""
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime,timezone
 from .kalshi import Kalshi,effective_fee_rate
 from .quality import atomic_json,now_iso
 from .util import load_yaml
@@ -8,6 +7,7 @@ from .run import ROOT,DATA,read_json,validate,set_edge_depth
 from . import policy,settlement
 from .build_temp import evaluate_bracket
 from .blend import evaluate
+from .brackets import implied_distribution,implied_quantiles
 
 
 def refresh(board,settings,fetch_market,fetch_fee,depth=None):
@@ -19,7 +19,9 @@ def refresh(board,settings,fetch_market,fetch_fee,depth=None):
                 items.append((city,day,bracket))
     tickers={b['market']['ticker'] for _,_,b in items if b.get('market')}
     def get(ticker):
-        try:return ticker,fetch_market(ticker)
+        try:
+            raw=fetch_market(ticker)
+            return ticker,raw if raw and raw.get('ticker')==ticker else None
         except Exception:return ticker,None
     with ThreadPoolExecutor(max_workers=6) as pool:markets=dict(pool.map(get,sorted(tickers)))
     fees={}
@@ -33,6 +35,7 @@ def refresh(board,settings,fetch_market,fetch_fee,depth=None):
             # Invalidate this quote immediately; never restamp its old price.
             failures+=1
             old['executable']=False;old['quote_error']='Latest quote refresh failed'
+            old['mid']=None
             edge=b.get('edge')
             if edge:edge['eligibility']={'eligible':False,'reasons':['Latest quote refresh failed']}
             continue
@@ -60,6 +63,12 @@ def refresh(board,settings,fetch_market,fetch_fee,depth=None):
             spec=settlement.verify({'settlement':day.get('settlement',{})},[r for r in raws if r],day['date'])
             if any(r is None for r in raws):spec.update(verified=False,reasons=spec['reasons']+['Current contract rules unavailable'])
             day['settlement']=spec
+            if board['kind']=='temperature':
+                probabilities,overround=implied_distribution(brackets)
+                for b,p in zip(brackets,probabilities):b['implied']=p
+                day['overround']=overround
+                quantiles=implied_quantiles(brackets,probabilities)
+                day['market_forecast']={'median':quantiles.get(.5),'p10':quantiles.get(.1),'p90':quantiles.get(.9)} if quantiles else None
             for b in brackets:
                 if b.get('edge'):
                     b['edge']['eligibility']=policy.eligibility(city['city'],day,b['market'],b['edge'],settings,calibration)
