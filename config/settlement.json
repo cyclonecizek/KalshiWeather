@@ -12,14 +12,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHNY-26SEP07-T84",
       "rules_primary": "If the maximum temperature recorded at New York City (CLINYC) for Sep 7, 2026, is greater than 84\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265752+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -33,14 +40,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-NYC",
       "rules_primary": "If the total precipitation at CLINYC in New York City in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265791+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Newark": {
@@ -56,14 +70,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTEWR-26SEP07-T85",
       "rules_primary": "If the maximum temperature recorded at Newark (CLIEWR) for Sep 7, 2026, is greater than 85\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265803+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -77,14 +98,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-EWR",
       "rules_primary": "If the total precipitation at CLIEWR in Newark in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265817+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Trenton": {
@@ -100,14 +128,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTTTN-26SEP07-T84",
       "rules_primary": "If the maximum temperature recorded at Trenton (CLITTN) for Sep 7, 2026, is greater than 84\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265825+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -121,14 +156,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-TTN",
       "rules_primary": "If the total precipitation at CLITTN in Trenton in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265831+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Philadelphia": {
@@ -144,14 +186,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHPHIL-26SEP07-T85",
       "rules_primary": "If the maximum temperature recorded at Philadelphia (CLIPHL) for Sep 7, 2026, is greater than 85\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265840+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -165,14 +214,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-PHIL",
       "rules_primary": "If the total precipitation at CLIPHL in Philadelphia in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265853+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Boston": {
@@ -188,14 +244,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTBOS-26SEP07-T82",
       "rules_primary": "If the maximum temperature recorded at Boston (CLIBOS) for Sep 7, 2026, is greater than 82\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265860+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -209,14 +272,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-BOS",
       "rules_primary": "If the total precipitation at CLIBOS in Boston in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265869+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Washington DC": {
@@ -232,14 +302,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTDC-26SEP07-T88",
       "rules_primary": "If the maximum temperature recorded at Washington DC (CLIDCA) for Sep 7, 2026, is greater than 88\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265876+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -253,14 +330,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-DC",
       "rules_primary": "If the total precipitation at CLIDCA in Washington DC in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265885+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Atlanta": {
@@ -276,14 +360,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTATL-26SEP07-T90",
       "rules_primary": "If the maximum temperature recorded at Atlanta (CLIATL) for Sep 7, 2026, is greater than 90\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265892+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -297,14 +388,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-ATL",
       "rules_primary": "If the total precipitation at CLIATL in Atlanta in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265952+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Miami": {
@@ -320,14 +418,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHMIA-26SEP07-T93",
       "rules_primary": "If the maximum temperature recorded at Miami (CLIMIA) for Sep 7, 2026, is greater than 93\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265960+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -341,14 +446,21 @@
       "reporting_timezone": "Etc/GMT+5",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-MIA",
       "rules_primary": "If the total precipitation at CLIMIA in Miami in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.265968+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Chicago": {
@@ -364,14 +476,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHCHI-26SEP07-T83",
       "rules_primary": "If the maximum temperature recorded at Chicago (CLIMDW) for Sep 7, 2026, is greater than 83\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266143+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -385,14 +504,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-CHI",
       "rules_primary": "If the total precipitation at CLIORD in Chicago in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266167+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Minneapolis": {
@@ -408,14 +534,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTMIN-26SEP07-T86",
       "rules_primary": "If the maximum temperature recorded at Minneapolis (CLIMSP) for Sep 7, 2026, is greater than 86\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266176+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -429,14 +562,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-MIN",
       "rules_primary": "If the total precipitation at CLIMSP in Minneapolis in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266184+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Dallas": {
@@ -452,14 +592,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTDAL-26SEP07-T99",
       "rules_primary": "If the maximum temperature recorded at Dallas (CLIDFW) for Sep 7, 2026, is less than 99\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266191+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -473,14 +620,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-DAL",
       "rules_primary": "If the total precipitation at CLIDFW in Dallas in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266199+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Houston": {
@@ -496,14 +650,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTHOU-26SEP07-T98",
       "rules_primary": "If the maximum temperature recorded at Houston (CLIHOU) for Sep 7, 2026, is greater than 98\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266208+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -517,14 +678,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-HOU",
       "rules_primary": "If the total precipitation at CLIHOU in Houston in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266216+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Austin": {
@@ -540,14 +708,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHAUS-26SEP07-T95",
       "rules_primary": "If the maximum temperature recorded at Austin (CLIAUS) for Sep 7, 2026, is less than 95\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266223+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -561,14 +736,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-AUS",
       "rules_primary": "If the total precipitation at CLIAUS in Austin in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266231+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "San Antonio": {
@@ -584,14 +766,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTSATX-26SEP07-T96",
       "rules_primary": "If the maximum temperature recorded at San Antonio (CLISAT) for Sep 7, 2026, is less than 96\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266240+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -605,14 +794,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-SATX",
       "rules_primary": "If the total precipitation at CLISAT in San Antonio in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266247+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Oklahoma City": {
@@ -628,14 +824,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTOKC-26SEP07-T97",
       "rules_primary": "If the maximum temperature recorded at Oklahoma City (CLIOKC) for Sep 7, 2026, is less than 97\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266254+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -649,14 +852,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-OKC",
       "rules_primary": "If the total precipitation at CLIOKC in Oklahoma City in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266261+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "New Orleans": {
@@ -672,14 +882,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTNOLA-26SEP07-T97",
       "rules_primary": "If the maximum temperature recorded at New Orleans (CLIMSY) for Sep 7, 2026, is greater than 97\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266268+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -693,14 +910,21 @@
       "reporting_timezone": "Etc/GMT+6",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-NOLA",
       "rules_primary": "If the total precipitation at CLIMSY in New Orleans in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266274+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Denver": {
@@ -716,14 +940,21 @@
       "reporting_timezone": "Etc/GMT+7",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHDEN-26SEP07-T93",
       "rules_primary": "If the maximum temperature recorded at Denver (CLIDEN) for Sep 7, 2026, is greater than 93\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266363+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -737,14 +968,21 @@
       "reporting_timezone": "Etc/GMT+7",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-DEN",
       "rules_primary": "If the total precipitation at CLIDEN in Denver in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266375+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Phoenix": {
@@ -760,14 +998,21 @@
       "reporting_timezone": "Etc/GMT+7",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTPHX-26SEP07-T111",
       "rules_primary": "If the maximum temperature recorded at Phoenix (CLIPHX) for Sep 7, 2026, is greater than 111\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266460+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -781,14 +1026,21 @@
       "reporting_timezone": "Etc/GMT+7",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-PHX",
       "rules_primary": "If the total precipitation at CLIPHX in Phoenix in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266470+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Las Vegas": {
@@ -804,14 +1056,21 @@
       "reporting_timezone": "Etc/GMT+8",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTLV-26SEP07-T98",
       "rules_primary": "If the maximum temperature recorded at Las Vegas (CLILAS) for Sep 7, 2026, is greater than 98\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266715+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -825,14 +1084,21 @@
       "reporting_timezone": "Etc/GMT+8",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-LV",
       "rules_primary": "If the total precipitation at CLILAS in Las Vegas in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266729+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Los Angeles": {
@@ -848,14 +1114,21 @@
       "reporting_timezone": "Etc/GMT+8",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHLAX-26SEP07-T83",
       "rules_primary": "If the maximum temperature recorded at Los Angeles (CLILAX) for Sep 7, 2026, is greater than 83\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266738+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -869,14 +1142,21 @@
       "reporting_timezone": "Etc/GMT+8",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-LAX",
       "rules_primary": "If the total precipitation at CLILAX in Los Angeles in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266747+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "San Diego": {
@@ -892,14 +1172,21 @@
       "reporting_timezone": "Etc/GMT+8",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTSAN-26SEP07-T89",
       "rules_primary": "If the maximum temperature recorded at San Diego (CLISAN) for Sep 7, 2026, is greater than 89\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266754+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "San Francisco": {
@@ -915,14 +1202,21 @@
       "reporting_timezone": "Etc/GMT+8",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTSFO-26SEP07-T81",
       "rules_primary": "If the maximum temperature recorded at San Francisco (CLISFO) for Sep 7, 2026, is greater than 81\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266779+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -936,14 +1230,21 @@
       "reporting_timezone": "Etc/GMT+8",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-SFO",
       "rules_primary": "If the total precipitation at CLISFO in San Francisco in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266786+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   },
   "Seattle": {
@@ -959,14 +1260,21 @@
       "reporting_timezone": "Etc/GMT+8",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXHIGHTSEA-26SEP07-T73",
       "rules_primary": "If the maximum temperature recorded at Seattle (CLISEA) for Sep 7, 2026, is greater than 73\u00b0 fahrenheit according to The Weather Company, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266792+00:00",
       "threshold": "whole-degree Fahrenheit brackets",
-      "observation_threshold_mm": null
+      "observation_threshold_mm": null,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     },
     "rain": {
       "kind": "rain",
@@ -980,14 +1288,21 @@
       "reporting_timezone": "Etc/GMT+8",
       "reporting_window": "local_standard_day",
       "station_verified": true,
-      "window_verified": false,
-      "window_note": "Local standard day is the climate-report convention. Confirm that the currently named Weather Company daily product uses the same boundary before enabling paper orders.",
-      "window_reference": "https://help.kalshi.com/en/articles/13823837-weather-markets",
+      "window_verified": true,
+      "window_note": "The Weather Company domestic climate display identifies NWS CLI (CF6 backup) as its source. NWS defines the CLI calendar day as midnight to midnight local standard time. Current market station, source and closing boundary are checked on every build.",
+      "window_reference": "https://www.weather.gov/lot/weather_observations_faq",
       "rules_url": "https://api.elections.kalshi.com/trade-api/v2/markets/KXRAIN-26SEP07-SEA",
       "rules_primary": "If the total precipitation at CLISEA in Seattle in Sep 7, 2026 is strictly greater than 0 inches, then the market resolves to Yes.",
       "checked_at": "2026-09-06T16:19:08.266797+00:00",
       "threshold": "reported precipitation > 0 inches; trace and missing settlement totals count as zero",
-      "observation_threshold_mm": 0.254
+      "observation_threshold_mm": 0.254,
+      "window_evidence": {
+        "checked_at": "2026-09-13",
+        "product": "Domestic official climate reports (CLI/CF6)",
+        "provider_url": "https://weather.com/kalshi",
+        "convention_url": "https://www.weather.gov/lot/weather_observations_faq",
+        "review_note": "Domestic CLI rules only; international and hourly products use different reporting conventions."
+      }
     }
   }
 }

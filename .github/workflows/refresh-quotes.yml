@@ -1,17 +1,17 @@
-name: Score calibration
+name: Refresh market quotes
 on:
   workflow_dispatch:
   schedule:
-    - cron: '15 13,21 * * *'
+    - cron: '3,13,23,33,43,53 * * * *'
 permissions:
   contents: write
 concurrency:
   group: board
   cancel-in-progress: false
 jobs:
-  score:
+  quotes:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,15 +21,14 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python -m pipeline.performance
-      - run: python -m pipeline.calibration_review
-      - name: Persist verification and outcomes
+      - run: python -m pipeline.refresh_quotes
+      - name: Publish refreshed quotes
         run: |
           git config user.name board-bot
           git config user.email board-bot@users.noreply.github.com
-          git add docs/data
+          git add docs/data/board.json docs/data/board_temp.json
           if ! git diff --staged --quiet; then
-            git commit -m "Score forecasts and forecaster adjustments"
+            git commit -m "Refresh market quotes without changing forecast issuance"
             git pull --rebase origin main
             git push origin HEAD:main
           fi

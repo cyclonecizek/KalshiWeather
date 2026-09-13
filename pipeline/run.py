@@ -159,7 +159,7 @@ def prepare(kind,settings):
             if kind=='rain':matches=[m for m in matches if m['ticker'].endswith('-'+str(c['rain_code']))]
             if not matches:continue
             kal.hydrate(matches)
-            spec=settlement.verify(c,matches)
+            spec=settlement.verify(c,matches,date)
             ob=(obs.get(c['name']) or {}).get(off)
             details=source_details(c['name'],off)
             day={'date':date,'window_start':start.isoformat(),'window_end':end.isoformat(),
@@ -169,6 +169,10 @@ def prepare(kind,settings):
                 'fee_verified':meta.get('fee_multiplier') is not None}
             if mbcfg.get('publish_values') and mb.get(c['name'],{}).get(off):
                 day['meteoblue']=mb[c['name']][off]
+            day['guidance_centres']=[name for name,by_city in data.items() if len(by_city.get(c['name'],{}).get(off,{}).get('maxima' if kind=='temperature' else 'rain_totals',[]))>=3]
+            day['n_guidance_centres']=len(day['guidance_centres'])
+            from .calibration_review import model_fingerprint
+            day['model_fingerprint']=model_fingerprint()
             day['horizon']=horizon(day)
             if kind=='temperature':
                 dist,diag=build_distribution(c,off,members,point,tcfg,errors,obs=ob,obs_cfg=src.get('observations'),
@@ -217,7 +221,8 @@ def prepare(kind,settings):
         if model not in data:errors.append(f'{model}: unavailable')
     for row in rows:
         for day in row['days'].values():
-            day['source_error_count']=len(set(errors))+sum(s['status']=='failed' for s in quality.STATUS.values() if s['city']==row['city'])
+            day['source_error_count']=sum(s['status']=='failed' for s in quality.STATUS.values() if s['city']==row['city'] and s['source'] in src['openmeteo']['models'])
+            day['source_warnings']=[s for s in quality.STATUS.values() if s['city']==row['city'] and s['status']!='ok']
     return dict(schema_version=2,model_version='2',kind=kind,generated_at=now_iso(),snapshot_id=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H%M%S.%fZ')+'-'+uuid.uuid4().hex[:8],
         errors=sorted(set(errors)),source_status=list(quality.STATUS.values()),cities=rows,
         families=copy.deepcopy(tcfg['families'] if kind=='temperature' else settings['families']),
@@ -278,6 +283,8 @@ def run(kind=None):
     atomic_json(DATA/'paper/ledger.json',ledger)
     from .performance import publish
     publish(fetch_outcomes=False)
+    from .calibration_review import publish as publish_review
+    publish_review()
     atomic_json(DATA/'status.json',dict(generated_at=now_iso(),status='degraded' if failed or any(b['errors'] for b in boards) else 'ok',errors=failed,
         boards={b['kind']:{'generated_at':b['generated_at'],'errors':b['errors'],'cities':len(b['cities'])} for b in boards}))
     print(f'Published {len(boards)} board(s); {len(failed)} failed')

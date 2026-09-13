@@ -13,7 +13,7 @@ name: Deploy Pages
 
 on:
   workflow_run:
-    workflows: ["Update board", "Intraday refresh", "Score calibration", "Record forecast adjustment"]
+    workflows: ["Update board", "Intraday refresh", "Score calibration", "Record forecast adjustment", "Refresh market quotes", "Review model calibration"]
     types: [completed]
   push:
     branches: [main]

@@ -20,6 +20,8 @@ import sys
 # starts importing something new; that is what keeps this honest.
 MANIFEST = {
     "pipeline.run": ["run", "prepare", "validate"],
+    "pipeline.refresh_quotes": ["refresh", "main"],
+    "pipeline.calibration_review": ["review", "publish", "approve"],
     "pipeline.policy": ["eligibility", "allocate"],
     "pipeline.sources.hourly": ["fetch", "complete_total", "rain_probability"],
     "pipeline.performance": ["publish", "score_day"],

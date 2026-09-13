@@ -1,17 +1,20 @@
-name: Score calibration
+name: Review model calibration
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '15 13,21 * * *'
+    inputs:
+      key:
+        description: 'Exact group from Forecast skill: City|kind|horizon'
+        required: true
+        type: string
 permissions:
   contents: write
 concurrency:
   group: board
   cancel-in-progress: false
 jobs:
-  score:
+  review:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,15 +24,18 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python -m pipeline.performance
-      - run: python -m pipeline.calibration_review
-      - name: Persist verification and outcomes
+      - name: Validate evidence and record owner approval
+        env:
+          CALIBRATION_KEY: ${{ inputs.key }}
+        run: python -m pipeline.calibration_review
+      - run: python -m pipeline.refresh_quotes
+      - name: Save reviewed approval
         run: |
           git config user.name board-bot
           git config user.email board-bot@users.noreply.github.com
-          git add docs/data
+          git add config/calibration.json docs/data
           if ! git diff --staged --quiet; then
-            git commit -m "Score forecasts and forecaster adjustments"
+            git commit -m "Record owner-reviewed model calibration"
             git pull --rebase origin main
             git push origin HEAD:main
           fi

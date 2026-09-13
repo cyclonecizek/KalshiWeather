@@ -137,7 +137,7 @@ def publish(fetch_outcomes=True):
     records=[]
     for (city,date,kind,h,version),(at,snapshot,d) in selected.items():
         scores=score_day(kind,d,outcomes)
-        if scores:records.append(dict(city=city,date=date,kind=kind,horizon=h,model_version=version,issued_at=at,snapshot_id=snapshot,**scores))
+        if scores:records.append(dict(city=city,date=date,kind=kind,horizon=h,model_version=version,model_fingerprint=d.get('model_fingerprint'),issued_at=at,snapshot_id=snapshot,**scores))
     adj=read(DATA/'adjustments.json',[])
     report={'generated_at':now_iso(),'model_version':'2','selection':'Latest snapshot within 6 hours before each fixed reporting-hour cutoff',
         'cutoffs':CUTOFF,'groups':summarize(records),'records':records,'adjustments':adjustment_scores(adj,outcomes),
