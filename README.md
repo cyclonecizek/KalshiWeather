@@ -120,3 +120,41 @@ call budget; expired cached forecasts are not reused as fresh data. A 25-call/da
 limit can refresh roughly 25 stations once daily, so an eight-hour cache does not
 provide uninterrupted full-network guidance. Set package, credit, call and refresh
 budgets according to the actual account allowance.
+
+### Recommendation readiness fixes (September 13, 2026)
+
+The budget form now defaults to explicitly labelled **paper practice**. Select
+**Verified allocations** to see sizes only for positions that pass every
+check. Paper practice relaxes pending settlement/calibration assumptions only;
+known contract-definition mismatches, stale quotes, insufficient guidance,
+unknown fees and poor liquidity still block it. No trades are submitted.
+
+Ensemble downloads use batches of four stations, bounded retries, and a
+per-station cache shared by rain and temperature builds. Optional source and
+backup-observation failures remain visible instead of being added to every
+station's failure count. Coverage now requires at least two usable ensemble
+forecast centres; correlated ensemble members are not counted as separate
+centres. The existing family-weighted forecast calculation is unchanged.
+
+`Refresh market quotes` runs every ten minutes without fetching weather again.
+It preserves forecast issuance and archived scoring snapshots, rechecks current
+contract definitions/fees/depth, and invalidates failed quotes. GitHub schedules
+can be delayed, so the 20-minute quote limit still applies. Forecast freshness
+and elapsed reporting-window limits remain enforced.
+
+Domestic reporting windows are documented in [settlement verification](docs/settlement-verification.md).
+
+Forecast skill now shows each group's distinct settled-date count and review
+criteria. Scoring publishes `docs/data/calibration_review.json`. The owner can
+run **Review model calibration** with a displayed `City|kind|horizon` key.
+Approval requires at least 20 distinct settled dates, a negative upper normal
+approximation bound for paired Brier difference, and weighted bin calibration
+error no greater than 0.10. These are screening criteria, not a profitability
+guarantee. The workflow refuses insufficient evidence and non-owner approval,
+records an audit hash, and binds approval to the current weather configuration.
+It does not fit a new model on the evaluation data or automatically approve one.
+Restoring the recommendation path does not manufacture a qualifying track record.
+
+Only archived forecasts carrying the current model fingerprint count toward
+calibration approval. Older scores remain visible in Forecast skill but do not
+silently validate a changed or unidentifiable model configuration.

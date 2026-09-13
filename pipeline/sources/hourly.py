@@ -82,37 +82,53 @@ def summarize(hourly, city, off, now=None):
         window_start=start.isoformat(),window_end=end.isoformat())
 
 def fetch(cities,cfg,day_offsets=(0,1)):
+    """Small bounded requests; a per-location cache is shared by both products."""
     out={}
-    coords=','.join(f"{c['lat']:.4f},{c['lon']:.4f}" for c in cities)
-    for key, model in cfg['models'].items():
-        params={'latitude':','.join(str(c['lat']) for c in cities),
-            'longitude':','.join(str(c['lon']) for c in cities),
-            'hourly':'temperature_2m,precipitation','models':model,
-            'forecast_days':4,'past_days':1,'timezone':'GMT','temperature_unit':'fahrenheit'}
-        token=hashlib.sha256((model+coords).encode()).hexdigest()[:20]
-        cache=Path('.cache/hourly')/(token+'.json')
-        saved={}
-        try:saved=json.loads(cache.read_text())
-        except (OSError,ValueError):pass
-        try:
-            if age_minutes(saved.get('retrieved_at')) <= cfg.get('cache_minutes',45):
-                payload=saved['payload']; retrieved=saved['retrieved_at']
-            else:
-                r=requests.get(cfg['ensemble_base'],params=params,timeout=60)
-                r.raise_for_status();payload=r.json();retrieved=now_iso()
-                atomic_json(cache,dict(payload=payload,retrieved_at=retrieved))
-            if isinstance(payload,dict):payload=[payload]
-            if len(payload)!=len(cities):raise ValueError('location count mismatch')
-        except Exception as exc:
-            for c in cities:record(key,c['name'],'failed',type(exc).__name__)
-            continue
-        out[key]={}
-        for c,loc in zip(cities,payload):
+    for key,model in cfg['models'].items():
+        pending=[];locations={}
+        for c in cities:
+            token=hashlib.sha256(f"v2|{model}|{c['lat']}|{c['lon']}".encode()).hexdigest()[:24]
+            path=Path('.cache/hourly')/(token+'.json')
+            try:saved=json.loads(path.read_text())
+            except (OSError,ValueError):saved={}
+            if age_minutes(saved.get('retrieved_at'))<=cfg.get('cache_minutes',45):
+                locations[c['name']]=(saved['payload'],saved['retrieved_at'])
+            else:pending.append((c,path))
+        size=max(1,min(5,int(cfg.get('batch_size',4))))
+        for start in range(0,len(pending),size):
+            batch=pending[start:start+size]
+            params={'latitude':','.join(str(c['lat']) for c,_ in batch),
+                'longitude':','.join(str(c['lon']) for c,_ in batch),
+                'hourly':'temperature_2m,precipitation','models':model,
+                'forecast_days':4,'past_days':1,'timezone':'GMT','temperature_unit':'fahrenheit'}
+            error='Request failed'
+            for attempt in range(2):
+                try:
+                    r=requests.get(cfg['ensemble_base'],params=params,timeout=(10,45))
+                    r.raise_for_status();payload=r.json()
+                    if isinstance(payload,dict):payload=[payload]
+                    if len(payload)!=len(batch) or any(not x.get('hourly') for x in payload):
+                        raise ValueError('Missing hourly data or location count mismatch')
+                    stamp=now_iso()
+                    for (c,path),loc in zip(batch,payload):
+                        locations[c['name']]=(loc,stamp)
+                        atomic_json(path,dict(payload=loc,retrieved_at=stamp))
+                    break
+                except Exception as exc:
+                    status=getattr(getattr(exc,'response',None),'status_code',None)
+                    error=f'HTTP {status}' if status else type(exc).__name__
+                    if status and status not in (408,429,500,502,503,504):break
+            else:pass
+            for c,_ in batch:
+                if c['name'] not in locations:record(key,c['name'],'failed',error)
+        for c in cities:
+            if c['name'] not in locations:continue
+            loc,retrieved=locations[c['name']]
             days={off:summarize(loc.get('hourly') or {},c,off) for off in day_offsets}
-            out[key][c['name']]=days
+            out.setdefault(key,{})[c['name']]=days
             good=all(len(d['maxima'])>=3 and len(d['rain_totals'])>=3 for d in days.values())
             record(key,c['name'],'ok' if good else 'partial',retrieved_at=retrieved,
-                model_run_at=None, valid_windows=[d['window_start'] for d in days.values()])
+                model_run_at=None,valid_windows=[d['window_start'] for d in days.values()])
             for off,d in days.items():
                 DETAILS[(c['name'],off,key)]={**d,'retrieved_at':retrieved,'model_run_at':None}
     return out

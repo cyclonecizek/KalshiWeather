@@ -16,14 +16,21 @@ def eligibility(city,day,quote,edge,settings,calibration=None,now=None):
     if quote.get('status') not in ('open','active'):why.append('Market status unconfirmed or inactive')
     if age_minutes(quote.get('retrieved_at'),now)>cfg.get('max_quote_age_minutes',20):why.append('Quote stale or age unknown')
     if age_minutes(day.get('forecast_retrieved_at'),now)>cfg['max_data_age_minutes']:why.append('Forecast stale or age unknown')
-    if day.get('source_error_count',0)>cfg.get('max_source_errors',1):why.append('Too many source failures')
+    # Optional failed sources remain visible; usable guidance coverage controls eligibility.
+    if 'n_guidance_centres' not in day and day.get('source_error_count',0)>cfg.get('max_source_errors',1):why.append('Too many source failures')
     if day.get('data_quality')!='ok':why.append('Incomplete source data')
-    if day.get('n_families',0)<settings.get('min_families_for_signal',2):why.append('Insufficient model families')
+    if day.get('n_guidance_centres',day.get('n_families',0))<settings.get('min_families_for_signal',2):why.append('Insufficient model guidance centres')
     if cfg.get('require_calibration',True):
         key=f"{city}|{day.get('kind')}|{day.get('horizon')}"
         fitted=(calibration or {}).get(key,{})
-        if not fitted.get('validated') or fitted.get('n',0)<20 or fitted.get('model_version')!='2':why.append('Out-of-sample calibration pending')
-    if day.get('elapsed',0)>cfg.get('max_elapsed',.75):why.append('Reporting window nearly complete')
+        from .calibration_review import model_fingerprint
+        if not fitted.get('validated') or fitted.get('n',0)<20 or fitted.get('model_version')!='2' or fitted.get('model_fingerprint')!=model_fingerprint():why.append('Out-of-sample calibration pending')
+    elapsed=day.get('elapsed',0)
+    try:
+        start=datetime.fromisoformat(day['window_start']);end=datetime.fromisoformat(day['window_end'])
+        elapsed=max(elapsed,(now-start).total_seconds()/(end-start).total_seconds())
+    except (KeyError,ValueError,TypeError,ZeroDivisionError):pass
+    if elapsed>cfg.get('max_elapsed',.75):why.append('Reporting window nearly complete')
     try:
         close=datetime.fromisoformat(quote['close_time'].replace('Z','+00:00'))
         if close<=now:why.append('Market closed')

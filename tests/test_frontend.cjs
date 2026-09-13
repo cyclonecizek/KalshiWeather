@@ -84,6 +84,15 @@ test('station walkthrough keeps practice estimates anchored across automatic ref
  assert.match(element('budget-result').innerHTML,/Suggested new allocation: \$0/);
  assert.match(element('budget-hypothetical').innerHTML,/Hypothetical total: \$24\.60/);
  assert.match(element('budget-result').innerHTML,/calibration pending/);
+ element('bet-mode').value='paper';
+ vm.runInContext('drawBudget()',context);
+ assert.match(element('plan-status').textContent,/Paper practice only/);
+ assert.match(element('budget-result').innerHTML,/Paper allocation/);
+ assert.match(element('budget-result').innerHTML,/\$24\.60/);
+ element('bet-mode').value='verified';
+ vm.runInContext('drawBudget()',context);
+ assert.match(element('budget-result').innerHTML,/Suggested new allocation: \$0/);
+
  element('bet-model').value='personal';
  vm.runInContext(`state.adjustments=[{id:'issue-1',city:'Test station',kind:'temperature',date:'2026-09-06',snapshot_id:'current',created_at:fixture.generated_at,tickers:['EXAMPLE','OTHER'],adjusted_probabilities:[.1,.9]}];drawBudget();`,context);
  const candidates=vm.runInContext('portfolioCandidates()',context);
