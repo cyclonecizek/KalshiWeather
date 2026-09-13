@@ -41,6 +41,8 @@ jobs:
           # Remove full-size boards only inside this disposable CI checkout.
           rm -f docs/data/board.json docs/data/board_temp.json
           python -m pipeline.run
+      - name: Refresh live quotes without reissuing forecasts
+        run: python -m pipeline.refresh_quotes
       - run: python -m pipeline.publication_check
       - uses: actions/upload-artifact@v4
         if: always()
