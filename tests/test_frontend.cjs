@@ -1,5 +1,18 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const M=require('../docs/assets/math.js');
+test('WeatherNext is visible with zero weight and interpolation attribution',()=>{
+ const fs=require('node:fs'),vm=require('node:vm'),elements=new Map();
+ const element=id=>{if(!elements.has(id))elements.set(id,{innerHTML:'',value:'',addEventListener(){}});return elements.get(id);};
+ const context=vm.createContext({ForecastMath:M,ForecastDecision:require('../docs/assets/decision.js'),Date,console,setInterval(){},fetch:()=>new Promise(()=>{}),document:{getElementById:element,querySelector:element,querySelectorAll:()=>[],addEventListener(){}}});
+ vm.runInContext(fs.readFileSync('docs/assets/research.js','utf8'),context);
+ vm.runInContext(fs.readFileSync('docs/assets/app.js','utf8'),context);
+ context.fixture={distribution:{median:80},weathernext:{note:'Six-hour guidance interpolated to hourly output.',retrieved_at:new Date().toISOString()},model_inputs:[{model:'WEATHERNEXT2',family:'Google AI research',included:false,weight:0,value:79,members:64,status:'Research comparison: ok'}]};
+ vm.runInContext("state.kind='temperature';drawModelInputs(fixture)",context);
+ const html=element('model-inputs').innerHTML;
+ assert.match(html,/Google WeatherNext 2/);assert.match(html,/0\.0%/);
+ assert.match(html,/64 members/);assert.match(html,/interpolated/);
+ assert.match(html,/Google DeepMind WeatherNext 2 via Open-Meteo/);
+});
 test('MOS/LAMP panel renders periods, missing guidance and browser-aged issues',()=>{
  const fs=require('node:fs'),vm=require('node:vm');
  const elements=new Map();
