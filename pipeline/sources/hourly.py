@@ -101,6 +101,8 @@ def fetch(cities,cfg,day_offsets=(0,1)):
                 'longitude':','.join(str(c['lon']) for c,_ in batch),
                 'hourly':'temperature_2m,precipitation','models':model,
                 'forecast_days':4,'past_days':1,'timezone':'GMT','temperature_unit':'fahrenheit'}
+            if cfg.get('temporal_resolution'):
+                params['temporal_resolution']=cfg['temporal_resolution']
             error='Request failed'
             for attempt in range(2):
                 try:

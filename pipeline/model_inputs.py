@@ -26,4 +26,10 @@ def describe_inputs(settings, kind, day):
                 p10=info.get('p10'), p90=info.get('p90'),
                 members=info.get('n', day.get('sources', {}).get(model, {}).get('member_count')),
                 source_type=info.get('type', 'probability guidance' if kind == 'rain' else None)))
+    google = day.get('weathernext')
+    if google:
+        rows.append(dict(model='WEATHERNEXT2', family='Google AI research', included=False,
+            weight=0, status='Research comparison: '+google['status'],
+            value=google.get('value'),p10=google.get('p10'),p90=google.get('p90'),
+            members=google.get('member_count'),source_type='ensemble research'))
     return rows

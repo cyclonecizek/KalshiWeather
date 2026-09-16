@@ -1,5 +1,25 @@
 # Kalshi Weather Forecast Desk
 
+## Google WeatherNext 2
+
+The desk retrieves the full 64-member `google_weathernext2_ensemble` from
+Open-Meteo's ensemble endpoint, using UTC hourly temperature in Fahrenheit
+and precipitation in millimeters. Station reporting windows determine daily
+member maxima and precipitation totals. Missing hours remain missing.
+
+WeatherNext appears in the source table and hourly chart as research guidance
+with **zero operational blend weight**. A source-only forecast using the same
+observation conditioning and post-processing is archived before settlement;
+the existing source-research report scores it as outcomes become available.
+It cannot change operational source counts, freshness gates, or allocations.
+
+The native grid is 0.25 degrees and native times are six-hourly. Open-Meteo
+interpolates temperature and distributes each six-hour precipitation total
+across hourly intervals, so timing and daily extrema need verification.
+Retrieval time is displayed; a model issue time is not fabricated when the
+API response omits it. Missing guidance remains visible and is not scored.
+Attribution and API details: [Google DeepMind WeatherNext 2 via Open-Meteo](https://open-meteo.com/en/docs/google-weathernext-api).
+
 [Open the forecast desk](https://cyclonecizek.github.io/KalshiWeather/)
 
 A station-based research dashboard for Kalshi daily high-temperature and rain markets. It compares weather guidance with executable market quotes, archives forecasts before settlement, and scores them against the outcomes. It does not send orders.

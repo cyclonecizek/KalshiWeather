@@ -12,7 +12,7 @@ from .blend import blend,evaluate
 from .brackets import build_ladder,pick_ladder,implied_distribution,implied_quantiles,coverage_gaps,check_arbitrage
 from .build_temp import build_distribution,evaluate_bracket,_is_for_date
 from .tempdist import Dist
-from .sources import hourly,openmeteo,temp_sources,observations,nws_text,nbm_temp,gribprob,meteoblue,station_guidance
+from .sources import hourly,openmeteo,temp_sources,observations,nws_text,nbm_temp,gribprob,meteoblue,station_guidance,weathernext
 
 ROOT=Path(__file__).resolve().parent.parent
 DATA=ROOT/'docs/data'
@@ -55,7 +55,8 @@ def horizon(day,now=None):
 def source_details(city,off):
     return {model:{'retrieved_at':d['retrieved_at'],'model_run_at':d.get('model_run_at'),
                   'hourly':d['hourly'],'member_count':len(d['maxima'])}
-            for (name,offset,model),d in hourly.DETAILS.items() if name==city and off==offset}
+            for (name,offset,model),d in hourly.DETAILS.items()
+            if name==city and off==offset and model!=weathernext.MODEL}
 
 def set_edge_depth(kal,quote,edge):
     if not edge:return
@@ -113,6 +114,7 @@ def prepare(kind,settings):
     offsets=(0,1)
     guidance=capture('MOS/LAMP comparison',lambda:station_guidance.fetch(cities,offsets),errors)
     data=capture('ensembles',lambda:hourly.fetch(cities,src['openmeteo'],offsets),errors)
+    google=capture('WeatherNext 2 comparison',lambda:weathernext.fetch(cities,src['openmeteo'],offsets),errors)
     obs=capture('observations',lambda:per_city(observations.fetch,cities,offsets,src.get('observations')),errors)
     point={};probs={};members={};nbmt={}
     for model,by_city in data.items():
@@ -223,6 +225,7 @@ def prepare(kind,settings):
             else:
                 day['experiments']=archive_rain(mp,settings,day)
             from .model_inputs import describe_inputs
+            weathernext.attach(c,off,google,day,settings)
             day['model_inputs']=describe_inputs(settings,kind,day)
             if not details or (off==0 and (not ob or not ob.get('temperature_complete' if kind=='temperature' else 'precip_complete'))):day['data_quality']='partial'
             days[str(off)]=day
