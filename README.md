@@ -34,7 +34,7 @@ All board suggestions and persistent paper proposals use the same policy: settle
 - `config/settlement.json` records station/source evidence from live contract rules. Chicago's temperature market uses Midway (`KMDW`); its rain market uses O'Hare (`KORD`).
 - The current rules name The Weather Company, while general weather documentation also describes NWS climate reports. The precise source-specific daily reporting window remains unconfirmed. Fixed local-standard-time windows are provisional and `window_verified` remains false. Paper suggestions stay blocked until the definition is confirmed.
 - Model version 2 starts a new verification history. Old snapshots are retained but excluded from its performance scores. Exact temperature errors require an actual numeric settlement value; the code never substitutes a winning bracket midpoint.
-- Default bias, spread, family weights, and station-versus-grid adjustments are hypotheses awaiting validation. `config/calibration.json` is empty. The scorer reports chronological holdout candidates after 60 exact observations per city/horizon, fits on earlier dates, and reserves the last 20 for evaluation. It never approves its own calibration or changes trading settings.
+- Default bias, spread, family weights, and station-versus-grid adjustments are hypotheses awaiting validation. `config/calibration.json` is empty. The research scorer reports candidates after sufficient distinct dates with matching model settings and known settlement times; temperature uses separate bias-fit, spread-calibration, and evaluation periods. It never approves its own calibration or changes trading settings.
 - Hourly ensembles carry provider retrieval times; unavailable model-run times are explicitly unknown. NDFD and NBM daily/12-hour products are supplemental guidance and may not exactly match the settlement window. They are omitted from intraday conditioning.
 - With `publish_values: false`, Meteoblue is excluded from all new public numeric products, including aggregate blends. Hiding only its individual values could leave them reconstructible from a known blend. The sanitizer removes restricted diagnostics and reconstructible companion fields from checked-out legacy data. It does not rewrite earlier Git history or third-party caches.
 
@@ -158,3 +158,55 @@ Restoring the recommendation path does not manufacture a qualifying track record
 Only archived forecasts carrying the current model fingerprint count toward
 calibration approval. Older scores remain visible in Forecast skill but do not
 silently validate a changed or unidentifiable model configuration.
+
+## Source verification and model candidates
+
+The station forecast archives `experiments` before settlement: each included
+source alone, the full blend with that source removed, and 0.5× / 1.5× changes to
+its within-family weight (or family weight for a configured single-source family). Temperature experiments rerun the same distribution
+builder with the same observation conditioning, station bias, spread settings,
+and exact contract ladder. Rain experiments retain the same observation
+override when measurable rain has already been observed. No extra provider
+requests are needed. These research forecasts do not change orders or live
+probabilities.
+
+`pipeline.performance` also writes `docs/data/model_research.json`, displayed in
+**Forecast verification → Which sources improve the forecast?** Select a station,
+product, and horizon. Source/removal scores are paired against the full blend on
+exactly the same dates. Negative Brier differences favor the experiment. The
+new source table uses forecast minus observed temperature bias: positive is warm.
+The original verification table explicitly retains observed minus forecast.
+Historical temperature medians support point-error scores only, not invented
+probability distributions. Historical raw-input scores and newly archived source
+experiments with common post-processing are labeled separately.
+
+Weight candidates are selected from the archived removal and weight experiments
+using at least 40 earlier dates; the chosen candidate is frozen for 20 later
+evaluation dates. Missing chosen-candidate forecasts invalidate that evaluation,
+rather than allowing another candidate to be selected from holdout results.
+Temperature candidates separate at least 20 bias-fit, 20 spread-calibration, and
+20 evaluation dates. Spread uses an empirical 80% residual quantile with a 0.25°F
+minimum sigma and a multiplier bounded to 0.5–8. Rain fits a regularized logistic
+probability adjustment on 40 earlier dates and tests it on 20 later dates, with
+at least five wet and five dry training dates. All fitting excludes other model
+fingerprints and requires settlement retrieval before the later period's first
+forecast issuance. Unknown retrieval times cannot qualify.
+
+Candidate screens require an approximate 95% paired Brier improvement over both
+the full blend and the archived market, probability calibration error at most
+10 percentage points, and (for temperature) 70–90% observed coverage of the 80%
+interval and no deterioration in MAE. Difference intervals use three-date moving
+blocks; they are approximate, not proof of independence. Short records, multiple
+comparisons, repeated monitoring, and changing weather regimes limit inference.
+A passing candidate is ready for review, never automatically deployed. Review
+prospective results before adopting settings, and preserve the existing separate
+calibration/eligibility approval. Default within-family weights remain equal;
+`member_weights` in the rain or temperature configuration supports reviewed
+relative weights. A station/horizon result does not justify a global change.
+
+The separate fitting and evaluation periods follow the principles described in
+[probability calibration](https://scikit-learn.org/stable/modules/calibration.html)
+and [conformalized quantile regression](https://arxiv.org/abs/1905.03222).
+Weather observations are temporally dependent, so no distribution-free coverage
+guarantee is claimed here. Interval calibration is checked empirically on later
+dates. No settings were fitted to the initial nine-day record.

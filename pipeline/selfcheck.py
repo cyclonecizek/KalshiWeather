@@ -24,6 +24,8 @@ MANIFEST = {
     "pipeline.calibration_review": ["review", "publish", "approve"],
     "pipeline.policy": ["eligibility", "allocate"],
     "pipeline.sources.hourly": ["fetch", "complete_total", "rain_probability"],
+    "pipeline.experiments": ["archive_temperature", "archive_rain"],
+    "pipeline.model_research": ["build_report", "record_for_day"],
     "pipeline.performance": ["publish", "score_day"],
     "pipeline.adjustments": ["create"],
     "pipeline.settlement": ["configure_cities", "verify"],

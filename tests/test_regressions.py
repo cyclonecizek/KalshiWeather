@@ -143,14 +143,11 @@ def test_snapshot_selection_respects_cutoff(tmp_path,monkeypatch):
  selected=performance.select_snapshots()
  assert selected[('City','2026-09-06','rain','morning','2')][1]=='7'
 
-def test_calibration_holdout_is_not_in_training():
+def test_legacy_summary_does_not_fit_unversioned_calibration():
  rows=[]
  for i in range(60):
   rows.append(dict(city='City',kind='temperature',horizon='morning',date=f'2026-{1+i//28:02}-{1+i%28:02}',actual=90,error=2 if i<40 else 12,covered80=True,brier=.2,market_brier=.3,log_loss=.2,pairs=[(.5,1)]))
- c=performance.summarize(rows)[0]['candidate_calibration']
- assert c['additional_bias_f']==2
- assert c['holdout_mae_adjusted']==10
- assert c['train_end']<c['test_start']
+ assert 'candidate_calibration' not in performance.summarize(rows)[0]
 
 def test_adjustment_validates_time_and_uses_archived_forecast(tmp_path,monkeypatch):
  monkeypatch.setattr(adjustments,'DATA',tmp_path);(tmp_path/'history').mkdir()
@@ -256,7 +253,7 @@ def test_distribution_filters_nonfinite_members_and_respects_tail_floor():
 def test_publication_guard_rejects_old_schema(tmp_path):
  from pipeline.publication_check import check
  (tmp_path/'docs/assets').mkdir(parents=True);(tmp_path/'docs/data').mkdir()
- for path in ['index.html','assets/app.js','assets/math.js','assets/decision.js','assets/app.css']:(tmp_path/'docs'/path).write_text('asset')
+ for path in ['index.html','assets/app.js','assets/math.js','assets/decision.js','assets/research.js','assets/app.css']:(tmp_path/'docs'/path).write_text('asset')
  (tmp_path/'docs/data/board.json').write_text('{"schema_version":1,"cities":[{}]}')
  with pytest.raises(ValueError,match='version-2'):check(tmp_path)
 

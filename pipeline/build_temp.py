@@ -50,8 +50,10 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
     usable_obs = bool(obs and obs.get('temperature_complete') and
                       age_minutes(obs.get('latest_at')) <= 90 and obs.get('max_f') is not None)
     for fam_key, fam in tcfg['families'].items():
-        curves=[]
+        curves=[]; source_weights=[]
         for model in fam['members']:
+            model_weight=tcfg.get('member_weights',{}).get(model,1)
+            if model_weight<=0:continue
             if model == 'METEOBLUE' and not tcfg['sources']['meteoblue'].get('publish_values'):
                 continue
             mem=(members.get(model,{}).get(city['name']) or {}).get(off)
@@ -61,20 +63,20 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
                 if usable_obs and detail:
                     q=apply_observation(q,obs['max_f'],remaining=detail['remaining'],
                         tolerance=cfgo.get('tolerance_f',.5),min_spread=cfgo.get('min_spread_f',1.4))
-                curves.append(q)
-                diag[model]={'type':'ensemble','n':len(mem),'median':round(q[len(q)//2],2),'p10':q[3],'p90':q[11]}
+                curves.append(q); source_weights.append(model_weight)
+                diag[model]={'type':'ensemble','n':len(mem),'median':round(q[len(q)//2],2),'p10':q[3],'p90':q[11],'quantiles':q}
             elif not usable_obs:
                 mu=(point.get(model,{}).get(city['name']) or {}).get(off)
                 if mu is None:continue
                 sigma=sigmas.get(model,{}).get(off) or sigmas.get(model,{}).get(str(off)) or 2.5
                 if model=='NBM_T' and nbm_sigma:sigma=nbm_sigma
-                curves.append(normal_quantiles(mu,sigma))
-                diag[model]={'type':'point','value':mu,'sigma':sigma}
+                curves.append(normal_quantiles(mu,sigma)); source_weights.append(model_weight)
+                diag[model]={'type':'point','value':mu,'sigma':sigma,'quantiles':curves[-1]}
         if curves:
-            curve=blend_quantiles(curves,[1]*len(curves))
+            curve=blend_quantiles(curves,source_weights)
             centers=[q[len(q)//2] for q in curves]
-            center=sum(centers)/len(centers)
-            variance=sum((x-center)**2 for x in centers)/len(centers)
+            center=sum(x*w for x,w in zip(centers,source_weights))/sum(source_weights)
+            variance=sum(w*(x-center)**2 for x,w in zip(centers,source_weights))/sum(source_weights)
             sigma=max((curve[11]-curve[3])/2.5631,.3)
             factor=(1+tcfg.get('disagreement_factor',1)*variance/sigma**2)**.5
             fam_sets.append(adjust(curve,0,factor))

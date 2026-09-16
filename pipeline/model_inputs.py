@@ -12,7 +12,7 @@ def describe_inputs(settings, kind, day):
         for model in spec['members']:
             included = model in active[family]
             info = values.get(model, {}) if kind == 'temperature' else {}
-            weight = (spec['weight'] / total / len(active[family])
+            weight = (spec['weight'] / total * cfg.get('member_weights',{}).get(model,1) / sum(cfg.get('member_weights',{}).get(m,1) for m in active[family])
                       if included and total else 0)
             status = 'Included' if included else 'Unavailable for this forecast'
             if model == 'METEOBLUE' and not settings['temperature']['sources']['meteoblue'].get('publish_values'):

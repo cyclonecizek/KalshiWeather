@@ -53,6 +53,7 @@ test('station walkthrough keeps practice estimates anchored across automatic ref
  const context=vm.createContext({ForecastMath:M,ForecastDecision:D,structuredClone,Date,console,
   setInterval(){},fetch:()=>new Promise(()=>{}),window:{scrollTo(){}},
   document:{hidden:false,getElementById:element,querySelector:element,querySelectorAll:()=>[],addEventListener(){}}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../docs/assets/research.js'),'utf8'),context);
  vm.runInContext(fs.readFileSync(path.join(__dirname,'../docs/assets/app.js'),'utf8'),context);
  const at=new Date().toISOString();
  const q={ticker:'EXAMPLE',yes_bid:35,yes_ask:40,no_ask:65,mid:37.5,spread:5,retrieved_at:at,yes_depth:20};
@@ -137,4 +138,19 @@ test('saved forecast requires the current snapshot and coherent probabilities',(
  assert.equal(get([{...saved,adjusted_probabilities:[.7,.8]}]),null);
  assert.equal(get([{...saved,tickers:['X','X']}]),null);
  assert.equal(get([{...saved,created_at:new Date(now+3600000).toISOString()}]),null);
+});
+
+const R=require('../docs/assets/research.js');
+test('research page distinguishes missing source probabilities and unapplied candidates',()=>{
+ const collecting={status:'collecting',train_n:0,test_n:0,reasons:['More dates needed']};
+ const html=R.render([{horizon:'morning',kind:'temperature',dates:9,current_dates:2,excluded_prior_dates:7,
+  sources:[{mode:'source',model:'<unsafe>',method:'Archived point forecast',dates:9,brier:null,mae_f:2,bias_f:-2,reliability:[]}],weights:collecting,calibration:collecting}]);
+ assert.match(html,/&lt;unsafe&gt;/);assert.ok(!html.includes('<unsafe>'));
+ assert.match(html,/Missing probability scores/);assert.match(html,/Building evidence/);
+ assert.match(html,/not change the live forecast/);
+});
+test('research review candidate is explicitly not applied',()=>{
+ const candidate={status:'review',train_n:40,test_n:20,reasons:[],parameters:{model:'GEFS',mode:'weight',multiplier:.5},original:{brier:.3},holdout:{brier:.1}};
+ const html=R.render([{horizon:'morning',kind:'rain',dates:60,current_dates:60,excluded_prior_dates:0,sources:[],weights:candidate,calibration:{status:'collecting',reasons:[]}}]);
+ assert.match(html,/Ready for review; not applied/);assert.match(html,/multiply within-family weight by 0.5/);
 });

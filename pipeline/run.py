@@ -214,6 +214,12 @@ def prepare(kind,settings):
                 day.update(b);day.update(consensus=p,consensus_forecast=baseline['consensus'] if baseline else None,market=q,raw_models={m:v for m,v in mp.items() if v is not None},obs_effect=effect)
                 day['edge']=evaluate(p,q,settings);set_edge_depth(kal,q,day['edge'])
                 if day['edge']:day['edge']['fee_rate']=fee
+            from .experiments import archive_temperature,archive_rain
+            if kind=='temperature':
+                day['experiments']=archive_temperature(c,off,members,point,tcfg,day,obs=ob,
+                    obs_cfg=src.get('observations'),nbm_sigma=nbmt.get(c['name'],{}).get(off,{}).get('sd_f'))
+            else:
+                day['experiments']=archive_rain(mp,settings,day)
             from .model_inputs import describe_inputs
             day['model_inputs']=describe_inputs(settings,kind,day)
             if not details or (off==0 and (not ob or not ob.get('temperature_complete' if kind=='temperature' else 'precip_complete'))):day['data_quality']='partial'
@@ -244,6 +250,15 @@ def validate(board):
                 if not d['gaps'] and abs(sum(ps)-1)>1e-5:raise ValueError('Bracket probabilities do not sum to one')
             else:ps=[d['consensus']]
             if any(not isinstance(p,(int,float)) or not 0<=p<=1 for p in ps):raise ValueError('Invalid probability')
+            experiments=d.get('experiments')
+            if experiments:
+                expected=[b['market']['ticker'] for b in d.get('ladder',[])] if board['kind']=='temperature' else [d['market']['ticker']]
+                if experiments.get('tickers')!=expected:raise ValueError('Experiment brackets do not match the forecast')
+                for candidate in experiments.get('variants',{}).values():
+                    probabilities=candidate['probabilities']
+                    if len(probabilities)!=len(expected) or any(not isinstance(p,(int,float)) or not 0<=p<=1 for p in probabilities):raise ValueError('Invalid experiment probabilities')
+                    if board['kind']=='temperature' and not d['gaps'] and abs(sum(probabilities)-1)>1e-5:raise ValueError('Experiment probabilities do not sum to one')
+                    if not board['meteoblue_published'] and candidate.get('model')=='METEOBLUE':raise ValueError('Restricted experiment in public payload')
             if not board['meteoblue_published']:
                 if d.get('meteoblue') or 'METEOBLUE' in d.get('models',{}) or 'mlm' in d.get('families',{}) or 'METEOBLUE' in d.get('diagnostics',{}):raise ValueError('Restricted source in public payload')
     json.dumps(board,allow_nan=False)
