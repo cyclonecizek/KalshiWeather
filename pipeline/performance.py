@@ -104,6 +104,10 @@ def summarize(records):
             market_brier=statistics.mean(r['market_brier'] for r in rows),log_loss=statistics.mean(r['log_loss'] for r in rows),
             bias=statistics.mean(errors) if errors else None,mae=statistics.mean(abs(x) for x in errors) if errors else None,
             actual_temperature_n=len(errors),coverage80=statistics.mean(cov) if cov else None,reliability=reliability(pairs))
+        # One scored row is one city/date/horizon snapshot. Keep this explicit
+        # so the UI does not imply that bracket-level pairs are independent.
+        item['distinct_dates']=len({r['date'] for r in rows})
+        item['effective_sample_note']='Descriptive scores; observations within and across dates may be correlated.'
         item['brier_skill']=1-item['brier']/item['market_brier'] if item['market_brier'] else None
         # Date-ordered holdout. The additive correction is fitted only from
         # earlier errors. Report as a candidate, never replace configured bias.
@@ -139,9 +143,18 @@ def publish(fetch_outcomes=True):
         scores=score_day(kind,d,outcomes)
         if scores:records.append(dict(city=city,date=date,kind=kind,horizon=h,model_version=version,model_fingerprint=d.get('model_fingerprint'),issued_at=at,snapshot_id=snapshot,**scores))
     adj=read(DATA/'adjustments.json',[])
+    # Headline counts are deliberately date-level. The old records count is
+    # still retained for auditability, but must not be used as an independent-n
+    # claim in the dashboard.
+    date_keys={(r['city'],r['date'],r['kind'],r['horizon']) for r in records}
+    groups=summarize(records)
     report={'generated_at':now_iso(),'model_version':'2','selection':'Latest snapshot within 6 hours before each fixed reporting-hour cutoff',
-        'cutoffs':CUTOFF,'groups':summarize(records),'records':records,'adjustments':adjustment_scores(adj,outcomes),
-        'note':'Paper orders are proposals. No fills or realized profits are assumed.'}
+        'cutoffs':CUTOFF,'groups':groups,'records':records,'adjustments':adjustment_scores(adj,outcomes),
+        'verification_summary':{'scored_snapshots':len(records),'distinct_city_date_horizons':len(date_keys),
+            'min_group_dates':min((g['distinct_dates'] for g in groups),default=0),
+            'max_group_dates':max((g['distinct_dates'] for g in groups),default=0),
+            'independence':'Uncertainty should be estimated by date blocks, not bracket count.'},
+        'note':'Paper orders are proposals. No fills or realized profits are assumed. Market comparisons use the same archived snapshot, but are not executable ask prices.'}
     atomic_json(DATA/'performance.json',report);atomic_json(DATA/'outcomes.json',outcomes)
     return report
 
