@@ -165,12 +165,12 @@ test('freshness distinguishes product clocks and includes old or missing station
  vm.runInContext(fs.readFileSync(path.join(__dirname,'../docs/assets/app.js'),'utf8'),context);
  const now=Date.now(),ago=minutes=>new Date(now-minutes*60000).toISOString();
  context.rain={generated_at:ago(240),quotes_updated_at:ago(40),cities:[
-  {days:{'0':{observed:{latest_at:ago(10)}},'1':{}}},
+  {days:{'0':{observed:{latest_at:ago(10)},market:{ticker:'RAIN',retrieved_at:ago(40)}},'1':{market:{ticker:'RAIN-TOMORROW',retrieved_at:ago(5)}}}},
   {days:{'0':{observed:{latest_at:ago(120)}}}},
   {days:{'0':{observed:{latest_at:null}}}},
   {days:{'0':{observed:{latest_at:ago(-60)}}}}
  ]};
- context.highs={generated_at:ago(60),quotes_updated_at:ago(5),cities:[]};
+ context.highs={generated_at:ago(60),quotes_updated_at:ago(5),cities:[{days:{'0':{ladder:[{market:{ticker:'HIGH',retrieved_at:ago(5)}}]}}}]};
  vm.runInContext("state.rain=rain;state.temperature=highs;state.day='1';drawStatus();",context);
  const html=element('updated').innerHTML;
  for(const stamp of [context.rain.generated_at,context.highs.generated_at,context.rain.quotes_updated_at,context.highs.quotes_updated_at])assert.ok(html.includes(stamp));
@@ -180,6 +180,14 @@ test('freshness distinguishes product clocks and includes old or missing station
  assert.match(element('status').innerHTML,/Rain board is 4\.0h old. Suggestions are disabled/);
  assert.equal(vm.runInContext("freshnessTime('invalid')",context),'Unavailable');
  assert.equal(vm.runInContext('freshnessTime(new Date(Date.now()+3600000).toISOString())',context),'Timestamp in future');
+ // Full builds have individual quote times without a batch-refresh timestamp.
  vm.runInContext('state.rain.quotes_updated_at=null;drawStatus()',context);
- assert.match(element('updated').innerHTML,/<th scope="row">Prices refreshed<\/th><td>Unavailable<\/td>/);
+ assert.ok(element('updated').innerHTML.includes(ago(40)));
+ // A newly completed refresh cannot hide a retained stale market quote.
+ vm.runInContext('state.rain.quotes_updated_at=new Date().toISOString();drawStatus()',context);
+ assert.match(element('updated').innerHTML,/<th scope="row">Oldest market price<\/th><td><time[^>]*>40m old/);
+ vm.runInContext("state.rain.cities[0].days['0'].market.retrieved_at=null;drawStatus()",context);
+ assert.match(element('updated').innerHTML,/1\/2 price timestamps unavailable/);
+ vm.runInContext("state.rain.cities[0].days['1'].market.retrieved_at=null;drawStatus()",context);
+ assert.match(element('updated').innerHTML,/<th scope="row">Oldest market price<\/th><td>Unavailable<\/td>/);
 });

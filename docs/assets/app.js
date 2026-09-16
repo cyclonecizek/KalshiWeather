@@ -81,14 +81,21 @@ function observationFreshness(board) {
   const ages=Date.parse(oldest)===Date.parse(newest)?freshnessTime(oldest):`${freshnessTime(newest)} to ${freshnessTime(oldest)}`;
   return ages+(missing?`<span class="freshness-missing">${missing}/${reports.length} station reports unavailable</span>`:'');
 }
+function priceFreshness(board) {
+  const quotes=(board?.cities||[]).flatMap(c=>Object.values(c.days||{})).flatMap(d=>d.ladder?d.ladder.map(b=>b.market):[d.market]).filter(q=>q?.ticker);
+  const valid=quotes.map(q=>q.retrieved_at).filter(s=>s && Number.isFinite(Date.parse(s)) && Date.parse(s)<=Date.now()).sort((a,b)=>Date.parse(a)-Date.parse(b));
+  if (!valid.length) return 'Unavailable';
+  const missing=quotes.length-valid.length;
+  return freshnessTime(valid[0])+(missing?`<span class="freshness-missing">${missing}/${quotes.length} price timestamps unavailable</span>`:'');
+}
 function drawFreshness() {
   const products=['rain','temperature'];
   const row=(label,values)=>`<tr><th scope="row">${label}</th>${values.map(v=>`<td>${v}</td>`).join('')}</tr>`;
   $('updated').innerHTML=`<table class="freshness-table"><caption>Data freshness</caption><thead><tr><th scope="col">Age</th><th scope="col">Rain</th><th scope="col">Highs</th></tr></thead><tbody>${
     row('Forecast issued',products.map(k=>freshnessTime(state[k]?.generated_at)))+
     row('Observed reports · today',products.map(k=>observationFreshness(state[k])))+
-    row('Prices refreshed',products.map(k=>freshnessTime(state[k]?.quotes_updated_at)))
-  }</tbody></table><p class="freshness-note">Forecast builds scheduled hourly; delays are possible. Observation ages span stations. Provider model-run times and individual prices are in Station workup.</p>`;
+    row('Oldest market price',products.map(k=>priceFreshness(state[k])))
+  }</tbody></table><p class="freshness-note">Forecast builds scheduled hourly; delays are possible. Observation ages span stations; prices show the oldest market retrieval across both days. Provider model-run times and individual prices are in Station workup.</p>`;
 }
 function drawStatus(){const notices=[];for(const kind of ['rain','temperature'])if(state.refreshErrors[kind])notices.push(kind+' refresh failed; showing the last available snapshot.');for(const kind of ['rain','temperature']){const b=state[kind];if(!b){notices.push(`${kind==='rain'?'Rain':'Temperature'} board unavailable.`);continue;}const m=M.age(b.generated_at);if(m>180)notices.push(`${kind==='rain'?'Rain':'Temperature'} board is ${ageText(b.generated_at)}. Suggestions are disabled.`);if(b.quote_refresh?.failures)notices.push(`${b.quote_refresh.failures} ${kind} quote refresh(es) failed; affected positions are disabled.`);if(b.errors?.length)notices.push(`${kind}: ${b.errors.length} source warning(s). Some forecasts may be incomplete.`);}$('status').innerHTML=notices.map(n=>`<div class="notice">${esc(n)}</div>`).join('');if(state.status?.status==='degraded')$('status').innerHTML+='<div class="notice">The most recent update was partial. Last usable forecasts remain visible with their original timestamps.</div>';drawFreshness();}
 function render(){drawStatus();drawBoard();if(state.view==='detail')drawDetail();if(state.view==='performance')drawPerformance();if(state.view==='journal')drawJournal();}
