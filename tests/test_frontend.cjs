@@ -1,5 +1,20 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const M=require('../docs/assets/math.js');
+test('MOS/LAMP panel renders periods, missing guidance and browser-aged issues',()=>{
+ const fs=require('node:fs'),vm=require('node:vm');
+ const elements=new Map();
+ const element=id=>{if(!elements.has(id))elements.set(id,{innerHTML:'',value:'',addEventListener(){}});return elements.get(id);};
+ const context=vm.createContext({ForecastMath:M,ForecastDecision:require('../docs/assets/decision.js'),Date,console,setInterval(){},fetch:()=>new Promise(()=>{}),document:{getElementById:element,querySelector:element,querySelectorAll:()=>[],addEventListener(){}}});
+ vm.runInContext(fs.readFileSync('docs/assets/research.js','utf8'),context);
+ vm.runInContext(fs.readFileSync('docs/assets/app.js','utf8'),context);
+ vm.runInContext("drawStationGuidance({}, {tz:'America/Chicago'})",context);
+ assert.match(element('station-guidance').innerHTML,/not archived/);
+ context.fixture={distribution:{median:80},station_guidance:{LAMP:{station:'KMDW',status:'ok',issued_at:new Date(Date.now()-4*3600000).toISOString(),sampled_max_f:74,points:[],precipitation:[{element:'PPO',hours:0,start:new Date().toISOString(),end:new Date().toISOString(),probability:.2}]}}};
+ vm.runInContext("drawStationGuidance(fixture,{tz:'America/Chicago'})",context);
+ assert.match(element('station-guidance').innerHTML,/stale/);
+ assert.match(element('station-guidance').innerHTML,/including traces/);
+ assert.doesNotMatch(element('station-guidance').innerHTML,/below your daily blend/);
+});
 test('distribution preview conserves bracket probability',()=>{const v=M.Q.map(q=>80+q*10);const p=M.between(v,null,81)+M.between(v,82,87)+M.between(v,88,null);assert.ok(Math.abs(p-1)<1e-8);});
 test('manual adjustment respects the observed lower bound',()=>{const v=M.Q.map(q=>80+q*10);const shifted=M.adjust(v,-10,.5,85);assert.ok(shifted.every(x=>x>=85));assert.equal(M.between(shifted,null,84,85),0);});
 test('stale quotes disable cached server eligibility in browser',()=>{const now=Date.parse('2026-09-06T12:00Z');const e={eligibility:{eligible:true,reasons:[]}},b={generated_at:'2026-09-06T12:00Z',execution_policy:{max_quote_age_minutes:20}};assert.ok(M.eligibility(e,{retrieved_at:'2026-09-06T11:00Z'},b,now).includes('Quote is stale'));});

@@ -210,3 +210,22 @@ and [conformalized quantile regression](https://arxiv.org/abs/1905.03222).
 Weather observations are temporally dependent, so no distribution-free coverage
 guarantee is claimed here. Interval calibration is checked empirically on later
 dates. No settings were fitted to the initial nine-day record.
+# MOS and LAMP comparison guidance
+
+Station workups show NOAA GFS MOS (MAV) and hourly GFS LAMP (LAV), retrieved
+from [IEM's raw bulletin service](https://mesonet.agron.iastate.edu/mos/).
+The exact settlement ICAO is required, so Chicago temperature uses Midway
+and rain uses O'Hare. Native issue times (including LAMP's half hour),
+temperature/dewpoint, cloud categories, winds, and precipitation periods
+are preserved in each board and its existing history snapshot.
+
+These sources have **zero blend weight** pending verification. A sampled
+temperature peak is not a daily maximum forecast; missing parts of a day
+are never extrapolated. P01/P06/P12 are native measurable-precipitation
+periods. PPO is on-the-hour occurrence, including traces. Periods crossing
+the settlement window are flagged and probabilities are never summed.
+MOS issues older than 12 hours and LAMP issues older than 3 hours are marked
+stale. Missing stations or failed requests stay visible and do not block
+the existing blend. The raw service supplies hourly LAMP bulletins rather
+than relying on any restricted-cycle numeric archive. Full bulletin sample
+fixtures were retrieved from IEM on September 16, 2026.
