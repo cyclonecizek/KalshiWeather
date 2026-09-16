@@ -12,7 +12,7 @@ from .blend import blend,evaluate
 from .brackets import build_ladder,pick_ladder,implied_distribution,implied_quantiles,coverage_gaps,check_arbitrage
 from .build_temp import build_distribution,evaluate_bracket,_is_for_date
 from .tempdist import Dist
-from .sources import hourly,openmeteo,temp_sources,observations,nws_text,nbm_temp,gribprob,meteoblue
+from .sources import hourly,openmeteo,temp_sources,observations,nws_text,nbm_temp,gribprob,meteoblue,station_guidance
 
 ROOT=Path(__file__).resolve().parent.parent
 DATA=ROOT/'docs/data'
@@ -111,6 +111,7 @@ def prepare(kind,settings):
         selected=set(os.environ['WEATHER_CITIES'].split(','));cities=[c for c in cities if c['name'] in selected]
     src=settings['sources'];tcfg=settings['temperature'];kal=Kalshi(src['kalshi']['base'])
     offsets=(0,1)
+    guidance=capture('MOS/LAMP comparison',lambda:station_guidance.fetch(cities,offsets),errors)
     data=capture('ensembles',lambda:hourly.fetch(cities,src['openmeteo'],offsets),errors)
     obs=capture('observations',lambda:per_city(observations.fetch,cities,offsets,src.get('observations')),errors)
     point={};probs={};members={};nbmt={}
@@ -174,6 +175,7 @@ def prepare(kind,settings):
             from .calibration_review import model_fingerprint
             day['model_fingerprint']=model_fingerprint()
             day['horizon']=horizon(day)
+            day['station_guidance']=guidance.get(c['name'],{}).get(off,{})
             if kind=='temperature':
                 dist,diag=build_distribution(c,off,members,point,tcfg,errors,obs=ob,obs_cfg=src.get('observations'),
                     nbm_sigma=nbmt.get(c['name'],{}).get(off,{}).get('sd_f'))
