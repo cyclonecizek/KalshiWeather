@@ -214,6 +214,8 @@ def prepare(kind,settings):
                 day.update(b);day.update(consensus=p,consensus_forecast=baseline['consensus'] if baseline else None,market=q,raw_models={m:v for m,v in mp.items() if v is not None},obs_effect=effect)
                 day['edge']=evaluate(p,q,settings);set_edge_depth(kal,q,day['edge'])
                 if day['edge']:day['edge']['fee_rate']=fee
+            from .model_inputs import describe_inputs
+            day['model_inputs']=describe_inputs(settings,kind,day)
             if not details or (off==0 and (not ob or not ob.get('temperature_complete' if kind=='temperature' else 'precip_complete'))):day['data_quality']='partial'
             days[str(off)]=day
         if days:rows.append(dict(city=c['name'],series=ticker,station=c['station'],icao=c['icao'],tz=c['display_tz'],reporting_tz=c['tz'],verified=c['verified'],days=days))

@@ -36,10 +36,11 @@ series.forEach((a,i)=>{s+=`<polyline points="${a.points.filter(p=>Number.isFinit
 s+=`<polyline points="${observed.map(p=>`${x(p.time)},${y(p.temperature_f)}`).join(' ')}" fill="none" stroke="#1f3231" stroke-width="3"/>`;
 return s+'</svg>';}
 function drawDetail(){const {board,city,day:d}=current();$('city-select').value=state.city;$('kind-select').value=state.kind;
-if(!d){$('station-title').innerHTML=empty('No forecast is available for this station, product, and reporting day.');['weather-briefing','station-metrics','hourly-chart','chart-legend','hourly-values','changes','settlement','brackets','source-status'].forEach(id=>$(id).innerHTML='');$('adjustment-form').hidden=true;document.querySelector('.practice-panel').hidden=true;return;}$('adjustment-form').hidden=false;document.querySelector('.practice-panel').hidden=false;drawWeatherBriefing(d,city);initPractice();
+if(!d){$('station-title').innerHTML=empty('No forecast is available for this station, product, and reporting day.');['weather-briefing','station-metrics','hourly-chart','chart-legend','hourly-values','changes','settlement','brackets','source-status','model-inputs'].forEach(id=>$(id).innerHTML='');$('adjustment-form').hidden=true;document.querySelector('.practice-panel').hidden=true;return;}$('adjustment-form').hidden=false;document.querySelector('.practice-panel').hidden=false;drawWeatherBriefing(d,city);initPractice();
 $('station-title').innerHTML=`<h2>${esc(city.city)} <span class="muted">${esc(city.icao)} · ${esc(d.date)}</span></h2>`;
 $('station-metrics').innerHTML=state.kind==='temperature'?metric(num(d.distribution.median)+'°F','Forecast high')+metric(num(d.market_forecast?.median)+'°F','Market-implied high')+metric(num(d.observed?.max_f)+'°F','Observed maximum')+metric(num(d.distribution.p10)+'–'+num(d.distribution.p90)+'°','80% forecast interval'):metric(pct(d.consensus),'Forecast rain probability')+metric(num(d.market.mid)+'%','Market midpoint')+metric(d.observed?.precip_mm==null?'Unknown':num(d.observed.precip_mm,2)+' mm','Observed accumulation')+metric(d.observed?.precip_complete?'Adequate':'Incomplete','Precipitation coverage');
 if(!draft)$('pop').value=Math.round((d.consensus??.5)*100);
+drawModelInputs(d);
 const sources=Object.entries(d.sources||{}),series=sources.map(([name,v])=>({name,points:v.hourly||[]}));$('hourly-chart').innerHTML=chart(series,d.observed?.hourly||[],city.reporting_tz||city.tz);$('chart-note').textContent=`Model member medians; dark line shows station observations. Times use ${city.reporting_tz||city.tz} reporting time.`;
 $('chart-legend').innerHTML=series.map((s,i)=>`<span><i class="swatch" style="background:${colors[i%colors.length]}"></i>${esc(s.name)}</span>`).join('')+'<span><i class="swatch" style="background:#1f3231"></i>Observed</span>';
 const points=[...new Set(series.flatMap(s=>s.points.map(p=>p.time)))].sort();$('hourly-values').innerHTML=`<table><thead><tr><th>Time</th>${series.map(s=>`<th>${esc(s.name)} °F</th>`).join('')}</tr></thead><tbody>${points.map(t=>`<tr><td>${esc(new Date(t).toLocaleTimeString('en-US',{hour:'numeric',timeZone:city.reporting_tz||city.tz}))}</td>${series.map(s=>`<td>${num(s.points.find(p=>p.time===t)?.median)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
@@ -259,4 +260,24 @@ function drawCalibrationProgress() {
   if(!report){$('calibration-progress').innerHTML=empty('Review progress will appear after the next scoring update.');return;}
   const rows=Object.entries(report.groups||{}).filter(([,r])=>r.kind===$('perf-kind').value && ($('horizon').value==='all'||r.horizon===$('horizon').value));
   $('calibration-progress').innerHTML=`<p>Updated ${esc(ageText(report.generated_at))}. Approval does not alter the forecast probabilities.</p><div class="table-wrap"><table><thead><tr><th>Review key</th><th>Distinct settled dates</th><th>Status</th></tr></thead><tbody>${rows.map(([key,r])=>`<tr><td>${esc(key)}</td><td>${r.n} / ${r.required_dates}</td><td>${r.ready_for_review?'Ready for owner review':esc(r.reasons.join('; '))}</td></tr>`).join('')||'<tr><td colspan="3">No scored groups yet.</td></tr>'}</tbody></table></div>`;
+}
+
+function drawModelInputs(d) {
+  const names={ECMWF_ENS:'ECMWF ensemble',GEFS:'NOAA GEFS',ICON_EPS:'DWD ICON ensemble',GEM_EPS:'Canadian GEM ensemble',UKMO_ENS:'UK Met Office ensemble',NBM:'NOAA National Blend',NBM_T:'NOAA National Blend',NDFD:'NWS forecaster guidance',METEOBLUE:'Meteoblue mLM'};
+  const temperature=state.kind==='temperature';
+  // Archived boards may predate explicit membership and weight metadata.
+  const fallback=temperature?Object.entries(d.diagnostics||{}).filter(([k,v])=>!k.startsWith('_')&&v&&typeof v==='object').map(([model,v])=>({model,value:v.median??v.value,p10:v.p10,p90:v.p90,members:v.n,included:true,status:'Included; weight not archived'})):Object.entries(d.models||{}).map(([model,value])=>({model,value,included:true,status:'Included; weight not archived'}));
+  const rows=d.model_inputs||fallback;
+  if(!rows.length){$('model-inputs').innerHTML=empty('Individual model values were not archived for this forecast.');return;}
+  const active=rows.filter(r=>r.included&&Number.isFinite(r.value));
+  const values=active.map(r=>r.value);
+  const spread=values.length>1?Math.max(...values)-Math.min(...values):null;
+  const format=v=>temperature?num(v)+'°F':pct(v);
+  const final=temperature?d.distribution?.median:d.consensus;
+  const conditioned=temperature?d.diagnostics?._observation_used:['remaining_hours','observed'].includes(d.obs_effect);
+  let note=temperature?'Values are source medians or point forecasts used in the blend. Ensemble ranges are the 10th–90th percentiles before final blend corrections.':'Values are source rain probabilities after configured probability corrections.';
+  note+=' Available models are averaged within each family, then available families are weighted. Weight is a share of that guidance calculation, not a measure of skill or independence.';
+  if(conditioned) note+=' Station observations condition this forecast; excluded full-day guidance is not used as remaining-day guidance.';
+  if(d.obs_effect==='observed') note+=' Measurable rain has already been observed: the final probability uses the observation override rather than the weighted guidance average.';
+  $('model-inputs').innerHTML=`<div class="metrics">${metric(format(final),'Final forecast')}${metric(active.length,'Contributing sources')}${metric(spread===null?'—':temperature?num(spread)+'°F':num(spread*100)+' percentage points','Highest minus lowest source')}</div><p>${esc(note)}</p><div class="table-wrap"><table><thead><tr><th>Source</th><th>Family</th><th>${temperature?'High forecast':'Rain chance'}</th><th>${temperature?'80% ensemble range':'Members'}</th><th>Guidance weight</th><th>Status</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(names[r.model]||r.model)}${temperature&&r.members?`<br><small>${esc(r.members)} members</small>`:''}</td><td>${esc(r.family||'Not archived')}</td><td>${Number.isFinite(r.value)?esc(format(r.value)):'—'}</td><td>${temperature?(Number.isFinite(r.p10)&&Number.isFinite(r.p90)?esc(num(r.p10)+'–'+num(r.p90)+'°F'):'—'):(r.members??'—')}</td><td>${Number.isFinite(r.weight)?esc(num(r.weight*100,1)+'%'):'Not archived'}</td><td>${esc(r.status)}</td></tr>`).join('')}</tbody></table></div><p class="muted">Compare disagreement with cloud cover, mixing, precipitation timing, and the station observations. Agreement alone does not establish forecast skill.</p>`;
 }

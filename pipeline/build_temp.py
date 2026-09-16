@@ -62,7 +62,7 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
                     q=apply_observation(q,obs['max_f'],remaining=detail['remaining'],
                         tolerance=cfgo.get('tolerance_f',.5),min_spread=cfgo.get('min_spread_f',1.4))
                 curves.append(q)
-                diag[model]={'type':'ensemble','n':len(mem),'median':round(q[len(q)//2],2)}
+                diag[model]={'type':'ensemble','n':len(mem),'median':round(q[len(q)//2],2),'p10':q[3],'p90':q[11]}
             elif not usable_obs:
                 mu=(point.get(model,{}).get(city['name']) or {}).get(off)
                 if mu is None:continue
