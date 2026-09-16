@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="shell">
-<header><div><p class="eyebrow">KALSHI WEATHER</p><h1>Forecaster’s decision desk</h1><p class="subtitle">Start with the weather. Understand the price. Decide what to do next.</p></div><div class="refresh"><span id="updated" aria-live="polite">Loading forecasts…</span><button id="refresh">Refresh</button></div></header>
+<header><div><p class="eyebrow">KALSHI WEATHER</p><h1>Forecaster’s decision desk</h1><p class="subtitle">Start with the weather. Understand the price. Decide what to do next.</p></div><div class="refresh"><div id="updated" aria-live="polite">Loading forecasts…</div><button id="refresh" title="Load the latest published data">Refresh page data</button></div></header>
 <nav aria-label="Views"><button data-view="board" aria-current="page">Daily briefing</button><button data-view="detail">Station workup</button><button data-view="performance">Forecast skill</button><button data-view="journal">Forecast journal</button><button data-view="guide">Trading basics</button></nav>
 <div id="status" aria-live="polite"></div>
 <div class="toolbar"><div class="segmented" aria-label="Reporting day"><button id="today" aria-pressed="true">Today</button><button id="tomorrow" aria-pressed="false">Tomorrow</button></div><label>Find a city <input id="search" type="search" placeholder="City or station"></label><span class="muted">Days follow the station’s reporting window.</span></div>

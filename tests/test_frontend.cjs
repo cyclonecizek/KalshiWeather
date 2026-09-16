@@ -154,3 +154,32 @@ test('research review candidate is explicitly not applied',()=>{
  const html=R.render([{horizon:'morning',kind:'rain',dates:60,current_dates:60,excluded_prior_dates:0,sources:[],weights:candidate,calibration:{status:'collecting',reasons:[]}}]);
  assert.match(html,/Ready for review; not applied/);assert.match(html,/multiply within-family weight by 0.5/);
 });
+
+test('freshness distinguishes product clocks and includes old or missing station reports',()=>{
+ const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+ const elements=new Map();
+ const element=id=>{if(!elements.has(id))elements.set(id,{innerHTML:'',addEventListener(){}});return elements.get(id);};
+ const context=vm.createContext({ForecastMath:M,ForecastDecision:D,Date,console,setInterval(){},fetch:()=>new Promise(()=>{}),
+  document:{getElementById:element,querySelectorAll:()=>[],addEventListener(){}}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../docs/assets/research.js'),'utf8'),context);
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../docs/assets/app.js'),'utf8'),context);
+ const now=Date.now(),ago=minutes=>new Date(now-minutes*60000).toISOString();
+ context.rain={generated_at:ago(240),quotes_updated_at:ago(40),cities:[
+  {days:{'0':{observed:{latest_at:ago(10)}},'1':{}}},
+  {days:{'0':{observed:{latest_at:ago(120)}}}},
+  {days:{'0':{observed:{latest_at:null}}}},
+  {days:{'0':{observed:{latest_at:ago(-60)}}}}
+ ]};
+ context.highs={generated_at:ago(60),quotes_updated_at:ago(5),cities:[]};
+ vm.runInContext("state.rain=rain;state.temperature=highs;state.day='1';drawStatus();",context);
+ const html=element('updated').innerHTML;
+ for(const stamp of [context.rain.generated_at,context.highs.generated_at,context.rain.quotes_updated_at,context.highs.quotes_updated_at])assert.ok(html.includes(stamp));
+ assert.match(html,/10m old<\/time> to .*2\.0h old/);
+ assert.match(html,/2\/4 station reports unavailable/);
+ assert.match(html,/Observed reports · today/);
+ assert.match(element('status').innerHTML,/Rain board is 4\.0h old. Suggestions are disabled/);
+ assert.equal(vm.runInContext("freshnessTime('invalid')",context),'Unavailable');
+ assert.equal(vm.runInContext('freshnessTime(new Date(Date.now()+3600000).toISOString())',context),'Timestamp in future');
+ vm.runInContext('state.rain.quotes_updated_at=null;drawStatus()',context);
+ assert.match(element('updated').innerHTML,/<th scope="row">Prices refreshed<\/th><td>Unavailable<\/td>/);
+});
