@@ -16,8 +16,10 @@ def sanitize(board):
             if contributed:
                 # Remove the companion components and ablations too; the
                 # aggregate plus known weights can otherwise reveal mLM.
-                for k in ('models','raw_models','families','variants'):d.pop(k,None)
+                for k in ('models','raw_models','families','variants','experiments','model_inputs'):d.pop(k,None)
             for k in ('predictability','coverage'):d.pop(k,None)
+            if 'METEOBLUE' in d.get('diagnostics',{}):
+                d.pop('experiments',None);d.pop('model_inputs',None)
             diag=d.get('diagnostics',{})
             for k in ('METEOBLUE','_predictability','_predictability_widening'):diag.pop(k,None)
     return board

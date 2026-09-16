@@ -38,7 +38,7 @@ def blend(model_probs: dict, settings: dict, cam_multiplier: float = 1.0):
     cam_members = set(fams.get("cam", {}).get("members", []))
     adjusted = {}
     for k, v in model_probs.items():
-        if v is None:
+        if v is None or settings.get("member_weights",{}).get(k,1)<=0:
             continue
         p = apply_calibration(v, cal.get(k, 0.0))
         if k in cam_members and cam_multiplier != 1.0:
@@ -47,10 +47,12 @@ def blend(model_probs: dict, settings: dict, cam_multiplier: float = 1.0):
 
     fam_means, fam_weights = {}, {}
     for fam_key, fam in fams.items():
-        vals = [adjusted[m] for m in fam["members"] if m in adjusted]
+        present = [m for m in fam["members"] if m in adjusted]
+        vals = [adjusted[m] for m in present]
+        weights = [settings.get("member_weights",{}).get(m,1) for m in present]
         if not vals:
             continue
-        fam_means[fam_key] = sum(vals) / len(vals)
+        fam_means[fam_key] = sum(v*w for v,w in zip(vals,weights)) / sum(weights)
         fam_weights[fam_key] = fam["weight"]
 
     if not fam_means:

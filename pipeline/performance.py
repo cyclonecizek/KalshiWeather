@@ -109,18 +109,6 @@ def summarize(records):
         item['distinct_dates']=len({r['date'] for r in rows})
         item['effective_sample_note']='Descriptive scores; observations within and across dates may be correlated.'
         item['brier_skill']=1-item['brier']/item['market_brier'] if item['market_brier'] else None
-        # Date-ordered holdout. The additive correction is fitted only from
-        # earlier errors. Report as a candidate, never replace configured bias.
-        exact=sorted([r for r in rows if r['actual'] is not None],key=lambda r:r['date'])
-        if len(exact)>=60:
-            train,test=exact[:-20],exact[-20:]
-            shift=statistics.mean(r['error'] for r in train)
-            residuals=[r['error']-shift for r in train]
-            item['candidate_calibration']={'additional_bias_f':shift,'train_n':len(train),'test_n':len(test),
-                'train_end':train[-1]['date'],'test_start':test[0]['date'],
-                'holdout_mae_original':statistics.mean(abs(r['error']) for r in test),
-                'holdout_mae_adjusted':statistics.mean(abs(r['error']-shift) for r in test),
-                'training_error_sd_f':statistics.pstdev(residuals),'validated':False}
         out.append(item)
     return out
 
@@ -138,10 +126,16 @@ def adjustment_scores(adjustments,outcomes):
 def publish(fetch_outcomes=True):
     selected=select_snapshots();outcomes=read(DATA/'outcomes.json',{})
     if fetch_outcomes:outcomes=refresh_outcomes(selected,outcomes)
-    records=[]
+    from .model_research import record_for_day,build_report
+    from .calibration_review import model_fingerprint
+    records=[];research_rows=[]
     for (city,date,kind,h,version),(at,snapshot,d) in selected.items():
         scores=score_day(kind,d,outcomes)
-        if scores:records.append(dict(city=city,date=date,kind=kind,horizon=h,model_version=version,model_fingerprint=d.get('model_fingerprint'),issued_at=at,snapshot_id=snapshot,**scores))
+        if scores:
+            record=dict(city=city,date=date,kind=kind,horizon=h,model_version=version,model_fingerprint=d.get('model_fingerprint'),issued_at=at,snapshot_id=snapshot,**scores)
+            records.append(record)
+            research=record_for_day(record,d,outcomes)
+            if research:research_rows.append(research)
     adj=read(DATA/'adjustments.json',[])
     # Headline counts are deliberately date-level. The old records count is
     # still retained for auditability, but must not be used as an independent-n
@@ -155,6 +149,9 @@ def publish(fetch_outcomes=True):
             'max_group_dates':max((g['distinct_dates'] for g in groups),default=0),
             'independence':'Uncertainty should be estimated by date blocks, not bracket count.'},
         'note':'Paper orders are proposals. No fills or realized profits are assumed. Market comparisons use the same archived snapshot, but are not executable ask prices.'}
+    research=build_report(research_rows,model_fingerprint())
+    research['generated_at']=report['generated_at']
+    atomic_json(DATA/'model_research.json',research)
     atomic_json(DATA/'performance.json',report);atomic_json(DATA/'outcomes.json',outcomes)
     return report
 
