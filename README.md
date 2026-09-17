@@ -232,6 +232,14 @@ guarantee is claimed here. Interval calibration is checked empirically on later
 dates. No settings were fitted to the initial nine-day record.
 # MOS and LAMP comparison guidance
 
+The MOS headline uses the explicit daytime maximum in the MAV N/X or X/N
+row, matched by its 00 UTC bulletin column rather than by alternating
+nonblank tokens. Its valid period is 07:00–19:00 local standard time, per
+[NOAA's GFS MOS temperature definition](https://www.weather.gov/media/mdl/mdltpb05-05.pdf).
+The TMP sampled peak remains separate. An omitted maximum stays unavailable;
+it is never replaced by TMP or the next day's maximum. Neither value is
+automatically treated as the full 24-hour settlement maximum.
+
 Station workups show NOAA GFS MOS (MAV) and hourly GFS LAMP (LAV), retrieved
 from [IEM's raw bulletin service](https://mesonet.agron.iastate.edu/mos/).
 The exact settlement ICAO is required, so Chicago temperature uses Midway

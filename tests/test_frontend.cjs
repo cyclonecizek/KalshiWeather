@@ -27,6 +27,14 @@ test('MOS/LAMP panel renders periods, missing guidance and browser-aged issues',
  assert.match(element('station-guidance').innerHTML,/stale/);
  assert.match(element('station-guidance').innerHTML,/including traces/);
  assert.doesNotMatch(element('station-guidance').innerHTML,/below your daily blend/);
+ context.fixture.station_guidance.MOS={station:'KMDW',status:'ok',issued_at:new Date().toISOString(),sampled_max_f:74,points:[],mos_maximum:{temperature_f:88,field:'N/X',period_start:new Date().toISOString(),period_end:new Date().toISOString(),period_definition:'07:00–19:00 local standard time'}};
+ vm.runInContext("drawStationGuidance(fixture,{tz:'America/Chicago'})",context);
+ assert.match(element('station-guidance').innerHTML,/MOS daytime maximum \(N\/X\): 88/);
+ assert.match(element('station-guidance').innerHTML,/explicit MOS daytime maximum is 8.*above/);
+ context.fixture.station_guidance.MOS.mos_maximum=null;
+ vm.runInContext("drawStationGuidance(fixture,{tz:'America/Chicago'})",context);
+ assert.match(element('station-guidance').innerHTML,/not provided for this day/);
+ assert.doesNotMatch(element('station-guidance').innerHTML,/explicit MOS daytime maximum is/);
 });
 test('distribution preview conserves bracket probability',()=>{const v=M.Q.map(q=>80+q*10);const p=M.between(v,null,81)+M.between(v,82,87)+M.between(v,88,null);assert.ok(Math.abs(p-1)<1e-8);});
 test('manual adjustment respects the observed lower bound',()=>{const v=M.Q.map(q=>80+q*10);const shifted=M.adjust(v,-10,.5,85);assert.ok(shifted.every(x=>x>=85));assert.equal(M.between(shifted,null,84,85),0);});
