@@ -106,7 +106,8 @@ def fetch(cities,cfg,day_offsets=(0,1)):
             error='Request failed'
             for attempt in range(2):
                 try:
-                    r=requests.get(cfg['ensemble_base'],params=params,timeout=(10,45))
+                    r=requests.get(cfg['ensemble_base'],params=params,
+                        timeout=(cfg.get('connect_timeout_seconds',10),cfg.get('read_timeout_seconds',45)))
                     r.raise_for_status();payload=r.json()
                     if isinstance(payload,dict):payload=[payload]
                     if len(payload)!=len(batch) or any(not x.get('hourly') for x in payload):

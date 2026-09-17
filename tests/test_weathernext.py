@@ -25,6 +25,9 @@ def test_fetch_selects_full_ensemble_and_explicit_hourly_output():
         cfg=fetch.call_args.args[1]
         assert cfg['models']=={wn.MODEL:'google_weathernext2_ensemble'}
         assert cfg['temporal_resolution']=='hourly_1'
+        assert cfg['batch_size']==1
+        assert cfg['connect_timeout_seconds']==30
+        assert cfg['read_timeout_seconds']==60
 
 
 def test_temperature_archives_probabilities_without_altering_production():
@@ -42,6 +45,19 @@ def test_temperature_archives_probabilities_without_altering_production():
     rows=describe_inputs(settings,'temperature',day)
     assert rows[-1]['model']=='WEATHERNEXT2' and not rows[-1]['included']
     assert rows[-1]['weight']==0 and rows[-1]['value'] is not None
+
+
+def test_single_station_requests_use_configured_connection_limits(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    cities=[{'name':n,'lat':lat,'lon':-100,'tz':'UTC'} for n,lat in [('A',30),('B',40)]]
+    summary={'maxima':[70]*64,'rain_totals':[0]*64,'window_start':'2026-09-17T00:00:00+00:00'}
+    with patch.object(hourly.requests,'get') as get, patch.object(hourly,'summarize',return_value=summary):
+        get.return_value.json.return_value={'hourly':{'time':[]}}
+        wn.fetch(cities,{'ensemble_base':'https://example.test/ensemble'})
+        assert get.call_count==2
+        for call in get.call_args_list:
+            assert call.kwargs['timeout']==(30,60)
+            assert ',' not in call.kwargs['params']['latitude']
 
 
 def test_rain_archives_member_probability_and_observation_override():
