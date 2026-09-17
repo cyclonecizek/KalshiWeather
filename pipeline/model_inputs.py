@@ -26,6 +26,13 @@ def describe_inputs(settings, kind, day):
                 p10=info.get('p10'), p90=info.get('p90'),
                 members=info.get('n', day.get('sources', {}).get(model, {}).get('member_count')),
                 source_type=info.get('type', 'probability guidance' if kind == 'rain' else None)))
+            if model == 'NDFD' and day.get('nws_guidance'):
+                nws = day['nws_guidance']
+                rows[-1]['nws_guidance'] = nws
+                if not included:
+                    rows[-1]['value'] = nws.get('value')
+                    rows[-1]['status'] = ('Available for comparison; excluded from observation-conditioned blend'
+                        if nws.get('value') is not None else nws['message'])
     google = day.get('weathernext')
     if google:
         rows.append(dict(model='WEATHERNEXT2', family='Google AI research', included=False,

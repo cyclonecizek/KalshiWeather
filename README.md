@@ -1,5 +1,7 @@
 # Kalshi Weather Forecast Desk
 
+NWS forecaster guidance remains visible in the model table when observations exclude it from the operational blend. Its zero weight and exclusion reason are explicit. New snapshots archive native valid periods, retrieval time, and NWS XML product-generation time. The XML feed does not supply a reliable forecast issue time, so it is labeled unavailable rather than inferred from retrieval. Downloads retry up to three times; failures and missing valid periods are distinct, and failed retrievals do not silently reuse old values.
+
 ## Google WeatherNext 2
 
 The desk retrieves the full 64-member `google_weathernext2_ensemble` from
