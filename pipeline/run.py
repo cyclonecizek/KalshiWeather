@@ -106,6 +106,8 @@ def changes(day,old,temperature=False):
     return {'summary':'; '.join(vals) or 'No material change','components':vals,'previous_snapshot_at':old.get('generated_at')}
 
 def prepare(kind,settings):
+    from .sources import ndfd
+    ndfd.DETAILS.clear()
     quality.STATUS.clear();hourly.DETAILS.clear();errors=[]
     cities=settlement.configure_cities(load_yaml(ROOT/'config/cities.yml')['cities'],kind)
     if os.getenv('WEATHER_CITIES'):
@@ -178,6 +180,7 @@ def prepare(kind,settings):
             day['model_fingerprint']=model_fingerprint()
             day['horizon']=horizon(day)
             day['station_guidance']=guidance.get(c['name'],{}).get(off,{})
+            day['nws_guidance']=ndfd.DETAILS.get((kind,c['name'],off))
             if kind=='temperature':
                 dist,diag=build_distribution(c,off,members,point,tcfg,errors,obs=ob,obs_cfg=src.get('observations'),
                     nbm_sigma=nbmt.get(c['name'],{}).get(off,{}).get('sd_f'))

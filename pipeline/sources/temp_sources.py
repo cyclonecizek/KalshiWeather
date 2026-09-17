@@ -53,54 +53,8 @@ def fetch_openmeteo(cities, cfg, day_offsets=(0, 1)):
 # ---------------------------------------------------------------------------
 
 def fetch_ndfd_maxt(cities, cfg, day_offsets=(0, 1)):
-    """-> {city: {offset: degF}}"""
-    from xml.etree import ElementTree as ET
-
-    now = datetime.utcnow()
-    out = {}
-    for c in cities:
-        try:
-            r = requests.get(cfg["base"], params={
-                "whichClient": "NDFDgen", "lat": c["lat"], "lon": c["lon"],
-                "product": "time-series", "maxt": "maxt", "Unit": "e",
-                "begin": now.strftime("%Y-%m-%dT%H:%M:%S"),
-                "end": (now + timedelta(days=4)).strftime("%Y-%m-%dT%H:%M:%S"),
-            }, timeout=45)
-            r.raise_for_status()
-            root = ET.fromstring(r.text)
-        except Exception as exc:  # noqa: BLE001
-            print(f"  ndfd maxt {c['name']}: {exc}")
-            continue
-
-        layouts = {}
-        for lay in root.iter("time-layout"):
-            layouts[lay.findtext("layout-key")] = [
-                datetime.fromisoformat(e.text)
-                for e in lay.findall("start-valid-time") if e.text
-            ]
-
-        pairs = []
-        for node in root.iter("temperature"):
-            if node.get("type") != "maximum":
-                continue
-            times = layouts.get(node.get("time-layout"), [])
-            vals = [int(e.text) if e.text else None for e in node.findall("value")]
-            pairs = [(t, v) for t, v in zip(times, vals) if v is not None]
-            break
-
-        tz = ZoneInfo(c["tz"])
-        today = datetime.now(tz).date()
-        by_off = {}
-        for off in day_offsets:
-            target = today + timedelta(days=off)
-            for t, v in pairs:
-                if t.astimezone(tz).date() == target:
-                    by_off[off] = float(v)
-                    break
-        out[c["name"]] = by_off
-
-    print(f"  ndfd maxt: {len(out)} cities")
-    return out
+    from . import ndfd
+    return ndfd.fetch(cities, cfg, 'temperature', day_offsets)
 
 
 # ---------------------------------------------------------------------------

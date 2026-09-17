@@ -34,54 +34,8 @@ UA = {"User-Agent": ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
 # ---------------------------------------------------------------------------
 
 def fetch_ndfd(cities, cfg, rho=0.5, day_offsets=(0, 1)):
-    """PoP12 grids -> daily probability. -> {city: {offset: prob}}"""
-    base = cfg["base"]
-    now = datetime.now(timezone.utc)
-    end = now + timedelta(days=4)
-
-    out = {}
-    # The multi-point form takes a listLatLon, but the per-point form gives
-    # cleaner XML and 23 calls is nothing. One at a time.
-    for c in cities:
-        try:
-            r = requests.get(
-                base,
-                params={
-                    "whichClient": "NDFDgen",
-                    "lat": c["lat"],
-                    "lon": c["lon"],
-                    "product": "time-series",
-                    "pop12": "pop12",
-                    "Unit": "e",
-                    "begin": now.strftime("%Y-%m-%dT%H:%M:%S"),
-                    "end": end.strftime("%Y-%m-%dT%H:%M:%S"),
-                },
-                timeout=45,
-            )
-            r.raise_for_status()
-            pops = _parse_dwml_pop(r.text)
-        except Exception as exc:  # noqa: BLE001
-            print(f"  ndfd {c['name']}: {exc}")
-            continue
-
-        tz = ZoneInfo(c["tz"])
-        by_offset = {}
-        today_local = datetime.now(tz).date()
-        for off in day_offsets:
-            target = today_local + timedelta(days=off)
-            # Each PoP12 block is stamped with the START of its 12-hour period.
-            # A block belongs to the local day its start falls in.
-            vals = [
-                v / 100.0 for (t, v) in pops
-                if t.astimezone(tz).date() == target
-            ]
-            p = stitch_pops(vals, rho=rho)
-            if p is not None:
-                by_offset[off] = p
-        out[c["name"]] = by_offset
-
-    print(f"  ndfd: {len(out)} cities")
-    return out
+    from . import ndfd
+    return ndfd.fetch(cities, cfg, 'rain', day_offsets, rho)
 
 
 def _parse_dwml_pop(xml_text):

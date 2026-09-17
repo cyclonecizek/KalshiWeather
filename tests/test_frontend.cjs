@@ -12,6 +12,18 @@ test('WeatherNext is visible with zero weight and interpolation attribution',()=
  assert.match(html,/Google WeatherNext 2/);assert.match(html,/0\.0%/);
  assert.match(html,/64 members/);assert.match(html,/interpolated/);
  assert.match(html,/Google DeepMind WeatherNext 2 via Open-Meteo/);
+ context.fixture={distribution:{median:80},model_inputs:[{model:'NDFD',family:'NWS',included:false,weight:0,value:85,status:'Available for comparison; excluded from observation-conditioned blend',nws_guidance:{status:'ok',retrieved_at:new Date().toISOString(),product_generated_at:new Date().toISOString(),issued_at:null,periods:[]}}]};
+ vm.runInContext('drawModelInputs(fixture)',context);
+ const nws=element('model-inputs').innerHTML;
+ assert.match(nws,/85\.0°F/);assert.match(nws,/0\.0%/);
+ assert.match(nws,/excluded from observation-conditioned blend/);
+ assert.match(nws,/forecast issue time: Not supplied/);
+ assert.match(nws,/Product generation is not necessarily the forecast issue time/);
+ context.fixture.model_inputs[0].nws_guidance.status='failed';
+ context.fixture.model_inputs[0].nws_guidance.retrieved_at=null;
+ vm.runInContext('drawModelInputs(fixture)',context);
+ assert.match(element('model-inputs').innerHTML,/Retrieved: Not supplied/);
+ assert.match(element('model-inputs').innerHTML,/Last attempt/);
 });
 test('MOS/LAMP panel renders periods, missing guidance and browser-aged issues',()=>{
  const fs=require('node:fs'),vm=require('node:vm');
