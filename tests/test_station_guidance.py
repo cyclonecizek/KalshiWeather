@@ -84,3 +84,52 @@ def test_month_rollover_and_negative_temperature():
     d=g.parse(text,'KMDW','LAMP')
     assert d['points'][0]['temperature_f']==-4
     assert d['points'][6]['valid_at']=='2027-01-01T00:00:00+00:00'
+
+
+def test_explicit_mos_high_is_not_the_tmp_peak():
+    d={**g.parse(bulletin('MOS'),'KMDW','MOS'),'status':'ok'}
+    start=datetime(2026,9,17,6,tzinfo=timezone.utc)
+    day=g.for_window(d,start,start+timedelta(days=1))
+    assert day['mos_maximum']['temperature_f']==76
+    assert day['sampled_max_f']==73
+    assert day['mos_maximum']['period_start']=='2026-09-17T13:00:00+00:00'
+    assert day['mos_maximum']['period_end']=='2026-09-18T01:00:00+00:00'
+    today=g.for_window(d,start-timedelta(days=1),start)
+    assert today['mos_maximum'] is None  # 12Z bulletin omits today's max.
+    assert today['sampled_max_f'] is not None
+
+
+def test_missing_minimum_does_not_shift_following_maximum_and_reversed_label_works():
+    for text in [bulletin('MOS').replace('N/X','X/N'),
+                 bulletin('MOS').replace('N/X                    66','N/X                   999')]:
+        d={**g.parse(text,'KMDW','MOS'),'status':'ok'}
+        start=datetime(2026,9,17,8,tzinfo=timezone.utc)
+        result=g.for_window(d,start,start+timedelta(days=1))
+        assert result['mos_maximum']['temperature_f']==76
+        assert result['mos_maximum']['period_end']=='2026-09-18T03:00:00+00:00'
+
+
+def test_missing_maximum_stays_missing_without_substituting_next_day_or_tmp():
+    text=bulletin('MOS').replace('          76','         999',1)
+    d={**g.parse(text,'KMDW','MOS'),'status':'ok'}
+    start=datetime(2026,9,17,6,tzinfo=timezone.utc)
+    assert g.for_window(d,start,start+timedelta(days=1))['mos_maximum'] is None
+    assert g.for_window(d,start+timedelta(days=1),start+timedelta(days=2))['mos_maximum']['temperature_f']==74
+
+
+@pytest.mark.parametrize('cycle',[0,6,12,18])
+def test_extreme_dates_across_cycles_and_year_rollover(cycle):
+    run=datetime(2026,12,31,cycle,tzinfo=timezone.utc)
+    times=[run+timedelta(hours=h) for h in range(6,73,3)]
+    text=f'KMDW   GFS MOS GUIDANCE    12/31/2026  {cycle:02d}00 UTC\n'
+    text+='HR  '+''.join(f'{t.hour:3d}' for t in times)+'\n'
+    text+='N/X '+''.join(' 80' if t.hour==0 else ' 40' if t.hour==12 else '   ' for t in times)+'\n'
+    text+='TMP '+''.join('999' for t in times)+'\n'
+    d={**g.parse(text,'KMDW','MOS'),'status':'ok'}
+    for extreme in d['extrema']:
+        if extreme['kind']!='maximum':continue
+        marker=datetime.fromisoformat(extreme['bulletin_valid_at'])
+        start=marker-timedelta(hours=18)
+        day=g.for_window(d,start,start+timedelta(days=1))
+        assert day['mos_maximum']['temperature_f']==80
+        assert day['sampled_max_f'] is None
