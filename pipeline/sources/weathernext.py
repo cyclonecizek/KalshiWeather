@@ -18,7 +18,10 @@ NOTE = ('Native 0.25-degree, six-hour guidance interpolated by Open-Meteo to hou
 
 
 def fetch(cities, cfg, offsets=(0, 1)):
-    config = {**cfg, 'models': {MODEL: API_MODEL}, 'batch_size': 2,
+    # A slow connection in a paired request previously lost both stations.
+    # Isolate locations and allow the ensemble endpoint a longer handshake.
+    config = {**cfg, 'models': {MODEL: API_MODEL}, 'batch_size': 1,
+              'connect_timeout_seconds': 30, 'read_timeout_seconds': 60,
               'cache_minutes': 60, 'temporal_resolution': 'hourly_1'}
     return hourly.fetch(cities, config, offsets).get(MODEL, {})
 
