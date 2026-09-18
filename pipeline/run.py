@@ -172,8 +172,10 @@ def prepare(kind,settings):
                 'settlement':spec,'observed':ob,'sources':details,'forecast_retrieved_at':min((d['retrieved_at'] for d in details.values()),default=None),
                 'data_quality':'ok','generated_at':retrieved,'kind':kind,'source_error_count':len(errors),
                 'fee_verified':meta.get('fee_multiplier') is not None}
-            if mbcfg.get('publish_values') and mb.get(c['name'],{}).get(off):
-                day['meteoblue']=mb[c['name']][off]
+            if mbcfg.get('publish_values'):
+                day['meteoblue_status']=meteoblue.STATUS.get(c['name'],'unavailable')
+                if meteoblue.DISPLAY.get(c['name'],{}).get(off):
+                    day['meteoblue']=meteoblue.DISPLAY[c['name']][off]
             day['guidance_centres']=[name for name,by_city in data.items() if len(by_city.get(c['name'],{}).get(off,{}).get('maxima' if kind=='temperature' else 'rain_totals',[]))>=3]
             day['n_guidance_centres']=len(day['guidance_centres'])
             from .calibration_review import model_fingerprint

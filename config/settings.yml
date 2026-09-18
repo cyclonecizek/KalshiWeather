@@ -341,8 +341,9 @@ temperature:
         # errors, that's why.
         trend_day: 4000
       trial_credits: 10000000
-      max_calls_per_day: 25
+      max_calls_per_day: 80   # about three refreshes of 24 distinct locations, plus headroom
       cache_hours: 8          # reuse a cached value this many hours
+      display_cache_hours: 48 # older guidance is comparison only, with its original timestamp
       cache_path: .cache/meteoblue.json
       cities: []              # empty = all; list names to spend on fewer
 

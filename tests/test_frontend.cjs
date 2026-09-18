@@ -1,5 +1,13 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const M=require('../docs/assets/math.js');
+test('Meteoblue expiry blocks only forecasts that include it',()=>{
+ const now=Date.now(),stamp=new Date(now).toISOString();
+ const d={meteoblue:{expires_at:new Date(now-1000).toISOString()},model_inputs:[{model:'METEOBLUE',included:true}]};
+ const e={eligibility:{reasons:[]}},q={retrieved_at:stamp},b={generated_at:stamp};
+ assert.ok(M.eligibility(e,q,b,now,d).some(r=>r.includes('Meteoblue input is stale')));
+ d.model_inputs[0].included=false;
+ assert.equal(M.eligibility(e,q,b,now,d).length,0);
+});
 test('WeatherNext is visible with zero weight and interpolation attribution',()=>{
  const fs=require('node:fs'),vm=require('node:vm'),elements=new Map();
  const element=id=>{if(!elements.has(id))elements.set(id,{innerHTML:'',value:'',addEventListener(){}});return elements.get(id);};
