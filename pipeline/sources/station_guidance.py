@@ -85,7 +85,7 @@ def parse(text, station, product):
                                 'end': valid.isoformat(), 'hours': hours, 'probability': probability/100,
                                 'event': 'precipitation occurrence, including traces' if key == 'PPO'
                                 else 'at least 0.01 inch precipitation'})
-    if not any(p['temperature_f'] is not None for p in points) and not any(x['kind']=='maximum' for x in extrema):
+    if not any(p['temperature_f'] is not None for p in points) and not extrema:
         raise ValueError('No valid temperatures')
     return {'station': station, 'product': product, 'issued_at': run.isoformat(),
             'points': points, 'precipitation': periods, 'extrema': extrema, 'blend_weight': 0,
@@ -132,6 +132,17 @@ def for_window(source, start, end):
         'period_end': (start+timedelta(hours=19)).isoformat(),
         'period_definition': '07:00–19:00 local standard time; not the full settlement day',
         'definition_url': 'https://www.weather.gov/media/mdl/mdltpb05-05.pdf'} if len(maxima)==1 else None)
+    result['mos_extrema'] = []
+    for extreme in source.get('extrema', []):
+        marker = datetime.fromisoformat(extreme['bulletin_valid_at'])
+        anchor = marker-timedelta(hours=12) if extreme['kind']=='maximum' else marker
+        day_start = start+timedelta(days=(anchor-start).days)
+        a, b = ((day_start+timedelta(hours=7), day_start+timedelta(hours=19))
+                if extreme['kind']=='maximum' else
+                (day_start-timedelta(hours=5), day_start+timedelta(hours=8)))
+        if b > start and a < end:
+            result['mos_extrema'].append({**extreme, 'period_start': a.isoformat(),
+                'period_end': b.isoformat(), 'definition_url': 'https://www.weather.gov/media/mdl/mdltpb05-05.pdf'})
     points = [p for p in source['points'] if start <= datetime.fromisoformat(p['valid_at']) < end]
     periods = []
     for p in source['precipitation']:
@@ -145,7 +156,7 @@ def for_window(source, start, end):
     result['coverage_start'] = points[0]['valid_at'] if points else None
     result['coverage_end'] = points[-1]['valid_at'] if points else None
     result['coverage_note'] = 'Maximum of available forecast time samples, not a daily maximum forecast. May cover only part of the reporting day; no interpolation or extrapolation.'
-    if source['status']=='ok' and not points:
+    if source['status']=='ok' and not points and not result['mos_extrema']:
         result['status'] = 'out_of_range'
         result['message'] = 'This bulletin does not reach the selected reporting day.'
     return result

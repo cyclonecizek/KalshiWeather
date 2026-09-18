@@ -22,6 +22,14 @@ test('MOS chart uses native TMP samples, matching station and reporting day',()=
  context.fixture.station_guidance.MOS.points=[];
  assert.equal(vm.runInContext("mosChartSeries(fixture,{icao:'KMDW'})",context),null);
  assert.equal(vm.runInContext("mosChartSeries({},{icao:'KMDW'})",context),null);
+ context.fixture.station_guidance.MOS.mos_extrema=[{kind:'minimum',temperature_f:65,period_start:'2026-09-18T01:00:00Z',period_end:'2026-09-18T14:00:00Z'},{kind:'maximum',temperature_f:85,period_start:'2026-09-18T13:00:00Z',period_end:'2026-09-19T01:00:00Z'}];
+ const bands=vm.runInContext("mosChartExtrema(fixture,{icao:'KMDW'})",context);
+ assert.equal(bands.length,2);assert.equal(bands[0].start,Date.parse(context.fixture.window_start));
+ const extremaSVG=vm.runInContext("chart([],[],'Etc/GMT+6',mosChartExtrema(fixture,{icao:'KMDW'}))",context);
+ assert.match(extremaSVG,/N 65°/);assert.match(extremaSVG,/X 85°/);
+ assert.match(extremaSVG,/Period extremum, not an hourly temperature/);
+ assert.doesNotMatch(extremaSVG,/NaN/);
+ assert.equal(vm.runInContext("mosChartExtrema(fixture,{icao:'KORD'}).length",context),0);
 });
 test('Meteoblue expiry blocks only forecasts that include it',()=>{
  const now=Date.now(),stamp=new Date(now).toISOString();
