@@ -129,9 +129,15 @@ def publish(fetch_outcomes=True):
     from .model_research import record_for_day,build_report
     from .calibration_review import model_fingerprint
     records=[];research_rows=[]
+    from .observation_ml import score_candidate
+    correction_scores=[]
     for (city,date,kind,h,version),(at,snapshot,d) in selected.items():
         scores=score_day(kind,d,outcomes)
         if scores:
+            if kind=='temperature':
+                candidate=score_candidate(d,outcomes)
+                if candidate:
+                    correction_scores.append(dict(city=city,date=date,horizon=h,**candidate))
             record=dict(city=city,date=date,kind=kind,horizon=h,model_version=version,model_fingerprint=d.get('model_fingerprint'),issued_at=at,snapshot_id=snapshot,**scores)
             records.append(record)
             research=record_for_day(record,d,outcomes)
@@ -150,6 +156,8 @@ def publish(fetch_outcomes=True):
             'independence':'Uncertainty should be estimated by date blocks, not bracket count.'},
         'note':'Paper orders are proposals. No fills or realized profits are assumed. Market comparisons use the same archived snapshot, but are not executable ask prices.'}
     research=build_report(research_rows,model_fingerprint())
+    report['observation_ml']={'records':correction_scores,
+        'note':'Prospective archived predictions only. Compared with the existing observation-adjusted forecast; city and horizon records on one date are correlated. Candidate weights are not applied.'}
     research['generated_at']=report['generated_at']
     atomic_json(DATA/'model_research.json',research)
     atomic_json(DATA/'performance.json',report);atomic_json(DATA/'outcomes.json',outcomes)

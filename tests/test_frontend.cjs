@@ -51,6 +51,12 @@ test('WeatherNext is visible with zero weight and interpolation attribution',()=
  assert.match(html,/Google WeatherNext 2/);assert.match(html,/0\.0%/);
  assert.match(html,/64 members/);assert.match(html,/interpolated/);
  assert.match(html,/Google DeepMind WeatherNext 2 via Open-Meteo/);
+ context.correction={observation_ml:{status:'collecting',message:'Collecting settled dates',training_dates:2,required_dates:30}};
+ assert.match(vm.runInContext('observationCorrection(correction)',context),/2 distinct settled dates/);
+ context.correction.observation_ml={status:'candidate',message:'Research comparison only',training_dates:30,required_dates:30,median:82,p10:79,p90:85,adjustment_f:2,fit_before:'2026-08-01',interval_dates:10,last_training_date:'2026-08-10'};
+ const correction=vm.runInContext('observationCorrection(correction)',context);
+ assert.match(correction,/Candidate high: 82\.0°F/);
+ assert.match(correction,/not used in market probabilities or allocations/);
  context.fixture={distribution:{median:80},model_inputs:[{model:'NDFD',family:'NWS',included:false,weight:0,value:85,status:'Available for comparison; excluded from observation-conditioned blend',nws_guidance:{status:'ok',retrieved_at:new Date().toISOString(),product_generated_at:new Date().toISOString(),issued_at:null,periods:[]}}]};
  vm.runInContext('drawModelInputs(fixture)',context);
  const nws=element('model-inputs').innerHTML;
