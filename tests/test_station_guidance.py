@@ -99,6 +99,23 @@ def test_explicit_mos_high_is_not_the_tmp_peak():
     assert today['sampled_max_f'] is not None
 
 
+def test_mos_extrema_keep_overnight_periods_and_both_overlapping_nights():
+    start=datetime(2026,12,31,6,tzinfo=timezone.utc)
+    source={'status':'ok','points':[],'precipitation':[],'extrema':[
+        {'kind':'minimum','temperature_f':40,'bulletin_valid_at':'2026-12-31T12:00:00+00:00'},
+        {'kind':'maximum','temperature_f':60,'bulletin_valid_at':'2027-01-01T00:00:00+00:00'},
+        {'kind':'minimum','temperature_f':42,'bulletin_valid_at':'2027-01-01T12:00:00+00:00'}]}
+    day=g.for_window(source,start,start+timedelta(days=1))
+    assert day['status']=='ok'
+    a,x,b=day['mos_extrema']
+    assert a['period_start']=='2026-12-31T01:00:00+00:00'
+    assert a['period_end']=='2026-12-31T14:00:00+00:00'
+    assert x['period_start']=='2026-12-31T13:00:00+00:00'
+    assert x['period_end']=='2027-01-01T01:00:00+00:00'
+    assert b['period_start']=='2027-01-01T01:00:00+00:00'
+    assert b['period_end']=='2027-01-01T14:00:00+00:00'
+
+
 def test_missing_minimum_does_not_shift_following_maximum_and_reversed_label_works():
     for text in [bulletin('MOS').replace('N/X','X/N'),
                  bulletin('MOS').replace('N/X                    66','N/X                   999')]:
