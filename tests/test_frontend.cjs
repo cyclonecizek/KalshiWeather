@@ -1,5 +1,28 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const M=require('../docs/assets/math.js');
+test('MOS chart uses native TMP samples, matching station and reporting day',()=>{
+ const fs=require('node:fs'),vm=require('node:vm'),node={addEventListener(){}};
+ const context=vm.createContext({ForecastMath:M,ForecastDecision:require('../docs/assets/decision.js'),Date,console,setInterval(){},fetch:()=>new Promise(()=>{}),document:{getElementById:()=>node,querySelector:()=>node,querySelectorAll:()=>[],addEventListener(){}}});
+ vm.runInContext(fs.readFileSync('docs/assets/research.js','utf8'),context);
+ vm.runInContext(fs.readFileSync('docs/assets/app.js','utf8'),context);
+ context.fixture={window_start:'2026-09-18T06:00:00Z',window_end:'2026-09-19T06:00:00Z',station_guidance:{MOS:{station:'KMDW',status:'ok',issued_at:new Date().toISOString(),mos_maximum:{temperature_f:99},points:[
+  {valid_at:'2026-09-18T09:00:00Z',temperature_f:72},
+  {valid_at:'2026-09-18T06:00:00+00:00',temperature_f:70},
+  {valid_at:'2026-09-18T12:00:00Z',temperature_f:null},
+  {valid_at:'invalid',temperature_f:75},
+  {valid_at:'2026-09-19T06:00:00Z',temperature_f:76}]}}};
+ let result=vm.runInContext("mosChartSeries(fixture,{icao:'KMDW'})",context);
+ assert.equal(result.points.length,2);assert.equal(result.points[0].median,70);
+ assert.equal(result.markers,true);assert.match(result.name,/native samples/);
+ const svg=vm.runInContext("chart([mosChartSeries(fixture,{icao:'KMDW'})],[],'Etc/GMT+6')",context);
+ assert.equal((svg.match(/<circle /g)||[]).length,2);assert.doesNotMatch(svg,/NaN|99\.0°F/);
+ assert.equal(vm.runInContext("mosChartSeries(fixture,{icao:'KORD'})",context),null);
+ context.fixture.station_guidance.MOS.issued_at=new Date(Date.now()-13*3600000).toISOString();
+ assert.match(vm.runInContext("mosChartSeries(fixture,{icao:'KMDW'}).name",context),/stale/);
+ context.fixture.station_guidance.MOS.points=[];
+ assert.equal(vm.runInContext("mosChartSeries(fixture,{icao:'KMDW'})",context),null);
+ assert.equal(vm.runInContext("mosChartSeries({},{icao:'KMDW'})",context),null);
+});
 test('Meteoblue expiry blocks only forecasts that include it',()=>{
  const now=Date.now(),stamp=new Date(now).toISOString();
  const d={meteoblue:{expires_at:new Date(now-1000).toISOString()},model_inputs:[{model:'METEOBLUE',included:true}]};
