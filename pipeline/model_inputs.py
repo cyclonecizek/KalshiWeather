@@ -33,6 +33,16 @@ def describe_inputs(settings, kind, day):
                     rows[-1]['value'] = nws.get('value')
                     rows[-1]['status'] = ('Available for comparison; excluded from observation-conditioned blend'
                         if nws.get('value') is not None else nws['message'])
+            if model == 'METEOBLUE' and settings['temperature']['sources']['meteoblue'].get('publish_values'):
+                mb = day.get('meteoblue') or {}
+                rows[-1]['retrieved_at'] = mb.get('retrieved_at')
+                rows[-1]['expires_at'] = mb.get('expires_at')
+                if not included:
+                    rows[-1]['value'] = mb.get('tmax' if kind == 'temperature' else 'pop')
+                    rows[-1]['status'] = ('Older guidance; comparison only, excluded from blend' if mb.get('stale') else
+                        'Available for comparison; excluded from observation-conditioned blend' if mb else
+                        {'budget_exhausted':'App daily call budget exhausted', 'request_failed':'Meteoblue request failed',
+                         'empty_response':'No usable forecast returned'}.get(day.get('meteoblue_status'),'Unavailable for this forecast'))
     google = day.get('weathernext')
     if google:
         rows.append(dict(model='WEATHERNEXT2', family='Google AI research', included=False,

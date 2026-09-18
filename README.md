@@ -1,5 +1,7 @@
 # Kalshi Weather Forecast Desk
 
+Meteoblue uses an 80-call app budget per UTC day and an eight-hour operational cache. Calls are shared by both boards at identical locations; different settlement stations are cached separately. Cache records use absolute forecast dates to survive midnight safely. Forecasts up to 48 hours old remain visible for comparison with their original retrieval time, but expired guidance is excluded from new blends. Recommendations from an older snapshot are blocked if a contributing Meteoblue forecast expires. The app reports its own call count, not the provider's actual credit balance. No account upgrade is performed.
+
 NWS forecaster guidance remains visible in the model table when observations exclude it from the operational blend. Its zero weight and exclusion reason are explicit. New snapshots archive native valid periods, retrieval time, and NWS XML product-generation time. The XML feed does not supply a reliable forecast issue time, so it is labeled unavailable rather than inferred from retrieval. Downloads retry up to three times; failures and missing valid periods are distinct, and failed retrievals do not silently reuse old values.
 
 ## Google WeatherNext 2

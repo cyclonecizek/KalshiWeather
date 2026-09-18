@@ -10,6 +10,12 @@ def order_fee(price,quantity,rate=.07):
 
 def eligibility(city,day,quote,edge,settings,calibration=None,now=None):
     cfg=settings['execution'];now=now or datetime.now(timezone.utc);why=[]
+    if any(r.get('model')=='METEOBLUE' and r.get('included') for r in day.get('model_inputs',[])):
+        try:
+            if datetime.fromisoformat(day['meteoblue']['expires_at']) <= now:
+                why.append('Meteoblue input is stale; refresh forecast')
+        except (KeyError, TypeError, ValueError):
+            why.append('Meteoblue input age unknown; refresh forecast')
     if not day.get('settlement',{}).get('verified'):why.append('Settlement definition unverified')
     if not quote.get('executable'):why.append('Executable bid and ask unavailable')
     if not day.get('fee_verified'):why.append('Series fee metadata unverified')

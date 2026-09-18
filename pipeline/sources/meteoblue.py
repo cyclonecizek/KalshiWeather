@@ -47,6 +47,8 @@ THRESHOLD_MM = 0.254
 RAINSPOT_CELLS = 49
 RAINSPOT_CENTRE = 24          # middle of a 7x7 grid, ordered SW -> NE
 STATUS = {}
+DISPLAY = {}
+BUDGET = {}
 
 
 def publication_status(cfg, data):
@@ -63,9 +65,11 @@ def publication_status(cfg, data):
     message = (f'Meteoblue daily guidance is available for {len(data)} stations.' if data else
                'No usable Meteoblue daily guidance was returned for this update.')
     if limited:
-        message += f' The daily call limit prevented refreshing {limited} stations.'
+        message += f' The app daily call budget prevented refreshing {limited} stations (not a confirmed provider quota limit).'
     return {'state': 'available' if data else 'unavailable', 'message': message,
-            'stations': len(data), 'failures': failures, 'budget_limited': limited}
+            'stations': len(data), 'failures': failures, 'budget_limited': limited,
+            'stale_stations': sum(any(d.get('stale') for d in days.values()) for days in DISPLAY.values()),
+            'app_budget': dict(BUDGET)}
 
 
 # ---------------------------------------------------------------------------
@@ -193,6 +197,8 @@ def _day_value(block, date_str, key):
 def fetch(cities, cfg, day_offsets=(0, 1)):
     """-> {city: {offset: {tmax, temp_spread, predictability, pop, rainspot}}}"""
     STATUS.clear()
+    DISPLAY.clear()
+    BUDGET.clear()
     key = os.environ.get("METEOBLUE_KEY") or cfg.get("api_key")
     if not key:
         return {}
@@ -206,6 +212,9 @@ def fetch(cities, cfg, day_offsets=(0, 1)):
     spent = cache["calls"].get(today_utc, 0)
     budget = cfg.get("max_calls_per_day", 25)
     max_age = timedelta(hours=cfg.get("cache_hours", 8))
+    display_age = timedelta(hours=cfg.get('display_cache_hours', 48))
+    BUDGET.update(calls_used=spent, calls_limit=budget, reset_timezone='UTC',
+                  estimated_credits_per_call=estimate_credits(cfg), provider_balance='unknown')
 
     # Which sub-daily package carries rainSPOT depends on what your key is
     # provisioned for. meteoblue's sample URL shows you: if it reads
@@ -224,11 +233,24 @@ def fetch(cities, cfg, day_offsets=(0, 1)):
     for c in targets:
         tz = ZoneInfo(c["tz"])
         local_today = datetime.now(tz).date()
-        ckey = f"{c['name']}|{local_today.isoformat()}"
+        # Exact location matters: Chicago rain and temperature use different stations.
+        # Absolute forecast dates allow reuse across midnight without shifting days.
+        ckey = json.dumps([c['name'], c['lat'], c['lon'], c.get('elevation_m'), c['tz'], packages])
         entry = cache["data"].get(ckey)
+        cached = {}
+        if entry and _fresh(entry.get('at'), display_age):
+            stale = not _fresh(entry['at'], max_age)
+            for off in day_offsets:
+                date = (local_today+timedelta(days=off)).isoformat()
+                rec = entry.get('dates', {}).get(date)
+                if rec:
+                    cached[off] = {**rec, 'retrieved_at': entry['at'], 'stale': stale,
+                        'expires_at': (datetime.fromisoformat(entry['at'])+max_age).isoformat()}
+            if cached:
+                DISPLAY[c['name']] = cached
 
-        if entry and _fresh(entry.get("at"), max_age):
-            out[c["name"]] = {int(k): {**v, 'retrieved_at': entry['at']} for k, v in entry["days"].items() if int(k) in day_offsets}
+        if cached and not stale and all(off in cached for off in day_offsets):
+            out[c['name']] = cached
             STATUS[c['name']] = 'cached'
             served += 1
             continue
@@ -250,6 +272,7 @@ def fetch(cities, cfg, day_offsets=(0, 1)):
         if c.get("elevation_m") is not None:
             params["asl"] = c["elevation_m"]
         spent += 1
+        BUDGET['calls_used'] = spent
         cache["calls"][today_utc] = spent
         _save_cache(cache_path, cache)
         try:
@@ -266,9 +289,10 @@ def fetch(cities, cfg, day_offsets=(0, 1)):
 
         day = data.get("data_day") or {}
         trend = data.get("trend_day") or {}
-        by_off = {}
-        for off in day_offsets:
-            date_str = (local_today + timedelta(days=off)).isoformat()
+        by_date = {}
+        stamp = datetime.now(timezone.utc).isoformat()
+        for date_str in (day.get('time') or []):
+            date_str = str(date_str)[:10]
             rec = {
                 "tmax": _day_value(day, date_str, "temperature_max"),
                 "pop": _pop(day, date_str),
@@ -278,20 +302,26 @@ def fetch(cities, cfg, day_offsets=(0, 1)):
                              if cfg.get("use_rainspot") else None),
             }
             if any(v is not None for v in rec.values()):
-                rec['retrieved_at'] = datetime.now(timezone.utc).isoformat()
-                by_off[off] = rec
+                rec.update(retrieved_at=stamp, stale=False,
+                    expires_at=(datetime.fromisoformat(stamp)+max_age).isoformat())
+                by_date[date_str] = rec
+
+        by_off = {off: by_date[(local_today+timedelta(days=off)).isoformat()]
+                  for off in day_offsets if (local_today+timedelta(days=off)).isoformat() in by_date}
 
         if by_off:
             STATUS[c['name']] = 'available'
             out[c["name"]] = by_off
+            DISPLAY[c['name']] = by_off
             cache["data"][ckey] = {
-                "at": datetime.now(timezone.utc).isoformat(),
-                "days": {str(k): v for k, v in by_off.items()},
+                "at": stamp,
+                "dates": by_date,
             }
         else:
             STATUS[c['name']] = 'empty_response'
 
     cache["calls"][today_utc] = spent
+    cache['data'] = {k:v for k,v in cache['data'].items() if _fresh(v.get('at'), display_age)}
     cache["calls"] = dict(sorted(cache["calls"].items())[-400:])
     _save_cache(cache_path, cache)
 
