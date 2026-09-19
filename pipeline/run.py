@@ -106,6 +106,8 @@ def changes(day,old,temperature=False):
     return {'summary':'; '.join(vals) or 'No material change','components':vals,'previous_snapshot_at':old.get('generated_at')}
 
 def prepare(kind,settings):
+    from .observation_ml import Engine
+    correction = Engine(DATA) if kind=='temperature' else None
     from .sources import ndfd
     ndfd.DETAILS.clear()
     quality.STATUS.clear();hourly.DETAILS.clear();errors=[]
@@ -232,6 +234,8 @@ def prepare(kind,settings):
             from .model_inputs import describe_inputs
             weathernext.attach(c,off,google,day,settings)
             day['model_inputs']=describe_inputs(settings,kind,day)
+            if correction:
+                correction.attach(c['name'],day,retrieved)
             if not details or (off==0 and (not ob or not ob.get('temperature_complete' if kind=='temperature' else 'precip_complete'))):day['data_quality']='partial'
             days[str(off)]=day
         if days:rows.append(dict(city=c['name'],series=ticker,station=c['station'],icao=c['icao'],tz=c['display_tz'],reporting_tz=c['tz'],verified=c['verified'],days=days))
