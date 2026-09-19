@@ -183,7 +183,7 @@ def prepare(kind,settings):
             day['guidance_centres']=[name for name,by_city in data.items() if len(by_city.get(c['name'],{}).get(off,{}).get(('minima' if kind=='temperature_low' else 'maxima') if kind in TEMPERATURE_KINDS else 'rain_totals',[]))>=3]
             day['n_guidance_centres']=len(day['guidance_centres'])
             from .calibration_review import model_fingerprint
-            day['model_fingerprint']=model_fingerprint()
+            day['model_fingerprint']=model_fingerprint(kind)
             day['horizon']=horizon(day)
             day['station_guidance']=guidance.get(c['name'],{}).get(off,{})
             day['nws_guidance']=ndfd.DETAILS.get((kind,c['name'],off))

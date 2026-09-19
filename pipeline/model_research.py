@@ -316,7 +316,8 @@ def build_report(rows, current_fingerprint):
     for (city, kind, horizon), values in sorted(groups.items()):
         # One latest selected snapshot per date; never treat brackets as dates.
         values = list({r['date']: r for r in sorted(values, key=lambda r: r['issued_at'])}.values())
-        current = [r for r in values if r.get('model_fingerprint') == current_fingerprint]
+        fingerprint = current_fingerprint.get(kind) if isinstance(current_fingerprint, dict) else current_fingerprint
+        current = [r for r in values if r.get('model_fingerprint') == fingerprint]
         out.append(dict(city=city, kind=kind, horizon=horizon, dates=len(values),
             current_dates=len(current), excluded_prior_dates=len(values)-len(current),
             sources=source_summaries(values), weights=weight_candidate(current),

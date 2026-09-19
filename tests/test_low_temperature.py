@@ -37,6 +37,21 @@ def test_low_uses_independent_config_and_calibration():
     assert 'Out-of-sample calibration pending' in result['reasons']
 
 
+def test_low_settings_preserve_legacy_fingerprint_and_use_separate_review():
+    import hashlib
+    from pipeline.calibration_review import model_fingerprint, review
+    cfg = settings()
+    cfg.pop('temperature_low')
+    cfg.pop('execution')
+    legacy = hashlib.sha256(json.dumps(cfg, sort_keys=True).encode()).hexdigest()
+    assert model_fingerprint() == model_fingerprint('temperature') == model_fingerprint('rain') == legacy
+    assert model_fingerprint('temperature_low') != legacy
+    row = dict(city='Chicago', kind='temperature_low', horizon='morning', model_version='2',
+               model_fingerprint=model_fingerprint('temperature_low'), date='2026-09-19',
+               issued_at='2026-09-19T14:00:00+00:00', brier=.1, market_brier=.2, pairs=[(.8,1)])
+    assert review([row])['Chicago|temperature_low|morning']['n'] == 1
+
+
 def test_hourly_minimum_is_memberwise_and_covers_reporting_day(monkeypatch):
     start = datetime(2026, 9, 19, 6, tzinfo=timezone.utc)
     monkeypatch.setattr(hourly, 'local_day_window', lambda *_: (start, start+timedelta(days=1)))
