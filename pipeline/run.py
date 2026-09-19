@@ -110,6 +110,8 @@ def changes(day,old,temperature=False):
 def prepare(kind,settings):
     from .observation_ml import Engine
     correction = Engine(DATA) if kind=='temperature' else None
+    from .temperature_calibration import Engine as CalibrationEngine
+    calibration_engine=CalibrationEngine() if kind in TEMPERATURE_KINDS else None
     from .sources import ndfd
     ndfd.DETAILS.clear()
     quality.STATUS.clear();hourly.DETAILS.clear();errors=[]
@@ -236,6 +238,15 @@ def prepare(kind,settings):
             from .model_inputs import describe_inputs
             weathernext.attach(c,off,google,day,settings)
             day['model_inputs']=describe_inputs(settings,kind,day)
+            if calibration_engine:
+                from .spread import archive as archive_spread, sensitivity
+                archive_spread(day)
+                calibration_engine.attach(c['name'],day,retrieved)
+                day['spread_sensitivity_required']=True
+                for i,b in enumerate(day['ladder']):
+                    checks=sensitivity(day,b['market'],i,fee)
+                    b['spread_sensitivity']=checks
+                    if b.get('edge'):b['edge']['spread_sensitivity']=checks[b['edge']['side']]
             if correction:
                 correction.attach(c['name'],day,retrieved)
             if not details or (off==0 and (not ob or not ob.get('temperature_complete' if kind in TEMPERATURE_KINDS else 'precip_complete'))):day['data_quality']='partial'

@@ -28,6 +28,17 @@ test('low station walkthrough uses low semantics, ceiling and portfolio product 
  assert.match(element('practice-result').innerHTML,/Low in 60/);
  const rows=vm.runInContext('portfolioCandidates()',context);
  assert.ok(rows.length && rows.every(r=>r.kind==='temperature_low'));
+ day.spread_sensitivity_required=true;
+ day.ladder[0].spread_sensitivity={YES:{complete:true,fragile:true},NO:{complete:true,fragile:false}};
+ assert.ok(vm.runInContext('portfolioCandidates()',context)[0].reasons.some(r=>/Advantage disappears/.test(r)));
+ day.ladder[0].spread_sensitivity.YES.fragile=false;
+ assert.ok(!vm.runInContext('portfolioCandidates()',context)[0].reasons.some(r=>/Advantage disappears/.test(r)));
+ delete day.ladder[0].spread_sensitivity.YES;
+ assert.ok(vm.runInContext('portfolioCandidates()',context)[0].reasons.some(r=>/Spread sensitivity unavailable/.test(r)));
+ day.diagnostics={_spread_budget:{note:'Sequential widths',stages:[{stage:'After disagreement',width80:8}],sources:[]}};
+ day.experiments={variants:{mixture:{mode:'distribution',model:'Weighted source mixture',quantiles:M.Q.map(p=>50+10*p)}}};
+ context.spreadDay=day;
+ assert.match(vm.runInContext('spreadDiagnostics(spreadDay)',context),/Weighted source mixture/);
  element('shift').value=10;element('spread').value=2;
  vm.runInContext('previewAdjustment()',context);
  assert.match(element('adjustment-preview').innerHTML,/Automated low/);

@@ -178,8 +178,18 @@ def test_low_builder_quote_refresh_and_verification(monkeypatch):
     assert 'source:GEFS' in day['experiments']['variants']
     assert sum(x['model_p'] for x in day['ladder']) == pytest.approx(1)
     original = deepcopy(day['distribution'])
+    assert day['spread_sensitivity_required']
+    assert len(day['diagnostics']['_spread_budget']['stages']) == 5
+    assert 'distribution:mixture' in day['experiments']['variants']
+    for bracket in day['ladder']:
+        bracket['spread_sensitivity'] = {'stale': True}
     refresh_quotes.refresh(b, cfg, lambda ticker: next(x for x in markets if x['ticker']==ticker), lambda _: 1)
     assert day['distribution'] == original and b['quote_refresh']['failures'] == 0
+    from pipeline.spread import sensitivity
+    for i, bracket in enumerate(day['ladder']):
+        expected=sensitivity(day,bracket['market'],i,bracket['edge']['fee_rate'])
+        assert bracket['spread_sensitivity'] == expected
+        assert bracket['edge']['spread_sensitivity'] == expected[bracket['edge']['side']]
     assert all('Out-of-sample calibration pending' in x['edge']['eligibility']['reasons'] for x in day['ladder'])
     outcomes = {m['ticker']: {'result': int(i==0), 'actual_value': 58, 'status': 'finalized'} for i, m in enumerate(markets)}
     score = performance.score_day('temperature_low', day, outcomes)

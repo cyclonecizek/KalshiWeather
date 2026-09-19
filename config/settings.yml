@@ -41,7 +41,7 @@ families:
   global:
     label: Global ensembles
     weight: 0.32
-    members: [ECMWF_ENS, GEFS, ICON_EPS, GEM_EPS, UKMO_ENS]
+    members: [ECMWF_ENS, GEFS, ICON_EPS, UKMO_ENS]
   mlm:
     label: meteoblue mLM
     weight: 0.23
@@ -98,7 +98,6 @@ calibration:
   ECMWF_ENS: 0.0
   GEFS: 0.0
   ICON_EPS: 0.0
-  GEM_EPS: 0.0
   UKMO_ENS: 0.0
   # meteoblue defines POP at >0.2 mm; Kalshi's bar is 0.254 mm. Theirs
   # answers an easier question so it reads high. Start negative and fit
@@ -144,7 +143,6 @@ sources:
       ECMWF_ENS: ecmwf_ifs025_ensemble
       GEFS: ncep_gefs025
       ICON_EPS: icon_seamless
-      GEM_EPS: gem_global_ensemble
       # Open-Meteo rejected `ukmo_global_ensemble`. The likely id is
       # `ukmo_global_ensemble_20km`; re-run the probe after changing it and
       # delete this entry if it still 400s. Four ensembles already give ~143
@@ -235,7 +233,7 @@ temperature:
     global_ens:
       label: Global ensembles
       weight: 0.35
-      members: [ECMWF_ENS, GEFS, ICON_EPS, GEM_EPS, UKMO_ENS]
+      members: [ECMWF_ENS, GEFS, ICON_EPS, UKMO_ENS]
     # MOS dropped; NDFD does not simply inherit its share. NDFD is a single
     # deterministic number and it is forecaster-edited NBM, so it is not an
     # independent opinion -- the weight goes to the ensembles instead.
@@ -372,7 +370,7 @@ temperature_low:
     global_ens:
       label: Global ensembles (calendar-day minima)
       weight: 1.0
-      members: [ECMWF_ENS, GEFS, ICON_EPS, GEM_EPS, UKMO_ENS]
+      members: [ECMWF_ENS, GEFS, ICON_EPS, UKMO_ENS]
   bias: {}
   spread_factor: 1.0
   disagreement_factor: 1.0

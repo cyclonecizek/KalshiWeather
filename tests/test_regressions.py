@@ -169,7 +169,7 @@ def test_complete_builder_and_publisher_with_recorded_inputs(monkeypatch,tmp_pat
  now=datetime.now(UTC)
  def ensemble(cities,cfg,offsets):
   result={}
-  for model in ['GEFS','ICON_EPS','GEM_EPS']:
+  for model in ['GEFS','ICON_EPS','UKMO_ENS']:
    result[model]={}
    for c in cities:
     days={}
