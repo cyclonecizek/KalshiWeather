@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-19T00:32:11.086430+00:00",
+ "generated_at": "2026-09-19T01:39:35.229339+00:00",
  "model_version": "2",
  "selection": "Latest snapshot within 6 hours before each fixed reporting-hour cutoff",
  "cutoffs": {
@@ -93066,5 +93066,9 @@
   "max_group_dates": 12,
   "independence": "Uncertainty should be estimated by date blocks, not bracket count."
  },
- "note": "Paper orders are proposals. No fills or realized profits are assumed. Market comparisons use the same archived snapshot, but are not executable ask prices."
+ "note": "Paper orders are proposals. No fills or realized profits are assumed. Market comparisons use the same archived snapshot, but are not executable ask prices.",
+ "observation_ml": {
+  "records": [],
+  "note": "Prospective archived predictions only. Compared with the existing observation-adjusted forecast; city and horizon records on one date are correlated. Candidate weights are not applied."
+ }
 }
