@@ -47,8 +47,10 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
     fam_sets, weights, diag = [], [], {}
     sigmas = tcfg.get('deterministic_sigma', {})
     cfgo = obs_cfg or {}
+    minimum = tcfg.get('extremum') == 'minimum'
+    observed_key = 'min_f' if minimum else 'max_f'
     usable_obs = bool(obs and obs.get('temperature_complete') and
-                      age_minutes(obs.get('latest_at')) <= 90 and obs.get('max_f') is not None)
+                      age_minutes(obs.get('latest_at')) <= 90 and obs.get(observed_key) is not None)
     for fam_key, fam in tcfg['families'].items():
         curves=[]; source_weights=[]
         for model in fam['members']:
@@ -61,8 +63,14 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
             if mem and len(mem)>=3:
                 q=members_to_quantiles(mem)
                 if usable_obs and detail:
-                    q=apply_observation(q,obs['max_f'],remaining=detail['remaining'],
+                    # min(T) = -max(-T); reflect the complete quantile curve
+                    # and remaining member trajectories, not the daily high.
+                    remaining = detail['remaining_minima' if minimum else 'remaining']
+                    q=apply_observation([-x for x in reversed(q)] if minimum else q,
+                        -obs[observed_key] if minimum else obs[observed_key],
+                        remaining=[-x if x is not None else None for x in remaining] if minimum else remaining,
                         tolerance=cfgo.get('tolerance_f',.5),min_spread=cfgo.get('min_spread_f',1.4))
+                    if minimum:q=[-x for x in reversed(q)]
                 curves.append(q); source_weights.append(model_weight)
                 diag[model]={'type':'ensemble','n':len(mem),'median':round(q[len(q)//2],2),'p10':q[3],'p90':q[11],'quantiles':q}
             elif not usable_obs:
@@ -94,16 +102,20 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
     from .tempdist import _probit,QUANTILES
     sigma=max((quants[11]-quants[3])/2.5631,.3)
     quants=adjust(quants,0,(1+tcfg.get('disagreement_factor',1)*between**2/sigma**2)**.5)
-    floor=None
+    floor=None;ceiling=None
     if usable_obs:
-        floor=obs['max_f']-cfgo.get('tolerance_f',.5)
-        quants=[max(floor,v) for v in quants]
-        diag['_observed_max']=obs['max_f']
+        if minimum:
+            ceiling=obs['min_f']+cfgo.get('tolerance_f',.5)
+            quants=[min(ceiling,v) for v in quants]
+        else:
+            floor=obs['max_f']-cfgo.get('tolerance_f',.5)
+            quants=[max(floor,v) for v in quants]
+        diag['_observed_min' if minimum else '_observed_max']=obs[observed_key]
         diag['_obs_source']=obs['source']
         diag['_intraday_method']='remaining_hour_ensembles'
     diag.update(_n_families=len(fam_sets),_bias=bias,_spread_factor=spread,
                 _between_family_sd=between,_observation_used=usable_obs)
-    return Dist(quants,floor=floor),diag
+    return Dist(quants,floor=floor,ceiling=ceiling),diag
 
 
 def evaluate_bracket(p, quote, fee_mult, tcfg):

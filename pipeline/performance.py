@@ -117,7 +117,7 @@ def adjustment_scores(adjustments,outcomes):
     for a in adjustments:
         ys=[outcomes.get(t,{}).get('result') for t in a['tickers']]
         if any(y is None for y in ys):continue
-        if a['kind']=='temperature' and sum(ys)!=1:continue
+        if a['kind'] in ('temperature','temperature_low') and sum(ys)!=1:continue
         result.append({'id':a['id'],'city':a['city'],'date':a['date'],'kind':a['kind'],'reason':a['reason'],
             'automatic_brier':sum((p-y)**2 for p,y in zip(a['automatic_probabilities'],ys)),
             'adjusted_brier':sum((p-y)**2 for p,y in zip(a['adjusted_probabilities'],ys))})
@@ -155,7 +155,8 @@ def publish(fetch_outcomes=True):
             'max_group_dates':max((g['distinct_dates'] for g in groups),default=0),
             'independence':'Uncertainty should be estimated by date blocks, not bracket count.'},
         'note':'Paper orders are proposals. No fills or realized profits are assumed. Market comparisons use the same archived snapshot, but are not executable ask prices.'}
-    research=build_report(research_rows,model_fingerprint())
+    from .products import BOARD_FILES
+    research=build_report(research_rows,{kind:model_fingerprint(kind) for kind in BOARD_FILES})
     report['observation_ml']={'records':correction_scores,
         'note':'Prospective archived predictions only. Compared with the existing observation-adjusted forecast; city and horizon records on one date are correlated. Candidate weights are not applied.'}
     research['generated_at']=report['generated_at']

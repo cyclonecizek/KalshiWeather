@@ -44,7 +44,7 @@ def archive_temperature(city, off, members, point, cfg, day, obs=None,
                                     obs=obs, obs_cfg=obs_cfg, nbm_sigma=nbm_sigma)
         if dist is not None:
             out[key] = {**meta, 'probabilities': [dist.prob_between(b['lo'], b['hi'])
-                         for b in day['ladder']], 'quantiles': dist.v, 'floor': dist.floor}
+                         for b in day['ladder']], 'quantiles': dist.v, 'floor': dist.floor, 'ceiling': dist.ceiling}
     return {'version': VERSION, 'tickers': [b['market']['ticker'] for b in day['ladder']],
             'variants': out}
 

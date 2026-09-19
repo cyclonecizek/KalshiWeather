@@ -27,7 +27,7 @@ def finite(x):
 def probability_scores(kind, ps, ys, quantiles=None, actual=None):
     if not ps or len(ps) != len(ys) or not all(finite(p) and 0 <= p <= 1 for p in ps):
         return None
-    if kind == 'temperature' and (sum(ys) != 1 or abs(sum(ps) - 1) > 1e-6):
+    if kind in ('temperature', 'temperature_low') and (sum(ys) != 1 or abs(sum(ps) - 1) > 1e-6):
         return None
     loss = (-math.log(max(1e-8, ps[0] if ys[0] else 1 - ps[0])) if kind == 'rain'
             else -math.log(max(1e-8, sum(p*y for p, y in zip(ps, ys)))))
@@ -84,6 +84,7 @@ def record_for_day(record, day, outcomes):
     return dict(record, baseline=baseline, variants=variants,
                 settled_at=max(settled) if all(settled) else None,
                 bounds=[(b['lo'], b['hi']) for b in day.get('ladder', [])],
+                ceiling=day.get('distribution', {}).get('ceiling'),
                 floor=day.get('distribution', {}).get('floor'))
 
 
@@ -232,6 +233,8 @@ def adjusted_temperature(row, shift, factor):
               for x, p in zip(q, QUANTILES)]
     if row.get('floor') is not None:
         values = [max(row['floor'], x) for x in values]
+    if row.get('ceiling') is not None:
+        values = [min(row['ceiling'], x) for x in values]
     return values
 
 
@@ -257,7 +260,7 @@ def temperature_candidate(rows):
     scores = []
     for r in test:
         q = adjusted_temperature(r, shift, factor)
-        dist = Dist(q, floor=r.get('floor'))
+        dist = Dist(q, floor=r.get('floor'), ceiling=r.get('ceiling'))
         score = probability_scores('temperature', [dist.prob_between(lo, hi) for lo, hi in r['bounds']],
                                    [y for _, y in r['pairs']], q, r['actual'])
         if score is None:
@@ -313,11 +316,12 @@ def build_report(rows, current_fingerprint):
     for (city, kind, horizon), values in sorted(groups.items()):
         # One latest selected snapshot per date; never treat brackets as dates.
         values = list({r['date']: r for r in sorted(values, key=lambda r: r['issued_at'])}.values())
-        current = [r for r in values if r.get('model_fingerprint') == current_fingerprint]
+        fingerprint = current_fingerprint.get(kind) if isinstance(current_fingerprint, dict) else current_fingerprint
+        current = [r for r in values if r.get('model_fingerprint') == fingerprint]
         out.append(dict(city=city, kind=kind, horizon=horizon, dates=len(values),
             current_dates=len(current), excluded_prior_dates=len(values)-len(current),
             sources=source_summaries(values), weights=weight_candidate(current),
-            calibration=(temperature_candidate(current) if kind == 'temperature' else rain_candidate(current))))
+            calibration=(temperature_candidate(current) if kind in ('temperature', 'temperature_low') else rain_candidate(current))))
     return dict(schema_version=1, model_fingerprint=current_fingerprint, groups=out,
         note='Research forecasts only. No candidate changes live probabilities, approves calibration, or places orders.',
         methods={'bias':'Forecast minus observed: positive is warm.',

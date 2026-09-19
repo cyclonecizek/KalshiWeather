@@ -30,7 +30,7 @@ def eligibility(city,day,quote,edge,settings,calibration=None,now=None):
         key=f"{city}|{day.get('kind')}|{day.get('horizon')}"
         fitted=(calibration or {}).get(key,{})
         from .calibration_review import model_fingerprint
-        if not fitted.get('validated') or fitted.get('n',0)<20 or fitted.get('model_version')!='2' or fitted.get('model_fingerprint')!=model_fingerprint():why.append('Out-of-sample calibration pending')
+        if not fitted.get('validated') or fitted.get('n',0)<20 or fitted.get('model_version')!='2' or fitted.get('model_fingerprint')!=model_fingerprint(day.get('kind')):why.append('Out-of-sample calibration pending')
     elapsed=day.get('elapsed',0)
     try:
         start=datetime.fromisoformat(day['window_start']);end=datetime.fromisoformat(day['window_end'])

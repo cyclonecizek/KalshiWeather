@@ -18,6 +18,7 @@ def configure_cities(cities,kind):
         c['display_tz']=c['tz']
         c.update({k:spec[k] for k in ('station','icao','lat','lon','elevation_m')})
         c['tz']=spec['reporting_timezone'];c['settlement']=spec
+        if kind=='temperature_low':c['series_low']=spec['series']
         c['verified']=bool(spec.get('station_verified') and spec.get('window_verified'))
         out.append(c)
     return out
@@ -34,6 +35,10 @@ def verify(city,markets,date=None):
             reasons.append('Current rules do not confirm the configured source')
         if spec.get('kind')=='rain' and not re.search(r'strictly greater than 0 inches',rules,re.I):
             reasons.append('Rain threshold changed; review rules')
+        if spec.get('kind')=='temperature_low' and not re.search(r'minimum temperature',rules,re.I):
+            reasons.append('Current rules do not confirm daily minimum temperature')
+        if spec.get('kind')=='temperature_low' and m.get('event_ticker','').split('-')[0]!=spec.get('series'):
+            reasons.append('Current rules do not match the configured low-temperature series')
     if date:
         try:
             start=datetime.combine(datetime.fromisoformat(date).date(),datetime.min.time(),ZoneInfo(spec['reporting_timezone']))

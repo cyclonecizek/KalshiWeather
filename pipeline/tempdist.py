@@ -119,8 +119,9 @@ def adjust(quants, bias=0.0, spread_factor=1.0):
 class Dist:
     """A continuous distribution defined by a quantile curve, with Gaussian tails."""
 
-    def __init__(self, quants, qs=QUANTILES, floor=None):
+    def __init__(self, quants, qs=QUANTILES, floor=None, ceiling=None):
         self.floor = floor
+        self.ceiling = ceiling
         self.v = list(quants)
         self.q = list(qs)
         # Tail sigmas fitted from the outermost quantile pairs, so the tail
@@ -134,6 +135,8 @@ class Dist:
         v, q = self.v, self.q
         if self.floor is not None and x <= self.floor:
             return 0.0
+        if self.ceiling is not None and x >= self.ceiling:
+            return 1.0
         if x <= v[0]:
             z = (x - v[0]) / self.lo_sigma + _probit(q[0])
             return min(_ndtr(z), q[0])
@@ -174,7 +177,8 @@ class Dist:
             value = v[0] + self.lo_sigma * (_probit(p) - _probit(q[0]))
             return max(self.floor,value) if self.floor is not None else value
         if p >= q[-1]:
-            return v[-1] + self.hi_sigma * (_probit(p) - _probit(q[-1]))
+            value = v[-1] + self.hi_sigma * (_probit(p) - _probit(q[-1]))
+            return min(self.ceiling,value) if self.ceiling is not None else value
         i = bisect_left(q, p)
         if i == 0:
             return v[0]

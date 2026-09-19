@@ -7,6 +7,7 @@ from .run import ROOT,DATA,read_json,validate,set_edge_depth
 from . import policy,settlement
 from .build_temp import evaluate_bracket
 from .blend import evaluate
+from .products import TEMPERATURE_KINDS, BOARD_FILES, temperature_config
 from .brackets import implied_distribution,implied_quantiles
 
 
@@ -44,8 +45,8 @@ def refresh(board,settings,fetch_market,fetch_fee,depth=None):
         rate=effective_fee_rate(multiplier,.07)
         day['fee_verified']=multiplier is not None
         q['fee_multiplier']=multiplier
-        if board['kind']=='temperature':
-            b['market']=q;b['edge']=evaluate_bracket(b['model_p'],q,rate,settings['temperature'])
+        if board['kind'] in TEMPERATURE_KINDS:
+            b['market']=q;b['edge']=evaluate_bracket(b['model_p'],q,rate,temperature_config(settings,board['kind']))
             edge=b['edge']
         else:
             day['market']=q;day['edge']=evaluate(day['consensus'],q,settings);edge=day['edge']
@@ -63,7 +64,7 @@ def refresh(board,settings,fetch_market,fetch_fee,depth=None):
             spec=settlement.verify({'settlement':day.get('settlement',{})},[r for r in raws if r],day['date'])
             if any(r is None for r in raws):spec.update(verified=False,reasons=spec['reasons']+['Current contract rules unavailable'])
             day['settlement']=spec
-            if board['kind']=='temperature':
+            if board['kind'] in TEMPERATURE_KINDS:
                 probabilities,overround=implied_distribution(brackets)
                 for b,p in zip(brackets,probabilities):b['implied']=p
                 day['overround']=overround
@@ -83,7 +84,7 @@ def main():
     kal=Kalshi(base)
     def market(ticker):return Kalshi(base).market(ticker)
     def fee(series):return kal._get('/series/'+series)['series'].get('fee_multiplier')
-    for name in ['board.json','board_temp.json']:
+    for name in BOARD_FILES.values():
         board=read_json(DATA/name)
         if not board.get('cities'):continue
         refresh(board,settings,market,fee,lambda q,e:set_edge_depth(kal,q,e))

@@ -12,6 +12,7 @@ from .blend import blend,evaluate
 from .brackets import build_ladder,pick_ladder,implied_distribution,implied_quantiles,coverage_gaps,check_arbitrage
 from .build_temp import build_distribution,evaluate_bracket,_is_for_date
 from .tempdist import Dist
+from .products import TEMPERATURE_KINDS, BOARD_FILES, HISTORY_PREFIXES, temperature_config
 from .sources import hourly,openmeteo,temp_sources,observations,nws_text,nbm_temp,gribprob,meteoblue,station_guidance,weathernext
 
 ROOT=Path(__file__).resolve().parent.parent
@@ -72,9 +73,10 @@ def changes(day,old,temperature=False):
     vals=[]
     if temperature:
         current=(day.get('distribution') or {}).get('median');past=(old.get('distribution') or {}).get('median')
-        if current is not None and past is not None:vals.append(f'High forecast {current-past:+.1f} F')
-        x=(day.get('observed') or {}).get('max_f');y=(old.get('observed') or {}).get('max_f')
-        if x is not None and y is not None and abs(x-y)>.05:vals.append(f'Observed maximum {x-y:+.1f} F')
+        if current is not None and past is not None:vals.append(f"{'Low' if day.get('kind')=='temperature_low' else 'High'} forecast {current-past:+.1f} F")
+        field='min_f' if day.get('kind')=='temperature_low' else 'max_f'
+        x=(day.get('observed') or {}).get(field);y=(old.get('observed') or {}).get(field)
+        if x is not None and y is not None and abs(x-y)>.05:vals.append(f"Observed {'minimum' if field=='min_f' else 'maximum'} {x-y:+.1f} F")
         prev={b['market']['ticker']:b for b in old.get('ladder',[])}
         for b in day['ladder']:
             before=prev.get(b['market']['ticker'])
@@ -114,7 +116,7 @@ def prepare(kind,settings):
     cities=settlement.configure_cities(load_yaml(ROOT/'config/cities.yml')['cities'],kind)
     if os.getenv('WEATHER_CITIES'):
         selected=set(os.environ['WEATHER_CITIES'].split(','));cities=[c for c in cities if c['name'] in selected]
-    src=settings['sources'];tcfg=settings['temperature'];kal=Kalshi(src['kalshi']['base'])
+    src=settings['sources'];tcfg=temperature_config(settings,kind) if kind in TEMPERATURE_KINDS else settings['temperature'];kal=Kalshi(src['kalshi']['base'])
     offsets=(0,1)
     guidance=capture('MOS/LAMP comparison',lambda:station_guidance.fetch(cities,offsets),errors)
     data=capture('ensembles',lambda:hourly.fetch(cities,src['openmeteo'],offsets),errors)
@@ -122,7 +124,7 @@ def prepare(kind,settings):
     obs=capture('observations',lambda:per_city(observations.fetch,cities,offsets,src.get('observations')),errors)
     point={};probs={};members={};nbmt={}
     for model,by_city in data.items():
-        members[model]={c:{off:d['maxima'] for off,d in days.items()} for c,days in by_city.items()}
+        members[model]={c:{off:d['minima' if kind=='temperature_low' else 'maxima'] for off,d in days.items()} for c,days in by_city.items()}
         probs[model]={c:{off:hourly.rain_probability(d,(obs.get(c) or {}).get(off))[0]
             for off,d in days.items()} for c,days in by_city.items()}
     if kind=='temperature':
@@ -131,7 +133,7 @@ def prepare(kind,settings):
         if cfg.get('enabled'):
             nbmt=capture('NBM_T',lambda:nbm_temp.fetch(cities,cfg,offsets),errors)
             point['NBM_T']={c:{off:d['mean_f'] for off,d in days.items()} for c,days in nbmt.items()}
-    else:
+    elif kind=='rain':
         probs['NDFD']=capture('NDFD',lambda:per_city(nws_text.fetch_ndfd,cities,src['ndfd'],settings.get('pop_stitch_rho',.5),offsets),errors)
         cfg=src.get('nbm',{})
         if cfg and cfg.get('enabled',True):
@@ -148,7 +150,7 @@ def prepare(kind,settings):
     market_cache={};rows=[];retrieved=now_iso()
     if kind=='rain':market_cache['KXRAIN']=kal.markets_for_series('KXRAIN')
     for c in cities:
-        ticker=c['series_high'] if kind=='temperature' else 'KXRAIN'
+        ticker=c['series_low' if kind=='temperature_low' else 'series_high'] if kind in TEMPERATURE_KINDS else 'KXRAIN'
         if ticker not in market_cache:
             try:market_cache[ticker]=kal.markets_for_series(ticker)
             except Exception as exc:
@@ -178,14 +180,14 @@ def prepare(kind,settings):
                 day['meteoblue_status']=meteoblue.STATUS.get(c['name'],'unavailable')
                 if meteoblue.DISPLAY.get(c['name'],{}).get(off):
                     day['meteoblue']=meteoblue.DISPLAY[c['name']][off]
-            day['guidance_centres']=[name for name,by_city in data.items() if len(by_city.get(c['name'],{}).get(off,{}).get('maxima' if kind=='temperature' else 'rain_totals',[]))>=3]
+            day['guidance_centres']=[name for name,by_city in data.items() if len(by_city.get(c['name'],{}).get(off,{}).get(('minima' if kind=='temperature_low' else 'maxima') if kind in TEMPERATURE_KINDS else 'rain_totals',[]))>=3]
             day['n_guidance_centres']=len(day['guidance_centres'])
             from .calibration_review import model_fingerprint
-            day['model_fingerprint']=model_fingerprint()
+            day['model_fingerprint']=model_fingerprint(kind)
             day['horizon']=horizon(day)
             day['station_guidance']=guidance.get(c['name'],{}).get(off,{})
             day['nws_guidance']=ndfd.DETAILS.get((kind,c['name'],off))
-            if kind=='temperature':
+            if kind in TEMPERATURE_KINDS:
                 dist,diag=build_distribution(c,off,members,point,tcfg,errors,obs=ob,obs_cfg=src.get('observations'),
                     nbm_sigma=nbmt.get(c['name'],{}).get(off,{}).get('sd_f'))
                 baseline,_=build_distribution(c,off,members,point,tcfg,errors,obs=None,
@@ -196,7 +198,7 @@ def prepare(kind,settings):
                 mq=implied_quantiles(ladder,implied)
                 day.update(ladder=ladder,gaps=gaps,overround=overround,
                     market_forecast={'median':mq.get(.5),'p10':mq.get(.1),'p90':mq.get(.9)} if mq else None,
-                    distribution={'median':dist.median(),'p10':dist.quantile(.1),'p90':dist.quantile(.9),'quantiles':dist.v,'floor':dist.floor},
+                    distribution={'median':dist.median(),'p10':dist.quantile(.1),'p90':dist.quantile(.9),'quantiles':dist.v,'floor':dist.floor,'ceiling':dist.ceiling},
                     baseline_distribution={'quantiles':baseline.v} if baseline else None,
                     diagnostics=diag,n_families=diag.get('_n_families',0),arbitrage=check_arbitrage(ladder,fee))
                 if gaps:day['data_quality']='partial'
@@ -226,7 +228,7 @@ def prepare(kind,settings):
                 day['edge']=evaluate(p,q,settings);set_edge_depth(kal,q,day['edge'])
                 if day['edge']:day['edge']['fee_rate']=fee
             from .experiments import archive_temperature,archive_rain
-            if kind=='temperature':
+            if kind in TEMPERATURE_KINDS:
                 day['experiments']=archive_temperature(c,off,members,point,tcfg,day,obs=ob,
                     obs_cfg=src.get('observations'),nbm_sigma=nbmt.get(c['name'],{}).get(off,{}).get('sd_f'))
             else:
@@ -236,7 +238,7 @@ def prepare(kind,settings):
             day['model_inputs']=describe_inputs(settings,kind,day)
             if correction:
                 correction.attach(c['name'],day,retrieved)
-            if not details or (off==0 and (not ob or not ob.get('temperature_complete' if kind=='temperature' else 'precip_complete'))):day['data_quality']='partial'
+            if not details or (off==0 and (not ob or not ob.get('temperature_complete' if kind in TEMPERATURE_KINDS else 'precip_complete'))):day['data_quality']='partial'
             days[str(off)]=day
         if days:rows.append(dict(city=c['name'],series=ticker,station=c['station'],icao=c['icao'],tz=c['display_tz'],reporting_tz=c['tz'],verified=c['verified'],days=days))
     for model in src['openmeteo']['models']:
@@ -247,7 +249,7 @@ def prepare(kind,settings):
             day['source_warnings']=[s for s in quality.STATUS.values() if s['city']==row['city'] and s['status']!='ok']
     return dict(schema_version=2,model_version='2',kind=kind,generated_at=now_iso(),snapshot_id=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H%M%S.%fZ')+'-'+uuid.uuid4().hex[:8],
         errors=sorted(set(errors)),source_status=list(quality.STATUS.values()),cities=rows,
-        families=copy.deepcopy(tcfg['families'] if kind=='temperature' else settings['families']),
+        families=copy.deepcopy(tcfg['families'] if kind in TEMPERATURE_KINDS else settings['families']),
         meteoblue_enabled=bool(mb),meteoblue_published=bool(mbcfg.get('publish_values')),
         meteoblue_status=meteoblue.publication_status(mbcfg,mb),
         restricted_source_policy='excluded_from_public_numeric_products' if not mbcfg.get('publish_values') else 'publication_enabled',
@@ -257,7 +259,7 @@ def validate(board):
     if not board.get('cities'):raise ValueError('No usable cities; keeping last good board')
     for c in board['cities']:
         for d in c['days'].values():
-            if board['kind']=='temperature':
+            if board['kind'] in TEMPERATURE_KINDS:
                 qs=d['distribution']['quantiles']
                 if qs!=sorted(qs):raise ValueError('Non-monotone quantiles')
                 ps=[b['model_p'] for b in d['ladder']]
@@ -266,12 +268,12 @@ def validate(board):
             if any(not isinstance(p,(int,float)) or not 0<=p<=1 for p in ps):raise ValueError('Invalid probability')
             experiments=d.get('experiments')
             if experiments:
-                expected=[b['market']['ticker'] for b in d.get('ladder',[])] if board['kind']=='temperature' else [d['market']['ticker']]
+                expected=[b['market']['ticker'] for b in d.get('ladder',[])] if board['kind'] in TEMPERATURE_KINDS else [d['market']['ticker']]
                 if experiments.get('tickers')!=expected:raise ValueError('Experiment brackets do not match the forecast')
                 for candidate in experiments.get('variants',{}).values():
                     probabilities=candidate['probabilities']
                     if len(probabilities)!=len(expected) or any(not isinstance(p,(int,float)) or not 0<=p<=1 for p in probabilities):raise ValueError('Invalid experiment probabilities')
-                    if board['kind']=='temperature' and not d['gaps'] and abs(sum(probabilities)-1)>1e-5:raise ValueError('Experiment probabilities do not sum to one')
+                    if board['kind'] in TEMPERATURE_KINDS and not d['gaps'] and abs(sum(probabilities)-1)>1e-5:raise ValueError('Experiment probabilities do not sum to one')
                     if not board['meteoblue_published'] and candidate.get('model')=='METEOBLUE':raise ValueError('Restricted experiment in public payload')
             if not board['meteoblue_published']:
                 if d.get('meteoblue') or 'METEOBLUE' in d.get('models',{}) or 'mlm' in d.get('families',{}) or 'METEOBLUE' in d.get('diagnostics',{}):raise ValueError('Restricted source in public payload')
@@ -279,15 +281,15 @@ def validate(board):
 
 def run(kind=None):
     settings=load_yaml(ROOT/'config/settings.yml');boards=[];failed=[]
-    for k in ([kind] if kind else ['rain','temperature']):
+    for k in ([kind] if kind else list(BOARD_FILES)):
         try:
             board=prepare(k,settings);validate(board)
-            old=read_json(DATA/('board_temp.json' if k=='temperature' else 'board.json'))
+            old=read_json(DATA/BOARD_FILES[k])
             if old.get('schema_version')==2 and len(board['cities'])<len(old.get('cities',[]))*.75:
                 raise ValueError('City coverage fell below 75%; retaining previous board')
             previous={(c['city'],d['date']):d for c in old.get('cities',[]) for d in c['days'].values()}
             for c in board['cities']:
-                for d in c['days'].values():d['changes']=changes(d,previous.get((c['city'],d['date'])),k=='temperature')
+                for d in c['days'].values():d['changes']=changes(d,previous.get((c['city'],d['date'])),k in TEMPERATURE_KINDS)
             boards.append(board)
         except Exception as exc:
             failed.append(f'{k}: {type(exc).__name__}: {str(exc)[:180]}')
@@ -296,7 +298,7 @@ def run(kind=None):
     for board in boards:
         for c in board['cities']:
             for d in c['days'].values():
-                pairs=[(b['market'],b.get('edge')) for b in d.get('ladder',[])] if board['kind']=='temperature' else [(d['market'],d.get('edge'))]
+                pairs=[(b['market'],b.get('edge')) for b in d.get('ladder',[])] if board['kind'] in TEMPERATURE_KINDS else [(d['market'],d.get('edge'))]
                 for q,e in pairs:
                     if e:
                         e['eligibility']=policy.eligibility(c['city'],d,q,e,settings,calibration)
@@ -304,9 +306,9 @@ def run(kind=None):
     policy.allocate(candidates,settings,ledger)
     for board in boards:
         validate(board)
-        prefix='temp-' if board['kind']=='temperature' else ''
+        prefix=HISTORY_PREFIXES[board['kind']]
         atomic_json(DATA/'history'/(prefix+board['snapshot_id']+'.json'),board)
-        atomic_json(DATA/('board_temp.json' if prefix else 'board.json'),board)
+        atomic_json(DATA/BOARD_FILES[board['kind']],board)
     for c in candidates:
         e=c['edge'];n=e.get('suggested_contracts',0)
         if n:

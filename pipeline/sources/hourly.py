@@ -49,14 +49,17 @@ def summarize(hourly, city, off, now=None):
     pk = [k for k in hourly if k == 'precipitation' or k.startswith('precipitation_member')]
     expected = int((end-start).total_seconds()/3600)
     maxima, remaining, rain_totals, past_totals, future_totals = [],[],[],[],[]
+    minima, remaining_minima = [], []
     curves=[]
     for k in tk:
         v=hourly[k]
         if len(ti)!=expected or any(i>=len(v) or not finite(v[i]) for i in ti):
             continue
         maxima.append(max(v[i] for i in ti))
+        minima.append(min(v[i] for i in ti))
         fi=[i for i in ti if times[i]>=now]
         remaining.append(max((v[i] for i in fi), default=None))
+        remaining_minima.append(min((v[i] for i in fi), default=None))
         curves.append([v[i] for i in ti])
     for k in pk:
         v=hourly[k]
@@ -77,7 +80,7 @@ def summarize(hourly, city, off, now=None):
             vals=[v[j] for v in curves]
             hourly_curve.append({'time':times[i].isoformat(),'median':round(quant(vals,.5),2),
                 'p10':round(quant(vals,.1),2),'p90':round(quant(vals,.9),2)})
-    return dict(maxima=maxima,remaining=remaining,rain_totals=rain_totals,
+    return dict(maxima=maxima,remaining=remaining,minima=minima,remaining_minima=remaining_minima,rain_totals=rain_totals,
         past_totals=past_totals,future_totals=future_totals,hourly=hourly_curve,
         window_start=start.isoformat(),window_end=end.isoformat())
 

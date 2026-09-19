@@ -1,5 +1,38 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const M=require('../docs/assets/math.js');
+test('low forecast previews conserve probability and respect observed ceiling',()=>{
+ const q=M.Q.map(p=>50+12*p),v=M.adjust(q,15,2,null,60.5);
+ assert.ok(v.every(x=>x<=60.5));
+ assert.equal(M.between(v,61,null,null,60.5),0);
+ assert.ok(Math.abs(M.between(v,null,59,null,60.5)+M.between(v,60,null,null,60.5)-1)<1e-10);
+ const D=require('../docs/assets/decision.js');
+ assert.equal(D.outcome('temperature_low',{label:'60–61°F'},'NO'),'Low outside 60–61°F');
+});
+test('low station walkthrough uses low semantics, ceiling and portfolio product identity',()=>{
+ const fs=require('node:fs'),vm=require('node:vm'),ids=new Map();
+ const element=id=>{if(!ids.has(id))ids.set(id,{value:'',innerHTML:'',hidden:false,addEventListener(){},setAttribute(){},querySelector(){return element('submit');},get valueAsNumber(){return Number(this.value);}});return ids.get(id);};
+ const context=vm.createContext({ForecastMath:M,ForecastDecision:require('../docs/assets/decision.js'),structuredClone,Date,console,setInterval(){},fetch:()=>new Promise(()=>{}),document:{getElementById:element,querySelector:element,querySelectorAll:()=>[],addEventListener(){}}});
+ vm.runInContext(fs.readFileSync('docs/assets/research.js','utf8'),context);
+ vm.runInContext(fs.readFileSync('docs/assets/app.js','utf8'),context);
+ const at=new Date().toISOString();
+ const q={ticker:'LOW',event_ticker:'LOW-DAY',yes_bid:30,yes_ask:35,no_ask:70,mid:32.5,spread:5,retrieved_at:at,yes_depth:100};
+ const e={side:'YES',price:35,fee_rate:.07,ev_cents:10,eligibility:{eligible:false,reasons:['Out-of-sample calibration pending']}};
+ const day={kind:'temperature_low',date:'2026-09-19',window_start:at,window_end:new Date(Date.now()+86400000).toISOString(),sources:{},settlement:{verified:true,reasons:[]},data_quality:'ok',fee_verified:true,observed:{min_f:60,max_f:90},distribution:{median:59,p10:55,p90:60.5,quantiles:M.Q.map(p=>Math.min(60.5,55+7*p)),ceiling:60.5},ladder:[{label:'60°F or lower',lo:null,hi:60,model_p:1,market:q,edge:e}]};
+ context.fixture={kind:'temperature_low',schema_version:2,generated_at:at,snapshot_id:'low-snapshot',cities:[{city:'Chicago',icao:'KMDW',tz:'America/Chicago',days:{'0':day}}]};
+ vm.runInContext("state.temperature_low=fixture;state.city='Chicago';state.kind='temperature_low';drawBoard();drawDetail();drawFreshness();",context);
+ assert.match(element('weather-briefing').innerHTML,/Daily low near 59/);
+ assert.match(element('weather-briefing').innerHTML,/upper bound/);
+ assert.match(element('station-metrics').innerHTML,/Observed minimum/);
+ assert.match(element('updated').innerHTML,/Lows/);
+ assert.match(element('city-rows').innerHTML,/data-kind="temperature_low"/);
+ assert.match(element('practice-result').innerHTML,/Low in 60/);
+ const rows=vm.runInContext('portfolioCandidates()',context);
+ assert.ok(rows.length && rows.every(r=>r.kind==='temperature_low'));
+ element('shift').value=10;element('spread').value=2;
+ vm.runInContext('previewAdjustment()',context);
+ assert.match(element('adjustment-preview').innerHTML,/Automated low/);
+ assert.match(element('adjustment-preview').innerHTML,/60.5/);
+});
 test('MOS chart uses native TMP samples, matching station and reporting day',()=>{
  const fs=require('node:fs'),vm=require('node:vm'),node={addEventListener(){}};
  const context=vm.createContext({ForecastMath:M,ForecastDecision:require('../docs/assets/decision.js'),Date,console,setInterval(){},fetch:()=>new Promise(()=>{}),document:{getElementById:()=>node,querySelector:()=>node,querySelectorAll:()=>[],addEventListener(){}}});

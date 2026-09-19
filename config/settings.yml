@@ -221,7 +221,7 @@ sources:
 # Integrate the predictive distribution over each temperature bracket.
 # ===========================================================================
 temperature:
-  series_prefixes: [KXHIGH]      # add KXLOW to trade lows off the same machinery
+  series_prefixes: [KXHIGH]      # lows use the independent temperature_low product below
 
   families:
     # NBM's own TMAX mean and ensemble standard deviation, confirmed present
@@ -366,6 +366,17 @@ temperature:
 # Thresholds here are deliberately stricter than the display ones. The board
 # shows what is worth looking at; this records what would be worth money.
 # ===========================================================================
+temperature_low:
+  # Independent research starting point; no high-temperature bias or spread fit.
+  families:
+    global_ens:
+      label: Global ensembles (calendar-day minima)
+      weight: 1.0
+      members: [ECMWF_ENS, GEFS, ICON_EPS, GEM_EPS, UKMO_ENS]
+  bias: {}
+  spread_factor: 1.0
+  disagreement_factor: 1.0
+
 execution:
   live: false                    # not implemented, and not until calibrated
 

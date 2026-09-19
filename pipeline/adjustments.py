@@ -9,6 +9,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 from .quality import atomic_json,now_iso
 from .tempdist import Dist,adjust
+from .products import TEMPERATURE_KINDS, HISTORY_PREFIXES
 ROOT=Path(__file__).resolve().parent.parent
 DATA=ROOT/'docs/data'
 
@@ -21,8 +22,8 @@ def create(payload,created_at,identifier,author):
     sid=str(payload.get('snapshot_id',''))
     if not re.fullmatch(r'[0-9TZ.\-a-f]+',sid):raise ValueError('Invalid snapshot id')
     kind=payload.get('kind')
-    if kind not in ('rain','temperature'):raise ValueError('Unknown forecast kind')
-    prefix='temp-' if kind=='temperature' else ''
+    if kind not in HISTORY_PREFIXES:raise ValueError('Unknown forecast kind')
+    prefix=HISTORY_PREFIXES[kind]
     board=json.loads((DATA/'history'/(prefix+sid+'.json')).read_text())
     at=datetime.fromisoformat(created_at.replace('Z','+00:00'))
     built=datetime.fromisoformat(board['generated_at'])
@@ -33,12 +34,14 @@ def create(payload,created_at,identifier,author):
     if (at-built).total_seconds()>3*3600:raise ValueError('Snapshot is too old; refresh the board')
     reason=str(payload.get('reason','')).strip()
     if not 10<=len(reason)<=1000:raise ValueError('Reason must be 10-1000 characters')
-    if kind=='temperature':
+    if kind in TEMPERATURE_KINDS:
         shift=bounded(payload.get('shift_f',0),-15,15);spread=bounded(payload.get('spread_factor',1),.5,3)
         quants=adjust(d['distribution']['quantiles'],shift,spread)
         floor=d['distribution'].get('floor')
         if floor is not None:quants=[max(floor,x) for x in quants]
-        dist=Dist(quants,floor=floor)
+        ceiling=d['distribution'].get('ceiling')
+        if ceiling is not None:quants=[min(ceiling,x) for x in quants]
+        dist=Dist(quants,floor=floor,ceiling=ceiling)
         tickers=[b['market']['ticker'] for b in d['ladder']]
         automatic=[b['model_p'] for b in d['ladder']]
         adjusted=[dist.prob_between(b['lo'],b['hi']) for b in d['ladder']]

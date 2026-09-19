@@ -9,7 +9,11 @@ def check(root=ROOT):
     for name in ("index.html", "assets/app.js", "assets/math.js", "assets/decision.js", "assets/research.js", "assets/app.css"):
         if not (root / "docs" / name).is_file():
             raise ValueError(f"Missing site asset: {name}")
-    for name in ("board.json", "board_temp.json"):
+    # During the first rollout the low board is built after the code deploy.
+    # Once present it is validated too; the live smoke test requires it.
+    names = ["board.json", "board_temp.json"]
+    if (root / "docs/data/board_low.json").exists():names.append("board_low.json")
+    for name in names:
         path = root / "docs/data" / name
         board = json.loads(path.read_text())
         if board.get("schema_version") != 2 or not board.get("cities"):

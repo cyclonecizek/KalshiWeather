@@ -7,6 +7,7 @@ from copy import deepcopy
 
 from . import hourly
 from ..blend import blend
+from ..products import TEMPERATURE_KINDS, temperature_config
 from ..build_temp import build_distribution
 
 MODEL = 'WEATHERNEXT2'
@@ -43,20 +44,20 @@ def attach(city, off, data, day, settings):
     if not detail:
         return
     obs = day.get('observed')
-    if day['kind'] == 'temperature':
-        result['member_count'] = len(detail['maxima'])
+    if day['kind'] in TEMPERATURE_KINDS:
+        result['member_count'] = len(detail['minima' if day['kind']=='temperature_low' else 'maxima'])
         if result['member_count'] < 3:
             result['status'] = 'insufficient_members'
             return
-        cfg = deepcopy(settings['temperature'])
+        cfg = deepcopy(temperature_config(settings,day['kind']))
         cfg['families'] = {'google_research': {'weight': 1, 'members': [MODEL]}}
-        members = {MODEL: {city['name']: {off: detail['maxima']}}}
+        members = {MODEL: {city['name']: {off: detail['minima' if day['kind']=='temperature_low' else 'maxima']}}}
         dist, _ = build_distribution(city, off, members, {}, cfg, [], obs=obs,
                                     obs_cfg=settings['sources'].get('observations'))
         if dist is None:
             return
         result.update(value=dist.median(), p10=dist.quantile(.1), p90=dist.quantile(.9))
-        variant = {'quantiles': dist.v, 'floor': dist.floor,
+        variant = {'quantiles': dist.v, 'floor': dist.floor, 'ceiling': dist.ceiling,
                    'probabilities': [dist.prob_between(b['lo'], b['hi']) for b in day['ladder']]}
     else:
         result['member_count'] = len(detail['rain_totals'])
