@@ -10,6 +10,10 @@ def order_fee(price,quantity,rate=.07):
 
 def eligibility(city,day,quote,edge,settings,calibration=None,now=None):
     cfg=settings['execution'];now=now or datetime.now(timezone.utc);why=[]
+    if day.get('spread_sensitivity_required'):
+        check=(edge or {}).get('spread_sensitivity') or {}
+        if not check.get('complete'):why.append('Spread sensitivity unavailable')
+        elif check.get('fragile'):why.append('Advantage disappears under alternative temperature distributions')
     if any(r.get('model')=='METEOBLUE' and r.get('included') for r in day.get('model_inputs',[])):
         try:
             if datetime.fromisoformat(day['meteoblue']['expires_at']) <= now:

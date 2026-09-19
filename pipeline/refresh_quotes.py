@@ -48,6 +48,11 @@ def refresh(board,settings,fetch_market,fetch_fee,depth=None):
         if board['kind'] in TEMPERATURE_KINDS:
             b['market']=q;b['edge']=evaluate_bracket(b['model_p'],q,rate,temperature_config(settings,board['kind']))
             edge=b['edge']
+            if day.get('spread_sensitivity_required'):
+                from .spread import sensitivity
+                checks=sensitivity(day,q,day['ladder'].index(b),rate)
+                b['spread_sensitivity']=checks
+                if edge:edge['spread_sensitivity']=checks[edge['side']]
         else:
             day['market']=q;day['edge']=evaluate(day['consensus'],q,settings);edge=day['edge']
         if edge:

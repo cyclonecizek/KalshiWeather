@@ -300,3 +300,29 @@ manual forecast adjustments, settlement scoring, source experiments, and
 calibration review. Highs, lows, and rain share the existing budget and city
 exposure caps. Low forecasts require their own reviewed track record;
 high-temperature calibration approval never unlocks low allocations.
+
+## Temperature spread review
+
+GEM is excluded from new rain, high and low forecasts. Historical forecasts and
+scores retain their original inputs. This settings change starts a new model
+fingerprint, so previous calibration approvals do not carry over.
+
+Station details show sequential 80% interval widths through observation
+conditioning, within-family disagreement, the configured spread multiplier,
+between-family disagreement and physical observation bounds. These widths are
+not independent variance contributions.
+
+Every new temperature snapshot archives 0.75× and 1.25× spread comparisons and
+a weighted source-CDF mixture without added disagreement inflation. They are
+research alternatives, not automatically substituted for the operational blend.
+Both YES and NO are checked against current asks and fees after quote refreshes;
+an advantage that disappears under an alternative distribution cannot receive
+a verified allocation. Missing comparisons fail this check too.
+
+A prospective bias/spread candidate needs 20 earlier bias-fit dates and 20
+later spread-calibration dates for the same station, product, horizon and model
+fingerprint. Outcomes must be known before fitting, including before the start
+of the spread-calibration period for bias-fit outcomes. Future snapshots are
+archived for independent evaluation. Research results include 50/80/90% interval
+coverage and approximate CRPS integrated over archived 1st–99th percentiles.
+Neither alternative weights nor learned calibration are promoted automatically.

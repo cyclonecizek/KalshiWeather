@@ -45,6 +45,8 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
     from .sources.hourly import DETAILS
     from .quality import age_minutes
     fam_sets, weights, diag = [], [], {}
+    family_base, family_budget, source_budget = [], [], []
+    width = lambda q: q[11]-q[3]
     sigmas = tcfg.get('deterministic_sigma', {})
     cfgo = obs_cfg or {}
     minimum = tcfg.get('extremum') == 'minimum'
@@ -62,6 +64,7 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
             detail=DETAILS.get((city['name'],off,model))
             if mem and len(mem)>=3:
                 q=members_to_quantiles(mem)
+                raw_width=width(q)
                 if usable_obs and detail:
                     # min(T) = -max(-T); reflect the complete quantile curve
                     # and remaining member trajectories, not the daily high.
@@ -71,6 +74,7 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
                         remaining=[-x if x is not None else None for x in remaining] if minimum else remaining,
                         tolerance=cfgo.get('tolerance_f',.5),min_spread=cfgo.get('min_spread_f',1.4))
                     if minimum:q=[-x for x in reversed(q)]
+                source_budget.append(dict(model=model,raw_width80=raw_width,conditioned_width80=width(q)))
                 curves.append(q); source_weights.append(model_weight)
                 diag[model]={'type':'ensemble','n':len(mem),'median':round(q[len(q)//2],2),'p10':q[3],'p90':q[11],'quantiles':q}
             elif not usable_obs:
@@ -80,6 +84,7 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
                 if model=='NBM_T' and nbm_sigma:sigma=nbm_sigma
                 curves.append(normal_quantiles(mu,sigma)); source_weights.append(model_weight)
                 diag[model]={'type':'point','value':mu,'sigma':sigma,'quantiles':curves[-1]}
+                source_budget.append(dict(model=model,raw_width80=width(curves[-1]),conditioned_width80=width(curves[-1])))
         if curves:
             curve=blend_quantiles(curves,source_weights)
             centers=[q[len(q)//2] for q in curves]
@@ -87,10 +92,14 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
             variance=sum(w*(x-center)**2 for x,w in zip(centers,source_weights))/sum(source_weights)
             sigma=max((curve[11]-curve[3])/2.5631,.3)
             factor=(1+tcfg.get('disagreement_factor',1)*variance/sigma**2)**.5
+            family_base.append(curve)
+            family_budget.append(dict(family=fam_key,before_width80=width(curve),after_width80=width(adjust(curve,0,factor)),multiplier=factor))
             fam_sets.append(adjust(curve,0,factor))
             weights.append(fam['weight'])
     if not fam_sets:return None,diag
     quants=blend_quantiles(fam_sets,weights)
+    stages=[dict(stage='Source curves after observation conditioning',width80=width(blend_quantiles(family_base,weights))),
+            dict(stage='After within-family disagreement',width80=width(quants))]
     # A disagreement term retains between-family uncertainty. Its strength
     # is explicit and must be tested out of sample, not tuned to market width.
     means=[x[len(x)//2] for x in fam_sets]
@@ -99,9 +108,11 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
     spread=tcfg.get('spread_factor',1)
     bias=tcfg.get('bias',{}).get(city['name'],0)
     quants=adjust(quants,bias,spread)
+    stages.append(dict(stage='After configured spread multiplier',width80=width(quants)))
     from .tempdist import _probit,QUANTILES
     sigma=max((quants[11]-quants[3])/2.5631,.3)
     quants=adjust(quants,0,(1+tcfg.get('disagreement_factor',1)*between**2/sigma**2)**.5)
+    stages.append(dict(stage='After between-family disagreement',width80=width(quants)))
     floor=None;ceiling=None
     if usable_obs:
         if minimum:
@@ -115,6 +126,9 @@ def build_distribution(city, off, members, point, tcfg, errors, extras=None,
         diag['_intraday_method']='remaining_hour_ensembles'
     diag.update(_n_families=len(fam_sets),_bias=bias,_spread_factor=spread,
                 _between_family_sd=between,_observation_used=usable_obs)
+    stages.append(dict(stage='After observed physical bound',width80=width(quants)))
+    diag['_spread_budget']=dict(stages=stages,families=family_budget,sources=source_budget,
+        note='Widths are sequential 80% intervals, not independent variance contributions. Conditioning and clipping can narrow them.')
     return Dist(quants,floor=floor,ceiling=ceiling),diag
 
 

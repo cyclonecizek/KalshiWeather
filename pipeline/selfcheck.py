@@ -19,6 +19,8 @@ import sys
 # module -> symbols that must exist in it. Add an entry whenever a builder
 # starts importing something new; that is what keeps this honest.
 MANIFEST = {
+    "pipeline.spread": ["archive", "sensitivity", "Mixture"],
+    "pipeline.temperature_calibration": ["Engine", "fit"],
     "pipeline.products": ["TEMPERATURE_KINDS", "BOARD_FILES", "HISTORY_PREFIXES", "temperature_config"],
     "pipeline.run": ["run", "prepare", "validate"],
     "pipeline.refresh_quotes": ["refresh", "main"],

@@ -19,6 +19,7 @@
     if (reasons.some(r => /nearly complete/i.test(r))) tasks.push('Review the observed outcome and time remaining; this window is too late for a new paper proposal.');
     if (reasons.some(r => /budget|stake|already recorded/i.test(r))) tasks.push('Review the practice ledger before adding another position.');
     if (edge.flag === 'suspect' || reasons.some(r => /edge outside/i.test(r))) tasks.unshift('Investigate the unusually large price difference for a data or contract mismatch.');
+    if (reasons.some(r => /Spread sensitivity|alternative temperature distributions/i.test(r))) tasks.push('Inspect the spread comparisons: this advantage is not robust to the uncertainty assumptions.');
     if (!reasons.length) return {label: 'Review for paper practice', tone: 'ready', tasks: ['Check the weather reasoning, then use the practice calculator. Eligibility is not a recommendation to buy.']};
     if (!tasks.length) tasks.push('Open the detailed checks below and resolve the missing evidence.');
     return {label: /stale|age unknown/i.test(reasons.join(' ')) ? 'Refresh before deciding' : 'Wait and investigate', tone: 'wait', tasks: [...new Set(tasks)]};

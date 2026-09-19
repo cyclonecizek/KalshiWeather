@@ -37,6 +37,11 @@ def probability_scores(kind, ps, ys, quantiles=None, actual=None):
         # Conventional forecast minus observed sign, explicitly labeled in UI.
         result.update(bias_f=quantiles[7]-actual, mae_f=abs(quantiles[7]-actual),
                       coverage80=quantiles[3] <= actual <= quantiles[11])
+        dist=Dist(quantiles)
+        losses=[max(p*(actual-x),(p-1)*(actual-x)) for p,x in zip(QUANTILES,quantiles)]
+        result.update(coverage50=dist.quantile(.25)<=actual<=dist.quantile(.75),
+            coverage90=quantiles[2]<=actual<=quantiles[12],
+            crps_approx=sum((b-a)*(x+y) for a,b,x,y in zip(QUANTILES,QUANTILES[1:],losses,losses[1:])))
     return result
 
 
@@ -60,7 +65,7 @@ def record_for_day(record, day, outcomes):
                                        value.get('quantiles'), record['actual'])
             if score:
                 variants[key] = dict(score, mode=value['mode'], model=value['model'],
-                                     multiplier=value.get('multiplier'), weight_scope=value.get('weight_scope','member'), method='Common post-processing')
+                                     multiplier=value.get('multiplier'), weight_scope=value.get('weight_scope','member'), method=value.get('method','Common post-processing'))
     else:
         # Historical raw source diagnostics remain useful, but cannot stand in
         # for full distributions or removal experiments with unknown settings.
@@ -95,7 +100,7 @@ def mean(values):
 
 def summarize_scores(scores):
     return {k: mean(s.get(k) for s in scores)
-            for k in ('brier', 'log_loss', 'bias_f', 'mae_f', 'coverage80')}
+            for k in ('brier', 'log_loss', 'bias_f', 'mae_f', 'coverage80', 'coverage50', 'coverage90', 'crps_approx')}
 
 
 def paired_interval(dated_differences, draws=400):
@@ -202,7 +207,7 @@ def evaluate_candidate(test, scores, params):
         reliability=calibration_bins, applied=False)
 
 
-def weight_candidate(rows):
+def weight_candidate(rows, modes=('without', 'weight')):
     train, test = split_history(rows)
     counts = dict(train_n=len(train), test_n=len(test), required_train=MIN_TRAIN, required_test=MIN_TEST)
     if len(train) < MIN_TRAIN or len(test) < MIN_TEST:
@@ -210,9 +215,9 @@ def weight_candidate(rows):
     # A fixed candidate set and complete training cases avoids choosing a
     # source based on the held-out outcomes or on easier availability periods.
     keys = set.intersection(*(set(r['variants']) for r in train))
-    keys = sorted(k for k in keys if train[0]['variants'][k]['mode'] in ('without', 'weight'))
+    keys = sorted(k for k in keys if train[0]['variants'][k]['mode'] in modes)
     if not keys:
-        return pending('No common archived weight/removal experiments across the training dates.', **counts)
+        return pending('No common archived candidate experiments across the training dates.', **counts)
     chosen = min(keys, key=lambda k: (stats.mean(r['variants'][k]['brier'] for r in train), k))
     if stats.mean(r['variants'][chosen]['brier']-r['brier'] for r in train) >= 0:
         return dict(status='keep_current', ready_for_review=False, reasons=['No training candidate beats the existing weights.'], **counts)
@@ -321,6 +326,7 @@ def build_report(rows, current_fingerprint):
         out.append(dict(city=city, kind=kind, horizon=horizon, dates=len(values),
             current_dates=len(current), excluded_prior_dates=len(values)-len(current),
             sources=source_summaries(values), weights=weight_candidate(current),
+            distributions=weight_candidate(current,('distribution',)) if kind!='rain' else None,
             calibration=(temperature_candidate(current) if kind in ('temperature', 'temperature_low') else rain_candidate(current))))
     return dict(schema_version=1, model_fingerprint=current_fingerprint, groups=out,
         note='Research forecasts only. No candidate changes live probabilities, approves calibration, or places orders.',
