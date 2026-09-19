@@ -39,8 +39,9 @@ jobs:
           WEATHER_CITIES: Chicago,New York,Los Angeles
         run: |
           # Remove full-size boards only inside this disposable CI checkout.
-          rm -f docs/data/board.json docs/data/board_temp.json
+          rm -f docs/data/board.json docs/data/board_temp.json docs/data/board_low.json
           python -m pipeline.run
+          test -s docs/data/board_low.json
       - name: Refresh live quotes without reissuing forecasts
         run: python -m pipeline.refresh_quotes
       - run: python -m pipeline.publication_check
@@ -51,5 +52,6 @@ jobs:
           path: |
             docs/data/board.json
             docs/data/board_temp.json
+            docs/data/board_low.json
             docs/data/status.json
           retention-days: 7

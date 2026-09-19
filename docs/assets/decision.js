@@ -4,7 +4,8 @@
   function outcome(kind, bracket, side) {
     if (kind === 'rain') return side === 'YES' ? 'Measurable rain at the station' : 'No measurable rain at the station';
     const range = bracket.label || 'this temperature range';
-    return side === 'YES' ? `High in ${range}` : `High outside ${range}`;
+    const label = kind === 'temperature_low' ? 'Low' : 'High';
+    return side === 'YES' ? `${label} in ${range}` : `${label} outside ${range}`;
   }
 
   function nextStep(reasons, edge = {}) {
@@ -92,7 +93,7 @@
     const values=saved.adjusted_probabilities;
     if (new Set(saved.tickers).size!==saved.tickers.length || values.length!==saved.tickers.length ||
         !values.every(v=>Number.isFinite(v)&&v>=0&&v<=1) ||
-        (kind==='temperature' && Math.abs(values.reduce((s,v)=>s+v,0)-1)>1e-5)) return null;
+        (['temperature','temperature_low'].includes(kind) && Math.abs(values.reduce((s,v)=>s+v,0)-1)>1e-5)) return null;
     return {probability:p, id:saved.id, created_at:saved.created_at};
   }
 

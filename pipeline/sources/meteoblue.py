@@ -295,6 +295,7 @@ def fetch(cities, cfg, day_offsets=(0, 1)):
             date_str = str(date_str)[:10]
             rec = {
                 "tmax": _day_value(day, date_str, "temperature_max"),
+                "tmin": _day_value(day, date_str, "temperature_min"),
                 "pop": _pop(day, date_str),
                 "predictability": _day_value(day, date_str, "predictability"),
                 "temp_spread": _spread(day, trend, date_str),

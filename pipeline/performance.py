@@ -117,7 +117,7 @@ def adjustment_scores(adjustments,outcomes):
     for a in adjustments:
         ys=[outcomes.get(t,{}).get('result') for t in a['tickers']]
         if any(y is None for y in ys):continue
-        if a['kind']=='temperature' and sum(ys)!=1:continue
+        if a['kind'] in ('temperature','temperature_low') and sum(ys)!=1:continue
         result.append({'id':a['id'],'city':a['city'],'date':a['date'],'kind':a['kind'],'reason':a['reason'],
             'automatic_brier':sum((p-y)**2 for p,y in zip(a['automatic_probabilities'],ys)),
             'adjusted_brier':sum((p-y)**2 for p,y in zip(a['adjusted_probabilities'],ys))})

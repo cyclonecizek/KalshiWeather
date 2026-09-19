@@ -269,3 +269,34 @@ stale. Missing stations or failed requests stay visible and do not block
 the existing blend. The raw service supplies hourly LAMP bulletins rather
 than relying on any restricted-cycle numeric archive. Full bulletin sample
 fixtures were retrieved from IEM on September 16, 2026.
+
+### Daily-low temperature markets
+
+Select **Low temperature** in Station workup or use the low column on the
+station board. Active domestic minimum-temperature series are explicitly
+mapped for 23 stations in `config/settlement.json`; each build checks the
+current minimum-temperature rules, series, climate station, provider, and
+midnight-to-midnight local-standard closing boundary. Chicago uses Midway.
+
+`board_low.json` and `history/low-*.json` contain the independent
+`temperature_low` product. Each ensemble member's minimum is taken over the
+entire reporting day, not the minimum of the ensemble-mean hourly curve.
+Adequate fresh observations condition remaining-hour member minima, with
+an observed-minimum ceiling and the reporting tolerance. Late-evening
+cooling can produce a new low. Missing observations do not establish a
+minimum or permit an artificial collapse in uncertainty.
+
+Lows start with independently configured global ensembles. High-only NBM
+and NDFD values, high-temperature fitted corrections, and the experimental
+high-temperature observation-trained model are not reused. MOS N and X
+remain period-specific comparisons on the hourly chart, not calendar-day
+settlement values. WeatherNext 2 lows are separately archived zero-weight
+research comparisons. Meteoblue daily minima are displayed when its cached
+response contains them, with zero low-blend weight; they ride along with
+the existing daily package, without a new package request.
+
+Low brackets participate in quote refresh, fee-inclusive practice sizing,
+manual forecast adjustments, settlement scoring, source experiments, and
+calibration review. Highs, lows, and rain share the existing budget and city
+exposure caps. Low forecasts require their own reviewed track record;
+high-temperature calibration approval never unlocks low allocations.

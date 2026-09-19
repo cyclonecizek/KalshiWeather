@@ -93,6 +93,7 @@ def summarize(rows,start,end,now,source):
         and stop-precip_times[-1]<=timedelta(minutes=60))
     total=round(sum(hours.values()),3) if hours else None
     return dict(max_f=max((v for _,v in temps),default=None),
+        min_f=min((v for _,v in temps),default=None),
         current_f=temps[-1][1] if temps else None,precip_mm=total,
         wet=None if total is None else total>=THRESHOLD_MM,
         precip_complete=precip_complete,temperature_complete=temp_complete,

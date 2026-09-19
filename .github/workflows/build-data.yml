@@ -24,7 +24,7 @@ jobs:
           path: .cache
           key: weather-${{ github.run_id }}
           restore-keys: weather-
-      - name: Build and validate both boards
+      - name: Build and validate rain, high, and low boards
         id: build
         continue-on-error: true
         env:
