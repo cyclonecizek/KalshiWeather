@@ -4,19 +4,38 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KalshiWeather · Forecast desk</title>
 <meta name="description" content="Station forecasts, market comparisons, and measured forecast performance.">
+<meta name="theme-color" content="#0a101c">
 <link rel="stylesheet" href="assets/app.css">
 <script src="assets/math.js" defer></script><script src="assets/decision.js" defer></script><script src="assets/research.js" defer></script><script src="assets/forecastex.js" defer></script><script src="assets/app.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to forecasts</a>
 <div class="shell">
 <header><div><p class="eyebrow">KALSHI WEATHER</p><h1>Forecaster’s decision desk</h1><p class="subtitle">Start with the weather. Understand the price. Decide what to do next.</p></div><div class="refresh"><div id="updated" aria-live="polite">Loading forecasts…</div><button id="refresh" title="Load the latest published data">Refresh page data</button></div></header>
-<nav aria-label="Views"><button data-view="board" aria-current="page">Daily briefing</button><button data-view="detail">Station workup</button><button data-view="performance">Forecast skill</button><button data-view="journal">Forecast journal</button><button data-view="guide">Trading basics</button></nav>
+<nav aria-label="Views">
+<div class="nav-brand" aria-hidden="true"><span class="brand-mark">KW</span><span>KalshiWeather<small>FORECAST INTELLIGENCE</small></span></div>
+<p class="nav-label">WORKSPACE</p>
+<button data-view="board" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Daily briefing</button>
+<button data-view="detail"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1v4m0 14v4M1 12h4m14 0h4"/></svg>Station workup</button>
+<button data-view="performance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3v17h17M7 15l4-5 4 2 6-8"/></svg>Forecast skill</button>
+<button data-view="journal"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="15" height="18" rx="2"/><path d="M9 3v18M12 8h5m-5 4h5m-5 4h3M3 7h4M3 17h4"/></svg>Forecast journal</button>
+<button data-view="guide"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg>Trading basics</button>
+<div class="nav-foot"><span class="nav-label">THE FORECAST COMES FIRST</span><p>Observe. Compare.<br>Verify. Decide.</p><span>Independent weather research</span></div>
+</nav>
 <div id="status" aria-live="polite"></div>
 <div class="toolbar"><div class="segmented" aria-label="Reporting day"><button id="today" aria-pressed="true">Today</button><button id="tomorrow" aria-pressed="false">Tomorrow</button></div><label>Find a city <input id="search" type="search" placeholder="City or station"></label><span class="muted">Days follow the station’s reporting window.</span></div>
-<main>
+<main id="main-content" tabindex="-1">
 <section id="board" class="view">
 <article class="briefing-intro"><p class="eyebrow">YOUR DAILY WORKFLOW</p><h2>Where does your weather assessment differ?</h2><div class="workflow-steps"><p><span>1</span>Assess the station forecast and its uncertainty.</p><p><span>2</span>Check the exact outcome and what it costs.</p><p><span>3</span>Record your reasoning, practice, or wait.</p></div><div id="decision-overview" aria-live="polite"></div></article>
 <div class="metrics" id="summary"></div>
+<div class="section-head"><div><h2>Your station forecast overview</h2><p class="muted">Select a station for a weather briefing, forecast challenges, and a plain-language contract walkthrough.</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>City / station</th><th>Forecast high</th><th>Traders’ implied high</th><th>Observed high</th><th>Forecast low</th><th>Rain forecast</th><th>Traders’ rain estimate</th><th>Data</th></tr></thead><tbody id="city-rows"></tbody></table></div>
+<div class="section-head"><div><h2>Start your review here</h2><p class="muted">Up to four weather–price differences to investigate. These are review priorities, not buy recommendations.</p></div><button data-view-link="guide">New to weather contracts?</button></div><div id="review-cards" class="review-grid"></div>
+
+<article class="panel"><h2>Meteoblue guidance</h2><div id="meteoblue-overview" aria-live="polite"></div></article>
+<article class="panel"><h2>Where the temperature markets differ</h2><div id="forecastex-overview"></div></article>
+
+
 <article class="panel budget-panel"><p class="eyebrow">YOUR BUDGET</p><h2>How much would I put on each outcome?</h2><p>Enter the total amount you are willing to lose across this plan. The suggested allocation may use only a small part of it.</p>
 <div class="form-grid"><label>Total budget ($)<input id="bet-budget" type="number" min="1" max="100000" step="0.01" value="500"></label><label>Already committed from this budget ($)<input id="bet-committed" type="number" min="0" max="100000" step="0.01" value="0"></label><label>Plan type<select id="bet-mode"><option value="paper">Paper practice</option><option value="verified">Verified allocations</option></select></label><label>Forecast to use<select id="bet-model"><option value="automatic">Automated model</option><option value="personal">My saved forecast adjustments</option></select></label></div>
 <p class="muted">Cautious sizing: quarter Kelly with a 5 percentage point probability buffer, new allocations of at most 5% per position and 10% per city, and 25% committed overall. One position per station, product, and reporting day. These limits reduce concentration; they do not model correlations between weather systems.</p>
@@ -24,11 +43,6 @@
 <p id="plan-status" aria-live="polite"></p><div id="budget-result" aria-live="polite"></div>
 <details><summary>Explore sizes while verification is pending</summary><p>Hypothetical sizes only: this illustration assumes settlement verification and model calibration have passed. The recommended allocation above still keeps those checks. Price, freshness, liquidity, and source checks remain in force.</p><div id="budget-hypothetical"></div></details>
 </article>
-<article class="panel"><h2>Meteoblue guidance</h2><div id="meteoblue-overview" aria-live="polite"></div></article>
-<article class="panel"><h2>Where the temperature markets differ</h2><div id="forecastex-overview"></div></article>
-<div class="section-head"><div><h2>Start your review here</h2><p class="muted">Up to four weather–price differences to investigate. These are review priorities, not buy recommendations.</p></div><button data-view-link="guide">New to weather contracts?</button></div><div id="review-cards" class="review-grid"></div>
-<div class="section-head"><div><h2>Your station forecast overview</h2><p class="muted">Select a station for a weather briefing, forecast challenges, and a plain-language contract walkthrough.</p></div></div>
-<div class="table-wrap"><table><thead><tr><th>City / station</th><th>Forecast high</th><th>Traders’ implied high</th><th>Observed high</th><th>Forecast low</th><th>Rain forecast</th><th>Traders’ rain estimate</th><th>Data</th></tr></thead><tbody id="city-rows"></tbody></table></div>
 <details class="panel advanced"><summary>Detailed market comparisons · prices, fees, and checks</summary><p>Purchase price is the current asking price. Model advantage is an expected average after estimated fees, not a promised return. Practice sizes appear only when all checks pass.</p><label class="check"><input type="checkbox" id="research" checked> Include comparisons that need more investigation</label><div class="table-wrap"><table><thead><tr><th>City</th><th>Outcome</th><th>YES / NO purchase price</th><th>Chance of chosen outcome</th><th>Model advantage / contract</th><th>Contracts available</th><th>Practice proposal</th><th>What to do</th></tr></thead><tbody id="signals"></tbody></table></div></details>
 </section>
 <section id="detail" class="view" hidden>
