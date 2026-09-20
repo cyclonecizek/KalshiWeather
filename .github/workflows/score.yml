@@ -22,6 +22,7 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - run: python -m pipeline.performance
+      - run: python -m pipeline.forecastex --score
       - run: python -m pipeline.calibration_review
       - name: Persist verification and outcomes
         run: |
