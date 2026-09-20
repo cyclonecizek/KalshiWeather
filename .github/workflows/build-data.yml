@@ -32,6 +32,8 @@ jobs:
         run: python -m pipeline.run
       - name: Remove restricted legacy diagnostics
         run: python -m pipeline.sanitize
+      - name: Archive ForecastEx comparisons
+        run: python -m pipeline.forecastex
       - name: Commit validated data and update status
         run: |
           git config user.name board-bot

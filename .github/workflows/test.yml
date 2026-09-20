@@ -44,6 +44,10 @@ jobs:
           test -s docs/data/board_low.json
       - name: Refresh live quotes without reissuing forecasts
         run: python -m pipeline.refresh_quotes
+      - name: Retrieve and archive public ForecastEx comparisons
+        run: |
+          python -m pipeline.forecastex
+          python -c "import json; r=json.load(open('docs/data/forecastex.json')); assert any(x['status']=='indicative' for x in r['records']), 'No usable ForecastEx comparison in live smoke test'"
       - run: python -m pipeline.publication_check
       - uses: actions/upload-artifact@v4
         if: always()
@@ -54,4 +58,6 @@ jobs:
             docs/data/board_temp.json
             docs/data/board_low.json
             docs/data/status.json
+            docs/data/forecastex.json
+            docs/data/forecastex_verification.json
           retention-days: 7

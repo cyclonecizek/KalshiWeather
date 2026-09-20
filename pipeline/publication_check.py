@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def check(root=ROOT):
-    for name in ("index.html", "assets/app.js", "assets/math.js", "assets/decision.js", "assets/research.js", "assets/app.css"):
+    for name in ("index.html", "assets/app.js", "assets/math.js", "assets/decision.js", "assets/research.js", "assets/forecastex.js", "assets/app.css"):
         if not (root / "docs" / name).is_file():
             raise ValueError(f"Missing site asset: {name}")
     # During the first rollout the low board is built after the code deploy.

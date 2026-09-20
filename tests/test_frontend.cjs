@@ -1,5 +1,28 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const M=require('../docs/assets/math.js');
+const FX=require('../docs/assets/forecastex.js');
+test('ForecastEx views label indicative prices, stale downloads and settlement differences',()=>{
+ const now=Date.parse('2026-09-20T12:40:00Z');
+ const r={city:'Chicago',station:'KMDW',kind:'temperature',date:'2026-09-20',station_match:true,
+   retrieved_at:'2026-09-20T12:30:00Z',snapshot_id:'old',status:'indicative',median:79,model_median:81,kalshi_median:80,
+   median_difference_f:-1,window_match:false,rows:[{strike:80,probability:.3,model_probability:.7,kalshi_probability:null,open_interest:12}],
+   brackets:[],market_url:'https://forecastex.com/markets/UHMDW'};
+ const detail=FX.detail(r,now,'new');
+ assert.match(detail,/unknown trade age/);assert.match(detail,/earlier forecast snapshot/);
+ assert.match(detail,/Reporting boundaries differ/);assert.match(detail,/Above 80/);
+ assert.match(detail,/30%/);assert.doesNotMatch(detail,/NaN|undefined/);
+ assert.match(FX.overview([r],now),/data-city="Chicago"/);
+ const stale=FX.overview([r],now+3600000);
+ assert.match(stale,/Download stale/);assert.doesNotMatch(stale,/data-city="Chicago"/);
+ assert.match(FX.detail({...r,station_match:false,message:'No match'},now),/Nearby stations are not substituted/);
+ assert.match(FX.detail({...r,kind:'temperature_low'},now),/Below 80/);
+});
+test('ForecastEx verification keeps cross-target diagnostics and inferred outcomes explicit',()=>{
+ const html=FX.performance({note:'Fixed cutoffs',records:[{city:'Chicago',kind:'temperature',horizon:'morning',date:'2026-09-20',settlement_difference_f:-1,fx_brier:.1,model_mae_on_kalshi:2,kalshi_mae_on_kalshi:1,fx_mae_on_kalshi:1}]},'temperature','morning');
+ assert.match(html,/1 distinct target dates/);assert.match(html,/inferred, not independently retrieved/);
+ assert.match(html,/cross-target diagnostic/);assert.match(html,/2.0 \/ 1.0 \/ 1.0/);
+ assert.match(FX.performance(null,'temperature','all'),/Collecting prospective/);
+});
 test('low forecast previews conserve probability and respect observed ceiling',()=>{
  const q=M.Q.map(p=>50+12*p),v=M.adjust(q,15,2,null,60.5);
  assert.ok(v.every(x=>x<=60.5));

@@ -1,5 +1,46 @@
 # Kalshi Weather Forecast Desk
 
+## ForecastEx comparison
+
+Daily briefing and Station workup compare the model, Kalshi and ForecastEx for
+exact station, target date and high/low matches. The official public ForecastEx
+contracts endpoint supplies last-traded YES prices and open interest, not an
+executable order book or trade timestamp. Downloads refresh with the quote job;
+failed and stale downloads remain explicit. No nearby station is substituted.
+No ForecastEx value changes model probabilities, eligibility or budget sizing.
+
+ForecastEx high thresholds mean strictly greater than the strike; low thresholds
+mean strictly less. Last-trade probabilities are pooled with equal-weight
+isotonic regression when needed to form a cumulative distribution. Missing
+strikes remain missing. Medians require adjacent priced thresholds surrounding
+50%; range probabilities require both finite boundaries to be present. Kalshi
+threshold probabilities are summed only from complete, nonoverlapping brackets
+that do not straddle the threshold. Price differences are indicative only.
+
+ForecastEx's Weather Underground Daily Observations settlement and civil-time
+day are recorded separately from Kalshi's climate-report target and reporting
+window. Identical stations do not establish identical settlement outcomes.
+Comparisons retain the original weather issuance, Kalshi price retrieval times,
+ForecastEx download time, and unknown ForecastEx trade age.
+
+`python -m pipeline.forecastex` refreshes the view and saves the first available
+snapshot in the hour before each fixed cutoff, once per station/date/product/
+horizon. These files are immutable. `python -m pipeline.forecastex --score` reads
+the exchange's daily price CSVs for post-expiry paired binary settlement prices
+with zero open interest. It does not use daily mark prices or last trades as
+outcomes. An exact temperature is inferred only when resolved adjacent thresholds
+bound one integer. Missing and inconsistent evidence stays unscored. These are
+settlement-price inferences, not independently retrieved Weather Underground
+observations. Paired outcome agreement is reported separately from MAE against
+Kalshi's outcome, which is explicitly a cross-target diagnostic. No retrospective
+forecast history or settlement temperature is fabricated, and no automatic
+approval or trading follows from this research.
+
+Public sources: [ForecastEx data](https://forecastex.com/data),
+[daily-temperature rules](https://data.forecastex.com/regulatory/DailyTemperatureTermsandConditions.pdf).
+The first live refresh creates `docs/data/forecastex.json`; verification begins
+when eligible snapshots and later outcome evidence are available.
+
 ## Observation-trained temperature correction
 
 The station model panel includes a research-only ridge regression candidate for today's high. It predicts additional warming above the observed maximum using current forecast headroom, model disagreement, observed warming rate, reporting hour, season, and 1/3/6-hour observed-minus-guidance errors. Errors use only forecasts archived before the matching observation, at the same settlement station; historical model fields are not reconstructed. Matching uses the nearest forecast timestamp within 30 minutes. Clouds, winds and dewpoint are not yet used because consistent historical coverage has not been established.
