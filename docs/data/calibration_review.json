@@ -1,19 +1,27 @@
 {
- "generated_at": "2026-09-21T14:20:04.658395+00:00",
- "performance_generated_at": "2026-09-21T14:19:56.193219+00:00",
+ "generated_at": "2026-09-21T18:44:14.382469+00:00",
+ "performance_generated_at": "2026-09-21T18:43:50.402586+00:00",
  "model_fingerprint": "a215f306a8c2636eaa184e5a7c7655247ccd0e1e1400b5c6f323e13d30c58aa4",
  "groups": {
   "Atlanta|rain|afternoon": {
    "city": "Atlanta",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.1894712326756199,
+   "upper_brier_difference": null,
+   "calibration_error": 0.4455291602977519,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "efc6592a264c426d2097d807e8e674baf332f058ff69db06680585b1ffffbe04",
    "model_version": "2"
   },
   "Atlanta|rain|day_ahead": {
@@ -26,54 +34,69 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Atlanta|rain|evening": {
    "city": "Atlanta",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.11872753069521995,
-   "upper_brier_difference": null,
-   "calibration_error": 0.36021178589160563,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.12820739608019677,
+   "upper_brier_difference": 0.1467879322347513,
+   "calibration_error": 0.36699641000403505,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "b84df0828ee879f45a66c9c48bf62e0c70317002bb229bbc2ebb3340275891d9",
+   "evidence_sha256": "2d327c194d8f342b4d0160cf66a99c401360118268e5879a76ae35408ea033f8",
    "model_version": "2"
   },
   "Atlanta|rain|morning": {
    "city": "Atlanta",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.12759916531625162,
+   "upper_brier_difference": null,
+   "calibration_error": 0.4045975349853872,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "84a43eb24ca14a5f2d4bce6849c76b6549ac8d8985bcacba93c3f0b167c90a21",
    "model_version": "2"
   },
   "Atlanta|temperature|afternoon": {
    "city": "Atlanta",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.5956482123256202,
+   "upper_brier_difference": null,
+   "calibration_error": 0.07772351964152743,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "391e9b0192e3451d63dacf07f6d93004095607004c88a677797d6ab46a59a0aa",
    "model_version": "2"
   },
   "Atlanta|temperature|day_ahead": {
@@ -86,47 +109,75 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 5,
+   "excluded_prior_records": 6,
    "model_version": "2"
   },
   "Atlanta|temperature|evening": {
    "city": "Atlanta",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.7099731930854417,
-   "upper_brier_difference": null,
-   "calibration_error": 0.20438292615720735,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.35882366820290945,
+   "upper_brier_difference": 1.0470767369726728,
+   "calibration_error": 0.11347364730568608,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "00587d74836889bd577507be5bfdd623ff0a88720610952b8693d6736534c228",
+   "evidence_sha256": "62a3903c8b555bd8ca5dfbf78cdd098cf6854e273bb4db7475305e71ac71efc0",
    "model_version": "2"
   },
   "Atlanta|temperature|morning": {
    "city": "Atlanta",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.32460278288936695,
+   "upper_brier_difference": null,
+   "calibration_error": 0.25662151242069864,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "b6c926a18d2cbe72e98a9e394a443276480ea86b277137956e01b5a98cbf1a94",
    "model_version": "2"
   },
   "Atlanta|temperature_low|afternoon": {
    "city": "Atlanta",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.006298448826991616,
+   "upper_brier_difference": null,
+   "calibration_error": 0.022863137880219576,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "b53a40afdf5c4e5f70af03f2350b85b3da469c339206fac8257560b3343582f5",
+   "model_version": "2"
+  },
+  "Atlanta|temperature_low|day_ahead": {
+   "city": "Atlanta",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -140,34 +191,62 @@
    "city": "Atlanta",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.1543070604775305,
-   "upper_brier_difference": null,
-   "calibration_error": 0.33308177742830275,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.08054929310756674,
+   "upper_brier_difference": 0.2251145171526957,
+   "calibration_error": 0.16654088871415137,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "c4427eae377f56567ae26136b6f4498b78f2181bd18cfe5d76125da3324c2573",
+   "evidence_sha256": "191625fdf512aa94d33ccdfc1b3595f0386ffb3bf3478e3b8f4c89c54f6b427e",
+   "model_version": "2"
+  },
+  "Atlanta|temperature_low|morning": {
+   "city": "Atlanta",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.06669803338628644,
+   "upper_brier_difference": null,
+   "calibration_error": 0.026143367319934212,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "2717571f62630d0fdcaeec29f02492ab0fd964afb6e50584805dbff9daf0317d",
    "model_version": "2"
   },
   "Austin|rain|afternoon": {
    "city": "Austin",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.01704520317573927,
+   "upper_brier_difference": null,
+   "calibration_error": 0.1351673154861754,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "e2a87c1e4efdadd9cdbc8798e4a61735e34fdb3544607544f9292a1ac3330cb5",
    "model_version": "2"
   },
   "Austin|rain|day_ahead": {
@@ -180,53 +259,69 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Austin|rain|evening": {
    "city": "Austin",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.0003559290760977554,
-   "upper_brier_difference": null,
-   "calibration_error": 0.019517404440594948,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.024363038760666842,
+   "upper_brier_difference": 0.07141697374242224,
+   "calibration_error": 0.12442686306413843,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "2fc497152c29feccc3cd556702d2f5dd4fb604dc94b14972b7377e9db0bc08a6",
+   "evidence_sha256": "f76ed80030eeb1c9035addd7ce902f6932597bf20918d0692650784d5c1f4542",
    "model_version": "2"
   },
   "Austin|rain|morning": {
    "city": "Austin",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.02024505290838978,
+   "upper_brier_difference": null,
+   "calibration_error": 0.16084170139733595,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "a9d470b59fa70229c2e6cc2a24ade057ff956c420da31528c60605b4df844e2f",
    "model_version": "2"
   },
   "Austin|temperature|afternoon": {
    "city": "Austin",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.3511156513847814,
+   "upper_brier_difference": null,
+   "calibration_error": 0.09445825169772976,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "9d05976cd1ba74b181b63d29935f1cd8abd04d5f54eabdbdcda48430d88c8179",
    "model_version": "2"
   },
   "Austin|temperature|day_ahead": {
@@ -239,46 +334,74 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Austin|temperature|evening": {
    "city": "Austin",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.00895615086359523,
-   "upper_brier_difference": null,
-   "calibration_error": 0.023186475283792436,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.38006904862018276,
+   "upper_brier_difference": 1.1074503282230943,
+   "calibration_error": 0.1137847006130664,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "74ccd73d2a8c2da36a51124ffdfd4d9cdaed681d44f798e290e167213cce5527",
+   "evidence_sha256": "eaefaf84b455d9e9bae33dc44dc5e9cf42bd31f3d23e751bc1e1a0038eafc152",
    "model_version": "2"
   },
   "Austin|temperature|morning": {
    "city": "Austin",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.1661390879903762,
+   "upper_brier_difference": null,
+   "calibration_error": 0.07787487190036763,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "0f296c1cdd78d8dca5810a8e5944f5c13a5bd43ddfa69e6959b8f5c9444ec8db",
    "model_version": "2"
   },
   "Austin|temperature_low|afternoon": {
    "city": "Austin",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.053510768003116195,
+   "upper_brier_difference": null,
+   "calibration_error": 0.05489321163991703,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "60488bc7f868ceae8e3b213238dd230c4d9557dedcd5690da30b2bcf04e2a800",
+   "model_version": "2"
+  },
+  "Austin|temperature_low|day_ahead": {
+   "city": "Austin",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -292,33 +415,60 @@
    "city": "Austin",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0007279634175049215,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.026387789430020715,
+   "upper_brier_difference": 0.07953466501117097,
+   "calibration_error": 0.027467980123206483,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "1e416c1317dbe81d4b60c540a8d91479ffcc50b83f45b34ac44d89d99a57b659",
+   "model_version": "2"
+  },
+  "Austin|temperature_low|morning": {
+   "city": "Austin",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.006084208374578459,
    "upper_brier_difference": null,
-   "calibration_error": 4.274860649592741e-05,
+   "calibration_error": 0.05489321163991703,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "b88344a4ba5cc45f81c13791fafcf9d8dd649f941779bdc71160b1e84c7ab962",
+   "evidence_sha256": "0dfc08b4aef001b1284a27f61e9227e8863d27c6c96b110837ffc622cd72b706",
    "model_version": "2"
   },
   "Boston|rain|afternoon": {
    "city": "Boston",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.01313526943469883,
+   "upper_brier_difference": null,
+   "calibration_error": 0.009472621881040477,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "f45a920c126be186374f6054689cc47f4323390b6f7eec07b9008e617f61de1a",
    "model_version": "2"
   },
   "Boston|rain|day_ahead": {
@@ -331,53 +481,67 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Boston|rain|evening": {
    "city": "Boston",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.0003359818817904602,
-   "upper_brier_difference": null,
-   "calibration_error": 0.018999523199029502,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.04938424174435997,
+   "upper_brier_difference": 0.048067396562894854,
+   "calibration_error": 0.014989174807899781,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "4cce24cea52a177bca98b3fac4a6211f6efa99e626bd314b17d87a65bee051a4",
+   "evidence_sha256": "6e1ee125ff2f7679398e4a16687a8619584d7a76d59a74c8edc912fb179eb21d",
    "model_version": "2"
   },
   "Boston|rain|morning": {
    "city": "Boston",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0008384853879636038,
+   "upper_brier_difference": null,
+   "calibration_error": 0.029385121881040477,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "8d4a2c7ee5f047c8bacee4a34e549c3239cc7508af79e035c947ac901a372482",
    "model_version": "2"
   },
   "Boston|temperature|afternoon": {
    "city": "Boston",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.0013695021244115643,
+   "upper_brier_difference": null,
+   "calibration_error": 0.024458754653283992,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "e2b86c93e400634ce987a99ba42d00f4119bb4b14d107ce439abb8f755df8047",
    "model_version": "2"
   },
   "Boston|temperature|day_ahead": {
@@ -390,47 +554,75 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 5,
+   "excluded_prior_records": 6,
    "model_version": "2"
   },
   "Boston|temperature|evening": {
    "city": "Boston",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.7511760486796955,
-   "upper_brier_difference": null,
-   "calibration_error": 0.2043829259423357,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.3893956157307727,
+   "upper_brier_difference": 1.0984852643106613,
+   "calibration_error": 0.12240850848503514,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "6c0d8f83bead469f19a20e339df49c8f02a3249550402dcbead5622b36693c4c",
+   "evidence_sha256": "6dd45d969ab39a78c7788d76aac7d8edb18f83d8cb1253dfe8c1ad4c98a4af19",
    "model_version": "2"
   },
   "Boston|temperature|morning": {
    "city": "Boston",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.2113919236951088,
+   "upper_brier_difference": null,
+   "calibration_error": 0.1879070425725982,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "52557f92aa2b3460a653f0d0f0e858e4d462969dbb7894b1ffb16ffe445dea4f",
    "model_version": "2"
   },
   "Boston|temperature_low|afternoon": {
    "city": "Boston",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.01607298966269819,
+   "upper_brier_difference": null,
+   "calibration_error": 0.00046341411617783124,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "fe448799cf375060a70b4cc688b02ef1184925a4d8fd26356462f6721b4814b6",
+   "model_version": "2"
+  },
+  "Boston|temperature_low|day_ahead": {
+   "city": "Boston",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -444,34 +636,60 @@
    "city": "Boston",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.3286215375668424,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.17072977513324888,
+   "upper_brier_difference": 0.13873807923659442,
+   "calibration_error": 0.08126359099758358,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "f0c6d167a0f0966de7f90fe63282aea586afc840aeb229f2f0e27aa981e1ff15",
+   "model_version": "2"
+  },
+  "Boston|temperature_low|morning": {
+   "city": "Boston",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.1229655814686691,
    "upper_brier_difference": null,
-   "calibration_error": 0.16206376787898932,
+   "calibration_error": 0.00046341411617783124,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold",
-    "Probability calibration error exceeds 10 percentage points"
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "25c0976ab1889694c469c4791db3f883b90bf75811e943f5043d5fa42658814c",
+   "evidence_sha256": "c6d90952c58572b223c5180c77593e150ac151700ac216592d56ad409dfe71cd",
    "model_version": "2"
   },
   "Chicago|rain|afternoon": {
    "city": "Chicago",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.000789651878001552,
+   "upper_brier_difference": null,
+   "calibration_error": 0.02854210710514471,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "a3fb8d340f67ed6b886d22640c8d685ada60aa91f2fd7c9f445be12c8d12592c",
    "model_version": "2"
   },
   "Chicago|rain|day_ahead": {
@@ -484,53 +702,67 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Chicago|rain|evening": {
    "city": "Chicago",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.0003123756083947382,
-   "upper_brier_difference": null,
-   "calibration_error": 0.018367787248189105,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.013759900214581585,
+   "upper_brier_difference": 0.04011704844270781,
+   "calibration_error": 0.09169514258562772,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "4b85475f7f29d20a57569732c4266e686d95d882018b93fc63891ae98836dbf7",
+   "evidence_sha256": "39908ea92258a41429e0781f35aca022c7c39c11d6c373ce0efc49e130a1c8b5",
    "model_version": "2"
   },
   "Chicago|rain|morning": {
    "city": "Chicago",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0065816788015665125,
+   "upper_brier_difference": null,
+   "calibration_error": 0.081281478834766,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "a66042f1491dde76b1f544d91242f4f552e442a358b9af9ebbcadf16af008bdd",
    "model_version": "2"
   },
   "Chicago|temperature|afternoon": {
    "city": "Chicago",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.00027036249770770807,
+   "upper_brier_difference": null,
+   "calibration_error": 0.007420838091468947,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "904b78172711b2f1546979e47563dbcd45966822ae837f74ebd15a0f9a9f5c8a",
    "model_version": "2"
   },
   "Chicago|temperature|day_ahead": {
@@ -543,47 +775,74 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Chicago|temperature|evening": {
    "city": "Chicago",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.32117059836912637,
-   "upper_brier_difference": null,
-   "calibration_error": 0.14192476779540164,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.16072048043341705,
+   "upper_brier_difference": 0.47520271158740734,
+   "calibration_error": 0.07467280294343528,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold",
-    "Probability calibration error exceeds 10 percentage points"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "fb52bad1f75473bd0e9dcd61966d8812fc400701951d5f714235eac544368333",
+   "evidence_sha256": "ba2fa43474d9e8daf84520008c3b47f1468333b8a69b66e4fb088b97b68aab5e",
    "model_version": "2"
   },
   "Chicago|temperature|morning": {
    "city": "Chicago",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.006709759074820796,
+   "upper_brier_difference": null,
+   "calibration_error": 0.02192810358442195,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "9ba7527b3f81c3856c5dfe7a84e6e5a073ee4a6c13b999a9791c91cee73ac8f8",
    "model_version": "2"
   },
   "Chicago|temperature_low|afternoon": {
    "city": "Chicago",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.1634606869668389,
+   "upper_brier_difference": null,
+   "calibration_error": 0.30278949236792985,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "43b7fc3fd31ae492ffd9fa8b9446e417525c650087c66e175f94e96beccf089b",
+   "model_version": "2"
+  },
+  "Chicago|temperature_low|day_ahead": {
+   "city": "Chicago",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -597,34 +856,63 @@
    "city": "Chicago",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.2743515725044254,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.5207922814703706,
+   "upper_brier_difference": 1.0038160710436232,
+   "calibration_error": 0.21236344197709223,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "0edb33c001c2d9ec4016ed59c52758aa115bd3e0e17ed2854f09a98a79534d6a",
+   "model_version": "2"
+  },
+  "Chicago|temperature_low|morning": {
+   "city": "Chicago",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.1627976850164201,
    "upper_brier_difference": null,
-   "calibration_error": 0.12361958876854069,
+   "calibration_error": 0.3195044525163189,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "393834e91c9748cd0424f2f8678b7c3444ff33e65dd0872b00502ff52d21e339",
+   "evidence_sha256": "a023e2f514d1bf646e60c80c79f8bb1ebc2fc2e61907c3ea8c510fd1d78565a1",
    "model_version": "2"
   },
   "Dallas|rain|afternoon": {
    "city": "Dallas",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.2267655367075908,
+   "upper_brier_difference": null,
+   "calibration_error": 0.5332593521989003,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "91199756fe772579cba336e920f207ea024d1328539f769ce104f4f4e36abbe8",
    "model_version": "2"
   },
   "Dallas|rain|day_ahead": {
@@ -637,53 +925,70 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Dallas|rain|evening": {
    "city": "Dallas",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 1.907317662049342e-05,
-   "upper_brier_difference": null,
-   "calibration_error": 0.006638763184546759,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.1183052351643896,
+   "upper_brier_difference": 0.350146112660417,
+   "calibration_error": 0.2550590274330501,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "b20dbadca5bd018fea5a7b6bbeee74def5c1f72c0c0a091bf8ad63468c56ef9d",
+   "evidence_sha256": "e6bb921ea08f757cd6ad9c1f1dfca238b419b003cd7bee9a27914bcbec10ad9b",
    "model_version": "2"
   },
   "Dallas|rain|morning": {
    "city": "Dallas",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.09156926127363818,
+   "upper_brier_difference": null,
+   "calibration_error": 0.49362866739446787,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "8054b6e39516f3c37eb7d20b8f73405658ad84e14bf503f6aa1121cdf396d521",
    "model_version": "2"
   },
   "Dallas|temperature|afternoon": {
    "city": "Dallas",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.11863760642750609,
+   "upper_brier_difference": null,
+   "calibration_error": 0.2685867212927129,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "cc61ed040505ba47c1fc4850a9743a264673fa0e141d0afc75adc856758d36c0",
    "model_version": "2"
   },
   "Dallas|temperature|day_ahead": {
@@ -696,47 +1001,75 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Dallas|temperature|evening": {
    "city": "Dallas",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
+   "last_date": "2026-09-20",
    "mean_brier_difference": 1.2977772832919148,
-   "upper_brier_difference": null,
+   "upper_brier_difference": 1.2977772832919148,
    "calibration_error": 0.2685867212927129,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "23a83ac45a924a744d313fc32752ac5fa5fcd2a3de412920bd47c976b65c9893",
+   "evidence_sha256": "152f7dec3ab09f67187bf03424dc407fb871c32aae0d5e9c5a316192fcd9d0aa",
    "model_version": "2"
   },
   "Dallas|temperature|morning": {
    "city": "Dallas",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.2054416244201206,
+   "upper_brier_difference": null,
+   "calibration_error": 0.19610374669938865,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "695ecb4bddd7de07dab3d36f3a1b84c9317798c6e0eed162c55fac5a7b240cdb",
    "model_version": "2"
   },
   "Dallas|temperature_low|afternoon": {
    "city": "Dallas",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.009291779248786361,
+   "upper_brier_difference": null,
+   "calibration_error": 0.023209953832326637,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "c9fcf9555dbbb586720e37cdce0a96b9bf139e8d8b45dce3653163c4ec928ac0",
+   "model_version": "2"
+  },
+  "Dallas|temperature_low|day_ahead": {
+   "city": "Dallas",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -750,41 +1083,61 @@
    "city": "Dallas",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0005208765862986205,
-   "upper_brier_difference": null,
-   "calibration_error": 0.0033333333302489145,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.008843952771018336,
+   "upper_brier_difference": 0.007469276551032305,
+   "calibration_error": 0.015851695749953525,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "20fe2d3f27759417957f145ec4590d675751991a6b1390dfe7549fc64d0f886c",
+   "evidence_sha256": "d4a49b54012fd3dc464b4af162697027543e0e7bb588049652a0a795d74f9b28",
    "model_version": "2"
   },
-  "Denver|rain|afternoon": {
-   "city": "Denver",
-   "kind": "rain",
-   "horizon": "afternoon",
+  "Dallas|temperature_low|morning": {
+   "city": "Dallas",
+   "kind": "temperature_low",
+   "horizon": "morning",
    "n": 1,
    "required_dates": 20,
-   "excluded_prior_records": 13,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.2630394043299505,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.055523507612583095,
    "upper_brier_difference": null,
-   "calibration_error": 0.1522681702459493,
+   "calibration_error": 0.10642265548689311,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "c53da2da1e877e7c436fe7c4d153ce1fe55b904eaf346cc81e6bb18dd1bbd5c2",
+   "evidence_sha256": "1bf4d95ec48f9b8ef484570df2dc82a7205cc3b662c01188fb17091564b7cc2a",
+   "model_version": "2"
+  },
+  "Denver|rain|afternoon": {
+   "city": "Denver",
+   "kind": "rain",
+   "horizon": "afternoon",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.41733121982380583,
+   "upper_brier_difference": -0.11491926145584935,
+   "calibration_error": 0.32483167491946763,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "06d29c95552e1758949bf28f9f2752cfa1e275211d704b7ce57c384101c7b904",
    "model_version": "2"
   },
   "Denver|rain|day_ahead": {
@@ -797,62 +1150,70 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Denver|rain|evening": {
    "city": "Denver",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.039267817606733306,
-   "upper_brier_difference": null,
-   "calibration_error": 0.2266446946361933,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.24320630798810097,
+   "upper_brier_difference": 0.3104429781777742,
+   "calibration_error": 0.36268130866552084,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "ba805b06ed91ea3130ea3481deb08ff3789cb600b2e7d4e097bf977c8e8915a9",
+   "evidence_sha256": "1b6130c7cf3549ae47108312c8299a50599e53412231e69951cb4db3875ec8a5",
    "model_version": "2"
   },
   "Denver|rain|morning": {
    "city": "Denver",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
-   "required_dates": 20,
-   "ready_for_review": false,
-   "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
-   ],
-   "excluded_prior_records": 12,
-   "model_version": "2"
-  },
-  "Denver|temperature|afternoon": {
-   "city": "Denver",
-   "kind": "temperature",
-   "horizon": "afternoon",
    "n": 1,
    "required_dates": 20,
-   "excluded_prior_records": 13,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.9656659094405464,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.45187062645897574,
    "upper_brier_difference": null,
-   "calibration_error": 0.23518855829097104,
+   "calibration_error": 0.6059326476936395,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "6c43fcec99d2140b7736b78399d0b604f2599b0caee85b55b9e542619c4a4d31",
+   "evidence_sha256": "072c53487e144ff1fe4ad88dba7d7f4a8cd52fdde36c0588492c93c0e6a734f4",
+   "model_version": "2"
+  },
+  "Denver|temperature|afternoon": {
+   "city": "Denver",
+   "kind": "temperature",
+   "horizon": "afternoon",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.9281505338073376,
+   "upper_brier_difference": 1.0016806700484269,
+   "calibration_error": 0.24115098005352523,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "4390924ff2ac93c4eeed9cade6b8f4f7f4e00aaaa7c3804c7ed4e4e9a73c3eb1",
    "model_version": "2"
   },
   "Denver|temperature|day_ahead": {
@@ -865,95 +1226,144 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Denver|temperature|evening": {
    "city": "Denver",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0007208764795144755,
-   "upper_brier_difference": null,
-   "calibration_error": 2.431437786776236e-06,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.000720330003298993,
+   "upper_brier_difference": -0.0007192589099166472,
+   "calibration_error": 0.00012442843271359694,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates"
    ],
-   "evidence_sha256": "29b6e7108b1718d93fe4129221c28e0e7e9ea28c6f9c685926f20ea6b662f8f0",
+   "evidence_sha256": "d0f513513de1174517b259514440f6e4bcadf6aabe0a7d3f375b73cde6357dc1",
    "model_version": "2"
   },
   "Denver|temperature|morning": {
    "city": "Denver",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.5425463130221051,
+   "upper_brier_difference": null,
+   "calibration_error": 0.22855019241491703,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "b716f95e1f8a51b74644dd436317486104cc20bd88bb47a65caf93b12f067bf3",
    "model_version": "2"
   },
   "Denver|temperature_low|afternoon": {
    "city": "Denver",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.03790031829219265,
-   "upper_brier_difference": null,
-   "calibration_error": 0.12362206052265767,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.6548907228532566,
+   "upper_brier_difference": 2.012761163498337,
+   "calibration_error": 0.20103109110803463,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "8040ade2b3332dd9ba66f24441bf62e12968eed248924cbe911f17afa43052f7",
+   "evidence_sha256": "fb0808ea60a94f1809ce2eb15aec3c73564308c2ddd133dac3c7537351634f9a",
    "model_version": "2"
   },
-  "Denver|temperature_low|evening": {
+  "Denver|temperature_low|day_ahead": {
    "city": "Denver",
    "kind": "temperature_low",
-   "horizon": "evening",
-   "n": 1,
-   "required_dates": 20,
-   "excluded_prior_records": 0,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.8797570585352867,
-   "upper_brier_difference": null,
-   "calibration_error": 0.1236196471983122,
-   "ready_for_review": false,
-   "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold",
-    "Probability calibration error exceeds 10 percentage points"
-   ],
-   "evidence_sha256": "36d21f88854931fbc5b01bf069de8a900e4c0159b8055cfb02d1f0787a07d814",
-   "model_version": "2"
-  },
-  "Houston|rain|afternoon": {
-   "city": "Houston",
-   "kind": "rain",
-   "horizon": "afternoon",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
+   "excluded_prior_records": 1,
+   "model_version": "2"
+  },
+  "Denver|temperature_low|evening": {
+   "city": "Denver",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.22876172387782423,
+   "upper_brier_difference": 2.4014585374075215,
+   "calibration_error": 0.2010298844458619,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "8fd80fe3a6e8320e01a6de9517986a92d5b477f002a66f6cfb310c1d8e37bb7a",
+   "model_version": "2"
+  },
+  "Denver|temperature_low|morning": {
+   "city": "Denver",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 1.2119831675801602,
+   "upper_brier_difference": null,
+   "calibration_error": 0.2784401216934116,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "70e48f86a0b1c36d206451494219836741716f27a5f4952c0069256ee6f8e0bb",
+   "model_version": "2"
+  },
+  "Houston|rain|afternoon": {
+   "city": "Houston",
+   "kind": "rain",
+   "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
    "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.03486965794651986,
+   "upper_brier_difference": null,
+   "calibration_error": 0.18733568252343136,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "1bba41a6fb3a2bd38a9d7cecfa0a5520a0ec36d9eb488351e0dd4e6fdd8fa3d5",
    "model_version": "2"
   },
   "Houston|rain|day_ahead": {
@@ -966,53 +1376,70 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Houston|rain|evening": {
    "city": "Houston",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.0019551133518954707,
-   "upper_brier_difference": null,
-   "calibration_error": 0.04449846460155081,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.020512365982913474,
+   "upper_brier_difference": 0.05688458113970875,
+   "calibration_error": 0.12111102802330348,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "68271023d1ae3f132d1c79d558cd19610e8056d12375122912ba4dfcc85748a2",
+   "evidence_sha256": "20d0a79d17ec5132a0d17c8499d19f6997e91d7a2ed52f4a829c244ca90e4f12",
    "model_version": "2"
   },
   "Houston|rain|morning": {
    "city": "Houston",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.04510224397480765,
+   "upper_brier_difference": null,
+   "calibration_error": 0.21937922411843755,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "cc51e73d0bbe1ae70d5231d889ef49ae723512f626aca485f3f510686aee3e50",
    "model_version": "2"
   },
   "Houston|temperature|afternoon": {
    "city": "Houston",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.014641580281390482,
+   "upper_brier_difference": null,
+   "calibration_error": 0.11181987428074865,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "448de956219e5dec9e92e25bcb0ed1abfa9e7b85501b782c1a0ed706d8e6d9e0",
    "model_version": "2"
   },
   "Houston|temperature|day_ahead": {
@@ -1025,46 +1452,74 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Houston|temperature|evening": {
    "city": "Houston",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.02020004750483312,
-   "upper_brier_difference": null,
-   "calibration_error": 0.034092678226571506,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.00973959286197412,
+   "upper_brier_difference": 0.03024208396197775,
+   "calibration_error": 0.017060678764807064,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "55f3177424d1a08601c50ea0233ef15e4237e60556843329536d275acda43b1d",
+   "evidence_sha256": "17db914936a4da3492d176656a8c08a3f890cb71a88a4eefab53b88ca01c299d",
    "model_version": "2"
   },
   "Houston|temperature|morning": {
    "city": "Houston",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.18339156759395925,
+   "upper_brier_difference": null,
+   "calibration_error": 0.20906860191866375,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "7b11cb074cf59d1ed11547d8f497cfbe2e4a15b5ecbb32514c87cc9aa8249aa1",
    "model_version": "2"
   },
   "Houston|temperature_low|afternoon": {
    "city": "Houston",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.0012277215946592385,
+   "upper_brier_difference": null,
+   "calibration_error": 0.0033333333302489145,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "a4e9a84d3db00dced35c149310dc94ee94cb15ca7ad6607ddc497325dddfd0d0",
+   "model_version": "2"
+  },
+  "Houston|temperature_low|day_ahead": {
+   "city": "Houston",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -1078,40 +1533,60 @@
    "city": "Houston",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.05316044130709833,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.025966359856219545,
+   "upper_brier_difference": 0.07926675949994196,
+   "calibration_error": 0.029113273824470046,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "8fcd203c3a1373b53f37cba6906bda23c718fbbf9b2b5127b495a712966ebf0c",
+   "model_version": "2"
+  },
+  "Houston|temperature_low|morning": {
+   "city": "Houston",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.057912468762136196,
    "upper_brier_difference": null,
-   "calibration_error": 0.05489321431869118,
+   "calibration_error": 0.06147133435318407,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "91fbdc7496f0ee4c93afbc129583b6dedaeca09defadc834811a11d143395e7e",
+   "evidence_sha256": "143c5314f3ce1d4ee443bd4636f005149d89a2c73a48b6b1059e5196956272b4",
    "model_version": "2"
   },
   "Las Vegas|rain|afternoon": {
    "city": "Las Vegas",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 5.244755416663602e-06,
-   "upper_brier_difference": null,
-   "calibration_error": 0.005499523199029494,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 3.1289161488616023e-06,
+   "upper_brier_difference": 7.275961113753522e-06,
+   "calibration_error": 0.0052999124225573575,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "01e026d1538c7d450a6ddbb7959ea600d0a55072418e2aac5bc7ce1d227b7f30",
+   "evidence_sha256": "df5b73bb9a69f17d628f994e5c04b4d2c03725a88880b7262f439cd2e096fd60",
    "model_version": "2"
   },
   "Las Vegas|rain|day_ahead": {
@@ -1124,18 +1599,38 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Las Vegas|rain|evening": {
    "city": "Las Vegas",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -5.733090760008142e-06,
+   "upper_brier_difference": 8.15871051353777e-06,
+   "calibration_error": 0.004311774277005861,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "204e96923436a04b0e87af2f1754260a15b4f1db0815dd5aaa9ef8e5c5ad7eb6",
+   "model_version": "2"
+  },
+  "Las Vegas|rain|morning": {
+   "city": "Las Vegas",
+   "kind": "rain",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
    "mean_brier_difference": 1.354562950984671e-06,
    "upper_brier_difference": null,
    "calibration_error": 0.005133669540492909,
@@ -1144,40 +1639,28 @@
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "4e8d6407121be3fe831fcc32462ddb26b7ed2d26eb98dccfefe44bbb383b19b7",
-   "model_version": "2"
-  },
-  "Las Vegas|rain|morning": {
-   "city": "Las Vegas",
-   "kind": "rain",
-   "horizon": "morning",
-   "n": 0,
-   "required_dates": 20,
-   "ready_for_review": false,
-   "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
-   ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "78d9b56bbf6430bd815cce10cfe1b5f62ec9c66eba08dbe9b4bf50c75393f6be",
    "model_version": "2"
   },
   "Las Vegas|temperature|afternoon": {
    "city": "Las Vegas",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -1.2232167765360544,
-   "upper_brier_difference": null,
-   "calibration_error": 0.0840872244569012,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.35107182370931983,
+   "upper_brier_difference": 1.3583322838310798,
+   "calibration_error": 0.13047886788797713,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "f10ff11b452605c9fdafa58f12dc05dc658c35c4d2548c75d62bfa0f9ae43ec7",
+   "evidence_sha256": "b89e58a02c5a11407fe9e77edf951d37af18fb641558eb1d4f3d35007d0e21a1",
    "model_version": "2"
   },
   "Las Vegas|temperature|day_ahead": {
@@ -1190,88 +1673,73 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Las Vegas|temperature|evening": {
    "city": "Las Vegas",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.003830765203451208,
-   "upper_brier_difference": null,
-   "calibration_error": 0.015901854869766252,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.007563347416082278,
+   "upper_brier_difference": 0.014879208552839172,
+   "calibration_error": 0.02086990906328599,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "9cfac858d5e07e4f37a51438b56c0897bcaac23336eab826e563e8f80084e2a1",
+   "evidence_sha256": "2e7b034e08b9afdcedf7ba238029a5bd8e60125d7a80dfecd6dbb4122ff8f575",
    "model_version": "2"
   },
   "Las Vegas|temperature|morning": {
    "city": "Las Vegas",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.47019562899704637,
+   "upper_brier_difference": null,
+   "calibration_error": 0.05704612591195369,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "a947e8450fdad982ed7e42a435f5a0a6a14156d6a52036fbcaa1c37fc611ed46",
    "model_version": "2"
   },
   "Las Vegas|temperature_low|afternoon": {
    "city": "Las Vegas",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.1833430967857348,
-   "upper_brier_difference": null,
-   "calibration_error": 0.10147052409053141,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.11807706975302362,
+   "upper_brier_difference": 0.2459984827371375,
+   "calibration_error": 0.07818186786522423,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold",
-    "Probability calibration error exceeds 10 percentage points"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "44d31d1904918cbb9e9ff648ae52b4a22b6eca01130c285ee3c20d3c584f5abc",
+   "evidence_sha256": "4b924a14ffb9cf05bea8c902088081aafb91eb1f532381528a3591eea8c3c95c",
    "model_version": "2"
   },
-  "Las Vegas|temperature_low|evening": {
+  "Las Vegas|temperature_low|day_ahead": {
    "city": "Las Vegas",
    "kind": "temperature_low",
-   "horizon": "evening",
-   "n": 1,
-   "required_dates": 20,
-   "excluded_prior_records": 0,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.18038937902682223,
-   "upper_brier_difference": null,
-   "calibration_error": 0.10147052409053141,
-   "ready_for_review": false,
-   "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold",
-    "Probability calibration error exceeds 10 percentage points"
-   ],
-   "evidence_sha256": "e020a2f6503585f80d3d1c58aba7f6d17d105053d5c961aac6976ff8c927148b",
-   "model_version": "2"
-  },
-  "Las Vegas|temperature_low|morning": {
-   "city": "Las Vegas",
-   "kind": "temperature_low",
-   "horizon": "morning",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -1281,24 +1749,64 @@
    "excluded_prior_records": 1,
    "model_version": "2"
   },
-  "Los Angeles|rain|afternoon": {
-   "city": "Los Angeles",
-   "kind": "rain",
-   "horizon": "afternoon",
+  "Las Vegas|temperature_low|evening": {
+   "city": "Las Vegas",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.11660021087356734,
+   "upper_brier_difference": 0.24162698045394693,
+   "calibration_error": 0.07818186786522423,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "57d8ea2092dd87bbd425892aa5709bd480f7370b879b256289b83db1c9b13d21",
+   "model_version": "2"
+  },
+  "Las Vegas|temperature_low|morning": {
+   "city": "Las Vegas",
+   "kind": "temperature_low",
+   "horizon": "morning",
    "n": 1,
    "required_dates": 20,
-   "excluded_prior_records": 13,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.00015327652350742202,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.019975403004573615,
    "upper_brier_difference": null,
-   "calibration_error": 0.013352023199029502,
+   "calibration_error": 0.05489321163991703,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "a8bc109b96192081033707adda65f0329bd2693f34ef6867575cfbc0e73e4357",
+   "evidence_sha256": "376f9f5dfc435d06c1271086f37a5eac9a074b0a87adfda9fdfba8ed71232027",
+   "model_version": "2"
+  },
+  "Los Angeles|rain|afternoon": {
+   "city": "Los Angeles",
+   "kind": "rain",
+   "horizon": "afternoon",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0001755492807193061,
+   "upper_brier_difference": 0.00021920388485459892,
+   "calibration_error": 0.0141396239610189,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "f8ba9b8bed925aea7e2d8c8cba30b2539ff51b47ba000468d035a6e654bdaa37",
    "model_version": "2"
   },
   "Los Angeles|rain|day_ahead": {
@@ -1311,61 +1819,68 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Los Angeles|rain|evening": {
    "city": "Los Angeles",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.00011622160174763899,
-   "upper_brier_difference": null,
-   "calibration_error": 0.01188366954049291,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0001799879133053673,
+   "upper_brier_difference": 0.0003049698839585148,
+   "calibration_error": 0.01413869735392894,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "cbf18a50587308c48985b56f22265e9192941e76a1c5cd6ce0b35179bd75c863",
+   "evidence_sha256": "f42effce99f6989dd6f44dfa393c0d39872c16dd51b0059f93b41bb43ade1220",
    "model_version": "2"
   },
   "Los Angeles|rain|morning": {
    "city": "Los Angeles",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.00015716288019504415,
+   "upper_brier_difference": null,
+   "calibration_error": 0.019548986679494264,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "d08732d51baad08163eae7407cbb1100c94822202e0d6811e978af3b410fc8c9",
    "model_version": "2"
   },
   "Los Angeles|temperature|afternoon": {
    "city": "Los Angeles",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.628766159249856,
-   "upper_brier_difference": null,
-   "calibration_error": 0.2406045802717037,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.34465607090273476,
+   "upper_brier_difference": 0.9015118440630924,
+   "calibration_error": 0.14947633552927322,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "4957b399bbf7d9e7c945e7c28b0b00a699f6785b796d9c9fa0f5d6c3ca5ff4e9",
+   "evidence_sha256": "167909d9f6f9054c040d95a46e538641aecfdb138879d885131699c2d8687425",
    "model_version": "2"
   },
   "Los Angeles|temperature|day_ahead": {
@@ -1378,86 +1893,73 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Los Angeles|temperature|evening": {
    "city": "Los Angeles",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.5449249686562263,
-   "upper_brier_difference": null,
-   "calibration_error": 0.08692313790633502,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.272597665576967,
+   "upper_brier_difference": 0.8063591796123153,
+   "calibration_error": 0.04717198799890198,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "13df4f19838c69b19edef7a0d02298444ddd2dc192d3bf613af57b07ac881d1d",
+   "evidence_sha256": "5e52ea03b4bd7866b81303d0e2ddd138cff22cbcc3b7bf1f0cef9bbfb0529656",
    "model_version": "2"
   },
   "Los Angeles|temperature|morning": {
    "city": "Los Angeles",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.09006888903209043,
+   "upper_brier_difference": null,
+   "calibration_error": 0.2629459155343729,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "26d86bbda50922d2d369252745ed6e9d84ff9442e8f52fba43cf67fe9c7775e2",
    "model_version": "2"
   },
   "Los Angeles|temperature_low|afternoon": {
    "city": "Los Angeles",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.005491930779845634,
-   "upper_brier_difference": null,
-   "calibration_error": 0.006381175152519238,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.003989945486206863,
+   "upper_brier_difference": -0.0010460543106748706,
+   "calibration_error": 0.008451675306812198,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates"
    ],
-   "evidence_sha256": "7751e7360565085128ce3fe8558376ce79ec44faeb79357541b4a3ebea6e5beb",
+   "evidence_sha256": "2c9c2ca1fc71af9d889e456eb02dd99a56348f789508d38c1e3f41053fc06340",
    "model_version": "2"
   },
-  "Los Angeles|temperature_low|evening": {
+  "Los Angeles|temperature_low|day_ahead": {
    "city": "Los Angeles",
    "kind": "temperature_low",
-   "horizon": "evening",
-   "n": 1,
-   "required_dates": 20,
-   "excluded_prior_records": 0,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.00525253488911103,
-   "upper_brier_difference": null,
-   "calibration_error": 0.006381175152519238,
-   "ready_for_review": false,
-   "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
-   ],
-   "evidence_sha256": "b853ab90406a0299088e97d2087c3847f6a6a21f255ab59a6089b9b4e0dc61d7",
-   "model_version": "2"
-  },
-  "Los Angeles|temperature_low|morning": {
-   "city": "Los Angeles",
-   "kind": "temperature_low",
-   "horizon": "morning",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -1467,17 +1969,65 @@
    "excluded_prior_records": 1,
    "model_version": "2"
   },
+  "Los Angeles|temperature_low|evening": {
+   "city": "Los Angeles",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.0014778890014147106,
+   "upper_brier_difference": 0.005920416938470075,
+   "calibration_error": 0.011928143450967117,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "57eeafb1dba525aec66f51a2c5b0d9f7c52e870bd581f57f8905b8c691e18c19",
+   "model_version": "2"
+  },
+  "Los Angeles|temperature_low|morning": {
+   "city": "Los Angeles",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.02385042107692596,
+   "upper_brier_difference": null,
+   "calibration_error": 0.04616195271299836,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "64ef3615397a214dc26001110a6fcdc2c053b73a4d4401e107a09de0ddfe3b6e",
+   "model_version": "2"
+  },
   "Miami|rain|afternoon": {
    "city": "Miami",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.01218187147816468,
+   "upper_brier_difference": null,
+   "calibration_error": 0.11048471151324368,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "fb54a5fd6c4e0dbe74220af77631d8310f7614bc86fdcdd12ca347244e7ea8c0",
    "model_version": "2"
   },
   "Miami|rain|day_ahead": {
@@ -1490,54 +2040,70 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Miami|rain|evening": {
    "city": "Miami",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.13898646457126973,
-   "upper_brier_difference": null,
-   "calibration_error": 0.8555036321204427,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0763240407901611,
+   "upper_brier_difference": 0.19914239140113402,
+   "calibration_error": 0.36925690814283835,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "63aaaed6b217ce65f5dccf2f6bac84290e8830aa62c305a6edc1d15b41ba53a1",
+   "evidence_sha256": "64aef9eed02ba689be2684903dee50a08448925e250188821dbf5905d59ad9f1",
    "model_version": "2"
   },
   "Miami|rain|morning": {
    "city": "Miami",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.024437467092949,
+   "upper_brier_difference": null,
+   "calibration_error": 0.1165655734213622,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "b09fe01e6341c26bfb119bbeb01cc39c03e4a5a29e675839a476cb7652d825bd",
    "model_version": "2"
   },
   "Miami|temperature|afternoon": {
    "city": "Miami",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.054259219233307954,
+   "upper_brier_difference": null,
+   "calibration_error": 0.1289505031801158,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "2ecee86e9bd61cae24eef5dca9adf6b5b65b90873bdb4e92e8bcc60fe1b30053",
    "model_version": "2"
   },
   "Miami|temperature|day_ahead": {
@@ -1550,47 +2116,75 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 5,
+   "excluded_prior_records": 6,
    "model_version": "2"
   },
   "Miami|temperature|evening": {
    "city": "Miami",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
+   "last_date": "2026-09-20",
    "mean_brier_difference": 0.29858687508973236,
-   "upper_brier_difference": null,
+   "upper_brier_difference": 0.29858687508973236,
    "calibration_error": 0.12895041406116853,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "d6cbaab41152a8aa72d646de675cc52385ce2303922747df2b0eae14af576abd",
+   "evidence_sha256": "a5f99bc6c7a7d274eb2e793c9d3d0e7337c6c994d23549656719d50b24842fe6",
    "model_version": "2"
   },
   "Miami|temperature|morning": {
    "city": "Miami",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.1414488842688828,
+   "upper_brier_difference": null,
+   "calibration_error": 0.2842380015239174,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "36d8d408ae250a88c0cb48acebf0e9cdcebc3d6fa0484bc43b7511f9222a27ad",
    "model_version": "2"
   },
   "Miami|temperature_low|afternoon": {
    "city": "Miami",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.19196828385241277,
+   "upper_brier_difference": null,
+   "calibration_error": 0.0197218909427489,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "98cdc389ba6fb08650000cf0ada18c869a80dc75731bfd902b268243d4b07b5b",
+   "model_version": "2"
+  },
+  "Miami|temperature_low|day_ahead": {
+   "city": "Miami",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -1604,33 +2198,61 @@
    "city": "Miami",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.05020627169361432,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.29107028751005604,
+   "upper_brier_difference": 0.95997234354925,
+   "calibration_error": 0.12900246360712317,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "f97a1021e1f7e6b208864dafb089bd0a18eaac099e9ea0460273b2a06128e6f8",
+   "model_version": "2"
+  },
+  "Miami|temperature_low|morning": {
+   "city": "Miami",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.08272439543185632,
    "upper_brier_difference": null,
-   "calibration_error": 0.048291182649457864,
+   "calibration_error": 0.02015949688893078,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "1833520cb731179225f284108d558e0639e64b4ecdb87467d38c351dc13b8992",
+   "evidence_sha256": "a044c922b96c787f4c15fe0a57304ddb91a0e54a0df3373f7cc81d6466bf9b4e",
    "model_version": "2"
   },
   "Minneapolis|rain|afternoon": {
    "city": "Minneapolis",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.000984147428148873,
+   "upper_brier_difference": null,
+   "calibration_error": 0.034772797243662654,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "9dffee22267f53f6b72295a44fa68fd8ffe005316b7aa85d0acecbe88048db2e",
    "model_version": "2"
   },
   "Minneapolis|rain|day_ahead": {
@@ -1643,54 +2265,69 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Minneapolis|rain|evening": {
    "city": "Minneapolis",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.31498948458750986,
-   "upper_brier_difference": null,
-   "calibration_error": 0.5612615117639101,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.15985881663125168,
+   "upper_brier_difference": 0.4639149258255177,
+   "calibration_error": 0.3151022973146843,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "3bd226cd588efeff9bf4cec0672e5fe33d2f87b824316d570062bcfe4d072ef7",
+   "evidence_sha256": "4f35526c033be87084439029e06b71fbb30a4739a2c6e2e4104a5d5797d74b6b",
    "model_version": "2"
   },
   "Minneapolis|rain|morning": {
    "city": "Minneapolis",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0044819714422398155,
+   "upper_brier_difference": null,
+   "calibration_error": 0.06987110591825361,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "3d9bd9c61f0bcff8c1924a73839a580e9f77516d3aa1196e1a86c264ebbc03f3",
    "model_version": "2"
   },
   "Minneapolis|temperature|afternoon": {
    "city": "Minneapolis",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.8584109488773595,
+   "upper_brier_difference": null,
+   "calibration_error": 0.27332036730391346,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "9fb129db1db0bcb781bb4da15ae9392044d5776c4eab64ef7f5662045e2a4da0",
    "model_version": "2"
   },
   "Minneapolis|temperature|day_ahead": {
@@ -1703,47 +2340,75 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Minneapolis|temperature|evening": {
    "city": "Minneapolis",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.7395271491449059,
-   "upper_brier_difference": null,
-   "calibration_error": 0.20438292594233567,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.4071322502132219,
+   "upper_brier_difference": 1.0586262521193226,
+   "calibration_error": 0.13456476899147657,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "5e53df9c4665ce682cdac71a0254ef16887b8be4145be04a3ffed7cde4242789",
+   "evidence_sha256": "528bcffb2fc4dc89a0dd7b919839dfbe464831407343c5b18fb1cbdc9d25c60e",
    "model_version": "2"
   },
   "Minneapolis|temperature|morning": {
    "city": "Minneapolis",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.4233206731882976,
+   "upper_brier_difference": null,
+   "calibration_error": 0.2878629209425616,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "207885185fb5fc81e433ea64db5e17191b2bfa52dd2dea2ab8de2b8bbb40f366",
    "model_version": "2"
   },
   "Minneapolis|temperature_low|afternoon": {
    "city": "Minneapolis",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.0290084676450779,
+   "upper_brier_difference": null,
+   "calibration_error": 0.023186968372534464,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "0c7ce8e7bbce8954a2841d02545950941efdc2d086357448883cf151527a1db9",
+   "model_version": "2"
+  },
+  "Minneapolis|temperature_low|day_ahead": {
+   "city": "Minneapolis",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -1757,33 +2422,61 @@
    "city": "Minneapolis",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.02575267589685366,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.08076977902293817,
+   "upper_brier_difference": 0.02706374310418745,
+   "calibration_error": 0.024499626756563496,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "60e257354944f362a55b67138e2817cb85e425b5392bacf1ae38d323837324a1",
+   "model_version": "2"
+  },
+  "Minneapolis|temperature_low|morning": {
+   "city": "Minneapolis",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.01938786408023782,
    "upper_brier_difference": null,
-   "calibration_error": 0.0146297023530216,
+   "calibration_error": 0.060122287030626234,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "c743683ea3ae3d0e31f8955fb2188c4dac84c0ce277e14039ed3a5407a3916ff",
+   "evidence_sha256": "668ac2ec0215095274028cd7de2af949c518c882568454a4b3331d04570e65a5",
    "model_version": "2"
   },
   "New Orleans|rain|afternoon": {
    "city": "New Orleans",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.016104261796390816,
+   "upper_brier_difference": null,
+   "calibration_error": 0.12778600000152918,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "55cdb96648d4872dfb898f77370862f0ed5f74822bda88d4203e06be38708972",
    "model_version": "2"
   },
   "New Orleans|rain|day_ahead": {
@@ -1796,53 +2489,70 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "New Orleans|rain|evening": {
    "city": "New Orleans",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.0001836146402253684,
-   "upper_brier_difference": null,
-   "calibration_error": 0.0144434981990295,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.017297066745095045,
+   "upper_brier_difference": 0.050839432870639606,
+   "calibration_error": 0.10000579790366632,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "f785a2ca623dd0f9c124a7d97c7a2e97f5e85295503889b01e8e2805429e7c7c",
+   "evidence_sha256": "8765cb5e901a641e0ce3a3e3811aa8e611b55dbd25d8cfc4ac7fb504f5964d95",
    "model_version": "2"
   },
   "New Orleans|rain|morning": {
    "city": "New Orleans",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.05929213632415927,
+   "upper_brier_difference": null,
+   "calibration_error": 0.2520260627874809,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "467920cc1ebdae70b154339811c3c327d8959c91a345c228db092663f125b8b3",
    "model_version": "2"
   },
   "New Orleans|temperature|afternoon": {
    "city": "New Orleans",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.43864018019615,
+   "upper_brier_difference": null,
+   "calibration_error": 0.10068944677405825,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "92c10492f924ea9313957d2cb852b9c1d8c72adc1829481cc365d45c14c56aeb",
    "model_version": "2"
   },
   "New Orleans|temperature|day_ahead": {
@@ -1855,46 +2565,74 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "New Orleans|temperature|evening": {
    "city": "New Orleans",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.020200047504829392,
-   "upper_brier_difference": null,
-   "calibration_error": 0.034092678226568474,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.009740131988872941,
+   "upper_brier_difference": 0.030241566400147583,
+   "calibration_error": 0.017169551827104446,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "e75842ad121f32239073dc76fb1ce1392a25957f77481c96d5e55b42efbeccb7",
+   "evidence_sha256": "11398808b0649b7cdbf0db155ea5ab98e4834f891f8de536b3c87949d32b8047",
    "model_version": "2"
   },
   "New Orleans|temperature|morning": {
    "city": "New Orleans",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.047598674436572064,
+   "upper_brier_difference": null,
+   "calibration_error": 0.16531368672852298,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "279ed66b99aa4f10de9868018e27f99baf78a71435e7ec167ae9e5e1dacc8a37",
    "model_version": "2"
   },
   "New Orleans|temperature_low|afternoon": {
    "city": "New Orleans",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.00462177980421125,
+   "upper_brier_difference": null,
+   "calibration_error": 0.018944167586631318,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "dddf99f1b49fe6c6c1d60f2408b10d56e6f337d38ac56b56fce52f155b06809a",
+   "model_version": "2"
+  },
+  "New Orleans|temperature_low|day_ahead": {
+   "city": "New Orleans",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -1908,33 +2646,60 @@
    "city": "New Orleans",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.001057252765381352,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.001782263519414949,
+   "upper_brier_difference": 0.007347715437615698,
+   "calibration_error": 0.009493458096563625,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "e82e1b634377ee6303d0851a5e9920f0828413d6b443f6b7cf67afea35a0f72f",
+   "model_version": "2"
+  },
+  "New Orleans|temperature_low|morning": {
+   "city": "New Orleans",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.00353420933300172,
    "upper_brier_difference": null,
-   "calibration_error": 4.274860649592741e-05,
+   "calibration_error": 0.018944167586631318,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "64b168e8f2a6ab541c6cc8851fc2d428599f8b1fdc7291353865694040bf11c3",
+   "evidence_sha256": "cde1bc9691efb172287eae6d3b01557d96511243cd78cd50dd4fc3956c9ce9e1",
    "model_version": "2"
   },
   "New York|rain|afternoon": {
    "city": "New York",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0006880102439182867,
+   "upper_brier_difference": null,
+   "calibration_error": 0.026702251663825782,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "3a1bc410a6ae52b165721664ee51e2f86056299191e8bd2d6bf8a3d733510aa7",
    "model_version": "2"
   },
   "New York|rain|day_ahead": {
@@ -1947,53 +2712,67 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "New York|rain|evening": {
    "city": "New York",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.0015601430948125506,
-   "upper_brier_difference": null,
-   "calibration_error": 0.04674551416780599,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.001134816472665927,
+   "upper_brier_difference": 0.0019684566520733093,
+   "calibration_error": 0.03692349369228801,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "cadcecd3861f826f902ffb6cd773b864b2a378702d2b5ff03a1e94d759e83f6b",
+   "evidence_sha256": "542ea209ea9ebe5f91855a74eb757b9181623c3f0fdc42e89f41bf7415cd67f8",
    "model_version": "2"
   },
   "New York|rain|morning": {
    "city": "New York",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0007596466839982712,
+   "upper_brier_difference": null,
+   "calibration_error": 0.028011545548189076,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "5095e545f842c15b8d94e4d8384b464728a3c8edd24375801355842214b8a83d",
    "model_version": "2"
   },
   "New York|temperature|afternoon": {
    "city": "New York",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.14556913169339822,
+   "upper_brier_difference": null,
+   "calibration_error": 0.09735841618391461,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "b9161cd4a7476ee7f704a84e3a3a339f0d9f187c698ea2a3d8bc4a6e31e9f61c",
    "model_version": "2"
   },
   "New York|temperature|day_ahead": {
@@ -2006,46 +2785,74 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 5,
+   "excluded_prior_records": 6,
    "model_version": "2"
   },
   "New York|temperature|evening": {
    "city": "New York",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0007189508017361773,
-   "upper_brier_difference": null,
-   "calibration_error": 0.00032709021795840343,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.03117407786256018,
+   "upper_brier_difference": 0.09368441404458104,
+   "calibration_error": 0.03212954919736473,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "386c37609572d030cb8b36ff54c4f094154373f7f8b1684d574b68ca49e2e90c",
+   "evidence_sha256": "a306ab8272edec9849c7ecc0bb9b538fa3108f9f5d8e82c98998f3bc35b4015f",
    "model_version": "2"
   },
   "New York|temperature|morning": {
    "city": "New York",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.1715705533124413,
+   "upper_brier_difference": null,
+   "calibration_error": 0.11678016497810247,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "966606dd2d27493f5d747c73ea866155f8b3c68bad49b7770040cc60c58f19de",
    "model_version": "2"
   },
   "New York|temperature_low|afternoon": {
    "city": "New York",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.004477330567639155,
+   "upper_brier_difference": null,
+   "calibration_error": 2.0360474487871963e-07,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "6f57c3a8f0a2076e23c026bf1d29a9c030c32220b8759b0c880e7b6e3818eeae",
+   "model_version": "2"
+  },
+  "New York|temperature_low|day_ahead": {
+   "city": "New York",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -2059,33 +2866,60 @@
    "city": "New York",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.034016140938995784,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.018864108541700644,
+   "upper_brier_difference": 0.010833874956997832,
+   "calibration_error": 0.011035389990188233,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "936c9f8788016a589d236ce069b51a6c76b637a1f9eaf6f6f12d8020088f2d20",
+   "model_version": "2"
+  },
+  "New York|temperature_low|morning": {
+   "city": "New York",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.015679288710452294,
    "upper_brier_difference": null,
-   "calibration_error": 0.02207057637563159,
+   "calibration_error": 0.0008274210174176918,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "c77e51981568cc17f26304320bdb96baa5177580bdf5db68d28441fd5499ec2e",
+   "evidence_sha256": "c1d66ac6089024eb46f9ae7fc0ba2ff8d04b105fb50b44ddd7a985826dd4c67a",
    "model_version": "2"
   },
   "Newark|rain|afternoon": {
    "city": "Newark",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0006159020034986206,
+   "upper_brier_difference": null,
+   "calibration_error": 0.02531604241382568,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "0c4df8d855bb68cdb048828faff7c27f97910443a47b82ab83464ef02329d2c1",
    "model_version": "2"
   },
   "Newark|rain|day_ahead": {
@@ -2098,53 +2932,68 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Newark|rain|evening": {
    "city": "Newark",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.002110520233427446,
-   "upper_brier_difference": null,
-   "calibration_error": 0.06790081172878161,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.001373397517154051,
+   "upper_brier_difference": 0.0028181580410499055,
+   "calibration_error": 0.04680803784777577,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "d3bb47234284a303e2f2a4b42e0bffc2cd65d3de8b567607211514df41fbbbbb",
+   "evidence_sha256": "1e7466c296fe909b7db53ccb6e8741b08edbb30ec8da4b18bbcbe3b37bf23b92",
    "model_version": "2"
   },
   "Newark|rain|morning": {
    "city": "Newark",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0005558602454330258,
+   "upper_brier_difference": null,
+   "calibration_error": 0.024101042413825713,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "1d888de20dbe573a3155a0d351b2cabc4da376fd94549cc2fbabfbe534fe5b57",
    "model_version": "2"
   },
   "Newark|temperature|afternoon": {
    "city": "Newark",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.16375120886730132,
+   "upper_brier_difference": null,
+   "calibration_error": 0.23583768825305285,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "eec577698c7345b15d57242f6c9369e85575669dda0b54ca8e8005b1b9723575",
    "model_version": "2"
   },
   "Newark|temperature|day_ahead": {
@@ -2157,47 +3006,75 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 5,
+   "excluded_prior_records": 6,
    "model_version": "2"
   },
   "Newark|temperature|evening": {
    "city": "Newark",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.7511813399763473,
-   "upper_brier_difference": null,
-   "calibration_error": 0.20438292594233534,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.5774490066857743,
+   "upper_brier_difference": 0.9179643799352974,
+   "calibration_error": 0.22238309582820678,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "ae54fc6287a792ea4a3a7efb15c740ec886373d91ce786e0522c8b28dbb635e8",
+   "evidence_sha256": "b41826cfe8d463ab00f347198096b0b3978451dda0059d0228ae7733dcc9458f",
    "model_version": "2"
   },
   "Newark|temperature|morning": {
    "city": "Newark",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.1260801192455091,
+   "upper_brier_difference": null,
+   "calibration_error": 0.2549953994312443,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "c3fbb5446f9a4e31ddb61e1dc3c2e9eaa965d6e098cdd83be47b3d5d27e4a1a4",
    "model_version": "2"
   },
   "Newark|temperature_low|afternoon": {
    "city": "Newark",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.029331749695915465,
+   "upper_brier_difference": null,
+   "calibration_error": 0.0011410646886546492,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "2fad87d15b378e2e7f3981f29ce1776259a1adc531f85cfaba48eefa57abd077",
+   "model_version": "2"
+  },
+  "Newark|temperature_low|day_ahead": {
+   "city": "Newark",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -2211,33 +3088,60 @@
    "city": "Newark",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0332770371836054,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.042904351497509485,
+   "upper_brier_difference": -0.024034815442257475,
+   "calibration_error": 0.0005729170145534295,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates"
+   ],
+   "evidence_sha256": "f557ab6e05a1ee81504cf64d488d4b07a4cb5e0665f15d5c5cc32d91a1430b8a",
+   "model_version": "2"
+  },
+  "Newark|temperature_low|morning": {
+   "city": "Newark",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.027892053979889843,
    "upper_brier_difference": null,
-   "calibration_error": 4.76934045220978e-06,
+   "calibration_error": 0.06693021551569456,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "baf731a13185026b88aecd6c171d6f54a046b6d81db2154051bcb20dc507b31c",
+   "evidence_sha256": "5d96854eafa34a6c388db8f3ee6261980c375b4cef0c58e75f733080b1e727af",
    "model_version": "2"
   },
   "Oklahoma City|rain|afternoon": {
    "city": "Oklahoma City",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.0567696943622481,
+   "upper_brier_difference": null,
+   "calibration_error": 0.7322091952698708,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "40b11911048ab4b81cee2669d626f446acfa77278e871f39df355b1f47da097c",
    "model_version": "2"
   },
   "Oklahoma City|rain|day_ahead": {
@@ -2250,54 +3154,70 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 12,
+   "excluded_prior_records": 13,
    "model_version": "2"
   },
   "Oklahoma City|rain|evening": {
    "city": "Oklahoma City",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 12,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.01301883020838162,
-   "upper_brier_difference": null,
-   "calibration_error": 0.11508184134945712,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.1840968436787011,
+   "upper_brier_difference": 0.5194097500805273,
+   "calibration_error": 0.35561803198530056,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "a7e217ee6e3e4573312e5897f65c2c88b66dfee8e0ca8f27f9c6b25c4bde6d3a",
+   "evidence_sha256": "2f91bc0e14795e9855f3365e15138d395d8a2b16c485be612d97b73dca9bed24",
    "model_version": "2"
   },
   "Oklahoma City|rain|morning": {
    "city": "Oklahoma City",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.12831920748409797,
+   "upper_brier_difference": null,
+   "calibration_error": 0.7247200890579052,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "d9d7dbcec29e082f432639cc9f1c9aed11f5f29aab4b4c353482a5fe01c38605",
    "model_version": "2"
   },
   "Oklahoma City|temperature|afternoon": {
    "city": "Oklahoma City",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.9980086117229803,
+   "upper_brier_difference": null,
+   "calibration_error": 0.26924450268291267,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "1bd869242123a4d393cef068be23c9517f9eb79459c10329fed7573579b0a78c",
    "model_version": "2"
   },
   "Oklahoma City|temperature|day_ahead": {
@@ -2310,46 +3230,76 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 12,
+   "excluded_prior_records": 13,
    "model_version": "2"
   },
   "Oklahoma City|temperature|evening": {
    "city": "Oklahoma City",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 12,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0006776470267639604,
-   "upper_brier_difference": null,
-   "calibration_error": 0.001549723257813218,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.6485501798986689,
+   "upper_brier_difference": 1.9210367206725172,
+   "calibration_error": 0.1350682222777623,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "bae2dceb397575f9b07efae9b4c3ab65f7d1c8bd26cdae44a4e1354f0602d966",
+   "evidence_sha256": "6aa1239db5b0dda5b813030924658b918319bd6a5104af96d60f11891ce3cb06",
    "model_version": "2"
   },
   "Oklahoma City|temperature|morning": {
    "city": "Oklahoma City",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.2321678296026609,
+   "upper_brier_difference": null,
+   "calibration_error": 0.10871783154991264,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "539c44e87887c6257ba4fab6d70daf0ab5c0b133f2f4c996b7167fda35516e1e",
    "model_version": "2"
   },
   "Oklahoma City|temperature_low|afternoon": {
    "city": "Oklahoma City",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.0069615011666692705,
+   "upper_brier_difference": null,
+   "calibration_error": 0.13325652867223983,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "f32e5c86c81a8d39ed025d73660c12f14054c5bb2eb9b03ba5271dab288f03ba",
+   "model_version": "2"
+  },
+  "Oklahoma City|temperature_low|day_ahead": {
+   "city": "Oklahoma City",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -2363,33 +3313,62 @@
    "city": "Oklahoma City",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0007313564894798813,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.12533289379791943,
+   "upper_brier_difference": 0.37241882436122203,
+   "calibration_error": 0.062081825239669465,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "681917c7b145617d3f487d812fd56489826a97672724a8294fafc4e74f8dfe4c",
+   "model_version": "2"
+  },
+  "Oklahoma City|temperature_low|morning": {
+   "city": "Oklahoma City",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.19137847178661727,
    "upper_brier_difference": null,
-   "calibration_error": 0.0004634141161777479,
+   "calibration_error": 0.13575368631936355,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "2d229f539f57db9f92df2b35ef2fc0373f55e89698f12ca9550e38b30d4085ef",
+   "evidence_sha256": "96992b8018d25ed47cb6deebb661bf9c64a5df1fa69ab95ec9029acf95cffe08",
    "model_version": "2"
   },
   "Philadelphia|rain|afternoon": {
    "city": "Philadelphia",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.029388166445852338,
+   "upper_brier_difference": null,
+   "calibration_error": 0.1715026718329844,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "70e792f1c453db5da9b2c9f69d9d77752341f4e791eefc41188aca25cecc43f2",
    "model_version": "2"
   },
   "Philadelphia|rain|day_ahead": {
@@ -2402,53 +3381,70 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Philadelphia|rain|evening": {
    "city": "Philadelphia",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.008246602356811272,
-   "upper_brier_difference": null,
-   "calibration_error": 0.09732215758403259,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.01918526249361591,
+   "upper_brier_difference": 0.04062503636175299,
+   "calibration_error": 0.13547830437314817,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "f56a7aef1aa9ba92faee94a267585cac4cdf0710ce12fd3a69b35ac16696580e",
+   "evidence_sha256": "7bd08ee84aa01fa8db9d47ee6d5c9a48c5a60b63f32e4ba5917c0935f6ea4b41",
    "model_version": "2"
   },
   "Philadelphia|rain|morning": {
    "city": "Philadelphia",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.029583282119993906,
+   "upper_brier_difference": null,
+   "calibration_error": 0.17207057307975093,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "f995bb4da5631deca532a8f9e26bf0e857537d637c3fba2aa7123d7b21957c87",
    "model_version": "2"
   },
   "Philadelphia|temperature|afternoon": {
    "city": "Philadelphia",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.29536777572430195,
+   "upper_brier_difference": null,
+   "calibration_error": 0.12268974530164409,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "74bd1de7dfe87e494c35cc71e870c48631239067fa26e8d14cf4aede3639ae5a",
    "model_version": "2"
   },
   "Philadelphia|temperature|day_ahead": {
@@ -2461,47 +3457,75 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 5,
+   "excluded_prior_records": 6,
    "model_version": "2"
   },
   "Philadelphia|temperature|evening": {
    "city": "Philadelphia",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 1.701240370547547,
-   "upper_brier_difference": null,
-   "calibration_error": 0.3074953700765276,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 1.1874413528713175,
+   "upper_brier_difference": 2.1944874275167274,
+   "calibration_error": 0.28804097085793146,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "bdbbed4668ac7dcc7e0fb8a10e6461af6c79b8bb62462101d654a6c28243effa",
+   "evidence_sha256": "81d1e87c1b95d7b0594ef5ca73da85a6e6060a83e604d89ddb37d08f74865aa1",
    "model_version": "2"
   },
   "Philadelphia|temperature|morning": {
    "city": "Philadelphia",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0647250242678562,
+   "upper_brier_difference": null,
+   "calibration_error": 0.10840943835138162,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "b5bf7c57faf34ee3ecf49a1780e7dded01b0f6a18b781f8d7e6875d2697930f8",
    "model_version": "2"
   },
   "Philadelphia|temperature_low|afternoon": {
    "city": "Philadelphia",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.0022871012158975556,
+   "upper_brier_difference": null,
+   "calibration_error": 2.6787706034851295e-09,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "a62fddf868d7850ccaa1623265c1c97bbcfaa9e97ee733a9c91aa2852a97b612",
+   "model_version": "2"
+  },
+  "Philadelphia|temperature_low|day_ahead": {
+   "city": "Philadelphia",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -2515,41 +3539,61 @@
    "city": "Philadelphia",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.8406410782964693,
-   "upper_brier_difference": null,
-   "calibration_error": 0.21949789646975856,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.41916585915954585,
+   "upper_brier_difference": 1.2452572886679156,
+   "calibration_error": 0.10974894957426458,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "6ffb6b825d3efc8ed8c06d7d1a93010b9ee5bcf5e58280548655059248a95b82",
+   "evidence_sha256": "a82d06558da43fc8cd881e5c682552c139963bbc028ba97c54caf2de2c895200",
+   "model_version": "2"
+  },
+  "Philadelphia|temperature_low|morning": {
+   "city": "Philadelphia",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.005585949470857938,
+   "upper_brier_difference": null,
+   "calibration_error": 1.3399191658723202e-05,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "7b3f57253c8bea5a15990c1b083aceea0f25fb2311ed49b845dafd42af9eeb55",
    "model_version": "2"
   },
   "Phoenix|rain|afternoon": {
    "city": "Phoenix",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 5.244755416663602e-06,
-   "upper_brier_difference": null,
-   "calibration_error": 0.005499523199029494,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 5.157008808333645e-05,
+   "upper_brier_difference": 0.00014236774011001523,
+   "calibration_error": 0.008292671953065697,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "b254b54eadb86b2fc7d4e1613b09c7aca5571315794f2ec098c1b1da54d6fa6c",
+   "evidence_sha256": "e1151de735e3a42360b11b5bfcf87340845f38c5f77c2546955bcdf97ce97a39",
    "model_version": "2"
   },
   "Phoenix|rain|day_ahead": {
@@ -2562,61 +3606,68 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Phoenix|rain|evening": {
    "city": "Phoenix",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 1.354562950984671e-06,
-   "upper_brier_difference": null,
-   "calibration_error": 0.005133669540492909,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 4.962499185049696e-05,
+   "upper_brier_difference": 0.00014423503249354105,
+   "calibration_error": 0.008109745123797404,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "1ae0167cf3df68444771cbff8e15a6aefc768586eba5044caafe33e60d086f32",
+   "evidence_sha256": "834b7e303fef3c307d4cd32a350f13672524101098b8fa6627655ac8e8291096",
    "model_version": "2"
   },
   "Phoenix|rain|morning": {
    "city": "Phoenix",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0001370430021707138,
+   "upper_brier_difference": null,
+   "calibration_error": 0.012729611234075996,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "c1247abf1ba3e0f80d79145c454002c6bfcc01f3a95043cf4dc591a3950e55a9",
    "model_version": "2"
   },
   "Phoenix|temperature|afternoon": {
    "city": "Phoenix",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 1.2876119018822918,
-   "upper_brier_difference": null,
-   "calibration_error": 0.26858672155063157,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.511480352729536,
+   "upper_brier_difference": 2.0326981890689373,
+   "calibration_error": 0.2760046077928652,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "c3b21ed18f0417e7cdf047d071ff247ae020517111bd93d07b6febeae65a9b40",
+   "evidence_sha256": "96e3ce30cc33c13c24340ad04116fc783307d98fec6618b26a0549903e8f0fa2",
    "model_version": "2"
   },
   "Phoenix|temperature|day_ahead": {
@@ -2629,94 +3680,143 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Phoenix|temperature|evening": {
    "city": "Phoenix",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
+   "last_date": "2026-09-20",
    "mean_brier_difference": 1.2977780068240987,
-   "upper_brier_difference": null,
+   "upper_brier_difference": 1.2977780068240987,
    "calibration_error": 0.26858672129771105,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "07c7d9a5dee30e31957d4665f87e5101303c2cd2fea1bbbeaf6e9639d1287d90",
+   "evidence_sha256": "6352f0bef9e017ac03b3d8b6b64f34ac50a386eafd51c30fcffab2f1bc385bf6",
    "model_version": "2"
   },
   "Phoenix|temperature|morning": {
    "city": "Phoenix",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0259153021676628,
+   "upper_brier_difference": null,
+   "calibration_error": 0.3319353734733687,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "17199eccd0a01be35092a3093716bcfbbfa550a89dc953ab56d6cc103f481368",
    "model_version": "2"
   },
   "Phoenix|temperature_low|afternoon": {
    "city": "Phoenix",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0068529724667809894,
-   "upper_brier_difference": null,
-   "calibration_error": 2.5962436855930804e-06,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.023164253094229387,
+   "upper_brier_difference": 0.08199801519380973,
+   "calibration_error": 0.027447903941801313,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "72a85132f9ae138d229314f7cda47d4d8b16f60a641f9a154c797e2f21a014dd",
+   "evidence_sha256": "1a15bd56bd4c5f27005f161b27b46e47138b4a333b02272887a5ad1c8f7d30c0",
    "model_version": "2"
   },
-  "Phoenix|temperature_low|evening": {
+  "Phoenix|temperature_low|day_ahead": {
    "city": "Phoenix",
    "kind": "temperature_low",
-   "horizon": "evening",
-   "n": 1,
-   "required_dates": 20,
-   "excluded_prior_records": 0,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0010572855380331211,
-   "upper_brier_difference": null,
-   "calibration_error": 2.5962436855930804e-06,
-   "ready_for_review": false,
-   "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
-   ],
-   "evidence_sha256": "3055a3453ed9f127e427facd8c6b9d4978aec1c522e43f27d43d38e58611a4c6",
-   "model_version": "2"
-  },
-  "San Antonio|rain|afternoon": {
-   "city": "San Antonio",
-   "kind": "rain",
-   "horizon": "afternoon",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
+   "excluded_prior_records": 1,
+   "model_version": "2"
+  },
+  "Phoenix|temperature_low|evening": {
+   "city": "Phoenix",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.025876878591139657,
+   "upper_brier_difference": 0.07866784028431831,
+   "calibration_error": 0.027447903941801313,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "dd0048dca9ca02389be5a3667f1dc5900bc7d2e9fad27451da32fc8618840295",
+   "model_version": "2"
+  },
+  "Phoenix|temperature_low|morning": {
+   "city": "Phoenix",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.05204796278354687,
+   "upper_brier_difference": null,
+   "calibration_error": 0.05949696935192368,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "872e5cfc627445a5a6a9defaab6a372a2bb493e0684902ab7c7e0727e292c636",
+   "model_version": "2"
+  },
+  "San Antonio|rain|afternoon": {
+   "city": "San Antonio",
+   "kind": "rain",
+   "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
    "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.015438181106587217,
+   "upper_brier_difference": null,
+   "calibration_error": 0.12515263124116574,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "6b3cd3e22f85935941163f77c19307133d58e4d4065a018e578c498b11ea3123",
    "model_version": "2"
   },
   "San Antonio|rain|day_ahead": {
@@ -2729,54 +3829,69 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "San Antonio|rain|evening": {
    "city": "San Antonio",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.020671529255528138,
-   "upper_brier_difference": null,
-   "calibration_error": 0.14386288352291615,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.036034990576017806,
+   "upper_brier_difference": 0.06614737476417755,
+   "calibration_error": 0.19299284343072204,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "6016e164e85d13c48e0c8fb8f0a12c6fc7818564ef437085ac090fc0535e5e7b",
+   "evidence_sha256": "6c57f54f7ef910b18f471971d5d0fcaa92e2a075d06dd8b69dab0baed9b08063",
    "model_version": "2"
   },
   "San Antonio|rain|morning": {
    "city": "San Antonio",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.020539663106003105,
+   "upper_brier_difference": null,
+   "calibration_error": 0.14548079978472453,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "deb4b703930199ce6e8b814a390cf8fe6a42377289c04d26daa7ed055e52a6dd",
    "model_version": "2"
   },
   "San Antonio|temperature|afternoon": {
    "city": "San Antonio",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.007699321790902415,
+   "upper_brier_difference": null,
+   "calibration_error": 0.06197706884212132,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "c4cc48f675a34d2bf60bf1e62cb14f45b1b67b12059be0ca3897b9042fede495",
    "model_version": "2"
   },
   "San Antonio|temperature|day_ahead": {
@@ -2789,46 +3904,73 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "San Antonio|temperature|evening": {
    "city": "San Antonio",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0007208765859284903,
-   "upper_brier_difference": null,
-   "calibration_error": 0.0,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.0007208765797502873,
+   "upper_brier_difference": -0.0007208765676410098,
+   "calibration_error": 4.142665167017334e-07,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
+    "2/20 distinct settled dates"
    ],
-   "evidence_sha256": "5b49a5bd19eaa3d7f8ea05204795d468a453b11a4e551467805b37d3986e2475",
+   "evidence_sha256": "9777b03df9994a583acfa37e1a90181fe1c1b12848ffef6baab42e5bc2473a42",
    "model_version": "2"
   },
   "San Antonio|temperature|morning": {
    "city": "San Antonio",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.1776220000681068,
+   "upper_brier_difference": null,
+   "calibration_error": 0.10080685474293974,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "23e97bdbe639700163d5faa7d4dd86cd238a80c345851bebe38143ec568f4840",
    "model_version": "2"
   },
   "San Antonio|temperature_low|afternoon": {
    "city": "San Antonio",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0011779374405512556,
+   "upper_brier_difference": null,
+   "calibration_error": 0.011169565244431644,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "25fc927915706ccad918514f51a0f04f59c7e964760e120e3259d3b3e091f3a1",
+   "model_version": "2"
+  },
+  "San Antonio|temperature_low|day_ahead": {
+   "city": "San Antonio",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -2842,41 +3984,61 @@
    "city": "San Antonio",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.002347981726481098,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0010301472634080043,
+   "upper_brier_difference": 0.0036131028110312673,
+   "calibration_error": 0.010621082490004215,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "1dd7cb86cf0df3e35126dc4b0602eddebe228eba15aca74e844d06b5feb773ff",
+   "model_version": "2"
+  },
+  "San Antonio|temperature_low|morning": {
+   "city": "San Antonio",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.020907460018251008,
    "upper_brier_difference": null,
-   "calibration_error": 0.014629702353021714,
+   "calibration_error": 0.015552974638744835,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "2eddaefb0362a563dec53d6fb70d172b1e267e6b008ded889b5b729c8a48e670",
+   "evidence_sha256": "0610ed8a2ceeb546753581dca4efdc3227ab4de24ba7c478399b6e75196307e4",
    "model_version": "2"
   },
   "San Diego|temperature|afternoon": {
    "city": "San Diego",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.7861718908305378,
-   "upper_brier_difference": null,
-   "calibration_error": 0.25504570544992045,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.4215107280947138,
+   "upper_brier_difference": 1.1362466070569288,
+   "calibration_error": 0.1561019603543019,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "e92aa834972e198c8ae568f2eef2840c45c925722f6b0f3badf282f10e6338d7",
+   "evidence_sha256": "05a3c938bee60ae05782bdc9e9a82af37e513ea7f2947794eab7b45d49b6cacf",
    "model_version": "2"
   },
   "San Diego|temperature|day_ahead": {
@@ -2889,87 +4051,74 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "San Diego|temperature|evening": {
    "city": "San Diego",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 1.701240370547547,
-   "upper_brier_difference": null,
-   "calibration_error": 0.3074953700765276,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.8502597470340162,
+   "upper_brier_difference": 2.5181817691205364,
+   "calibration_error": 0.15374646931937042,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "81c0e5577f6859960747204fe30bf1df8a82f860ce8b865351b155b4ba49aa12",
+   "evidence_sha256": "91f08125fd3b4a0998c01fc6d50aefeaa8510e797ce2fd680a1baa7126bb98ed",
    "model_version": "2"
   },
   "San Diego|temperature|morning": {
    "city": "San Diego",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.1986267450369833,
+   "upper_brier_difference": null,
+   "calibration_error": 0.09138689689501431,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "83a12cb8a8bfe8fbde25860a6d968204c8423dc4ff2d109c9c06de7be45936c8",
    "model_version": "2"
   },
   "San Diego|temperature_low|afternoon": {
    "city": "San Diego",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.02620128422533983,
-   "upper_brier_difference": null,
-   "calibration_error": 0.02977348166347278,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.019116051870637644,
+   "upper_brier_difference": 0.10793803061875348,
+   "calibration_error": 0.04874122382919151,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "fb0eacf22a305a1d9a5223df09754f7521102d97b6f46a2657798fdf0c399279",
+   "evidence_sha256": "bce2c5161c9ca92d1eec4ae1088ca93103be60270ce9b7436a1d0000593b0c6d",
    "model_version": "2"
   },
-  "San Diego|temperature_low|evening": {
+  "San Diego|temperature_low|day_ahead": {
    "city": "San Diego",
    "kind": "temperature_low",
-   "horizon": "evening",
-   "n": 1,
-   "required_dates": 20,
-   "excluded_prior_records": 0,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0066209877641559625,
-   "upper_brier_difference": null,
-   "calibration_error": 0.016240883790362926,
-   "ready_for_review": false,
-   "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
-   ],
-   "evidence_sha256": "98fd5a3e32899a3bb563a7b9ceda6a6b2643bc436a806baf8a31649c19250edd",
-   "model_version": "2"
-  },
-  "San Diego|temperature_low|morning": {
-   "city": "San Diego",
-   "kind": "temperature_low",
-   "horizon": "morning",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -2979,24 +4128,65 @@
    "excluded_prior_records": 1,
    "model_version": "2"
   },
+  "San Diego|temperature_low|evening": {
+   "city": "San Diego",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.02312678728656417,
+   "upper_brier_difference": 0.08143242638597561,
+   "calibration_error": 0.037885095821008984,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "c6555d3e78a189de2a593218a2c3a05e22539705beea22fd5562492cd5421fd1",
+   "model_version": "2"
+  },
+  "San Diego|temperature_low|morning": {
+   "city": "San Diego",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.7892059491195554,
+   "upper_brier_difference": null,
+   "calibration_error": 0.2364973762755522,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
+   ],
+   "evidence_sha256": "2e5b359ac0ad0c094d1ca51cea327899f0ce9954fb090593122cf445908e2765",
+   "model_version": "2"
+  },
   "San Francisco|rain|afternoon": {
    "city": "San Francisco",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.0004990265666190231,
-   "upper_brier_difference": null,
-   "calibration_error": 0.022891626561234637,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0016235682071872688,
+   "upper_brier_difference": 0.0038276698227010303,
+   "calibration_error": 0.03777597586915594,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "1433d58830592e764502d0152150a5cf640097fc03a2e532acfcdcd9a0604808",
+   "evidence_sha256": "9292de6a95a1d8dff2ce238fc9ad0d747903cf1bf50f56cfa895d4eee815fc4f",
    "model_version": "2"
   },
   "San Francisco|rain|day_ahead": {
@@ -3009,61 +4199,68 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "San Francisco|rain|evening": {
    "city": "San Francisco",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.00048241044486392576,
-   "upper_brier_difference": null,
-   "calibration_error": 0.02252577290269805,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0005438686089566561,
+   "upper_brier_difference": 0.0006643266105784076,
+   "calibration_error": 0.023816041164899982,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "76d577197dffab8f114162e5da95d002c5af9716273471f089a1fb295b492c00",
+   "evidence_sha256": "afce466e0338bf2d77b7a015713669b4d923ee5c24200001baff4ea566c24c2f",
    "model_version": "2"
   },
   "San Francisco|rain|morning": {
    "city": "San Francisco",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.0011331922708688116,
+   "upper_brier_difference": null,
+   "calibration_error": 0.036853660209927745,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "d8147a6d1bb3b43debf90628ae80e221c1d5747be40519d7517ce3fbda369608",
    "model_version": "2"
   },
   "San Francisco|temperature|afternoon": {
    "city": "San Francisco",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.9833663362537751,
-   "upper_brier_difference": null,
-   "calibration_error": 0.3019087649170263,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.6602643485510438,
+   "upper_brier_difference": 1.2935442444483969,
+   "calibration_error": 0.15619118548491676,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "398e660de2baa14105762be1b6b270c92976e19c799d994fa3d07267e5f86344",
+   "evidence_sha256": "c5c1096dda233098da87d2f295ed889d84e1d0ad8c8e20973b471ca594b8bf1e",
    "model_version": "2"
   },
   "San Francisco|temperature|day_ahead": {
@@ -3076,86 +4273,74 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "San Francisco|temperature|evening": {
    "city": "San Francisco",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 6.692693507670067e-05,
-   "upper_brier_difference": null,
-   "calibration_error": 0.006615676562705748,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.14891233131490775,
+   "upper_brier_difference": 0.4406493238993766,
+   "calibration_error": 0.06778304197685185,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "9635760801ebc15c4a3280c8dd9e2d3c3d76b60ce0c13fecae72d1f2b8446d1f",
+   "evidence_sha256": "e7eb5996e2202939bc9012dd2f9c59519d5ce2b0cb908091077f9993b80936de",
    "model_version": "2"
   },
   "San Francisco|temperature|morning": {
    "city": "San Francisco",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.171634402343659,
+   "upper_brier_difference": null,
+   "calibration_error": 0.2310448189903001,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "703a3386df9b46196fbd1cbc43093ecfb3974aff191f11806ce71e494910e4a3",
    "model_version": "2"
   },
   "San Francisco|temperature_low|afternoon": {
    "city": "San Francisco",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.002103039900072143,
-   "upper_brier_difference": null,
-   "calibration_error": 0.009998330765577983,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.05242409279021845,
+   "upper_brier_difference": 0.159297272863188,
+   "calibration_error": 0.04538295623055222,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "670d9bd3e4be6604ff1d4df7a60179a26825f432ee006a93efbd1a20b0f62f11",
+   "evidence_sha256": "23a0c7de9c4d1d6e3e8e80aec67dda1295c8891b623ad707ce07ad724c38c24f",
    "model_version": "2"
   },
-  "San Francisco|temperature_low|evening": {
+  "San Francisco|temperature_low|day_ahead": {
    "city": "San Francisco",
    "kind": "temperature_low",
-   "horizon": "evening",
-   "n": 1,
-   "required_dates": 20,
-   "excluded_prior_records": 0,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.006908083868879195,
-   "upper_brier_difference": null,
-   "calibration_error": 0.009998330765577983,
-   "ready_for_review": false,
-   "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
-   ],
-   "evidence_sha256": "62cfb2835bc5ce20116124d0adb7957a49baf3ccbb92fadc47a577ed298a09a2",
-   "model_version": "2"
-  },
-  "San Francisco|temperature_low|morning": {
-   "city": "San Francisco",
-   "kind": "temperature_low",
-   "horizon": "morning",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -3165,24 +4350,64 @@
    "excluded_prior_records": 1,
    "model_version": "2"
   },
-  "Seattle|rain|afternoon": {
-   "city": "Seattle",
-   "kind": "rain",
-   "horizon": "afternoon",
+  "San Francisco|temperature_low|evening": {
+   "city": "San Francisco",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.049117501839096904,
+   "upper_brier_difference": 0.15892764982673005,
+   "calibration_error": 0.04538295623055221,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "f0af4f57218ba58d599a127deb1aa9adb5dbf9e83d6cafe6e04a2e268be52820",
+   "model_version": "2"
+  },
+  "San Francisco|temperature_low|morning": {
+   "city": "San Francisco",
+   "kind": "temperature_low",
+   "horizon": "morning",
    "n": 1,
    "required_dates": 20,
-   "excluded_prior_records": 13,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 5.244755416663602e-06,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.13687894113118473,
    "upper_brier_difference": null,
-   "calibration_error": 0.005499523199029494,
+   "calibration_error": 0.09833815888864045,
    "ready_for_review": false,
    "reasons": [
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "f42614cb8f4fc425d4b49252c9a9a769edb9de7b4968b970748c9ddd8a384e4e",
+   "evidence_sha256": "9cb11f073b851595bd0deec3a49de2c0d7b0f0d6b0ee00cb7a4342709f099c57",
+   "model_version": "2"
+  },
+  "Seattle|rain|afternoon": {
+   "city": "Seattle",
+   "kind": "rain",
+   "horizon": "afternoon",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 3.1289161488616023e-06,
+   "upper_brier_difference": 7.275961113753522e-06,
+   "calibration_error": 0.0052999124225573575,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "187398dba1d3189fc5b46a56f6b4ea96f17247cc42583f452147b19c848774ae",
    "model_version": "2"
   },
   "Seattle|rain|day_ahead": {
@@ -3195,61 +4420,68 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Seattle|rain|evening": {
    "city": "Seattle",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 1.354562950984671e-06,
-   "upper_brier_difference": null,
-   "calibration_error": 0.005133669540492909,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -5.733090760008142e-06,
+   "upper_brier_difference": 8.15871051353777e-06,
+   "calibration_error": 0.004311774277005861,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "ed3ef6d7b559cbf5abb6a487f76fdcf019bcd03728563305e1e54606f38c7049",
+   "evidence_sha256": "4f08ca3703092c5d107316a4298d9c3f602d7029d4835adc8109dc6645952942",
    "model_version": "2"
   },
   "Seattle|rain|morning": {
    "city": "Seattle",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.00021282074447100094,
+   "upper_brier_difference": null,
+   "calibration_error": 0.0034898790135188132,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "1eed426adf2ea6f97c1d2333041abb86227316c649f71fb175213c718dec367c",
    "model_version": "2"
   },
   "Seattle|temperature|afternoon": {
    "city": "Seattle",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.4258540339737656,
-   "upper_brier_difference": null,
-   "calibration_error": 0.19092146594104706,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.535830828060126,
+   "upper_brier_difference": 0.7513853444693925,
+   "calibration_error": 0.13348211071324004,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "5f1310731d389e3dcc338e8817133221eb37b20748dd2dc7fb2c6718273f445e",
+   "evidence_sha256": "38b4249754144a86fc78f4f90db9ced72aafbc5e17c008cc8dca0f90f209a03f",
    "model_version": "2"
   },
   "Seattle|temperature|day_ahead": {
@@ -3262,86 +4494,74 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Seattle|temperature|evening": {
    "city": "Seattle",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0006006483699871169,
-   "upper_brier_difference": null,
-   "calibration_error": 0.0026021269426740323,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.003921214987690227,
+   "upper_brier_difference": 0.012784067168737819,
+   "calibration_error": 0.012583247698419415,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "376b00354db8d97fd7927d8a8441e42baecbf0d347ea757a687520b102bbda1f",
+   "evidence_sha256": "8f435eefc7bf874cf4a479a1d977c1814592664d26fc24f01b8082fdd96edcdb",
    "model_version": "2"
   },
   "Seattle|temperature|morning": {
    "city": "Seattle",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 12,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.226565763262642,
+   "upper_brier_difference": null,
+   "calibration_error": 0.23361656123111899,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 12,
+   "evidence_sha256": "eab31985660c27c5ef920a146a3e5636518a11671d3dee4349378cdf18b05fd6",
    "model_version": "2"
   },
   "Seattle|temperature_low|afternoon": {
    "city": "Seattle",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.05271930543803019,
-   "upper_brier_difference": null,
-   "calibration_error": 0.05489321163992178,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.02599565456336837,
+   "upper_brier_difference": 0.07837401027770553,
+   "calibration_error": 0.02744665744648435,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "df2ec0a050a3a0fcae672b81def4d5e885ccb158073d1495facb1ede5390d749",
+   "evidence_sha256": "1bc8a27523601c9812b1aa40f3945e867bd12c25c3d0e075c500b4d38e463b42",
    "model_version": "2"
   },
-  "Seattle|temperature_low|evening": {
+  "Seattle|temperature_low|day_ahead": {
    "city": "Seattle",
    "kind": "temperature_low",
-   "horizon": "evening",
-   "n": 1,
-   "required_dates": 20,
-   "excluded_prior_records": 0,
-   "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.04911758554504151,
-   "upper_brier_difference": null,
-   "calibration_error": 0.05489321163992178,
-   "ready_for_review": false,
-   "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold"
-   ],
-   "evidence_sha256": "35a56a62250b70a9cd5b012b42643be9a1913449560eaeab6ad72b0c43ecaca6",
-   "model_version": "2"
-  },
-  "Seattle|temperature_low|morning": {
-   "city": "Seattle",
-   "kind": "temperature_low",
-   "horizon": "morning",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -3351,17 +4571,64 @@
    "excluded_prior_records": 1,
    "model_version": "2"
   },
+  "Seattle|temperature_low|evening": {
+   "city": "Seattle",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "n": 2,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-19",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.02419479461687403,
+   "upper_brier_difference": 0.07304346483608229,
+   "calibration_error": 0.02744665744648435,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "b52d27e33020689b996aacc5b899c766897a45d3e7321785943f4e4a2fb09e46",
+   "model_version": "2"
+  },
+  "Seattle|temperature_low|morning": {
+   "city": "Seattle",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.012275480921109218,
+   "upper_brier_difference": null,
+   "calibration_error": 2.8005519077852387e-07,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "bf6df560f7162f31e957fa9d21ec6f7e7a2787fb83cebbc101c30418474da295",
+   "model_version": "2"
+  },
   "Trenton|rain|afternoon": {
    "city": "Trenton",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.005053846741060131,
+   "upper_brier_difference": null,
+   "calibration_error": 0.07126602795905024,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "6bbb3648284653fe5aa48dfe049a7c16b18310e2508de8bfc71a6b2435f034c6",
    "model_version": "2"
   },
   "Trenton|rain|day_ahead": {
@@ -3374,53 +4641,68 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Trenton|rain|evening": {
    "city": "Trenton",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.002541118638849708,
-   "upper_brier_difference": null,
-   "calibration_error": 0.05259390305776619,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.004872737782837957,
+   "upper_brier_difference": 0.009442711305054925,
+   "calibration_error": 0.06880976408823455,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "ac631bbddcc85774e12d6c836619cf0182e003c50005b27ce5ac16a7a30a8d0d",
+   "evidence_sha256": "cd25819c6ed1bac291d998552c34a3153f2f65d1788e641141ca3c6e9993f0fa",
    "model_version": "2"
   },
   "Trenton|rain|morning": {
    "city": "Trenton",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.00842243966621447,
+   "upper_brier_difference": null,
+   "calibration_error": 0.09190995411931435,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "09c01fd93c87b5c04159c92af635ab6fccf0316adb80fe3b2a23b6fba968be20",
    "model_version": "2"
   },
   "Trenton|temperature|afternoon": {
    "city": "Trenton",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.3494467376189143,
+   "upper_brier_difference": null,
+   "calibration_error": 0.1611507059403572,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "35150bb22d6c5df2c0466f297ce2e48f714917919e1785701e5b67484df62755",
    "model_version": "2"
   },
   "Trenton|temperature|day_ahead": {
@@ -3433,47 +4715,75 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 5,
+   "excluded_prior_records": 6,
    "model_version": "2"
   },
   "Trenton|temperature|evening": {
    "city": "Trenton",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 1.9807256738794792,
-   "upper_brier_difference": null,
-   "calibration_error": 0.33178361007552026,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 1.128773267727108,
+   "upper_brier_difference": 2.7985999837857554,
+   "calibration_error": 0.2303657799179214,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "cdc4a38760692af9c8bec6a8661093287d8e91d8eeca8ab886c48ca89c09a569",
+   "evidence_sha256": "02a312d8ddc5480bb7920f33a50b04e188fe428226c1fee0d26d629cd4222584",
    "model_version": "2"
   },
   "Trenton|temperature|morning": {
    "city": "Trenton",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.14067489769119113,
+   "upper_brier_difference": null,
+   "calibration_error": 0.17156773493429212,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "bceeffe69da1c25bd532e609240cd34bfdff18293b79f79177d8942824c794c6",
    "model_version": "2"
   },
   "Trenton|temperature_low|afternoon": {
    "city": "Trenton",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.02520006155740228,
+   "upper_brier_difference": null,
+   "calibration_error": 0.0,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "c6b89ddd070d87cd8f7f90d89dc795fb292df4408445c1b3bc952bfdfcee1a94",
+   "model_version": "2"
+  },
+  "Trenton|temperature_low|day_ahead": {
+   "city": "Trenton",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -3487,12 +4797,31 @@
    "city": "Trenton",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": -0.0317565980108074,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.03367131825274641,
+   "upper_brier_difference": -0.02991846657854594,
+   "calibration_error": 0.0,
+   "ready_for_review": false,
+   "reasons": [
+    "2/20 distinct settled dates"
+   ],
+   "evidence_sha256": "b379a56ce6255e4943bf8efca23ff6fe8e07a36a61c271c4db82d757b62d10d7",
+   "model_version": "2"
+  },
+  "Trenton|temperature_low|morning": {
+   "city": "Trenton",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.04080194220377479,
    "upper_brier_difference": null,
    "calibration_error": 0.0,
    "ready_for_review": false,
@@ -3500,20 +4829,28 @@
     "1/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "a20821a58a62e12f38a59a5dd469fd9914b56f4694790d6fc7b1be30379fabd3",
+   "evidence_sha256": "89a2ab1b81c74855f6dd3eda0dff82439923025006bcdd891c7b32d69bfe2f91",
    "model_version": "2"
   },
   "Washington DC|rain|afternoon": {
    "city": "Washington DC",
    "kind": "rain",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.3786363822353714,
+   "upper_brier_difference": null,
+   "calibration_error": 0.7079098687229691,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "99616f18a0605bdf336aeeeacd9d38e32472727115c90bedb505bd0076c2cd2a",
    "model_version": "2"
   },
   "Washington DC|rain|day_ahead": {
@@ -3526,54 +4863,70 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 13,
+   "excluded_prior_records": 14,
    "model_version": "2"
   },
   "Washington DC|rain|evening": {
    "city": "Washington DC",
    "kind": "rain",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.021560775475200515,
-   "upper_brier_difference": null,
-   "calibration_error": 0.1498691945504496,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.21828412187871804,
+   "upper_brier_difference": 0.6038618808296123,
+   "calibration_error": 0.4145050863795622,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "5263fd361c1eb8c9bde0fca50f37c07de27698b38f4a595ea4e4cb751313366a",
+   "evidence_sha256": "f4ef3a787ccb69791eb2ef3a85141814c06f2e757b285703d96f2e94aba5e29a",
    "model_version": "2"
   },
   "Washington DC|rain|morning": {
    "city": "Washington DC",
    "kind": "rain",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.01846410677099042,
+   "upper_brier_difference": null,
+   "calibration_error": 0.7172418652233077,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "188361c109f33eeac7c517b12af9a7180cd948186a3ebf1f5b5d3abe7ca9f084",
    "model_version": "2"
   },
   "Washington DC|temperature|afternoon": {
    "city": "Washington DC",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 14,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.1615658513655947,
+   "upper_brier_difference": null,
+   "calibration_error": 0.10717707819264459,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 14,
+   "evidence_sha256": "4c61d765b4ee171711aa9c16b7f173f031a2007cb3317e5f9a5193661fc7d099",
    "model_version": "2"
   },
   "Washington DC|temperature|day_ahead": {
@@ -3586,47 +4939,74 @@
    "reasons": [
     "0/20 distinct settled dates with the current model fingerprint"
    ],
-   "excluded_prior_records": 5,
+   "excluded_prior_records": 6,
    "model_version": "2"
   },
   "Washington DC|temperature|evening": {
    "city": "Washington DC",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 13,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 0.29858687508973236,
-   "upper_brier_difference": null,
-   "calibration_error": 0.12895041406116853,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.14893300665442374,
+   "upper_brier_difference": 0.4422545887876286,
+   "calibration_error": 0.06448954668210558,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
-    "Paired Brier advantage is not established by the review threshold",
-    "Probability calibration error exceeds 10 percentage points"
+    "2/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
    ],
-   "evidence_sha256": "253ce91a0b62d1968a6af20b6d969485006b4cc3d737fcf31a806cdf5c6b509b",
+   "evidence_sha256": "305fc28d79d646d5848dc383df15e79630d65a28941fa62b34297665eac7efbd",
    "model_version": "2"
   },
   "Washington DC|temperature|morning": {
    "city": "Washington DC",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 0,
+   "n": 1,
    "required_dates": 20,
+   "excluded_prior_records": 13,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.09828979608956356,
+   "upper_brier_difference": null,
+   "calibration_error": 0.23197858410917888,
    "ready_for_review": false,
    "reasons": [
-    "0/20 distinct settled dates with the current model fingerprint"
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold",
+    "Probability calibration error exceeds 10 percentage points"
    ],
-   "excluded_prior_records": 13,
+   "evidence_sha256": "b9fe5096ac6806eed6cbd8e30ea197dd8d3a5cefefeca16f7962df5e42613eab",
    "model_version": "2"
   },
   "Washington DC|temperature_low|afternoon": {
    "city": "Washington DC",
    "kind": "temperature_low",
    "horizon": "afternoon",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 1,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.0052692610005660185,
+   "upper_brier_difference": null,
+   "calibration_error": 0.00019856020353274198,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "f487e847e7c8330ba148e790dc8dbac01f479a71f111b0d1345c104873a8596b",
+   "model_version": "2"
+  },
+  "Washington DC|temperature_low|day_ahead": {
+   "city": "Washington DC",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
    "n": 0,
    "required_dates": 20,
    "ready_for_review": false,
@@ -3640,21 +5020,41 @@
    "city": "Washington DC",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 1,
+   "n": 2,
    "required_dates": 20,
    "excluded_prior_records": 0,
    "first_date": "2026-09-19",
-   "last_date": "2026-09-19",
-   "mean_brier_difference": 1.3913078534340835,
-   "upper_brier_difference": null,
-   "calibration_error": 0.27844012169341276,
+   "last_date": "2026-09-20",
+   "mean_brier_difference": 0.6934156161396666,
+   "upper_brier_difference": 2.0612844012367235,
+   "calibration_error": 0.13931934094847273,
    "ready_for_review": false,
    "reasons": [
-    "1/20 distinct settled dates",
+    "2/20 distinct settled dates",
     "Paired Brier advantage is not established by the review threshold",
     "Probability calibration error exceeds 10 percentage points"
    ],
-   "evidence_sha256": "5501ded697b5726f55edb1a881113d9d4194a248b8922e4eb726252620bb41f7",
+   "evidence_sha256": "57330ef16f2fb97f526cc168fec84ff70ddacded6d55ed9d3825d6be33a21962",
+   "model_version": "2"
+  },
+  "Washington DC|temperature_low|morning": {
+   "city": "Washington DC",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "n": 1,
+   "required_dates": 20,
+   "excluded_prior_records": 0,
+   "first_date": "2026-09-20",
+   "last_date": "2026-09-20",
+   "mean_brier_difference": -0.006896944225941798,
+   "upper_brier_difference": null,
+   "calibration_error": 0.00868993885781517,
+   "ready_for_review": false,
+   "reasons": [
+    "1/20 distinct settled dates",
+    "Paired Brier advantage is not established by the review threshold"
+   ],
+   "evidence_sha256": "0490e4d72beae4a1c4008a092e7e7c176542a4ce1a97d55d580ed519e1d8d9e6",
    "model_version": "2"
   }
  },
