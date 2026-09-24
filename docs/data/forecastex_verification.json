@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-24T10:59:05.324394+00:00",
+ "generated_at": "2026-09-24T15:13:02.952338+00:00",
  "records": [
   {
    "station": "KPHX",
@@ -3420,9 +3420,69 @@
    "model_mae_on_kalshi": null,
    "kalshi_mae_on_kalshi": null,
    "fx_mae_on_kalshi": null
+  },
+  {
+   "station": "KPHL",
+   "city": "Philadelphia",
+   "date": "2026-09-25",
+   "kind": "temperature",
+   "horizon": "day_ahead",
+   "contracts": 0,
+   "fx_brier": null,
+   "fx_settlement_inferred": null,
+   "kalshi_actual": null,
+   "settlement_difference_f": null,
+   "model_mae_on_kalshi": null,
+   "kalshi_mae_on_kalshi": null,
+   "fx_mae_on_kalshi": null
+  },
+  {
+   "station": "KMIA",
+   "city": "Miami",
+   "date": "2026-09-25",
+   "kind": "temperature",
+   "horizon": "day_ahead",
+   "contracts": 0,
+   "fx_brier": null,
+   "fx_settlement_inferred": null,
+   "kalshi_actual": null,
+   "settlement_difference_f": null,
+   "model_mae_on_kalshi": null,
+   "kalshi_mae_on_kalshi": null,
+   "fx_mae_on_kalshi": null
+  },
+  {
+   "station": "KATL",
+   "city": "Atlanta",
+   "date": "2026-09-25",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
+   "contracts": 0,
+   "fx_brier": null,
+   "fx_settlement_inferred": null,
+   "kalshi_actual": null,
+   "settlement_difference_f": null,
+   "model_mae_on_kalshi": null,
+   "kalshi_mae_on_kalshi": null,
+   "fx_mae_on_kalshi": null
+  },
+  {
+   "station": "KMIA",
+   "city": "Miami",
+   "date": "2026-09-25",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
+   "contracts": 0,
+   "fx_brier": null,
+   "fx_settlement_inferred": null,
+   "kalshi_actual": null,
+   "settlement_difference_f": null,
+   "model_mae_on_kalshi": null,
+   "kalshi_mae_on_kalshi": null,
+   "fx_mae_on_kalshi": null
   }
  ],
  "errors": [],
- "archived_snapshots": 228,
+ "archived_snapshots": 232,
  "note": "One snapshot per station/date/product/cutoff. ForecastEx prices have unknown trade age. Brier uses post-expiry paired settlement-price evidence. Exact ForecastEx temperatures are inferred only from adjacent thresholds. MAE against Kalshi is a cross-target diagnostic, not a same-outcome skill ranking."
 }
