@@ -1,369 +1,50 @@
-# Kalshi Weather Forecast Desk
+# Plume Constraint
 
-## ForecastEx comparison
+Hourly probability-of-violation dashboard for a wind constraint at a fixed
+height, built from every available model: HRRR and RRFS (time-lagged), REFS,
+HREF members, NAM 3 km, NBM, NDFD, meteoblue, and the ECMWF, AIFS, GEFS, ICON and GEM ensembles.
 
-Daily briefing and Station workup compare the model, Kalshi and ForecastEx for
-exact station, target date and high/low matches. The official public ForecastEx
-contracts endpoint supplies last-traded YES prices and open interest, not an
-executable order book or trade timestamp. Downloads refresh with the quote job;
-failed and stale downloads remain explicit. No nearby station is substituted.
-No ForecastEx value changes model probabilities, eligibility or budget sizing.
+## Set up
 
-ForecastEx high thresholds mean strictly greater than the strike; low thresholds
-mean strictly less. Last-trade probabilities are pooled with equal-weight
-isotonic regression when needed to form a cumulative distribution. Missing
-strikes remain missing. Medians require adjacent priced thresholds surrounding
-50%; range probabilities require both finite boundaries to be present. Kalshi
-threshold probabilities are summed only from complete, nonoverlapping brackets
-that do not straddle the threshold. Price differences are indicative only.
+1. Push this folder to a new GitHub repository.
+2. Settings > Pages: deploy from branch `main`, folder `/docs`.
+3. Optional: Settings > Secrets > Actions: add `METEOBLUE_API_KEY`.
+4. Actions > Update plume > Run workflow. A manual run also runs the probe job;
+   read its log to confirm each source resolved and which wind levels exist.
+5. After that it runs every hour at :20 on its own.
 
-ForecastEx's Weather Underground Daily Observations settlement and civil-time
-day are recorded separately from Kalshi's climate-report target and reporting
-window. Identical stations do not establish identical settlement outcomes.
-Comparisons retain the original weather issuance, Kalshi price retrieval times,
-ForecastEx download time, and unknown ForecastEx trade age.
+`docs/data/plume.json` ships with demo data so the page renders before the
+first run; the first run overwrites it.
 
-`python -m pipeline.forecastex` refreshes the view and saves the first available
-snapshot in the hour before each fixed cutoff, once per station/date/product/
-horizon. These files are immutable. `python -m pipeline.forecastex --score` reads
-the exchange's daily price CSVs for post-expiry paired binary settlement prices
-with zero open interest. It does not use daily mark prices or last trades as
-outcomes. An exact temperature is inferred only when resolved adjacent thresholds
-bound one integer. Missing and inconsistent evidence stays unscored. These are
-settlement-price inferences, not independently retrieved Weather Underground
-observations. Paired outcome agreement is reported separately from MAE against
-Kalshi's outcome, which is explicitly a cross-target diagnostic. No retrospective
-forecast history or settlement temperature is fabricated, and no automatic
-approval or trading follows from this research.
+## Change the site or constraint
 
-Public sources: [ForecastEx data](https://forecastex.com/data),
-[daily-temperature rules](https://data.forecastex.com/regulatory/DailyTemperatureTermsandConditions.pdf).
-The first live refresh creates `docs/data/forecastex.json`; verification begins
-when eligible snapshots and later outcome evidence are available.
-
-## Observation-trained temperature correction
-
-The station model panel includes a research-only ridge regression candidate for today's high. It predicts additional warming above the observed maximum using current forecast headroom, model disagreement, observed warming rate, reporting hour, season, and 1/3/6-hour observed-minus-guidance errors. Errors use only forecasts archived before the matching observation, at the same settlement station; historical model fields are not reconstructed. Matching uses the nearest forecast timestamp within 30 minutes. Clouds, winds and dewpoint are not yet used because consistent historical coverage has not been established.
-
-Training pools stations with regularized station effects and equal date weights. It requires at least 20 fitting dates plus 10 later interval-calibration dates under the current settings, with settlements retrieved before prediction and dates strictly earlier than the target. The interval uses date-weighted empirical absolute errors, then a floored normal approximation for bracket probabilities; its nominal 80% coverage remains experimental and is measured prospectively. Fixed ridge strength is not tuned on evaluation dates. New stations borrow the pooled relationship. No candidate changes the operational blend, market odds, calibration approval, or allocations.
-
-The verification panel scores only candidates actually archived before settlement, reporting date-weighted MAE, Brier score, and interval coverage alongside the existing observation-adjusted forecast. It does not manufacture historical candidate performance. More complex ML, automated promotion, and independently validated interval coverage remain future work.
-
-Meteoblue uses an 80-call app budget per UTC day and an eight-hour operational cache. Calls are shared by both boards at identical locations; different settlement stations are cached separately. Cache records use absolute forecast dates to survive midnight safely. Forecasts up to 48 hours old remain visible for comparison with their original retrieval time, but expired guidance is excluded from new blends. Recommendations from an older snapshot are blocked if a contributing Meteoblue forecast expires. The app reports its own call count, not the provider's actual credit balance. No account upgrade is performed.
-
-NWS forecaster guidance remains visible in the model table when observations exclude it from the operational blend. Its zero weight and exclusion reason are explicit. New snapshots archive native valid periods, retrieval time, and NWS XML product-generation time. The XML feed does not supply a reliable forecast issue time, so it is labeled unavailable rather than inferred from retrieval. Downloads retry up to three times; failures and missing valid periods are distinct, and failed retrievals do not silently reuse old values.
-
-## Google WeatherNext 2
-
-The desk retrieves the full 64-member `google_weathernext2_ensemble` from
-Open-Meteo's ensemble endpoint, using UTC hourly temperature in Fahrenheit
-and precipitation in millimeters. Station reporting windows determine daily
-member maxima and precipitation totals. Missing hours remain missing.
-
-WeatherNext appears in the source table and hourly chart as research guidance
-with **zero operational blend weight**. A source-only forecast using the same
-observation conditioning and post-processing is archived before settlement;
-the existing source-research report scores it as outcomes become available.
-It cannot change operational source counts, freshness gates, or allocations.
-
-The native grid is 0.25 degrees and native times are six-hourly. Open-Meteo
-interpolates temperature and distributes each six-hour precipitation total
-across hourly intervals, so timing and daily extrema need verification.
-Retrieval time is displayed; a model issue time is not fabricated when the
-API response omits it. Missing guidance remains visible and is not scored.
-Attribution and API details: [Google DeepMind WeatherNext 2 via Open-Meteo](https://open-meteo.com/en/docs/google-weathernext-api).
-
-[Open the forecast desk](https://cyclonecizek.github.io/KalshiWeather/)
-
-A station-based research dashboard for Kalshi daily high-temperature and rain markets. It compares weather guidance with executable market quotes, archives forecasts before settlement, and scores them against the outcomes. It does not send orders.
-
-## Weather-first decisions
-
-The Daily briefing starts with station forecasts and four review priorities, then translates each position into its weather outcome. A station workup explains the likely range, uncertainty, observation limitations, and meteorological questions to investigate. Cloud, radar, and frontal prompts are analysis questions, not diagnoses inferred from temperature guidance.
-
-The practice calculator makes YES/NO, cost including estimated fees, possible net gain, maximum loss, and break-even probability explicit. It uses an archived-in-memory quote snapshot until reset, checks its age again, and never enables an order or clears the server's eligibility checks. Its quantity is a hypothetical example, not a stake recommendation. Detailed trading tables are collapsed by default; Trading basics defines the terminology with official Kalshi references.
-
-## Using the desk
-
-- **Market board:** today/tomorrow forecasts, station identifiers, market comparisons, source age, and paper-order eligibility. Enable research comparisons to see rows that fail the policy checks and their reasons.
-- **Station detail:** hourly ensemble temperature curves and provisional station observations, the temperature bracket ladder or rain market, source retrieval times, contract evidence, and changes since the previous snapshot. Changes separate full-day guidance/source mix, the observation adjustment, and the market midpoint. This is descriptive accounting, not proof of causality.
-- **Performance:** paired model/market Brier scores, log loss, reliability, bias, and interval coverage by city, product, and forecast horizon. Empty results mean no qualifying forecasts have settled yet.
-- **Forecast journal:** preview a temperature shift and uncertainty change, or enter a rain probability. Give a reason, then submit the prefilled GitHub issue as the repository owner. The workflow archives the original and adjusted probabilities with the issue's timestamp and scores both after settlement. Issue content is public. Editing an issue does not rewrite its archived forecast.
-
-The page refreshes every minute while visible and when the tab becomes active. Failed fetches retain the last usable snapshot. Quote and board age are checked again in the browser; stale proposals lose eligibility even if the page remains open.
-
-## Forecast and market behavior
-
-Temperature forecasts combine quantile curves within model families and then across families, retaining an allowance for model disagreement. With adequate fresh station observations, remaining-hour ensemble trajectories can move the predicted high down or up. The observed maximum supplies a lower bound with a configurable allowance for reporting differences. A late clock time alone never collapses uncertainty.
-
-Open-Meteo precipitation timestamps denote the end of the preceding hour. A member needs every hourly interval in the configured reporting window; missing values are never replaced with zero. When precipitation observations have complete interval coverage, rain forecasts use remaining-hour trajectories consistent with the observations. Otherwise they retain full-day guidance and show incomplete coverage. Rolling station accumulations are provisional; an incomplete day is not evidence of a dry day.
-
-Quotes support dollar and legacy cent fields, preserve genuine zero prices, and never invent an ask from a bid or last trade. Comparisons use executable asks and taker fees. Depth is bound to the quoted price. Arbitrage checks require a complete, non-overlapping bracket basket and include fees.
-
-All board suggestions and persistent paper proposals use the same policy: settlement verification, source freshness and completeness, model-family coverage, calibration evidence, quote freshness, spread, confirmed depth, remaining time, edge limits, and a shared daily budget. Cost includes fees, with city and contract caps. Proposals are not assumed fills or realized profits. The daily budget resets at UTC midnight.
-
-## Current limitations
-
-- `config/settlement.json` records station/source evidence from live contract rules. Chicago's temperature market uses Midway (`KMDW`); its rain market uses O'Hare (`KORD`).
-- The current rules name The Weather Company, while general weather documentation also describes NWS climate reports. The precise source-specific daily reporting window remains unconfirmed. Fixed local-standard-time windows are provisional and `window_verified` remains false. Paper suggestions stay blocked until the definition is confirmed.
-- Model version 2 starts a new verification history. Old snapshots are retained but excluded from its performance scores. Exact temperature errors require an actual numeric settlement value; the code never substitutes a winning bracket midpoint.
-- Default bias, spread, family weights, and station-versus-grid adjustments are hypotheses awaiting validation. `config/calibration.json` is empty. The research scorer reports candidates after sufficient distinct dates with matching model settings and known settlement times; temperature uses separate bias-fit, spread-calibration, and evaluation periods. It never approves its own calibration or changes trading settings.
-- Hourly ensembles carry provider retrieval times; unavailable model-run times are explicitly unknown. NDFD and NBM daily/12-hour products are supplemental guidance and may not exactly match the settlement window. They are omitted from intraday conditioning.
-- With `publish_values: false`, Meteoblue is excluded from all new public numeric products, including aggregate blends. Hiding only its individual values could leave them reconstructible from a known blend. The sanitizer removes restricted diagnostics and reconstructible companion fields from checked-out legacy data. It does not rewrite earlier Git history or third-party caches.
+Everything is in `config.yaml`: location, height, thresholds, direction arcs,
+time window, and per-source weights. Weights are split across a source's
+members each hour, so member count does not decide influence.
 
 ## Run locally
 
-Use Python 3.12 and Node 22 or newer. Production Python dependencies are pinned in `requirements.txt`.
+    pip install -r requirements.txt
+    python -m pipeline.probe            # check sources
+    python -m pipeline.run              # full build
+    python -m pipeline.run --only hrrr  # one source
+    cd docs && python -m http.server    # view at localhost:8000
 
-```sh
-python -m venv .venv
-. .venv/bin/activate
-pip install -r requirements.txt
-python -m pipeline.selfcheck
-python -m pipeline.run
-python -m pipeline.performance
-```
+## Notes
 
-`pipeline.run` builds both products, validates them, atomically replaces usable boards, and archives uniquely named snapshots. A failed or empty product retains its last good board; a coverage drop below 75% of the previous version-2 board also blocks replacement. `docs/data/status.json` records update health. Partial source availability is visible in the data and eligibility checks. Independent products can succeed even when the other fails; the process still returns a failure exit code for a failed product.
-
-Compatibility commands `python -m pipeline.build` and `python -m pipeline.build_temp` build one product. For a development-only subset, set `WEATHER_CITIES` to comma-separated configured names. Use a separate checkout to avoid replacing full boards with a subset.
-
-```sh
-pip install pytest==9.1.1
-python -m pytest -q
-node --test tests/test_frontend.cjs
-node --check docs/assets/app.js
-python -m pipeline.publication_check
-```
-
-Regression tests cover real failure modes: quote schemas and missing prices, orderbook units and price-matched depth, physical temperature floors, missing precipitation, interval boundaries, observation units, stale signals, shared budgets and fees, restricted-source leakage, settlement selection, time-ordered verification, adjustment provenance, and last-good publication.
-
-## Configuration and automation
-
-- `config/cities.yml`: city inventory and market series.
-- `config/settlement.json`: separate station, source, threshold, and reporting-window evidence for each product.
-- `config/settings.yml`: providers, family weights, forecast assumptions, and execution gates.
-- `config/calibration.json`: manually reviewed eligibility evidence keyed by `city|kind|horizon`, with `model_version`, `validated`, and sample count `n`. A validation entry does not itself apply a fitted correction; configured model parameters must match the reviewed experiment.
-
-GitHub Actions schedules both forecast boards hourly at minute 17 (UTC), scores settled forecasts twice daily, records owner-authored adjustments, runs regression checks on pull requests, and deploys the static `docs/` site. Scheduled runs may be delayed by GitHub or queued behind another data writer. The page separates forecast issuance, today’s station observation report ages (newest to oldest, with missing reports counted), and each product’s oldest market-price retrieval time across both reporting days. Refresh page data loads the latest published files; it does not initiate a forecast build. The existing three-hour forecast freshness gate still applies. Data writers share one concurrency group. They commit validated data and status, rebase on main, and surface push/rebase failures. Pages deploys after data workflows because commits made with `GITHUB_TOKEN` do not trigger another push workflow.
-
-The repository needs Actions with contents-write access and GitHub Pages configured to use Actions. The adjustment journal also requires Issues to be enabled. An optional `METEOBLUE_KEY` secret is used only when publication is explicitly enabled and licensed; no API key is embedded in the site.
-
-## Data files
-
-`docs/data/board.json` and `board_temp.json` contain schema-version-2 boards. `history/` stores immutable issuance snapshots. `performance.json` contains paired verification records; `outcomes.json` caches final outcomes; `adjustments.json` stores owner adjustments; and `paper/ledger.json` stores paper proposals. History grows with each build and should be archived deliberately rather than deleting the evidence used for scoring.
-
-
-### Personal budget planner
-
-The daily briefing accepts a total loss budget (default $500), money already committed,
-and a choice of the automated model or saved owner forecast adjustments. Saved
-adjustments must match the current snapshot; stale adjustments do not silently fall
-back to the automated forecast. The planner compares both purchase sides, includes
-whole-order fees, and respects verified depth at the displayed price.
-
-Sizing uses quarter Kelly after reducing the chosen outcome probability by 5 percentage
-points. It caps a position at 5% of the entered budget, a city at 10%, and total
-commitments at 25%, leaving the rest unallocated. These are cautious design defaults,
-not a fitted joint weather-risk model or a guarantee against losses. Only one position
-per city/product/reporting day is included. The user must enter existing commitments;
-there is no account connection and a refresh is a replacement plan, not an instruction
-to add positions. Existing server paper-ledger dollar limits are replaced by this
-form's explicit budget, while forecast, settlement, calibration, freshness, price,
-and liquidity checks still apply. Personal forecast calibration remains pending.
-
-An expandable hypothetical view illustrates sizing while settlement/calibration
-verification is pending. It does not change the recommended plan and continues to
-block stale or missing data. No order is sent or fill recorded.
-
-### Meteoblue visibility and diagnostics
-
-`temperature.sources.meteoblue.publish_values` is enabled following the repository
-owner’s public-display authorization on 2026-09-06. The source requires
-`METEOBLUE_KEY` as a repository Actions secret. Setting publication to false disables
-API calls and excludes Meteoblue from the public blend. Data updates display
-per-station daily high, provider PoP and retrieval time, plus overall source status.
-Daily Meteoblue packages do not provide a curve in the hourly chart. Provider PoP
-is not the final Kalshi station-event probability.
-
-Public diagnostics distinguish disabled publication, absent credentials, request
-failures, daily call limits, and usable data. API exception URLs are not logged
-because they may contain credentials. Failed requests count toward the local daily
-call budget; expired cached forecasts are not reused as fresh data. A 25-call/day
-limit can refresh roughly 25 stations once daily, so an eight-hour cache does not
-provide uninterrupted full-network guidance. Set package, credit, call and refresh
-budgets according to the actual account allowance.
-
-### Recommendation readiness fixes (September 13, 2026)
-
-The budget form now defaults to explicitly labelled **paper practice**. Select
-**Verified allocations** to see sizes only for positions that pass every
-check. Paper practice relaxes pending settlement/calibration assumptions only;
-known contract-definition mismatches, stale quotes, insufficient guidance,
-unknown fees and poor liquidity still block it. No trades are submitted.
-
-Ensemble downloads use batches of four stations, bounded retries, and a
-per-station cache shared by rain and temperature builds. Optional source and
-backup-observation failures remain visible instead of being added to every
-station's failure count. Coverage now requires at least two usable ensemble
-forecast centres; correlated ensemble members are not counted as separate
-centres. The existing family-weighted forecast calculation is unchanged.
-
-`Refresh market quotes` runs every ten minutes without fetching weather again.
-It preserves forecast issuance and archived scoring snapshots, rechecks current
-contract definitions/fees/depth, and invalidates failed quotes. GitHub schedules
-can be delayed, so the 20-minute quote limit still applies. Forecast freshness
-and elapsed reporting-window limits remain enforced.
-
-Domestic reporting windows are documented in [settlement verification](docs/settlement-verification.md).
-
-Forecast skill now shows each group's distinct settled-date count and review
-criteria. Scoring publishes `docs/data/calibration_review.json`. The owner can
-run **Review model calibration** with a displayed `City|kind|horizon` key.
-Approval requires at least 20 distinct settled dates, a negative upper normal
-approximation bound for paired Brier difference, and weighted bin calibration
-error no greater than 0.10. These are screening criteria, not a profitability
-guarantee. The workflow refuses insufficient evidence and non-owner approval,
-records an audit hash, and binds approval to the current weather configuration.
-It does not fit a new model on the evaluation data or automatically approve one.
-Restoring the recommendation path does not manufacture a qualifying track record.
-
-Only archived forecasts carrying the current model fingerprint count toward
-calibration approval. Older scores remain visible in Forecast skill but do not
-silently validate a changed or unidentifiable model configuration.
-
-## Source verification and model candidates
-
-The station forecast archives `experiments` before settlement: each included
-source alone, the full blend with that source removed, and 0.5× / 1.5× changes to
-its within-family weight (or family weight for a configured single-source family). Temperature experiments rerun the same distribution
-builder with the same observation conditioning, station bias, spread settings,
-and exact contract ladder. Rain experiments retain the same observation
-override when measurable rain has already been observed. No extra provider
-requests are needed. These research forecasts do not change orders or live
-probabilities.
-
-`pipeline.performance` also writes `docs/data/model_research.json`, displayed in
-**Forecast verification → Which sources improve the forecast?** Select a station,
-product, and horizon. Source/removal scores are paired against the full blend on
-exactly the same dates. Negative Brier differences favor the experiment. The
-new source table uses forecast minus observed temperature bias: positive is warm.
-The original verification table explicitly retains observed minus forecast.
-Historical temperature medians support point-error scores only, not invented
-probability distributions. Historical raw-input scores and newly archived source
-experiments with common post-processing are labeled separately.
-
-Weight candidates are selected from the archived removal and weight experiments
-using at least 40 earlier dates; the chosen candidate is frozen for 20 later
-evaluation dates. Missing chosen-candidate forecasts invalidate that evaluation,
-rather than allowing another candidate to be selected from holdout results.
-Temperature candidates separate at least 20 bias-fit, 20 spread-calibration, and
-20 evaluation dates. Spread uses an empirical 80% residual quantile with a 0.25°F
-minimum sigma and a multiplier bounded to 0.5–8. Rain fits a regularized logistic
-probability adjustment on 40 earlier dates and tests it on 20 later dates, with
-at least five wet and five dry training dates. All fitting excludes other model
-fingerprints and requires settlement retrieval before the later period's first
-forecast issuance. Unknown retrieval times cannot qualify.
-
-Candidate screens require an approximate 95% paired Brier improvement over both
-the full blend and the archived market, probability calibration error at most
-10 percentage points, and (for temperature) 70–90% observed coverage of the 80%
-interval and no deterioration in MAE. Difference intervals use three-date moving
-blocks; they are approximate, not proof of independence. Short records, multiple
-comparisons, repeated monitoring, and changing weather regimes limit inference.
-A passing candidate is ready for review, never automatically deployed. Review
-prospective results before adopting settings, and preserve the existing separate
-calibration/eligibility approval. Default within-family weights remain equal;
-`member_weights` in the rain or temperature configuration supports reviewed
-relative weights. A station/horizon result does not justify a global change.
-
-The separate fitting and evaluation periods follow the principles described in
-[probability calibration](https://scikit-learn.org/stable/modules/calibration.html)
-and [conformalized quantile regression](https://arxiv.org/abs/1905.03222).
-Weather observations are temporally dependent, so no distribution-free coverage
-guarantee is claimed here. Interval calibration is checked empirically on later
-dates. No settings were fitted to the initial nine-day record.
-# MOS and LAMP comparison guidance
-
-The MOS headline uses the explicit daytime maximum in the MAV N/X or X/N
-row, matched by its 00 UTC bulletin column rather than by alternating
-nonblank tokens. Its valid period is 07:00–19:00 local standard time, per
-[NOAA's GFS MOS temperature definition](https://www.weather.gov/media/mdl/mdltpb05-05.pdf).
-The TMP sampled peak remains separate. An omitted maximum stays unavailable;
-it is never replaced by TMP or the next day's maximum. Neither value is
-automatically treated as the full 24-hour settlement maximum.
-
-Station workups show NOAA GFS MOS (MAV) and hourly GFS LAMP (LAV), retrieved
-from [IEM's raw bulletin service](https://mesonet.agron.iastate.edu/mos/).
-The exact settlement ICAO is required, so Chicago temperature uses Midway
-and rain uses O'Hare. Native issue times (including LAMP's half hour),
-temperature/dewpoint, cloud categories, winds, and precipitation periods
-are preserved in each board and its existing history snapshot.
-
-These sources have **zero blend weight** pending verification. A sampled
-temperature peak is not a daily maximum forecast; missing parts of a day
-are never extrapolated. P01/P06/P12 are native measurable-precipitation
-periods. PPO is on-the-hour occurrence, including traces. Periods crossing
-the settlement window are flagged and probabilities are never summed.
-MOS issues older than 12 hours and LAMP issues older than 3 hours are marked
-stale. Missing stations or failed requests stay visible and do not block
-the existing blend. The raw service supplies hourly LAMP bulletins rather
-than relying on any restricted-cycle numeric archive. Full bulletin sample
-fixtures were retrieved from IEM on September 16, 2026.
-
-### Daily-low temperature markets
-
-Select **Low temperature** in Station workup or use the low column on the
-station board. Active domestic minimum-temperature series are explicitly
-mapped for 23 stations in `config/settlement.json`; each build checks the
-current minimum-temperature rules, series, climate station, provider, and
-midnight-to-midnight local-standard closing boundary. Chicago uses Midway.
-
-`board_low.json` and `history/low-*.json` contain the independent
-`temperature_low` product. Each ensemble member's minimum is taken over the
-entire reporting day, not the minimum of the ensemble-mean hourly curve.
-Adequate fresh observations condition remaining-hour member minima, with
-an observed-minimum ceiling and the reporting tolerance. Late-evening
-cooling can produce a new low. Missing observations do not establish a
-minimum or permit an artificial collapse in uncertainty.
-
-Lows start with independently configured global ensembles. High-only NBM
-and NDFD values, high-temperature fitted corrections, and the experimental
-high-temperature observation-trained model are not reused. MOS N and X
-remain period-specific comparisons on the hourly chart, not calendar-day
-settlement values. WeatherNext 2 lows are separately archived zero-weight
-research comparisons. Meteoblue daily minima are displayed when its cached
-response contains them, with zero low-blend weight; they ride along with
-the existing daily package, without a new package request.
-
-Low brackets participate in quote refresh, fee-inclusive practice sizing,
-manual forecast adjustments, settlement scoring, source experiments, and
-calibration review. Highs, lows, and rain share the existing budget and city
-exposure caps. Low forecasts require their own reviewed track record;
-high-temperature calibration approval never unlocks low allocations.
-
-## Temperature spread review
-
-GEM is excluded from new rain, high and low forecasts. Historical forecasts and
-scores retain their original inputs. This settings change starts a new model
-fingerprint, so previous calibration approvals do not carry over.
-
-Station details show sequential 80% interval widths through observation
-conditioning, within-family disagreement, the configured spread multiplier,
-between-family disagreement and physical observation bounds. These widths are
-not independent variance contributions.
-
-Every new temperature snapshot archives 0.75× and 1.25× spread comparisons and
-a weighted source-CDF mixture without added disagreement inflation. They are
-research alternatives, not automatically substituted for the operational blend.
-Both YES and NO are checked against current asks and fees after quote refreshes;
-an advantage that disappears under an alternative distribution cannot receive
-a verified allocation. Missing comparisons fail this check too.
-
-A prospective bias/spread candidate needs 20 earlier bias-fit dates and 20
-later spread-calibration dates for the same station, product, horizon and model
-fingerprint. Outcomes must be known before fitting, including before the start
-of the spread-calibration period for bias-fit outcomes. Future snapshots are
-archived for independent evaluation. Research results include 50/80/90% interval
-coverage and approximate CRPS integrated over archived 1st–99th percentiles.
-Neither alternative weights nor learned calibration are promoted automatically.
+- HREF is built from its member models (HiResW ARW, ARW mem2, FV3, NAM 3 km
+  and HRRR, each current plus previous cycle), because NCEP only publishes
+  HREF mean and probability products. NAM 3 km is also its own source.
+  All of these retire when RRFS/REFS go operational and will then show
+  "missing".
+- NOMADS requests are rate-limited to 90 per minute; adjacent GRIB records
+  are fetched in one request.
+- RRFS and REFS are configured to try `prod`, then `v1.0`, then `para` on
+  NOMADS, so the October 2026 cutover needs no change unless NCO uses a path
+  not in that list. HREF drops out on its own once it is retired.
+- NCEP GRIB winds on Lambert grids are rotated from grid-relative to
+  earth-relative before use.
+- `cache/points.json` holds point values already extracted from GRIB files so
+  each run only downloads new cycles. It prunes itself after four days.
+- If every source fails, the previous `plume.json` is kept and the page shows
+  a stale-data warning after 90 minutes.
