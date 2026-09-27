@@ -29,7 +29,25 @@ const ForecastResearch = (() => {
     if (!groups.length) return '<p>No settled evidence for this selection yet.</p>';
     return `<p>Negative Brier differences favor the experiment. Each comparison uses the same dates as the full blend. Positive temperature bias here means too warm. Short records and many comparisons can produce apparent winners by chance.</p>${groups.map(g=>`<section class="research-horizon"><h3>${esc(g.horizon.replace('_',' '))}</h3><p>${g.dates} historical dates; ${g.current_dates} with current settings. ${g.excluded_prior_dates} prior or unidentified dates excluded from candidate fitting.</p><h4>Each source on its own</h4><p>Historical point forecasts support temperature-error scores only. New source experiments include common station and observation corrections. Missing probability scores are shown as —.</p>${table(g.sources.filter(r=>r.mode==='source'))}${reliability(g.sources.filter(r=>r.mode==='source'))}<h4>Does removing a source help?</h4>${table(g.sources.filter(r=>r.mode==='without'),true)}<details><summary>Weight and calibration candidates</summary><p>Weights are selected on earlier dates and frozen for evaluation on 20 later dates. Temperature uses separate bias-fit and spread-calibration periods. These candidates do not change the live forecast or allocation checks.</p>${g.distributions?`<h4>Distribution comparisons</h4>${table(g.sources.filter(r=>r.mode==='distribution'))}${candidate(g.distributions,'Distribution candidate')}`:''}${candidate(g.weights,'Weight candidate')}${candidate(g.calibration,g.kind!=='rain'?'Temperature bias and spread':'Rain probability calibration')}</details></section>`).join('')}`;
   }
-  return {render};
+  function focused(c) {
+    if (!c) return '';
+    const status=c.status==='review'?'Ready for owner review; not applied':c.status==='not_supported'?'Evaluation does not support adoption':'Collecting new forecasts';
+    return `<article class="notice info"><h4>${esc(c.title)} · ${status}</h4><p>${c.paired_dates??0} paired dates toward ${c.required_dates??20}; ${c.dates??0} registered settled dates. First eligible reporting date: ${esc(c.first_eligible_date)}.</p><p>${esc((c.reasons||[]).join(' '))}</p>${c.holdout?`<p>Brier: existing ${num(c.original?.brier)}, candidate ${num(c.holdout.brier)}. Difference ${num(c.brier_difference)}; 95% date-block interval ${esc(interval(c.difference_interval))}.${Number.isFinite(c.holdout.coverage80)?` 80% coverage: ${pct(c.original?.coverage80)} → ${pct(c.holdout.coverage80)}.`:''}</p>`:''}<p>No live weights or probabilities changed. Results used to choose this hypothesis are excluded from its prospective evaluation.</p></article>`;
+  }
+  function weatherNextDetails(source) {
+    const d=source?.temperature_diagnostics;
+    if (!d) return '';
+    return `<details><summary>WeatherNext 2 temperature processing</summary><p>Raw median of member daily extrema: ${num(d.raw_median_f,2)}°F. After observations: ${num(d.conditioned_median_f,2)}°F. Final research estimate: ${num(d.final_median_f,2)}°F.</p><p>Configured bias: ${num(d.configured_bias_f,2)}°F. Observation conditioning: ${d.observation_used?'used':'not used'}. Hourly samples: ${d.hourly_points??0}. Native resolution: six hours.</p><p>${esc(d.note)}</p><p>Reporting window: ${esc(d.window_start||'Not archived')} to ${esc(d.window_end||'Not archived')}. Zero operational blend weight.</p></details>`;
+  }
+  function diagnostics(d) {
+    if (!d) return '';
+    return `<details><summary>Where does WeatherNext 2 temperature bias enter?</summary><p>${esc(d.note)}</p><div class="table-wrap"><table><thead><tr><th>Processing stage</th><th>Dates</th><th>Bias °F</th><th>MAE °F</th></tr></thead><tbody>${(d.stages||[]).map(s=>`<tr><td>${esc(s.stage)}</td><td>${s.dates}</td><td>${num(s.bias_f,2)}</td><td>${num(s.mae_f,2)}</td></tr>`).join('')}</tbody></table></div><p>Stage diagnostics begin with newly archived forecasts. Missing historical stages are not reconstructed.</p></details>`;
+  }
+  const historicalRender=render;
+  function currentRender(groups) {
+    return groups.map(g=>`${focused(g.focused)}${diagnostics(g.weathernext_diagnostics)}${historicalRender([{...g,sources:g.current_sources??g.sources}])}${g.current_sources?`<details><summary>Earlier settings and historical source evidence</summary><p>The main tables use current settings only. These historical results mix settings and availability periods.</p>${table(g.sources.filter(r=>r.mode==='source'))}</details>`:''}`).join('') || historicalRender([]);
+  }
+  return {render:currentRender, weatherNextDetails};
 })();
 if (typeof module !== 'undefined') module.exports = ForecastResearch;
 
