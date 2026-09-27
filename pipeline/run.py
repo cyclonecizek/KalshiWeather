@@ -1,337 +1,123 @@
-"""Build validated, versioned public boards with auditable source provenance."""
+"""Build docs/data/plume.json from every configured source.
+
+    python -m pipeline.run [--config config.yaml] [--only hrrr,refs]
+"""
 from __future__ import annotations
-import contextlib,copy,io,json,os,sys,uuid
-from datetime import datetime,timezone
-from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
-from . import quality,settlement,policy
-from .quality import atomic_json,now_iso,age_minutes
-from .util import load_yaml,local_date_str,local_day_window
-from .kalshi import Kalshi,effective_fee_rate,pick_city_market,book_depth
-from .blend import blend,evaluate
-from .brackets import build_ladder,pick_ladder,implied_distribution,implied_quantiles,coverage_gaps,check_arbitrage
-from .build_temp import build_distribution,evaluate_bracket,_is_for_date
-from .tempdist import Dist
-from .products import TEMPERATURE_KINDS, BOARD_FILES, HISTORY_PREFIXES, temperature_config
-from .sources import hourly,openmeteo,temp_sources,observations,nws_text,nbm_temp,gribprob,meteoblue,station_guidance,weathernext
 
-ROOT=Path(__file__).resolve().parent.parent
-DATA=ROOT/'docs/data'
+import argparse
+import json
+import logging
+import os
+import sys
+import time
 
-def read_json(path,default=None):
-    try:return json.loads(Path(path).read_text())
-    except (OSError,ValueError):return default if default is not None else {}
+import yaml
 
-def capture(name,fn,errors):
-    print(f'Fetching {name}',flush=True)
-    output=io.StringIO()
-    try:
-        with contextlib.redirect_stdout(output):result=fn()
-    except Exception as exc:
-        errors.append(f'{name}: {type(exc).__name__}');result={}
-    for line in output.getvalue().splitlines():
-        if any(word in line.lower() for word in ('failed','skipping','no inventory','error','403','404','429','timed out')):
-            # Do not republish exception URLs, which can contain API keys.
-            errors.append(f'{name}: source reported incomplete data')
-    return result or {}
+from . import src_ncep, src_web
+from .common import FT_TO_M, Context, PointCache, SourceResult, floor_hour, iso, log
 
-def per_city(fn,cities,*args):
-    out={}
-    def one(c):
-        try:return fn([c],*args)
-        except Exception as exc:
-            quality.record(fn.__name__,c['name'],'failed',type(exc).__name__);return {}
-    with ThreadPoolExecutor(max_workers=4) as ex:
-        for result in ex.map(one,cities):out.update(result)
-    return out
+KINDS = {
+    "hrrr": src_ncep.hrrr,
+    "rrfs": src_ncep.rrfs,
+    "ensprod": src_ncep.ensprod,
+    "multi_model": src_ncep.multi_model,
+    "openmeteo_ens": src_web.openmeteo_ens,
+    "openmeteo_det": src_web.openmeteo_det,
+    "nws_grid": src_web.nws_grid,
+    "meteoblue": src_web.meteoblue,
+}
 
-def horizon(day,now=None):
-    now=now or datetime.now(timezone.utc)
-    start=datetime.fromisoformat(day['window_start'])
-    hours=(start-now).total_seconds()/3600
-    if hours>0:return 'day_ahead'
-    elapsed=-hours
-    return 'morning' if elapsed<12 else 'afternoon' if elapsed<18 else 'evening'
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-def source_details(city,off):
-    return {model:{'retrieved_at':d['retrieved_at'],'model_run_at':d.get('model_run_at'),
-                  'hourly':d['hourly'],'member_count':len(d['maxima'])}
-            for (name,offset,model),d in hourly.DETAILS.items()
-            if name==city and off==offset and model!=weathernext.MODEL}
 
-def set_edge_depth(kal,quote,edge):
-    if not edge:return
-    side=edge['side'];price=edge['price']
-    depth=quote.get('yes_depth' if side=='YES' else 'no_depth')
-    if depth is None and edge.get('flag') in ('high','watch'):
-        try:depth=book_depth(kal.orderbook(quote['ticker']),side,price)
-        except Exception:pass
-    edge['depth']=depth
+def _r1(x):
+    return None if x is None else round(x, 1)
 
-def changes(day,old,temperature=False):
-    if not old:return {'summary':'First comparable snapshot','components':[]}
-    vals=[]
-    if temperature:
-        current=(day.get('distribution') or {}).get('median');past=(old.get('distribution') or {}).get('median')
-        if current is not None and past is not None:vals.append(f"{'Low' if day.get('kind')=='temperature_low' else 'High'} forecast {current-past:+.1f} F")
-        field='min_f' if day.get('kind')=='temperature_low' else 'max_f'
-        x=(day.get('observed') or {}).get(field);y=(old.get('observed') or {}).get(field)
-        if x is not None and y is not None and abs(x-y)>.05:vals.append(f"Observed {'minimum' if field=='min_f' else 'maximum'} {x-y:+.1f} F")
-        prev={b['market']['ticker']:b for b in old.get('ladder',[])}
-        for b in day['ladder']:
-            before=prev.get(b['market']['ticker'])
-            if before:
-                baseline=day.get('baseline_distribution');prior=old.get('baseline_distribution')
-                b['changes']=changes({'consensus':b.get('model_p'),'market':b['market'],
-                    'consensus_forecast':Dist(baseline['quantiles']).prob_between(b['lo'],b['hi']) if baseline else None},
-                    {'consensus':before.get('model_p'),'market':before['market'],
-                    'consensus_forecast':Dist(prior['quantiles']).prob_between(before['lo'],before['hi']) if prior else None})
-    else:
-        x,y=day.get('consensus'),old.get('consensus')
-        baseline,prior=day.get('consensus_forecast'),old.get('consensus_forecast')
-        parts={}
-        if x is not None and y is not None:
-            if baseline is not None and prior is not None:
-                parts['forecast_change_pp']=(baseline-prior)*100
-                parts['observation_effect_change_pp']=((x-baseline)-(y-prior))*100
-                vals.append(f"Full-day guidance/source mix {parts['forecast_change_pp']:+.1f} points")
-                vals.append(f"Observation effect {parts['observation_effect_change_pp']:+.1f} points")
-            else:vals.append(f'Probability {(x-y)*100:+.1f} points')
-        price,previous=(day.get('market') or {}).get('mid'),(old.get('market') or {}).get('mid')
-        if price is not None and previous is not None:
-            parts['market_change_cents']=price-previous
-            vals.append(f'Market price {price-previous:+.1f} cents')
-            if x is not None and y is not None:parts['gap_change_pp']=(x-y)*100-(price-previous)
-        return {'summary':'; '.join(vals) or 'No material change','components':parts,
-            'previous_snapshot_at':old.get('generated_at'),
-            'method':'Change in unconditioned guidance plus change in observation adjustment; descriptive, not causal.'}
-    return {'summary':'; '.join(vals) or 'No material change','components':vals,'previous_snapshot_at':old.get('generated_at')}
 
-def prepare(kind,settings):
-    from .observation_ml import Engine
-    correction = Engine(DATA) if kind=='temperature' else None
-    from .temperature_calibration import Engine as CalibrationEngine
-    calibration_engine=CalibrationEngine() if kind in TEMPERATURE_KINDS else None
-    from .sources import ndfd
-    ndfd.DETAILS.clear()
-    quality.STATUS.clear();hourly.DETAILS.clear();errors=[]
-    cities=settlement.configure_cities(load_yaml(ROOT/'config/cities.yml')['cities'],kind)
-    if os.getenv('WEATHER_CITIES'):
-        selected=set(os.environ['WEATHER_CITIES'].split(','));cities=[c for c in cities if c['name'] in selected]
-    src=settings['sources'];tcfg=temperature_config(settings,kind) if kind in TEMPERATURE_KINDS else settings['temperature'];kal=Kalshi(src['kalshi']['base'])
-    offsets=(0,1)
-    guidance=capture('MOS/LAMP comparison',lambda:station_guidance.fetch(cities,offsets),errors)
-    data=capture('ensembles',lambda:hourly.fetch(cities,src['openmeteo'],offsets),errors)
-    google=capture('WeatherNext 2 comparison',lambda:weathernext.fetch(cities,src['openmeteo'],offsets),errors)
-    obs=capture('observations',lambda:per_city(observations.fetch,cities,offsets,src.get('observations')),errors)
-    point={};probs={};members={};nbmt={}
-    for model,by_city in data.items():
-        members[model]={c:{off:d['minima' if kind=='temperature_low' else 'maxima'] for off,d in days.items()} for c,days in by_city.items()}
-        probs[model]={c:{off:hourly.rain_probability(d,(obs.get(c) or {}).get(off))[0]
-            for off,d in days.items()} for c,days in by_city.items()}
-    if kind=='temperature':
-        point['NDFD']=capture('NDFD',lambda:per_city(temp_sources.fetch_ndfd_maxt,cities,src['ndfd'],offsets),errors)
-        cfg=tcfg['sources']['nbm_temp']
-        if cfg.get('enabled'):
-            nbmt=capture('NBM_T',lambda:nbm_temp.fetch(cities,cfg,offsets),errors)
-            point['NBM_T']={c:{off:d['mean_f'] for off,d in days.items()} for c,days in nbmt.items()}
-    elif kind=='rain':
-        probs['NDFD']=capture('NDFD',lambda:per_city(nws_text.fetch_ndfd,cities,src['ndfd'],settings.get('pop_stitch_rho',.5),offsets),errors)
-        cfg=src.get('nbm',{})
-        if cfg and cfg.get('enabled',True):
-            nbm=capture('NBM',lambda:gribprob.fetch('NBM',cities,cfg,settings.get('pop_stitch_rho',.5),offsets),errors)
-            if nbm:probs['NBM']=nbm[0]
-    mbcfg=tcfg['sources']['meteoblue']
-    # Public numeric products must not allow reconstructing a restricted
-    # component from a known weighted blend. Opt-in publication is explicit.
-    mb={}
-    if mbcfg.get('publish_values'):
-        mb=capture('METEOBLUE',lambda:meteoblue.fetch(cities,mbcfg,offsets),errors)
-        point['METEOBLUE']={c:{off:d.get('tmax') for off,d in days.items()} for c,days in mb.items()}
-        probs['METEOBLUE']={c:{off:d.get('pop') for off,d in days.items()} for c,days in mb.items()}
-    market_cache={};rows=[];retrieved=now_iso()
-    if kind=='rain':market_cache['KXRAIN']=kal.markets_for_series('KXRAIN')
-    for c in cities:
-        ticker=c['series_low' if kind=='temperature_low' else 'series_high'] if kind in TEMPERATURE_KINDS else 'KXRAIN'
-        if ticker not in market_cache:
-            try:market_cache[ticker]=kal.markets_for_series(ticker)
-            except Exception as exc:
-                errors.append(f"{c['name']} market data unavailable");continue
-        markets=market_cache[ticker];days={}
-        # Series metadata controls fees; failure prevents eligibility.
-        try:
-            meta=kal._get('/series/'+ticker)['series']
-            fee=effective_fee_rate(meta.get('fee_multiplier'),.07)
-        except Exception:
-            meta={};fee=.07;errors.append(f"{c['name']} fee metadata unavailable")
-        for off in offsets:
-            date=local_date_str(c['tz'],off);start,end=local_day_window(c['tz'],off)
-            matches=[m for m in markets if _is_for_date(m,date)]
-            if kind=='rain':matches=[m for m in matches if m['ticker'].endswith('-'+str(c['rain_code']))]
-            if not matches:continue
-            kal.hydrate(matches)
-            spec=settlement.verify(c,matches,date)
-            ob=(obs.get(c['name']) or {}).get(off)
-            details=source_details(c['name'],off)
-            day={'date':date,'window_start':start.isoformat(),'window_end':end.isoformat(),
-                'elapsed':max(0,min(1,(datetime.now(timezone.utc)-start).total_seconds()/(end-start).total_seconds())),
-                'settlement':spec,'observed':ob,'sources':details,'forecast_retrieved_at':min((d['retrieved_at'] for d in details.values()),default=None),
-                'data_quality':'ok','generated_at':retrieved,'kind':kind,'source_error_count':len(errors),
-                'fee_verified':meta.get('fee_multiplier') is not None}
-            if mbcfg.get('publish_values'):
-                day['meteoblue_status']=meteoblue.STATUS.get(c['name'],'unavailable')
-                if meteoblue.DISPLAY.get(c['name'],{}).get(off):
-                    day['meteoblue']=meteoblue.DISPLAY[c['name']][off]
-            day['guidance_centres']=[name for name,by_city in data.items() if len(by_city.get(c['name'],{}).get(off,{}).get(('minima' if kind=='temperature_low' else 'maxima') if kind in TEMPERATURE_KINDS else 'rain_totals',[]))>=3]
-            day['n_guidance_centres']=len(day['guidance_centres'])
-            from .calibration_review import model_fingerprint
-            day['model_fingerprint']=model_fingerprint(kind)
-            day['horizon']=horizon(day)
-            day['station_guidance']=guidance.get(c['name'],{}).get(off,{})
-            day['nws_guidance']=ndfd.DETAILS.get((kind,c['name'],off))
-            if kind in TEMPERATURE_KINDS:
-                dist,diag=build_distribution(c,off,members,point,tcfg,errors,obs=ob,obs_cfg=src.get('observations'),
-                    nbm_sigma=nbmt.get(c['name'],{}).get(off,{}).get('sd_f'))
-                baseline,_=build_distribution(c,off,members,point,tcfg,errors,obs=None,
-                    nbm_sigma=nbmt.get(c['name'],{}).get(off,{}).get('sd_f'))
-                ladder,_=pick_ladder(build_ladder(matches,Kalshi.quote))
-                if not ladder or dist is None:continue
-                gaps=coverage_gaps(ladder);implied,overround=implied_distribution(ladder)
-                mq=implied_quantiles(ladder,implied)
-                day.update(ladder=ladder,gaps=gaps,overround=overround,
-                    market_forecast={'median':mq.get(.5),'p10':mq.get(.1),'p90':mq.get(.9)} if mq else None,
-                    distribution={'median':dist.median(),'p10':dist.quantile(.1),'p90':dist.quantile(.9),'quantiles':dist.v,'floor':dist.floor,'ceiling':dist.ceiling},
-                    baseline_distribution={'quantiles':baseline.v} if baseline else None,
-                    diagnostics=diag,n_families=diag.get('_n_families',0),arbitrage=check_arbitrage(ladder,fee))
-                if gaps:day['data_quality']='partial'
-                for b,p in zip(ladder,implied):
-                    b['implied']=p;b['model_p']=dist.prob_between(b['lo'],b['hi'])
-                    b['edge']=evaluate_bracket(b['model_p'],b['market'],fee,tcfg)
-                    set_edge_depth(kal,b['market'],b['edge'])
-                    if b['edge']:b['edge']['fee_rate']=fee
-            else:
-                q=Kalshi.quote(matches[0]);mp={m:days_.get(c['name'],{}).get(off) for m,days_ in probs.items()}
-                full_day={**mp}
-                for model,by_city in data.items():
-                    trajectory=by_city.get(c['name'],{}).get(off)
-                    if trajectory:full_day[model]=hourly.rain_probability(trajectory,None)[0]
-                baseline=blend(full_day,settings)
-                # Intraday full-day NDFD/NBM PoPs cannot represent remaining
-                # risk. Use trajectory-conditioned global members instead.
-                intraday=bool(ob and ob.get('precip_complete'))
-                if intraday:
-                    mp={m:v for m,v in mp.items() if m in data}
-                b=blend(mp,settings)
-                if not b:continue
-                p=b['consensus'];effect='remaining_hours' if intraday else None
-                if ob and ob.get('precip_complete') and ob.get('wet'):p=.98;effect='observed'
-                q['fee_multiplier']=meta.get('fee_multiplier')
-                day.update(b);day.update(consensus=p,consensus_forecast=baseline['consensus'] if baseline else None,market=q,raw_models={m:v for m,v in mp.items() if v is not None},obs_effect=effect)
-                day['edge']=evaluate(p,q,settings);set_edge_depth(kal,q,day['edge'])
-                if day['edge']:day['edge']['fee_rate']=fee
-            from .experiments import archive_temperature,archive_rain
-            if kind in TEMPERATURE_KINDS:
-                day['experiments']=archive_temperature(c,off,members,point,tcfg,day,obs=ob,
-                    obs_cfg=src.get('observations'),nbm_sigma=nbmt.get(c['name'],{}).get(off,{}).get('sd_f'))
-            else:
-                day['experiments']=archive_rain(mp,settings,day)
-            from .model_inputs import describe_inputs
-            weathernext.attach(c,off,google,day,settings)
-            day['model_inputs']=describe_inputs(settings,kind,day)
-            if calibration_engine:
-                from .spread import archive as archive_spread, sensitivity
-                archive_spread(day)
-                calibration_engine.attach(c['name'],day,retrieved)
-                day['spread_sensitivity_required']=True
-                for i,b in enumerate(day['ladder']):
-                    checks=sensitivity(day,b['market'],i,fee)
-                    b['spread_sensitivity']=checks
-                    if b.get('edge'):b['edge']['spread_sensitivity']=checks[b['edge']['side']]
-            if correction:
-                correction.attach(c['name'],day,retrieved)
-            if not details or (off==0 and (not ob or not ob.get('temperature_complete' if kind in TEMPERATURE_KINDS else 'precip_complete'))):day['data_quality']='partial'
-            days[str(off)]=day
-        if days:rows.append(dict(city=c['name'],series=ticker,station=c['station'],icao=c['icao'],tz=c['display_tz'],reporting_tz=c['tz'],verified=c['verified'],days=days))
-    for model in src['openmeteo']['models']:
-        if model not in data:errors.append(f'{model}: unavailable')
-    for row in rows:
-        for day in row['days'].values():
-            day['source_error_count']=sum(s['status']=='failed' for s in quality.STATUS.values() if s['city']==row['city'] and s['source'] in src['openmeteo']['models'])
-            day['source_warnings']=[s for s in quality.STATUS.values() if s['city']==row['city'] and s['status']!='ok']
-    return dict(schema_version=2,model_version='2',kind=kind,generated_at=now_iso(),snapshot_id=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H%M%S.%fZ')+'-'+uuid.uuid4().hex[:8],
-        errors=sorted(set(errors)),source_status=list(quality.STATUS.values()),cities=rows,
-        families=copy.deepcopy(tcfg['families'] if kind in TEMPERATURE_KINDS else settings['families']),
-        meteoblue_enabled=bool(mb),meteoblue_published=bool(mbcfg.get('publish_values')),
-        meteoblue_status=meteoblue.publication_status(mbcfg,mb),
-        restricted_source_policy='excluded_from_public_numeric_products' if not mbcfg.get('publish_values') else 'publication_enabled',
-        execution_policy=copy.deepcopy(settings['execution']))
+def build(cfg: dict, only: set | None = None) -> dict:
+    now = int(time.time())
+    site = cfg["site"]
+    win = cfg["window"]
+    t_start = floor_hour(now) - int(win["hours_back"]) * 3600
+    t_end = floor_hour(now) + int(win["hours_ahead"]) * 3600
+    timeline = list(range(t_start, t_end + 1, 3600))
+    idx = {t: i for i, t in enumerate(timeline)}
 
-def validate(board):
-    if not board.get('cities'):raise ValueError('No usable cities; keeping last good board')
-    for c in board['cities']:
-        for d in c['days'].values():
-            if board['kind'] in TEMPERATURE_KINDS:
-                qs=d['distribution']['quantiles']
-                if qs!=sorted(qs):raise ValueError('Non-monotone quantiles')
-                ps=[b['model_p'] for b in d['ladder']]
-                if not d['gaps'] and abs(sum(ps)-1)>1e-5:raise ValueError('Bracket probabilities do not sum to one')
-            else:ps=[d['consensus']]
-            if any(not isinstance(p,(int,float)) or not 0<=p<=1 for p in ps):raise ValueError('Invalid probability')
-            experiments=d.get('experiments')
-            if experiments:
-                expected=[b['market']['ticker'] for b in d.get('ladder',[])] if board['kind'] in TEMPERATURE_KINDS else [d['market']['ticker']]
-                if experiments.get('tickers')!=expected:raise ValueError('Experiment brackets do not match the forecast')
-                for candidate in experiments.get('variants',{}).values():
-                    probabilities=candidate['probabilities']
-                    if len(probabilities)!=len(expected) or any(not isinstance(p,(int,float)) or not 0<=p<=1 for p in probabilities):raise ValueError('Invalid experiment probabilities')
-                    if board['kind'] in TEMPERATURE_KINDS and not d['gaps'] and abs(sum(probabilities)-1)>1e-5:raise ValueError('Experiment probabilities do not sum to one')
-                    if not board['meteoblue_published'] and candidate.get('model')=='METEOBLUE':raise ValueError('Restricted experiment in public payload')
-            if not board['meteoblue_published']:
-                if d.get('meteoblue') or 'METEOBLUE' in d.get('models',{}) or 'mlm' in d.get('families',{}) or 'METEOBLUE' in d.get('diagnostics',{}):raise ValueError('Restricted source in public payload')
-    json.dumps(board,allow_nan=False)
+    cache = PointCache(os.path.join(ROOT, "cache", "points.json"))
+    cache.prune(now - 4 * 86400)
+    ctx = Context(now=now, lat=float(site["lat"]), lon=float(site["lon"]),
+                  target_m=float(site["height_ft"]) * FT_TO_M,
+                  alpha=float(cfg.get("vertical", {}).get("power_law_alpha", 0.14)),
+                  t_start=t_start, t_end=t_end, cache=cache)
 
-def run(kind=None):
-    settings=load_yaml(ROOT/'config/settings.yml');boards=[];failed=[]
-    for k in ([kind] if kind else list(BOARD_FILES)):
-        try:
-            board=prepare(k,settings);validate(board)
-            old=read_json(DATA/BOARD_FILES[k])
-            if old.get('schema_version')==2 and len(board['cities'])<len(old.get('cities',[]))*.75:
-                raise ValueError('City coverage fell below 75%; retaining previous board')
-            previous={(c['city'],d['date']):d for c in old.get('cities',[]) for d in c['days'].values()}
-            for c in board['cities']:
-                for d in c['days'].values():d['changes']=changes(d,previous.get((c['city'],d['date'])),k in TEMPERATURE_KINDS)
-            boards.append(board)
-        except Exception as exc:
-            failed.append(f'{k}: {type(exc).__name__}: {str(exc)[:180]}')
-    calibration=read_json(ROOT/'config/calibration.json')
-    ledger=read_json(DATA/'paper/ledger.json',[]);candidates=[]
-    for board in boards:
-        for c in board['cities']:
-            for d in c['days'].values():
-                pairs=[(b['market'],b.get('edge')) for b in d.get('ladder',[])] if board['kind'] in TEMPERATURE_KINDS else [(d['market'],d.get('edge'))]
-                for q,e in pairs:
-                    if e:
-                        e['eligibility']=policy.eligibility(c['city'],d,q,e,settings,calibration)
-                        candidates.append(dict(city=c['city'],date=d['date'],kind=board['kind'],horizon=d['horizon'],snapshot_id=board['snapshot_id'],quote=q,edge=e))
-    policy.allocate(candidates,settings,ledger)
-    for board in boards:
-        validate(board)
-        prefix=HISTORY_PREFIXES[board['kind']]
-        atomic_json(DATA/'history'/(prefix+board['snapshot_id']+'.json'),board)
-        atomic_json(DATA/BOARD_FILES[board['kind']],board)
-    for c in candidates:
-        e=c['edge'];n=e.get('suggested_contracts',0)
-        if n:
-            ledger.append(dict(id=uuid.uuid4().hex,created_at=now_iso(),ticker=c['quote']['ticker'],city=c['city'],date=c['date'],kind=c['kind'],horizon=c['horizon'],snapshot_id=c['snapshot_id'],side=e['side'],price=e['price'],quantity=n,cost_dollars=e['suggested_cost_dollars'],status='proposed',fill_assumed=False))
-    atomic_json(DATA/'paper/ledger.json',ledger)
-    from .performance import publish
-    publish(fetch_outcomes=False)
-    from .calibration_review import publish as publish_review
-    publish_review()
-    atomic_json(DATA/'status.json',dict(generated_at=now_iso(),status='degraded' if failed or any(b['errors'] for b in boards) else 'ok',errors=failed,
-        boards={b['kind']:{'generated_at':b['generated_at'],'errors':b['errors'],'cities':len(b['cities'])} for b in boards}))
-    print(f'Published {len(boards)} board(s); {len(failed)} failed')
-    return 1 if failed else 0
+    sources = []
+    for scfg in cfg["sources"]:
+        if only and scfg["id"] not in only:
+            continue
+        t0 = time.time()
+        if not scfg.get("enabled", True):
+            res = SourceResult({}, status="disabled", note="disabled in config")
+        else:
+            try:
+                res = KINDS[scfg["kind"]](scfg, ctx)
+            except Exception as e:
+                log.exception("%s failed", scfg["id"])
+                res = SourceResult({}, status="error", note=f"{type(e).__name__}: {e}"[:200])
+        members = []
+        for mid, series in sorted(res.members.items()):
+            spd = [None] * len(timeline)
+            dirs = [None] * len(timeline)
+            gst = [None] * len(timeline)
+            for t, (s, d, g) in series.items():
+                i = idx.get(int(t))
+                if i is None:
+                    continue
+                spd[i], dirs[i], gst[i] = _r1(s), round(d) % 360, _r1(g)
+            if any(v is not None for v in spd):
+                members.append({"id": mid, "spd": spd, "dir": dirs, "gst": gst})
+        el = round(time.time() - t0, 1)
+        log.info("%-10s %-8s %3d members  %5.1fs  %s", scfg["id"], res.status, len(members), el, res.note)
+        sources.append({
+            "id": scfg["id"], "label": scfg.get("label", scfg["id"]),
+            "family": scfg.get("family", "global"), "weight": float(scfg.get("weight", 1)),
+            "status": res.status, "cycle": res.cycle, "note": res.note,
+            "seconds": el, "members": members,
+        })
 
-if __name__=='__main__':sys.exit(run())
+    cache.save()
+    log.info("cache hits: %d", cache.hits)
+    return {
+        "generated": iso(now), "generated_unix": now,
+        "site": site, "target_m": round(ctx.target_m, 1),
+        "constraint": cfg["constraint"],
+        "times": timeline, "sources": sources,
+    }
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--config", default=os.path.join(ROOT, "config.yaml"))
+    ap.add_argument("--out", default=os.path.join(ROOT, "docs", "data", "plume.json"))
+    ap.add_argument("--only", default="")
+    a = ap.parse_args(argv)
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+
+    with open(a.config) as f:
+        cfg = yaml.safe_load(f)
+    data = build(cfg, set(filter(None, a.only.split(","))) or None)
+
+    total = sum(len(s["members"]) for s in data["sources"])
+    if total == 0:
+        log.error("no members from any source; keeping the previous plume.json")
+        return 1
+    os.makedirs(os.path.dirname(a.out), exist_ok=True)
+    tmp = a.out + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(data, f, separators=(",", ":"))
+    os.replace(tmp, a.out)
+    log.info("wrote %s (%d members, %.0f kB)", a.out, total, os.path.getsize(a.out) / 1024)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
