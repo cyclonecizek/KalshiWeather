@@ -87,6 +87,8 @@ def record_for_day(record, day, outcomes):
                         multiplier=None, method='Archived point forecast; probability unavailable')
     settled = [outcomes[t].get('retrieved_at') for t in tickers]
     return dict(record, baseline=baseline, variants=variants,
+                focused_registration=archived.get('focused_registration'),
+                weathernext_diagnostics=day.get('weathernext', {}).get('temperature_diagnostics'),
                 settled_at=max(settled) if all(settled) else None,
                 bounds=[(b['lo'], b['hi']) for b in day.get('ladder', [])],
                 ceiling=day.get('distribution', {}).get('ceiling'),
@@ -314,6 +316,7 @@ def rain_candidate(rows):
 
 
 def build_report(rows, current_fingerprint):
+    from .focused_research import report as focused_report, weathernext_summary
     groups = defaultdict(list)
     for row in rows:
         groups[(row['city'], row['kind'], row['horizon'])].append(row)
@@ -325,7 +328,10 @@ def build_report(rows, current_fingerprint):
         current = [r for r in values if r.get('model_fingerprint') == fingerprint]
         out.append(dict(city=city, kind=kind, horizon=horizon, dates=len(values),
             current_dates=len(current), excluded_prior_dates=len(values)-len(current),
-            sources=source_summaries(values), weights=weight_candidate(current),
+            sources=source_summaries(values), current_sources=source_summaries(current),
+            focused=focused_report(current, kind, horizon),
+            weathernext_diagnostics=weathernext_summary(current) if kind != 'rain' else None,
+            weights=weight_candidate(current),
             distributions=weight_candidate(current,('distribution',)) if kind!='rain' else None,
             calibration=(temperature_candidate(current) if kind in ('temperature', 'temperature_low') else rain_candidate(current))))
     return dict(schema_version=1, model_fingerprint=current_fingerprint, groups=out,

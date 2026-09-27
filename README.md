@@ -353,7 +353,7 @@ conditioning, within-family disagreement, the configured spread multiplier,
 between-family disagreement and physical observation bounds. These widths are
 not independent variance contributions.
 
-Every new temperature snapshot archives 0.75× and 1.25× spread comparisons and
+Every new temperature snapshot archives 0.75×, 1.25× and 1.5× spread comparisons and
 a weighted source-CDF mixture without added disagreement inflation. They are
 research alternatives, not automatically substituted for the operational blend.
 Both YES and NO are checked against current asks and fees after quote refreshes;
@@ -367,3 +367,30 @@ of the spread-calibration period for bias-fit outcomes. Future snapshots are
 archived for independent evaluation. Research results include 50/80/90% interval
 coverage and approximate CRPS integrated over archived 1st–99th percentiles.
 Neither alternative weights nor learned calibration are promoted automatically.
+
+### Focused prospective review (September 27)
+
+The forecast-skill page now leads with current-settings source and removal
+scores. Historical mixed-settings source scores remain expandable.
+
+Fixed high-temperature hypotheses are 0.75× spread for day ahead, 1.25× for
+morning and afternoon, and 1.5× for evening. Rain separately evaluates half
+GEFS weight. No new low-temperature spread change is proposed. These are
+research forecasts, not changes to operational weights or probabilities.
+
+Only forecasts carrying the new experiment registration, for reporting dates
+September 28 onward, qualify for this evaluation. Each station/horizon uses
+its first 20 distinct settled dates under the current fingerprint. Missing
+candidate forecasts are reported and cannot be replaced by other winners.
+The evaluation does not roll forward to select a more favorable period.
+Owner review still requires improvement over the blend and market, probability
+calibration, and acceptable temperature coverage. Registration excludes the
+historical results that motivated the hypotheses. Changing a hypothesis requires
+a new registration version and fresh evaluation data.
+
+WeatherNext 2 remains at zero operational weight. New temperature snapshots
+save raw member daily extrema, observation-conditioned medians, and final
+research medians. The skill page scores each stage against actual settlement
+temperatures. Old unarchived stages stay missing. The six-hour source sampling
+can miss daytime peaks, but this is a hypothesis, not an attributed cause of
+the measured cold bias. Model-run timestamps are not inferred from retrieval.

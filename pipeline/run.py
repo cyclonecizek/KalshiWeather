@@ -247,6 +247,8 @@ def prepare(kind,settings):
                     checks=sensitivity(day,b['market'],i,fee)
                     b['spread_sensitivity']=checks
                     if b.get('edge'):b['edge']['spread_sensitivity']=checks[b['edge']['side']]
+            from .focused_research import register as register_focused
+            register_focused(day)
             if correction:
                 correction.attach(c['name'],day,retrieved)
             if not details or (off==0 and (not ob or not ob.get('temperature_complete' if kind in TEMPERATURE_KINDS else 'precip_complete'))):day['data_quality']='partial'

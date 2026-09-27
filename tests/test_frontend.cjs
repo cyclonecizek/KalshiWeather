@@ -1,6 +1,23 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const M=require('../docs/assets/math.js');
 const FX=require('../docs/assets/forecastex.js');
+test('focused review separates prospective evidence and current-setting source scores',()=>{
+ const R=require('../docs/assets/research.js');
+ const group={horizon:'morning',kind:'rain',dates:20,current_dates:7,excluded_prior_dates:13,
+   sources:[{model:'OLD_SOURCE',mode:'source',method:'historical',dates:20}],current_sources:[],
+   weights:{status:'collecting'},calibration:{status:'collecting'},
+   focused:{title:'Half GEFS weight for rain',first_eligible_date:'2026-09-28',paired_dates:0,dates:0,required_dates:20,reasons:[]}};
+ const html=R.render([group]);
+ assert.match(html,/0 paired dates toward 20/);
+ assert.match(html,/No live weights or probabilities changed/);
+ assert.match(html,/Earlier settings and historical source evidence/);
+ assert.ok(html.indexOf('Earlier settings and historical source evidence')<html.indexOf('OLD_SOURCE'));
+ assert.equal(R.weatherNextDetails({}), '');
+ const d=R.weatherNextDetails({temperature_diagnostics:{raw_median_f:75,conditioned_median_f:77,final_median_f:78,configured_bias_f:1,observation_used:true,hourly_points:24,note:'<untrusted>'}});
+ assert.match(d,/75.00°F/);assert.match(d,/77.00°F/);assert.match(d,/78.00°F/);
+ assert.match(d,/&lt;untrusted&gt;/);assert.match(d,/Zero operational blend weight/);
+ assert.doesNotMatch(d,/undefined|NaN/);
+});
 test('ForecastEx views label indicative prices, stale downloads and settlement differences',()=>{
  const now=Date.parse('2026-09-20T12:40:00Z');
  const r={city:'Chicago',station:'KMDW',kind:'temperature',date:'2026-09-20',station_match:true,

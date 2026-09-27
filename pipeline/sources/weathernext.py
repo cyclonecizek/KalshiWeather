@@ -4,6 +4,7 @@ Open-Meteo interpolates the native six-hour model to hourly temperature
 and distributes each precipitation accumulation over its six hours.
 """
 from copy import deepcopy
+from statistics import median
 
 from . import hourly
 from ..blend import blend
@@ -52,11 +53,23 @@ def attach(city, off, data, day, settings):
         cfg = deepcopy(temperature_config(settings,day['kind']))
         cfg['families'] = {'google_research': {'weight': 1, 'members': [MODEL]}}
         members = {MODEL: {city['name']: {off: detail['minima' if day['kind']=='temperature_low' else 'maxima']}}}
-        dist, _ = build_distribution(city, off, members, {}, cfg, [], obs=obs,
+        dist, diagnostics = build_distribution(city, off, members, {}, cfg, [], obs=obs,
                                     obs_cfg=settings['sources'].get('observations'))
         if dist is None:
             return
         result.update(value=dist.median(), p10=dist.quantile(.1), p90=dist.quantile(.9))
+        raw = detail['minima' if day['kind']=='temperature_low' else 'maxima']
+        curve = provenance.get('hourly', [])
+        extremum = min if day['kind']=='temperature_low' else max
+        result['temperature_diagnostics'] = dict(
+            raw_median_f=median(raw),
+            conditioned_median_f=diagnostics.get(MODEL, {}).get('median'),
+            final_median_f=dist.median(), configured_bias_f=diagnostics.get('_bias'),
+            observation_used=diagnostics.get('_observation_used', False),
+            hourly_median_extremum_f=extremum((p['median'] for p in curve), default=None),
+            hourly_points=len(curve), window_start=detail.get('window_start'),
+            window_end=detail.get('window_end'), native_resolution_hours=6,
+            note='Daily extrema are computed for each member before taking their median. Hourly output is interpolated; it does not resolve native sub-six-hour peaks.')
         variant = {'quantiles': dist.v, 'floor': dist.floor, 'ceiling': dist.ceiling,
                    'probabilities': [dist.prob_between(b['lo'], b['hi']) for b in day['ladder']]}
     else:

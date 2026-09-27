@@ -38,7 +38,7 @@ def archive(day):
         variants[key]=dict(mode='distribution',model=label,multiplier=None,
             probabilities=[dist.prob_between(b['lo'],b['hi']) for b in day['ladder']],
             quantiles=qs,floor=d.get('floor'),ceiling=d.get('ceiling'),method=label)
-    for factor in (.75,1.25):
+    for factor in (.75,1.25,1.5):
         save(f'spread:{factor}',f'Spread ×{factor}',bounded(adjust(d['quantiles'],0,factor),day))
     components=[]
     for r in day.get('model_inputs',[]):

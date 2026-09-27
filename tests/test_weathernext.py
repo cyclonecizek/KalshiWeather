@@ -39,6 +39,11 @@ def test_temperature_archives_probabilities_without_altering_production():
     assert day['weathernext']['status']=='ok'
     assert day['weathernext']['member_count']==64
     assert day['weathernext']['weight']==0
+    diagnostic=day['weathernext']['temperature_diagnostics']
+    assert abs(diagnostic['raw_median_f']-73.15)<1e-9
+    assert diagnostic['final_median_f']==day['weathernext']['value']
+    assert diagnostic['hourly_median_extremum_f'] is None
+    assert not diagnostic['observation_used']
     variant=day['experiments']['variants']['source:WEATHERNEXT2']
     assert abs(sum(variant['probabilities'])-1)<1e-9
     assert variant['quantiles']==sorted(variant['quantiles'])
