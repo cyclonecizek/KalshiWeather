@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-17T22:28:59.127791+00:00",
+ "generated_at": "2026-10-17T23:09:54.997601+00:00",
  "model_version": "2",
  "selection": "Latest snapshot within 6 hours before each fixed reporting-hour cutoff",
  "cutoffs": {
@@ -1351,32 +1351,32 @@
    "city": "Austin",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 27,
-   "brier": 0.37030936689706456,
-   "market_brier": 0.28110078318356707,
-   "log_loss": 1.2868114947578073,
-   "bias": -0.22898148148148298,
-   "mae": 0.5965740740740728,
-   "actual_temperature_n": 27,
-   "coverage80": 0.37037037037037035,
+   "n": 28,
+   "brier": 0.3968247837362968,
+   "market_brier": 0.30262009428495484,
+   "log_loss": 1.3098735948568365,
+   "bias": -0.29267857142857295,
+   "mae": 0.647142857142856,
+   "actual_temperature_n": 28,
+   "coverage80": 0.35714285714285715,
    "reliability": [
     {
      "bin": 0,
-     "n": 125,
-     "forecast": 0.0025199087502503466,
-     "observed": 0.024
+     "n": 128,
+     "forecast": 0.002463866227217525,
+     "observed": 0.0234375
     },
     {
      "bin": 1,
-     "n": 3,
-     "forecast": 0.16467963491974882,
-     "observed": 0.3333333333333333
+     "n": 4,
+     "forecast": 0.15970435094322583,
+     "observed": 0.5
     },
     {
      "bin": 3,
-     "n": 6,
-     "forecast": 0.36889565864007795,
-     "observed": 0.3333333333333333
+     "n": 7,
+     "forecast": 0.3644922096414492,
+     "observed": 0.2857142857142857
     },
     {
      "bin": 4,
@@ -1386,8 +1386,8 @@
     },
     {
      "bin": 5,
-     "n": 1,
-     "forecast": 0.5971321661311338,
+     "n": 2,
+     "forecast": 0.5569479340826253,
      "observed": 0
     },
     {
@@ -1409,28 +1409,28 @@
      "observed": 0.8823529411764706
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.3173544474091403
+   "brier_skill": -0.31129687430021225
   },
   {
    "city": "Austin",
    "kind": "temperature_low",
    "horizon": "day_ahead",
-   "n": 20,
-   "brier": 1.0047894134652182,
-   "market_brier": 0.7306185001401965,
-   "log_loss": 4.835324852333837,
-   "bias": -3.730749999999999,
-   "mae": 3.9607499999999987,
-   "actual_temperature_n": 20,
-   "coverage80": 0.35,
+   "n": 21,
+   "brier": 1.0177563564277727,
+   "market_brier": 0.7276482034129095,
+   "log_loss": 4.726914393648467,
+   "bias": -3.66797619047619,
+   "mae": 3.8870238095238085,
+   "actual_temperature_n": 21,
+   "coverage80": 0.3333333333333333,
    "reliability": [
     {
      "bin": 0,
-     "n": 62,
-     "forecast": 0.014756195222623184,
-     "observed": 0.1935483870967742
+     "n": 66,
+     "forecast": 0.015034681844334834,
+     "observed": 0.19696969696969696
     },
     {
      "bin": 1,
@@ -1452,8 +1452,8 @@
     },
     {
      "bin": 4,
-     "n": 9,
-     "forecast": 0.4356189145076,
+     "n": 11,
+     "forecast": 0.44028775751317617,
      "observed": 0
     },
     {
@@ -1481,34 +1481,34 @@
      "observed": 1
     }
    ],
-   "distinct_dates": 20,
+   "distinct_dates": 21,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.3752586517757377
+   "brier_skill": -0.39869287336127623
   },
   {
    "city": "Austin",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 27,
-   "brier": 0.38077139034950486,
-   "market_brier": 0.17851953530378611,
-   "log_loss": 1.2962964738154987,
-   "bias": -0.24101851851852063,
-   "mae": 0.5956481481481467,
-   "actual_temperature_n": 27,
-   "coverage80": 0.3333333333333333,
+   "n": 28,
+   "brier": 0.41039235484296765,
+   "market_brier": 0.1877525320725406,
+   "log_loss": 1.3268929346239333,
+   "bias": -0.30428571428571616,
+   "mae": 0.6462499999999984,
+   "actual_temperature_n": 28,
+   "coverage80": 0.32142857142857145,
    "reliability": [
     {
      "bin": 0,
-     "n": 125,
-     "forecast": 0.001972482195842363,
-     "observed": 0.024
+     "n": 128,
+     "forecast": 0.0019268261396850714,
+     "observed": 0.0234375
     },
     {
      "bin": 1,
-     "n": 3,
-     "forecast": 0.16467963491974882,
-     "observed": 0.3333333333333333
+     "n": 4,
+     "forecast": 0.15254360960028318,
+     "observed": 0.5
     },
     {
      "bin": 2,
@@ -1518,9 +1518,15 @@
     },
     {
      "bin": 3,
-     "n": 6,
-     "forecast": 0.36887130859933276,
-     "observed": 0.3333333333333333
+     "n": 7,
+     "forecast": 0.3595087953916375,
+     "observed": 0.2857142857142857
+    },
+    {
+     "bin": 5,
+     "n": 1,
+     "forecast": 0.580457278813254,
+     "observed": 0
     },
     {
      "bin": 6,
@@ -1547,34 +1553,34 @@
      "observed": 0.8823529411764706
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -1.1329396231149014
+   "brier_skill": -1.1858152873507306
   },
   {
    "city": "Austin",
    "kind": "temperature_low",
    "horizon": "morning",
-   "n": 21,
-   "brier": 0.7464142330159164,
-   "market_brier": 0.40528934105369246,
-   "log_loss": 3.8484365111731043,
-   "bias": -1.2253571428571446,
-   "mae": 1.4879761904761903,
-   "actual_temperature_n": 21,
-   "coverage80": 0.3333333333333333,
+   "n": 22,
+   "brier": 0.7593995868939004,
+   "market_brier": 0.41689520477472425,
+   "log_loss": 3.75394519831752,
+   "bias": -1.2690909090909108,
+   "mae": 1.519772727272727,
+   "actual_temperature_n": 22,
+   "coverage80": 0.3181818181818182,
    "reliability": [
     {
      "bin": 0,
-     "n": 89,
-     "forecast": 0.003570240137868175,
-     "observed": 0.06741573033707865
+     "n": 92,
+     "forecast": 0.0034575372037698726,
+     "observed": 0.06521739130434782
     },
     {
      "bin": 1,
-     "n": 6,
-     "forecast": 0.14614610725286933,
-     "observed": 0.16666666666666666
+     "n": 7,
+     "forecast": 0.14961043876134109,
+     "observed": 0.2857142857142857
     },
     {
      "bin": 2,
@@ -1590,9 +1596,9 @@
     },
     {
      "bin": 4,
-     "n": 3,
-     "forecast": 0.44244660461519986,
-     "observed": 0.6666666666666666
+     "n": 5,
+     "forecast": 0.43132026711137345,
+     "observed": 0.4
     },
     {
      "bin": 5,
@@ -1625,9 +1631,9 @@
      "observed": 0.75
     }
    ],
-   "distinct_dates": 21,
+   "distinct_dates": 22,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.8416823671586071
+   "brier_skill": -0.8215598984983616
   },
   {
    "city": "Boston",
@@ -1927,26 +1933,26 @@
    "city": "Boston",
    "kind": "temperature",
    "horizon": "afternoon",
-   "n": 40,
-   "brier": 0.5479412817501416,
-   "market_brier": 0.2395780197724821,
-   "log_loss": 0.8850266460501146,
-   "bias": 0.13749999999999982,
-   "mae": 1.1820833333333327,
-   "actual_temperature_n": 40,
-   "coverage80": 0.6,
+   "n": 41,
+   "brier": 0.5451202191993826,
+   "market_brier": 0.24396227670334156,
+   "log_loss": 0.882851667945794,
+   "bias": 0.12896341463414604,
+   "mae": 1.158434959349593,
+   "actual_temperature_n": 41,
+   "coverage80": 0.6097560975609756,
    "reliability": [
     {
      "bin": 0,
-     "n": 147,
-     "forecast": 0.009786767455435802,
-     "observed": 0.006802721088435374
+     "n": 150,
+     "forecast": 0.010137573289358135,
+     "observed": 0.006666666666666667
     },
     {
      "bin": 1,
-     "n": 21,
-     "forecast": 0.15476287176427603,
-     "observed": 0.2857142857142857
+     "n": 22,
+     "forecast": 0.15434321761711406,
+     "observed": 0.2727272727272727
     },
     {
      "bin": 2,
@@ -1956,15 +1962,15 @@
     },
     {
      "bin": 3,
-     "n": 13,
-     "forecast": 0.3571997304321324,
-     "observed": 0.38461538461538464
+     "n": 14,
+     "forecast": 0.3546348879584724,
+     "observed": 0.35714285714285715
     },
     {
      "bin": 4,
-     "n": 12,
-     "forecast": 0.4462788110761968,
-     "observed": 0.4166666666666667
+     "n": 13,
+     "forecast": 0.4466570876255461,
+     "observed": 0.46153846153846156
     },
     {
      "bin": 5,
@@ -1997,28 +2003,28 @@
      "observed": 1
     }
    ],
-   "distinct_dates": 40,
+   "distinct_dates": 41,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -1.2871099872621872
+   "brier_skill": -1.2344447123776003
   },
   {
    "city": "Boston",
    "kind": "temperature",
    "horizon": "day_ahead",
-   "n": 19,
-   "brier": 0.7415416892052404,
-   "market_brier": 0.5762726891777813,
-   "log_loss": 1.4892851282485537,
-   "bias": 0.7137439692982459,
-   "mae": 1.7703656798245617,
-   "actual_temperature_n": 19,
-   "coverage80": 0.8947368421052632,
+   "n": 20,
+   "brier": 0.7347195394936376,
+   "market_brier": 0.5792465547188922,
+   "log_loss": 1.472589864644775,
+   "bias": 0.6942442708333338,
+   "mae": 1.6980348958333338,
+   "actual_temperature_n": 20,
+   "coverage80": 0.9,
    "reliability": [
     {
      "bin": 0,
-     "n": 32,
-     "forecast": 0.0483064322275491,
-     "observed": 0.03125
+     "n": 35,
+     "forecast": 0.0497869265156509,
+     "observed": 0.02857142857142857
     },
     {
      "bin": 1,
@@ -2028,15 +2034,15 @@
     },
     {
      "bin": 2,
-     "n": 33,
-     "forecast": 0.24187625364440135,
-     "observed": 0.3333333333333333
+     "n": 35,
+     "forecast": 0.24200691115482276,
+     "observed": 0.3142857142857143
     },
     {
      "bin": 3,
-     "n": 8,
-     "forecast": 0.33003970096836244,
-     "observed": 0.375
+     "n": 9,
+     "forecast": 0.32836172120301527,
+     "observed": 0.4444444444444444
     },
     {
      "bin": 4,
@@ -2045,34 +2051,34 @@
      "observed": 0.5
     }
    ],
-   "distinct_dates": 19,
+   "distinct_dates": 20,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.2867895757185073
+   "brier_skill": -0.2684055407980739
   },
   {
    "city": "Boston",
    "kind": "temperature",
    "horizon": "evening",
-   "n": 40,
-   "brier": 0.32888173998414766,
-   "market_brier": 0.04120236683515469,
-   "log_loss": 0.4653604072691877,
-   "bias": -0.09902500000000121,
-   "mae": 0.4978999999999987,
-   "actual_temperature_n": 40,
-   "coverage80": 0.575,
+   "n": 41,
+   "brier": 0.35253092095716604,
+   "market_brier": 0.05731359335990897,
+   "log_loss": 0.49397750989189987,
+   "bias": -0.11612195121951364,
+   "mae": 0.5052682926829258,
+   "actual_temperature_n": 41,
+   "coverage80": 0.5609756097560976,
    "reliability": [
     {
      "bin": 0,
-     "n": 175,
-     "forecast": 0.004136303667805708,
+     "n": 179,
+     "forecast": 0.0040438748090846355,
      "observed": 0
     },
     {
      "bin": 1,
-     "n": 9,
-     "forecast": 0.1592525153151313,
-     "observed": 0.3333333333333333
+     "n": 10,
+     "forecast": 0.1627512473958025,
+     "observed": 0.4
     },
     {
      "bin": 2,
@@ -2112,9 +2118,9 @@
     },
     {
      "bin": 8,
-     "n": 6,
-     "forecast": 0.8332431668115411,
-     "observed": 0.5
+     "n": 7,
+     "forecast": 0.829316959398179,
+     "observed": 0.42857142857142855
     },
     {
      "bin": 9,
@@ -2123,28 +2129,28 @@
      "observed": 1
     }
    ],
-   "distinct_dates": 40,
+   "distinct_dates": 41,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -6.9821079526805025
+   "brier_skill": -5.1509129037399095
   },
   {
    "city": "Boston",
    "kind": "temperature",
    "horizon": "morning",
-   "n": 36,
-   "brier": 0.8335216233487949,
-   "market_brier": 0.539089165791061,
-   "log_loss": 1.750777200932836,
-   "bias": 1.0754166666666667,
-   "mae": 2.129351851851852,
-   "actual_temperature_n": 36,
-   "coverage80": 0.5555555555555556,
+   "n": 37,
+   "brier": 0.8207629010861668,
+   "market_brier": 0.5324592921228334,
+   "log_loss": 1.7223629468234471,
+   "bias": 1.0544594594594594,
+   "mae": 2.07990990990991,
+   "actual_temperature_n": 37,
+   "coverage80": 0.5675675675675675,
    "reliability": [
     {
      "bin": 0,
-     "n": 97,
-     "forecast": 0.028620454680655865,
-     "observed": 0.07216494845360824
+     "n": 100,
+     "forecast": 0.02820617482854472,
+     "observed": 0.07
     },
     {
      "bin": 1,
@@ -2154,9 +2160,9 @@
     },
     {
      "bin": 2,
-     "n": 29,
-     "forecast": 0.25549695475481315,
-     "observed": 0.2413793103448276
+     "n": 31,
+     "forecast": 0.25381031317104674,
+     "observed": 0.22580645161290322
     },
     {
      "bin": 3,
@@ -2166,9 +2172,9 @@
     },
     {
      "bin": 4,
-     "n": 16,
-     "forecast": 0.4429973066313756,
-     "observed": 0.1875
+     "n": 17,
+     "forecast": 0.4461656180504876,
+     "observed": 0.23529411764705882
     },
     {
      "bin": 5,
@@ -2189,9 +2195,9 @@
      "observed": 1
     }
    ],
-   "distinct_dates": 36,
+   "distinct_dates": 37,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.5461665272491292
+   "brier_skill": -0.5414566206815759
   },
   {
    "city": "Boston",
@@ -3049,32 +3055,32 @@
    "city": "Chicago",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 27,
-   "brier": 0.5481644126052703,
-   "market_brier": 0.21464188209431026,
-   "log_loss": 1.1527416289723618,
-   "bias": -0.4706481481481488,
-   "mae": 0.8428703703703698,
-   "actual_temperature_n": 27,
-   "coverage80": 0.48148148148148145,
+   "n": 28,
+   "brier": 0.5702652029898493,
+   "market_brier": 0.22096381239395496,
+   "log_loss": 1.1866599779854052,
+   "bias": -0.5810714285714292,
+   "mae": 0.9399999999999995,
+   "actual_temperature_n": 28,
+   "coverage80": 0.4642857142857143,
    "reliability": [
     {
      "bin": 0,
-     "n": 116,
-     "forecast": 0.002996481636892591,
-     "observed": 0.017241379310344827
+     "n": 119,
+     "forecast": 0.0029270274405293452,
+     "observed": 0.01680672268907563
     },
     {
      "bin": 1,
-     "n": 9,
-     "forecast": 0.15033792627971346,
-     "observed": 0.6666666666666666
+     "n": 10,
+     "forecast": 0.1475197453935369,
+     "observed": 0.7
     },
     {
      "bin": 3,
-     "n": 8,
-     "forecast": 0.37278343701897004,
-     "observed": 0.375
+     "n": 9,
+     "forecast": 0.37159106618528537,
+     "observed": 0.3333333333333333
     },
     {
      "bin": 4,
@@ -3084,9 +3090,9 @@
     },
     {
      "bin": 5,
-     "n": 3,
-     "forecast": 0.5872154754944094,
-     "observed": 0.3333333333333333
+     "n": 4,
+     "forecast": 0.5691784535015051,
+     "observed": 0.25
     },
     {
      "bin": 6,
@@ -3113,40 +3119,40 @@
      "observed": 0.9166666666666666
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -1.5538557864695552
+   "brier_skill": -1.5808081278627069
   },
   {
    "city": "Chicago",
    "kind": "temperature_low",
    "horizon": "day_ahead",
-   "n": 20,
-   "brier": 0.7424184552744365,
-   "market_brier": 0.6999722275950478,
-   "log_loss": 1.3418123981312189,
-   "bias": -1.455291666666667,
-   "mae": 2.051541666666667,
-   "actual_temperature_n": 20,
-   "coverage80": 0.75,
+   "n": 21,
+   "brier": 0.7535784572847595,
+   "market_brier": 0.6951052051831142,
+   "log_loss": 1.3599445592288573,
+   "bias": -1.5389682539682543,
+   "mae": 2.106825396825397,
+   "actual_temperature_n": 21,
+   "coverage80": 0.7619047619047619,
    "reliability": [
     {
      "bin": 0,
-     "n": 61,
-     "forecast": 0.016213327303255518,
-     "observed": 0.03278688524590164
+     "n": 64,
+     "forecast": 0.016498301588558424,
+     "observed": 0.03125
     },
     {
      "bin": 1,
-     "n": 21,
-     "forecast": 0.1493752140010471,
-     "observed": 0.2857142857142857
+     "n": 22,
+     "forecast": 0.15070376622622772,
+     "observed": 0.3181818181818182
     },
     {
      "bin": 2,
-     "n": 16,
-     "forecast": 0.2503246561782129,
-     "observed": 0.1875
+     "n": 17,
+     "forecast": 0.252934693547803,
+     "observed": 0.17647058823529413
     },
     {
      "bin": 3,
@@ -3156,9 +3162,9 @@
     },
     {
      "bin": 4,
-     "n": 5,
-     "forecast": 0.41977574633858117,
-     "observed": 0.4
+     "n": 6,
+     "forecast": 0.42645029018458147,
+     "observed": 0.3333333333333333
     },
     {
      "bin": 5,
@@ -3191,34 +3197,34 @@
      "observed": 0
     }
    ],
-   "distinct_dates": 20,
+   "distinct_dates": 21,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.06063987399217918
+   "brier_skill": -0.08412144185604453
   },
   {
    "city": "Chicago",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 27,
-   "brier": 0.5775627029524056,
-   "market_brier": 0.193604523943097,
-   "log_loss": 1.2108225730768218,
-   "bias": -0.4066975308641979,
-   "mae": 0.7798456790123446,
-   "actual_temperature_n": 27,
-   "coverage80": 0.48148148148148145,
+   "n": 28,
+   "brier": 0.5995010129934573,
+   "market_brier": 0.20258537707583374,
+   "log_loss": 1.2437657855875472,
+   "bias": -0.5283333333333337,
+   "mae": 0.8881547619047608,
+   "actual_temperature_n": 28,
+   "coverage80": 0.4642857142857143,
    "reliability": [
     {
      "bin": 0,
-     "n": 120,
-     "forecast": 0.0033181033406960323,
-     "observed": 0.03333333333333333
+     "n": 123,
+     "forecast": 0.003268438511272226,
+     "observed": 0.032520325203252036
     },
     {
      "bin": 1,
-     "n": 4,
-     "forecast": 0.14958822255949653,
-     "observed": 0.75
+     "n": 5,
+     "forecast": 0.14336133199384937,
+     "observed": 0.8
     },
     {
      "bin": 2,
@@ -3228,9 +3234,9 @@
     },
     {
      "bin": 3,
-     "n": 6,
-     "forecast": 0.3776699535631936,
-     "observed": 0.3333333333333333
+     "n": 7,
+     "forecast": 0.3690548956400057,
+     "observed": 0.2857142857142857
     },
     {
      "bin": 4,
@@ -3240,8 +3246,8 @@
     },
     {
      "bin": 5,
-     "n": 3,
-     "forecast": 0.5881069008245667,
+     "n": 4,
+     "forecast": 0.5811642121596503,
      "observed": 0
     },
     {
@@ -3269,40 +3275,40 @@
      "observed": 0.7857142857142857
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -1.9832087142868584
+   "brier_skill": -1.959251164357466
   },
   {
    "city": "Chicago",
    "kind": "temperature_low",
    "horizon": "morning",
-   "n": 21,
-   "brier": 0.52750959560717,
-   "market_brier": 0.36914019435948653,
-   "log_loss": 0.9378908306654221,
-   "bias": -0.513849206349206,
-   "mae": 1.264007936507936,
-   "actual_temperature_n": 21,
-   "coverage80": 0.5238095238095238,
+   "n": 22,
+   "brier": 0.5502260120448771,
+   "market_brier": 0.37676575960871833,
+   "log_loss": 0.9781705303594074,
+   "bias": -0.649015151515151,
+   "mae": 1.3650757575757568,
+   "actual_temperature_n": 22,
+   "coverage80": 0.5,
    "reliability": [
     {
      "bin": 0,
-     "n": 73,
-     "forecast": 0.005489062683488831,
-     "observed": 0.0136986301369863
+     "n": 76,
+     "forecast": 0.006234412721465625,
+     "observed": 0.013157894736842105
     },
     {
      "bin": 1,
-     "n": 18,
-     "forecast": 0.14376450115972175,
-     "observed": 0.2222222222222222
+     "n": 19,
+     "forecast": 0.1446912014016237,
+     "observed": 0.2631578947368421
     },
     {
      "bin": 2,
-     "n": 7,
-     "forecast": 0.24977080133360735,
-     "observed": 0.14285714285714285
+     "n": 8,
+     "forecast": 0.25206491024309396,
+     "observed": 0.125
     },
     {
      "bin": 3,
@@ -3312,8 +3318,8 @@
     },
     {
      "bin": 4,
-     "n": 5,
-     "forecast": 0.4538032197200422,
+     "n": 6,
+     "forecast": 0.4610678048830248,
      "observed": 0
     },
     {
@@ -3347,9 +3353,9 @@
      "observed": 1
     }
    ],
-   "distinct_dates": 21,
+   "distinct_dates": 22,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.4290223705453644
+   "brier_skill": -0.46039282501759726
   },
   {
    "city": "Dallas",
@@ -3901,20 +3907,20 @@
    "city": "Dallas",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 27,
-   "brier": 0.25365082355708596,
-   "market_brier": 0.1431469463536268,
-   "log_loss": 0.4907257781447814,
-   "bias": -0.2423148148148184,
-   "mae": 0.5534259259259255,
-   "actual_temperature_n": 27,
-   "coverage80": 0.6296296296296297,
+   "n": 28,
+   "brier": 0.2729295849403889,
+   "market_brier": 0.15446425727615082,
+   "log_loss": 0.52036192424737,
+   "bias": -0.3126785714285748,
+   "mae": 0.612678571428571,
+   "actual_temperature_n": 28,
+   "coverage80": 0.6071428571428571,
    "reliability": [
     {
      "bin": 0,
-     "n": 124,
-     "forecast": 0.00505232646038059,
-     "observed": 0.016129032258064516
+     "n": 127,
+     "forecast": 0.005392179838168988,
+     "observed": 0.015748031496062992
     },
     {
      "bin": 1,
@@ -3924,14 +3930,20 @@
     },
     {
      "bin": 2,
-     "n": 2,
-     "forecast": 0.24513708916861238,
-     "observed": 0
+     "n": 4,
+     "forecast": 0.24555520109432932,
+     "observed": 0.25
     },
     {
      "bin": 3,
      "n": 3,
      "forecast": 0.36256508857162556,
+     "observed": 0
+    },
+    {
+     "bin": 4,
+     "n": 1,
+     "forecast": 0.44973501559963913,
      "observed": 0
     },
     {
@@ -3959,40 +3971,40 @@
      "observed": 0.9444444444444444
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.7719611211997008
+   "brier_skill": -0.7669433029574346
   },
   {
    "city": "Dallas",
    "kind": "temperature_low",
    "horizon": "day_ahead",
-   "n": 20,
-   "brier": 0.8467215199845431,
-   "market_brier": 0.5104981814834879,
-   "log_loss": 1.4798406122448016,
-   "bias": -1.7681250000000006,
-   "mae": 2.3393750000000013,
-   "actual_temperature_n": 20,
-   "coverage80": 0.7,
+   "n": 21,
+   "brier": 0.844671224458135,
+   "market_brier": 0.5057865547925845,
+   "log_loss": 1.4689882375436112,
+   "bias": -1.7851190476190482,
+   "mae": 2.329166666666668,
+   "actual_temperature_n": 21,
+   "coverage80": 0.6666666666666666,
    "reliability": [
     {
      "bin": 0,
-     "n": 71,
-     "forecast": 0.020799214421771975,
-     "observed": 0.056338028169014086
+     "n": 74,
+     "forecast": 0.020154841060344708,
+     "observed": 0.05405405405405406
     },
     {
      "bin": 1,
-     "n": 12,
-     "forecast": 0.15364683478205293,
-     "observed": 0.3333333333333333
+     "n": 13,
+     "forecast": 0.1566795745488905,
+     "observed": 0.3076923076923077
     },
     {
      "bin": 2,
-     "n": 12,
-     "forecast": 0.2452939467339148,
-     "observed": 0.25
+     "n": 13,
+     "forecast": 0.24842128188834292,
+     "observed": 0.3076923076923077
     },
     {
      "bin": 3,
@@ -4008,9 +4020,9 @@
     },
     {
      "bin": 5,
-     "n": 5,
-     "forecast": 0.5263932553370297,
-     "observed": 0.6
+     "n": 6,
+     "forecast": 0.5230384177788382,
+     "observed": 0.5
     },
     {
      "bin": 6,
@@ -4025,45 +4037,51 @@
      "observed": 0.2
     }
    ],
-   "distinct_dates": 20,
+   "distinct_dates": 21,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.6586180924758698
+   "brier_skill": -0.6700151802266117
   },
   {
    "city": "Dallas",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 27,
-   "brier": 0.251583614666458,
-   "market_brier": 0.0683565442933891,
-   "log_loss": 0.44918248274323885,
-   "bias": -0.2059259259259289,
-   "mae": 0.517037037037036,
-   "actual_temperature_n": 27,
-   "coverage80": 0.6296296296296297,
+   "n": 28,
+   "brier": 0.2726783677338953,
+   "market_brier": 0.07915732813971853,
+   "log_loss": 0.48075466020057384,
+   "bias": -0.2784821428571456,
+   "mae": 0.5784821428571417,
+   "actual_temperature_n": 28,
+   "coverage80": 0.6071428571428571,
    "reliability": [
     {
      "bin": 0,
-     "n": 125,
-     "forecast": 0.005660386940877198,
-     "observed": 0.016
+     "n": 128,
+     "forecast": 0.005768728758792017,
+     "observed": 0.015625
     },
     {
      "bin": 1,
-     "n": 5,
-     "forecast": 0.14076654314040893,
-     "observed": 0.4
+     "n": 6,
+     "forecast": 0.14967990984848484,
+     "observed": 0.3333333333333333
     },
     {
      "bin": 2,
-     "n": 3,
-     "forecast": 0.23081731560898056,
-     "observed": 0
+     "n": 4,
+     "forecast": 0.23902083090821385,
+     "observed": 0.25
     },
     {
      "bin": 3,
      "n": 3,
      "forecast": 0.36706159402745814,
+     "observed": 0
+    },
+    {
+     "bin": 5,
+     "n": 1,
+     "forecast": 0.5112729662894937,
      "observed": 0
     },
     {
@@ -4091,40 +4109,40 @@
      "observed": 0.9444444444444444
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -2.680461282341173
+   "brier_skill": -2.444764674883895
   },
   {
    "city": "Dallas",
    "kind": "temperature_low",
    "horizon": "morning",
-   "n": 21,
-   "brier": 0.5427811687625442,
-   "market_brier": 0.272837732076468,
-   "log_loss": 1.1639568216964153,
-   "bias": -0.7351587301587308,
-   "mae": 1.1261111111111108,
-   "actual_temperature_n": 21,
-   "coverage80": 0.7142857142857143,
+   "n": 22,
+   "brier": 0.5538153754775723,
+   "market_brier": 0.28879322482647046,
+   "log_loss": 1.1699683541838026,
+   "bias": -0.7994696969696975,
+   "mae": 1.1726515151515147,
+   "actual_temperature_n": 22,
+   "coverage80": 0.7272727272727273,
    "reliability": [
     {
      "bin": 0,
-     "n": 82,
-     "forecast": 0.008539018481193955,
-     "observed": 0.036585365853658534
+     "n": 85,
+     "forecast": 0.009190643808827427,
+     "observed": 0.03529411764705882
     },
     {
      "bin": 1,
-     "n": 10,
-     "forecast": 0.1461502950051393,
-     "observed": 0.2
+     "n": 11,
+     "forecast": 0.14887481859950694,
+     "observed": 0.18181818181818182
     },
     {
      "bin": 2,
-     "n": 5,
-     "forecast": 0.22206399066126095,
-     "observed": 0
+     "n": 6,
+     "forecast": 0.2306477424836172,
+     "observed": 0.16666666666666666
     },
     {
      "bin": 3,
@@ -4134,9 +4152,9 @@
     },
     {
      "bin": 4,
-     "n": 4,
-     "forecast": 0.47699976642928216,
-     "observed": 0.25
+     "n": 5,
+     "forecast": 0.4754614602572239,
+     "observed": 0.2
     },
     {
      "bin": 5,
@@ -4169,9 +4187,9 @@
      "observed": 0.8
     }
    ],
-   "distinct_dates": 21,
+   "distinct_dates": 22,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.989391880043994
+   "brier_skill": -0.9176882553610732
   },
   {
    "city": "Denver",
@@ -5533,20 +5551,20 @@
    "city": "Houston",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 27,
-   "brier": 0.232753058720462,
-   "market_brier": 0.06911928088999757,
-   "log_loss": 0.38198598731616445,
-   "bias": -0.01861111111111366,
-   "mae": 0.427685185185182,
-   "actual_temperature_n": 27,
-   "coverage80": 0.6296296296296297,
+   "n": 28,
+   "brier": 0.25135837668276256,
+   "market_brier": 0.0861835820502307,
+   "log_loss": 0.41746117350135364,
+   "bias": -0.09607142857143103,
+   "mae": 0.49053571428571124,
+   "actual_temperature_n": 28,
+   "coverage80": 0.6428571428571429,
    "reliability": [
     {
      "bin": 0,
-     "n": 124,
-     "forecast": 0.004093735968839056,
-     "observed": 0.008064516129032258
+     "n": 127,
+     "forecast": 0.0052707149172428235,
+     "observed": 0.007874015748031496
     },
     {
      "bin": 1,
@@ -5556,15 +5574,15 @@
     },
     {
      "bin": 2,
-     "n": 3,
-     "forecast": 0.24150139999592687,
-     "observed": 0.3333333333333333
+     "n": 5,
+     "forecast": 0.239255421057177,
+     "observed": 0.4
     },
     {
      "bin": 3,
-     "n": 2,
-     "forecast": 0.3708587663048915,
-     "observed": 1
+     "n": 3,
+     "forecast": 0.36939569765262764,
+     "observed": 0.6666666666666666
     },
     {
      "bin": 5,
@@ -5597,40 +5615,40 @@
      "observed": 0.9375
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -2.3674114620909537
+   "brier_skill": -1.9165459441713901
   },
   {
    "city": "Houston",
    "kind": "temperature_low",
    "horizon": "day_ahead",
-   "n": 20,
-   "brier": 0.860176663267515,
-   "market_brier": 0.6593642049863456,
-   "log_loss": 1.8606105659653405,
-   "bias": -1.0381249999999995,
-   "mae": 1.888125000000001,
-   "actual_temperature_n": 20,
-   "coverage80": 0.6,
+   "n": 21,
+   "brier": 0.8590015014483592,
+   "market_brier": 0.6750144320838034,
+   "log_loss": 1.8527733062875429,
+   "bias": -1.1315476190476186,
+   "mae": 1.9410714285714294,
+   "actual_temperature_n": 21,
+   "coverage80": 0.6190476190476191,
    "reliability": [
     {
      "bin": 0,
-     "n": 56,
-     "forecast": 0.016449756287778533,
-     "observed": 0.07142857142857142
+     "n": 57,
+     "forecast": 0.01700634827144596,
+     "observed": 0.07017543859649122
     },
     {
      "bin": 1,
-     "n": 20,
-     "forecast": 0.1511694146631575,
-     "observed": 0.25
+     "n": 23,
+     "forecast": 0.15053931449239655,
+     "observed": 0.2608695652173913
     },
     {
      "bin": 2,
-     "n": 16,
-     "forecast": 0.24866774736124977,
-     "observed": 0.25
+     "n": 18,
+     "forecast": 0.249527362131178,
+     "observed": 0.2222222222222222
     },
     {
      "bin": 3,
@@ -5663,46 +5681,46 @@
      "observed": 0
     }
    ],
-   "distinct_dates": 20,
+   "distinct_dates": 21,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.30455468580574196
+   "brier_skill": -0.2725676083644293
   },
   {
    "city": "Houston",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 27,
-   "brier": 0.23094686371905224,
-   "market_brier": 0.051587842761505014,
-   "log_loss": 0.3790718420971461,
-   "bias": -0.01768518518518752,
-   "mae": 0.42305555555555235,
-   "actual_temperature_n": 27,
-   "coverage80": 0.6666666666666666,
+   "n": 28,
+   "brier": 0.24739230642977628,
+   "market_brier": 0.0682238549508388,
+   "log_loss": 0.41143944208633826,
+   "bias": -0.09651785714285945,
+   "mae": 0.48741071428571126,
+   "actual_temperature_n": 28,
+   "coverage80": 0.6785714285714286,
    "reliability": [
     {
      "bin": 0,
-     "n": 124,
-     "forecast": 0.004458249648578213,
-     "observed": 0.008064516129032258
+     "n": 126,
+     "forecast": 0.005157487178535854,
+     "observed": 0.007936507936507936
     },
     {
      "bin": 1,
-     "n": 7,
-     "forecast": 0.16920529458402594,
-     "observed": 0.14285714285714285
+     "n": 9,
+     "forecast": 0.16277671712693,
+     "observed": 0.1111111111111111
     },
     {
      "bin": 2,
-     "n": 2,
-     "forecast": 0.23250002906983547,
-     "observed": 0.5
+     "n": 3,
+     "forecast": 0.24718326059879037,
+     "observed": 0.6666666666666666
     },
     {
      "bin": 3,
-     "n": 2,
-     "forecast": 0.3708587663048915,
-     "observed": 1
+     "n": 3,
+     "forecast": 0.36253132960902507,
+     "observed": 0.6666666666666666
     },
     {
      "bin": 5,
@@ -5735,46 +5753,46 @@
      "observed": 0.9375
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -3.47676916413697
+   "brier_skill": -2.6261848089358755
   },
   {
    "city": "Houston",
    "kind": "temperature_low",
    "horizon": "morning",
-   "n": 21,
-   "brier": 0.6547419755347774,
-   "market_brier": 0.33936024432888495,
-   "log_loss": 1.698539389838808,
-   "bias": -0.4680555555555569,
-   "mae": 1.1392460317460316,
-   "actual_temperature_n": 21,
-   "coverage80": 0.47619047619047616,
+   "n": 22,
+   "brier": 0.6600527125063826,
+   "market_brier": 0.3567048240517753,
+   "log_loss": 1.6874786432902207,
+   "bias": -0.5553030303030314,
+   "mae": 1.195984848484848,
+   "actual_temperature_n": 22,
+   "coverage80": 0.5,
    "reliability": [
     {
      "bin": 0,
-     "n": 88,
-     "forecast": 0.006486338092257695,
-     "observed": 0.03409090909090909
+     "n": 90,
+     "forecast": 0.0074257191048966486,
+     "observed": 0.03333333333333333
     },
     {
      "bin": 1,
-     "n": 3,
-     "forecast": 0.1818932576856068,
-     "observed": 0.6666666666666666
+     "n": 4,
+     "forecast": 0.16267144471088799,
+     "observed": 0.5
     },
     {
      "bin": 2,
-     "n": 8,
-     "forecast": 0.23703885050867593,
-     "observed": 0.25
+     "n": 10,
+     "forecast": 0.23578973822250068,
+     "observed": 0.3
     },
     {
      "bin": 3,
-     "n": 5,
-     "forecast": 0.3671040200520256,
-     "observed": 0.4
+     "n": 6,
+     "forecast": 0.36190175816596265,
+     "observed": 0.3333333333333333
     },
     {
      "bin": 4,
@@ -5813,9 +5831,9 @@
      "observed": 0.625
     }
    ],
-   "distinct_dates": 21,
+   "distinct_dates": 22,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.9293420089014488
+   "brier_skill": -0.8504171180218656
   },
   {
    "city": "Las Vegas",
@@ -9565,38 +9583,38 @@
    "city": "New Orleans",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 27,
-   "brier": 0.3815079660314812,
-   "market_brier": 0.20518504453795489,
-   "log_loss": 0.8368859400787394,
-   "bias": 0.12629629629629668,
-   "mae": 0.6283333333333351,
-   "actual_temperature_n": 27,
-   "coverage80": 0.5185185185185185,
+   "n": 28,
+   "brier": 0.38781360679531074,
+   "market_brier": 0.22825214401114344,
+   "log_loss": 0.8436004031644866,
+   "bias": 0.09098214285714334,
+   "mae": 0.6366964285714302,
+   "actual_temperature_n": 28,
+   "coverage80": 0.5357142857142857,
    "reliability": [
     {
      "bin": 0,
-     "n": 114,
-     "forecast": 0.004187683045217604,
-     "observed": 0.008771929824561403
+     "n": 116,
+     "forecast": 0.004223676684638157,
+     "observed": 0.008620689655172414
     },
     {
      "bin": 1,
-     "n": 11,
-     "forecast": 0.1595228027708062,
-     "observed": 0.2727272727272727
-    },
-    {
-     "bin": 2,
-     "n": 4,
-     "forecast": 0.26520441503090014,
+     "n": 12,
+     "forecast": 0.15565087291726232,
      "observed": 0.25
     },
     {
+     "bin": 2,
+     "n": 6,
+     "forecast": 0.26272862957024773,
+     "observed": 0.16666666666666666
+    },
+    {
      "bin": 3,
-     "n": 7,
-     "forecast": 0.34854753509051234,
-     "observed": 0.42857142857142855
+     "n": 8,
+     "forecast": 0.34983354444302517,
+     "observed": 0.5
     },
     {
      "bin": 4,
@@ -9629,40 +9647,40 @@
      "observed": 1
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.8593361270095408
+   "brier_skill": -0.6990578926451503
   },
   {
    "city": "New Orleans",
    "kind": "temperature_low",
    "horizon": "day_ahead",
-   "n": 20,
-   "brier": 0.816738284426942,
-   "market_brier": 0.6240475204028465,
-   "log_loss": 2.114808033698868,
-   "bias": -1.118666666666666,
-   "mae": 2.231166666666666,
-   "actual_temperature_n": 20,
-   "coverage80": 0.7,
+   "n": 21,
+   "brier": 0.8123081210686265,
+   "market_brier": 0.6363717145560602,
+   "log_loss": 2.0748027829102527,
+   "bias": -1.1612301587301583,
+   "mae": 2.220753968253968,
+   "actual_temperature_n": 21,
+   "coverage80": 0.7142857142857143,
    "reliability": [
     {
      "bin": 0,
-     "n": 58,
-     "forecast": 0.022902466786112765,
-     "observed": 0.06896551724137931
+     "n": 60,
+     "forecast": 0.02264236450626169,
+     "observed": 0.06666666666666667
     },
     {
      "bin": 1,
-     "n": 18,
-     "forecast": 0.15174429498735476,
-     "observed": 0.2777777777777778
+     "n": 20,
+     "forecast": 0.15104702465866882,
+     "observed": 0.25
     },
     {
      "bin": 2,
-     "n": 17,
-     "forecast": 0.25330805177240157,
-     "observed": 0.23529411764705882
+     "n": 18,
+     "forecast": 0.25476401746317,
+     "observed": 0.2777777777777778
     },
     {
      "bin": 3,
@@ -9672,9 +9690,9 @@
     },
     {
      "bin": 4,
-     "n": 5,
-     "forecast": 0.46399493331106506,
-     "observed": 0.2
+     "n": 6,
+     "forecast": 0.4534528753611565,
+     "observed": 0.16666666666666666
     },
     {
      "bin": 5,
@@ -9695,27 +9713,27 @@
      "observed": 0
     }
    ],
-   "distinct_dates": 20,
+   "distinct_dates": 21,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.3087757866575709
+   "brier_skill": -0.2764679863801007
   },
   {
    "city": "New Orleans",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 27,
-   "brier": 0.3188494242657897,
-   "market_brier": 0.11603255238824807,
-   "log_loss": 0.4732213707496418,
-   "bias": 0.242962962962962,
-   "mae": 0.48574074074074214,
-   "actual_temperature_n": 27,
-   "coverage80": 0.5185185185185185,
+   "n": 28,
+   "brier": 0.32524148402740444,
+   "market_brier": 0.14012746495176304,
+   "log_loss": 0.48916278882904507,
+   "bias": 0.21241071428571295,
+   "mae": 0.49026785714285886,
+   "actual_temperature_n": 28,
+   "coverage80": 0.5357142857142857,
    "reliability": [
     {
      "bin": 0,
-     "n": 117,
-     "forecast": 0.0044467731455893845,
+     "n": 120,
+     "forecast": 0.005157491298481362,
      "observed": 0
     },
     {
@@ -9726,15 +9744,15 @@
     },
     {
      "bin": 2,
-     "n": 4,
-     "forecast": 0.26775387441471005,
-     "observed": 0.25
+     "n": 6,
+     "forecast": 0.26228382916887544,
+     "observed": 0.16666666666666666
     },
     {
      "bin": 3,
-     "n": 7,
-     "forecast": 0.37533681433423505,
-     "observed": 0.42857142857142855
+     "n": 8,
+     "forecast": 0.3782554656501784,
+     "observed": 0.5
     },
     {
      "bin": 4,
@@ -9767,34 +9785,34 @@
      "observed": 1
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -1.7479307978929128
+   "brier_skill": -1.3210402338996454
   },
   {
    "city": "New Orleans",
    "kind": "temperature_low",
    "horizon": "morning",
-   "n": 21,
-   "brier": 0.5549875136193944,
-   "market_brier": 0.4078149462958581,
-   "log_loss": 0.8583378539155452,
-   "bias": 0.3369444444444425,
-   "mae": 0.9063888888888888,
-   "actual_temperature_n": 21,
-   "coverage80": 0.6666666666666666,
+   "n": 22,
+   "brier": 0.5556853761331542,
+   "market_brier": 0.4315190867433167,
+   "log_loss": 0.8670423931991166,
+   "bias": 0.26651515151514943,
+   "mae": 0.9203030303030304,
+   "actual_temperature_n": 22,
+   "coverage80": 0.6818181818181818,
    "reliability": [
     {
      "bin": 0,
-     "n": 78,
-     "forecast": 0.011498664344645138,
+     "n": 80,
+     "forecast": 0.011475979715150292,
      "observed": 0
     },
     {
      "bin": 1,
-     "n": 10,
-     "forecast": 0.14124840750133824,
-     "observed": 0.2
+     "n": 12,
+     "forecast": 0.14485134456554866,
+     "observed": 0.16666666666666666
     },
     {
      "bin": 2,
@@ -9804,9 +9822,9 @@
     },
     {
      "bin": 3,
-     "n": 10,
-     "forecast": 0.353022171553455,
-     "observed": 0.3
+     "n": 12,
+     "forecast": 0.3486089247859705,
+     "observed": 0.3333333333333333
     },
     {
      "bin": 4,
@@ -9845,9 +9863,9 @@
      "observed": 1
     }
    ],
-   "distinct_dates": 21,
+   "distinct_dates": 22,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.3608807589331626
+   "brier_skill": -0.28774228812663427
   },
   {
    "city": "New York",
@@ -14503,20 +14521,20 @@
    "city": "San Antonio",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 27,
-   "brier": 0.30390985458275627,
-   "market_brier": 0.08263413543837941,
-   "log_loss": 0.4879160346345068,
-   "bias": -0.20342592592592698,
-   "mae": 0.3897222222222212,
-   "actual_temperature_n": 27,
-   "coverage80": 0.7407407407407407,
+   "n": 28,
+   "brier": 0.3061043899985993,
+   "market_brier": 0.10901243846806881,
+   "log_loss": 0.49515185047091104,
+   "bias": -0.216250000000001,
+   "mae": 0.39589285714285616,
+   "actual_temperature_n": 28,
+   "coverage80": 0.75,
    "reliability": [
     {
      "bin": 0,
-     "n": 129,
-     "forecast": 0.0076176680180820465,
-     "observed": 0.023255813953488372
+     "n": 132,
+     "forecast": 0.007566395646229076,
+     "observed": 0.022727272727272728
     },
     {
      "bin": 1,
@@ -14526,8 +14544,8 @@
     },
     {
      "bin": 2,
-     "n": 1,
-     "forecast": 0.2494967952352573,
+     "n": 3,
+     "forecast": 0.2440319548350042,
      "observed": 0
     },
     {
@@ -14538,8 +14556,8 @@
     },
     {
      "bin": 5,
-     "n": 2,
-     "forecast": 0.5300495622690559,
+     "n": 3,
+     "forecast": 0.5204716680995675,
      "observed": 1
     },
     {
@@ -14561,28 +14579,28 @@
      "observed": 0.8571428571428571
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -2.677776175311751
+   "brier_skill": -1.8079767254106636
   },
   {
    "city": "San Antonio",
    "kind": "temperature_low",
    "horizon": "day_ahead",
-   "n": 20,
-   "brier": 0.7029604936075884,
-   "market_brier": 0.5622026575214384,
-   "log_loss": 1.2786467972268094,
-   "bias": -0.4086250000000007,
-   "mae": 1.5363749999999983,
-   "actual_temperature_n": 20,
-   "coverage80": 0.7,
+   "n": 21,
+   "brier": 0.6872691651963347,
+   "market_brier": 0.5590358481411235,
+   "log_loss": 1.2489243813591269,
+   "bias": -0.44154761904761974,
+   "mae": 1.5155952380952364,
+   "actual_temperature_n": 21,
+   "coverage80": 0.7142857142857143,
    "reliability": [
     {
      "bin": 0,
-     "n": 54,
-     "forecast": 0.01679734777188324,
-     "observed": 0.018518518518518517
+     "n": 58,
+     "forecast": 0.017552556235925675,
+     "observed": 0.017241379310344827
     },
     {
      "bin": 1,
@@ -14598,9 +14616,9 @@
     },
     {
      "bin": 3,
-     "n": 12,
-     "forecast": 0.3441372071409514,
-     "observed": 0.16666666666666666
+     "n": 13,
+     "forecast": 0.346072362723117,
+     "observed": 0.15384615384615385
     },
     {
      "bin": 4,
@@ -14610,9 +14628,9 @@
     },
     {
      "bin": 5,
-     "n": 5,
-     "forecast": 0.5237557893969886,
-     "observed": 0.6
+     "n": 6,
+     "forecast": 0.5230822058789742,
+     "observed": 0.6666666666666666
     },
     {
      "bin": 6,
@@ -14621,34 +14639,40 @@
      "observed": 0.5
     }
    ],
-   "distinct_dates": 20,
+   "distinct_dates": 21,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.25036850004712496
+   "brier_skill": -0.22938299481438595
   },
   {
    "city": "San Antonio",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 27,
-   "brier": 0.2887446663308255,
-   "market_brier": 0.02011733324368538,
-   "log_loss": 0.4665471072385054,
-   "bias": -0.17583333333333367,
-   "mae": 0.3704629629629642,
-   "actual_temperature_n": 27,
-   "coverage80": 0.7407407407407407,
+   "n": 28,
+   "brier": 0.2854925433320442,
+   "market_brier": 0.04473950993357981,
+   "log_loss": 0.4659752411611321,
+   "bias": -0.18562500000000043,
+   "mae": 0.37330357142857273,
+   "actual_temperature_n": 28,
+   "coverage80": 0.75,
    "reliability": [
     {
      "bin": 0,
-     "n": 130,
-     "forecast": 0.007857383022065711,
-     "observed": 0.023076923076923078
+     "n": 133,
+     "forecast": 0.007692642035263639,
+     "observed": 0.022556390977443608
     },
     {
      "bin": 1,
-     "n": 2,
-     "forecast": 0.14129141059938138,
-     "observed": 0.5
+     "n": 3,
+     "forecast": 0.14712874156503408,
+     "observed": 0.3333333333333333
+    },
+    {
+     "bin": 2,
+     "n": 1,
+     "forecast": 0.20224779579904978,
+     "observed": 0
     },
     {
      "bin": 3,
@@ -14670,8 +14694,8 @@
     },
     {
      "bin": 6,
-     "n": 1,
-     "forecast": 0.6232529306509573,
+     "n": 2,
+     "forecast": 0.6302700667670232,
      "observed": 1
     },
     {
@@ -14687,28 +14711,28 @@
      "observed": 0.8636363636363636
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -13.353028944403427
+   "brier_skill": -5.381217491114362
   },
   {
    "city": "San Antonio",
    "kind": "temperature_low",
    "horizon": "morning",
-   "n": 21,
-   "brier": 0.4848120245926524,
-   "market_brier": 0.4148538782804958,
-   "log_loss": 0.8838970738645777,
-   "bias": -0.6284523809523819,
-   "mae": 1.0170238095238116,
-   "actual_temperature_n": 21,
-   "coverage80": 0.6666666666666666,
+   "n": 22,
+   "brier": 0.48249338682131765,
+   "market_brier": 0.4285589566781398,
+   "log_loss": 0.8797636548874903,
+   "bias": -0.6379545454545462,
+   "mae": 1.0088636363636383,
+   "actual_temperature_n": 22,
+   "coverage80": 0.6818181818181818,
    "reliability": [
     {
      "bin": 0,
-     "n": 83,
-     "forecast": 0.010426926716217179,
-     "observed": 0.03614457831325301
+     "n": 86,
+     "forecast": 0.010469281128603567,
+     "observed": 0.03488372093023256
     },
     {
      "bin": 1,
@@ -14718,9 +14742,9 @@
     },
     {
      "bin": 2,
-     "n": 5,
-     "forecast": 0.24661754855868834,
-     "observed": 0.2
+     "n": 7,
+     "forecast": 0.24938027460865073,
+     "observed": 0.14285714285714285
     },
     {
      "bin": 3,
@@ -14730,9 +14754,9 @@
     },
     {
      "bin": 4,
-     "n": 9,
-     "forecast": 0.4503476094990119,
-     "observed": 0.3333333333333333
+     "n": 10,
+     "forecast": 0.4505631046410113,
+     "observed": 0.4
     },
     {
      "bin": 5,
@@ -14765,9 +14789,9 @@
      "observed": 0.8571428571428571
     }
    ],
-   "distinct_dates": 21,
+   "distinct_dates": 22,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.1686332223821123
+   "brier_skill": -0.12585066605826212
   },
   {
    "city": "San Diego",
@@ -17323,26 +17347,26 @@
    "city": "Trenton",
    "kind": "temperature_low",
    "horizon": "afternoon",
-   "n": 27,
-   "brier": 0.3572317826350538,
-   "market_brier": 0.2266136371414948,
-   "log_loss": 0.8274735515861128,
-   "bias": -0.3142592592592595,
-   "mae": 0.5957407407407402,
-   "actual_temperature_n": 27,
-   "coverage80": 0.5185185185185185,
+   "n": 28,
+   "brier": 0.394299583681541,
+   "market_brier": 0.22090659633404736,
+   "log_loss": 0.8623406854219599,
+   "bias": -0.27446428571428605,
+   "mae": 0.6030357142857137,
+   "actual_temperature_n": 28,
+   "coverage80": 0.5,
    "reliability": [
     {
      "bin": 0,
-     "n": 123,
-     "forecast": 0.003886408803114034,
-     "observed": 0.032520325203252036
+     "n": 127,
+     "forecast": 0.003765840937268518,
+     "observed": 0.031496062992125984
     },
     {
      "bin": 1,
-     "n": 5,
-     "forecast": 0.16274328350351988,
-     "observed": 0
+     "n": 6,
+     "forecast": 0.16306600873956076,
+     "observed": 0.16666666666666666
     },
     {
      "bin": 2,
@@ -17376,9 +17400,9 @@
     },
     {
      "bin": 8,
-     "n": 3,
-     "forecast": 0.8353203650802347,
-     "observed": 1
+     "n": 4,
+     "forecast": 0.8352619860177158,
+     "observed": 0.75
     },
     {
      "bin": 9,
@@ -17387,28 +17411,28 @@
      "observed": 0.8823529411764706
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.576391373181141
+   "brier_skill": -0.7849153905992681
   },
   {
    "city": "Trenton",
    "kind": "temperature_low",
    "horizon": "day_ahead",
-   "n": 14,
-   "brier": 0.7678742252966548,
-   "market_brier": 0.5912854321039127,
-   "log_loss": 2.285084569073057,
-   "bias": -2.0716666666666677,
-   "mae": 2.318809523809524,
-   "actual_temperature_n": 14,
-   "coverage80": 0.5714285714285714,
+   "n": 15,
+   "brier": 0.7664569898377274,
+   "market_brier": 0.6165495918689801,
+   "log_loss": 2.2034264156101164,
+   "bias": -1.877722222222223,
+   "mae": 2.2200555555555557,
+   "actual_temperature_n": 15,
+   "coverage80": 0.6,
    "reliability": [
     {
      "bin": 0,
-     "n": 52,
-     "forecast": 0.01647236877281142,
-     "observed": 0.09615384615384616
+     "n": 56,
+     "forecast": 0.017022112498652778,
+     "observed": 0.08928571428571429
     },
     {
      "bin": 1,
@@ -17424,9 +17448,9 @@
     },
     {
      "bin": 3,
-     "n": 6,
-     "forecast": 0.3671953480681818,
-     "observed": 0.16666666666666666
+     "n": 7,
+     "forecast": 0.3642220521948025,
+     "observed": 0.2857142857142857
     },
     {
      "bin": 4,
@@ -17436,9 +17460,9 @@
     },
     {
      "bin": 5,
-     "n": 2,
-     "forecast": 0.523209245410207,
-     "observed": 0.5
+     "n": 3,
+     "forecast": 0.5344536967091751,
+     "observed": 0.3333333333333333
     },
     {
      "bin": 6,
@@ -17465,34 +17489,34 @@
      "observed": 0.6666666666666666
     }
    ],
-   "distinct_dates": 14,
+   "distinct_dates": 15,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.2986523658538376
+   "brier_skill": -0.24313923802029436
   },
   {
    "city": "Trenton",
    "kind": "temperature_low",
    "horizon": "evening",
-   "n": 27,
-   "brier": 0.36263362323227794,
-   "market_brier": 0.1997362921849268,
-   "log_loss": 0.8398367698298099,
-   "bias": -0.30611111111111194,
-   "mae": 0.6079629629629629,
-   "actual_temperature_n": 27,
-   "coverage80": 0.48148148148148145,
+   "n": 28,
+   "brier": 0.3995224299457596,
+   "market_brier": 0.19665486303639995,
+   "log_loss": 0.8742623601569535,
+   "bias": -0.26660714285714376,
+   "mae": 0.6148214285714284,
+   "actual_temperature_n": 28,
+   "coverage80": 0.4642857142857143,
    "reliability": [
     {
      "bin": 0,
-     "n": 122,
-     "forecast": 0.0036837472973306733,
-     "observed": 0.03278688524590164
+     "n": 126,
+     "forecast": 0.0035668030024655073,
+     "observed": 0.031746031746031744
     },
     {
      "bin": 1,
-     "n": 6,
-     "forecast": 0.1537267248354682,
-     "observed": 0
+     "n": 7,
+     "forecast": 0.15529142627608206,
+     "observed": 0.14285714285714285
     },
     {
      "bin": 2,
@@ -17532,9 +17556,9 @@
     },
     {
      "bin": 8,
-     "n": 4,
-     "forecast": 0.8472020818415128,
-     "observed": 1
+     "n": 5,
+     "forecast": 0.8448257368819948,
+     "observed": 0.8
     },
     {
      "bin": 9,
@@ -17543,34 +17567,34 @@
      "observed": 0.875
     }
    ],
-   "distinct_dates": 27,
+   "distinct_dates": 28,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.8155620056095356
+   "brier_skill": -1.0315919157911173
   },
   {
    "city": "Trenton",
    "kind": "temperature_low",
    "horizon": "morning",
-   "n": 23,
-   "brier": 0.5757712267544406,
-   "market_brier": 0.5529283206107855,
-   "log_loss": 1.3921775193885468,
-   "bias": -0.8265217391304347,
-   "mae": 1.1326086956521735,
-   "actual_temperature_n": 23,
-   "coverage80": 0.5652173913043478,
+   "n": 24,
+   "brier": 0.609911184470368,
+   "market_brier": 0.5727568321011762,
+   "log_loss": 1.409326510205267,
+   "bias": -0.75875,
+   "mae": 1.1187499999999995,
+   "actual_temperature_n": 24,
+   "coverage80": 0.5416666666666666,
    "reliability": [
     {
      "bin": 0,
-     "n": 91,
-     "forecast": 0.003698473396933974,
-     "observed": 0.03296703296703297
+     "n": 95,
+     "forecast": 0.003545206267063865,
+     "observed": 0.031578947368421054
     },
     {
      "bin": 1,
-     "n": 9,
-     "forecast": 0.13216764440186451,
-     "observed": 0.2222222222222222
+     "n": 10,
+     "forecast": 0.1354188434536546,
+     "observed": 0.3
     },
     {
      "bin": 2,
@@ -17610,9 +17634,9 @@
     },
     {
      "bin": 8,
-     "n": 5,
-     "forecast": 0.8817636283073546,
-     "observed": 0.4
+     "n": 6,
+     "forecast": 0.8739841650611554,
+     "observed": 0.3333333333333333
     },
     {
      "bin": 9,
@@ -17621,9 +17645,9 @@
      "observed": 1
     }
    ],
-   "distinct_dates": 23,
+   "distinct_dates": 24,
    "effective_sample_note": "Descriptive scores; observations within and across dates may be correlated.",
-   "brier_skill": -0.041312599286688734
+   "brier_skill": -0.06486933072956957
   },
   {
    "city": "Washington DC",
@@ -228348,6 +228372,66 @@
    ]
   },
   {
+   "city": "Trenton",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-15T15:12:27.659614+00:00",
+   "snapshot_id": "2026-10-15T151227.659617Z-9a5e4374",
+   "brier": 0.7466156934127433,
+   "market_brier": 0.9702478285799231,
+   "log_loss": 1.0602122671289476,
+   "pairs": [
+    [
+     4.996003610813204e-16,
+     0
+    ],
+    [
+     9.774591802624855e-09,
+     0
+    ],
+    [
+     0.0006853388767489865,
+     0
+    ],
+    [
+     0.0959897750870205,
+     0
+    ],
+    [
+     0.5569425993071113,
+     0
+    ],
+    [
+     0.34638227695452684,
+     1
+    ]
+   ],
+   "actual": 58.0,
+   "median": 57.1625,
+   "error": 0.8374999999999986,
+   "covered80": true,
+   "quantiles": [
+    54.224085942629344,
+    54.44982276747303,
+    54.85171102238285,
+    55.546180501726006,
+    56.04751349864828,
+    56.477618856663554,
+    56.90224516553216,
+    57.1625,
+    57.32961099897409,
+    57.6473958494822,
+    57.839162569616406,
+    58.236393632751536,
+    58.533632048959554,
+    58.73772662967381,
+    58.792517121140726
+   ]
+  },
+  {
    "city": "Philadelphia",
    "date": "2026-10-15",
    "kind": "temperature_low",
@@ -229008,6 +229092,66 @@
    ]
   },
   {
+   "city": "Chicago",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-15T15:12:27.659614+00:00",
+   "snapshot_id": "2026-10-15T151227.659617Z-9a5e4374",
+   "brier": 0.9767784974912181,
+   "market_brier": 0.5977647569444444,
+   "log_loss": 1.7225877811816228,
+   "pairs": [
+    [
+     9.945350634577022e-05,
+     0
+    ],
+    [
+     0.005337455037570882,
+     0
+    ],
+    [
+     0.06144142762523583,
+     0
+    ],
+    [
+     0.1786033629550205,
+     1
+    ],
+    [
+     0.29469529146124407,
+     0
+    ],
+    [
+     0.459823009414583,
+     0
+    ]
+   ],
+   "actual": 44.0,
+   "median": 47.2125,
+   "error": -3.2124999999999986,
+   "covered80": true,
+   "quantiles": [
+    41.87553923030266,
+    42.340062215257,
+    43.27072532349451,
+    43.94992342160006,
+    45.17086285986126,
+    45.89453226200945,
+    46.40797368141068,
+    47.2125,
+    47.928083710504076,
+    48.54259627545673,
+    49.14902314876526,
+    50.09100622530453,
+    50.570083455218274,
+    51.142146139039326,
+    51.330138469764975
+   ]
+  },
+  {
    "city": "Minneapolis",
    "date": "2026-10-15",
    "kind": "temperature_low",
@@ -229188,6 +229332,66 @@
    ]
   },
   {
+   "city": "Dallas",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-15T15:12:27.659614+00:00",
+   "snapshot_id": "2026-10-15T151227.659617Z-9a5e4374",
+   "brier": 0.8036653139299728,
+   "market_brier": 0.4115540209745162,
+   "log_loss": 1.251940743519806,
+   "pairs": [
+    [
+     1.0752509993494641e-13,
+     0
+    ],
+    [
+     9.281168739105894e-07,
+     0
+    ],
+    [
+     0.014713086402716577,
+     0
+    ],
+    [
+     0.2859493037414803,
+     1
+    ],
+    [
+     0.5062642299878802,
+     0
+    ],
+    [
+     0.19307245175094145,
+     0
+    ]
+   ],
+   "actual": 54.0,
+   "median": 56.125,
+   "error": -2.125,
+   "covered80": false,
+   "quantiles": [
+    53.40002187069858,
+    53.61210889097323,
+    53.90983454771447,
+    54.35039432015088,
+    55.00582359563523,
+    55.497395552248484,
+    55.890034788033915,
+    56.125,
+    56.53928076846652,
+    57.10814391322651,
+    57.46059173117564,
+    58.029454875935635,
+    58.60604713951031,
+    59.131936383660715,
+    59.28249961817056
+   ]
+  },
+  {
    "city": "Houston",
    "date": "2026-10-15",
    "kind": "temperature_low",
@@ -229245,6 +229449,66 @@
     73.53493781659651,
     73.53999999999999,
     73.53999999999999
+   ]
+  },
+  {
+   "city": "Houston",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-15T15:12:27.659614+00:00",
+   "snapshot_id": "2026-10-15T151227.659617Z-9a5e4374",
+   "brier": 0.835498265065244,
+   "market_brier": 0.9880189740329601,
+   "log_loss": 1.696028112731592,
+   "pairs": [
+    [
+     0.048175499356821944,
+     0
+    ],
+    [
+     0.11405814581102111,
+     0
+    ],
+    [
+     0.18341056532324068,
+     1
+    ],
+    [
+     0.22617273256633563,
+     0
+    ],
+    [
+     0.28663582801487164,
+     0
+    ],
+    [
+     0.141547228927709,
+     0
+    ]
+   ],
+   "actual": 61.0,
+   "median": 64.0,
+   "error": -3.0,
+   "covered80": true,
+   "quantiles": [
+    57.34447510982694,
+    57.698781550566245,
+    58.55188279213103,
+    59.698729346610236,
+    60.98624938698189,
+    62.097331495895205,
+    62.97952115318691,
+    64.0,
+    64.69621454034912,
+    65.39242908069825,
+    66.07910643556313,
+    66.79916393962283,
+    67.86017582474393,
+    68.33178964693933,
+    68.6932489767918
    ]
   },
   {
@@ -229308,6 +229572,66 @@
    ]
   },
   {
+   "city": "Austin",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-15T15:12:27.659614+00:00",
+   "snapshot_id": "2026-10-15T151227.659617Z-9a5e4374",
+   "brier": 1.277095215678861,
+   "market_brier": 0.6682422688671689,
+   "log_loss": 2.5587052199410785,
+   "pairs": [
+    [
+     0.0,
+     0
+    ],
+    [
+     0.0,
+     0
+    ],
+    [
+     1.6825207893589322e-11,
+     0
+    ],
+    [
+     0.07740489790663652,
+     1
+    ],
+    [
+     0.4485965257964174,
+     0
+    ],
+    [
+     0.4739985762801209,
+     0
+    ]
+   ],
+   "actual": 56.0,
+   "median": 58.4125,
+   "error": -2.4125000000000014,
+   "covered80": false,
+   "quantiles": [
+    55.93221273977996,
+    56.02293854100586,
+    56.289731624136,
+    56.67336446314757,
+    57.112186587771326,
+    57.53754791102626,
+    57.87676010552069,
+    58.4125,
+    58.74902003422067,
+    59.21207160130832,
+    59.51897787251757,
+    59.89857247111848,
+    60.229708184791626,
+    60.534460727781855,
+    60.637839682294455
+   ]
+  },
+  {
    "city": "San Antonio",
    "date": "2026-10-15",
    "kind": "temperature_low",
@@ -229365,6 +229689,66 @@
     75.7,
     75.7,
     75.7
+   ]
+  },
+  {
+   "city": "San Antonio",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-15T15:12:27.659614+00:00",
+   "snapshot_id": "2026-10-15T151227.659617Z-9a5e4374",
+   "brier": 0.3734425969712622,
+   "market_brier": 0.4956996605348252,
+   "log_loss": 0.6544760640054751,
+   "pairs": [
+    [
+     0.0,
+     0
+    ],
+    [
+     2.0312362902785708e-10,
+     0
+    ],
+    [
+     0.0662300197534598,
+     0
+    ],
+    [
+     0.5197142882889023,
+     1
+    ],
+    [
+     0.3692942297091035,
+     0
+    ],
+    [
+     0.04476146204541076,
+     0
+    ]
+   ],
+   "actual": 57.0,
+   "median": 58.1,
+   "error": -1.1000000000000014,
+   "covered80": true,
+   "quantiles": [
+    55.92606651776573,
+    56.02510306923421,
+    56.36956626600845,
+    56.77139489696661,
+    57.31528415503119,
+    57.534463408281106,
+    57.74823082811743,
+    58.1,
+    58.56541767356771,
+    59.09307143139156,
+    59.53954768801174,
+    59.97520027780477,
+    60.42302949277834,
+    60.86382332431427,
+    60.98369543442502
    ]
   },
   {
@@ -229545,6 +229929,66 @@
     68.49493781659652,
     68.5,
     68.5
+   ]
+  },
+  {
+   "city": "New Orleans",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "day_ahead",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-15T15:12:27.659614+00:00",
+   "snapshot_id": "2026-10-15T151227.659617Z-9a5e4374",
+   "brier": 0.7237048539023169,
+   "market_brier": 0.8828555976203352,
+   "log_loss": 1.274697767137947,
+   "pairs": [
+    [
+     0.12043668177567399,
+     0
+    ],
+    [
+     0.27951543420623437,
+     1
+    ],
+    [
+     0.4007425856116138,
+     0
+    ],
+    [
+     0.1691065016253167,
+     0
+    ],
+    [
+     0.03016985890114776,
+     0
+    ],
+    [
+     2.893788001334663e-05,
+     0
+    ]
+   ],
+   "actual": 64.0,
+   "median": 66.0125,
+   "error": -2.012500000000003,
+   "covered80": true,
+   "quantiles": [
+    61.67039469734923,
+    61.866292660093,
+    62.58877872452413,
+    63.35859181970987,
+    64.05052499086904,
+    64.89522262838801,
+    65.50028973044061,
+    66.0125,
+    66.52471026955938,
+    66.85420225582565,
+    67.4952139381982,
+    68.18415172766403,
+    68.89106180728984,
+    69.81363936883541,
+    70.04727914091512
    ]
   },
   {
@@ -231888,6 +232332,66 @@
    ]
   },
   {
+   "city": "Trenton",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T12:37:50.252981+00:00",
+   "snapshot_id": "2026-10-16T123750.252986Z-dce1eab8",
+   "brier": 1.395130211936695,
+   "market_brier": 1.0288125963801638,
+   "log_loss": 1.8037532989898297,
+   "pairs": [
+    [
+     0.0,
+     0
+    ],
+    [
+     0.0,
+     0
+    ],
+    [
+     1.2941370197694368e-11,
+     0
+    ],
+    [
+     0.00023351623713419034,
+     0
+    ],
+    [
+     0.8350868488301593,
+     0
+    ],
+    [
+     0.16467963491976523,
+     1
+    ]
+   ],
+   "actual": 58.0,
+   "median": 57.2,
+   "error": 0.7999999999999972,
+   "covered80": false,
+   "quantiles": [
+    56.239999999999995,
+    56.41202525420653,
+    56.66756218340347,
+    56.814380074117636,
+    56.94675547479604,
+    57.042207451715676,
+    57.12376764715439,
+    57.2,
+    57.27623235284562,
+    57.35779254828433,
+    57.453244525203964,
+    57.58561992588237,
+    57.69493781659653,
+    57.7,
+    57.7
+   ]
+  },
+  {
    "city": "Philadelphia",
    "date": "2026-10-16",
    "kind": "temperature_low",
@@ -232188,6 +232692,66 @@
    ]
   },
   {
+   "city": "Chicago",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T12:37:50.252981+00:00",
+   "snapshot_id": "2026-10-16T123750.252986Z-dce1eab8",
+   "brier": 1.027270757236725,
+   "market_brier": 0.5369026298425864,
+   "log_loss": 1.824044223933097,
+   "pairs": [
+    [
+     5.672126278449818e-05,
+     0
+    ],
+    [
+     0.004771682617868533,
+     0
+    ],
+    [
+     0.06828538705604986,
+     0
+    ],
+    [
+     0.16137180575585916,
+     1
+    ],
+    [
+     0.2681236726095002,
+     0
+    ],
+    [
+     0.4973907306979377,
+     0
+    ]
+   ],
+   "actual": 44.0,
+   "median": 47.4875,
+   "error": -3.487499999999997,
+   "covered80": false,
+   "quantiles": [
+    41.91121753737259,
+    42.33983276858294,
+    43.03346943339553,
+    44.0426733495382,
+    45.12092632390158,
+    46.2201495140289,
+    46.807982769999036,
+    47.4875,
+    47.966561321501885,
+    48.36997514165287,
+    49.1404506418417,
+    49.97414740783621,
+    50.79692732907471,
+    51.35385306429094,
+    51.72152969931758
+   ]
+  },
+  {
    "city": "Minneapolis",
    "date": "2026-10-16",
    "kind": "temperature_low",
@@ -232248,6 +232812,246 @@
    ]
   },
   {
+   "city": "Dallas",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T12:37:50.252981+00:00",
+   "snapshot_id": "2026-10-16T123750.252986Z-dce1eab8",
+   "brier": 0.7855337164931621,
+   "market_brier": 0.6238585725765213,
+   "log_loss": 1.2962105364189358,
+   "pairs": [
+    [
+     2.7755575615628914e-16,
+     0
+    ],
+    [
+     1.3880911276797914e-05,
+     0
+    ],
+    [
+     0.0809913273811499,
+     0
+    ],
+    [
+     0.2735665015953984,
+     1
+    ],
+    [
+     0.46930823556899104,
+     0
+    ],
+    [
+     0.17612005454318358,
+     0
+    ]
+   ],
+   "actual": 54.0,
+   "median": 56.15,
+   "error": -2.1499999999999986,
+   "covered80": true,
+   "quantiles": [
+    52.45127783095949,
+    52.59034126033639,
+    52.875837919773645,
+    53.88238184352275,
+    54.647884214352615,
+    55.22946005425185,
+    55.72521132593503,
+    56.15,
+    56.45389345154323,
+    56.90598811509353,
+    57.336444926840585,
+    58.021350482655954,
+    58.697111644783035,
+    59.06556434054194,
+    59.22745505330372
+   ]
+  },
+  {
+   "city": "Houston",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T12:37:50.252981+00:00",
+   "snapshot_id": "2026-10-16T123750.252986Z-dce1eab8",
+   "brier": 0.771578188910094,
+   "market_brier": 0.7209409982324719,
+   "log_loss": 1.4552029657698915,
+   "pairs": [
+    [
+     0.009156976577676612,
+     0
+    ],
+    [
+     0.10500600578673148,
+     0
+    ],
+    [
+     0.23335299642375007,
+     1
+    ],
+    [
+     0.33589044873564794,
+     0
+    ],
+    [
+     0.22823358173184927,
+     0
+    ],
+    [
+     0.08835999074434464,
+     0
+    ]
+   ],
+   "actual": 61.0,
+   "median": 63.387499999999996,
+   "error": -2.3874999999999957,
+   "covered80": true,
+   "quantiles": [
+    58.52794246651012,
+    58.75974091958323,
+    59.50321964873916,
+    60.36711578423237,
+    61.30536602241365,
+    62.09358866481622,
+    62.948903751548826,
+    63.387499999999996,
+    63.83425671450238,
+    64.63244853887659,
+    65.56755957020077,
+    66.36300165248603,
+    66.9514820587512,
+    68.00709861436557,
+    68.28377963072029
+   ]
+  },
+  {
+   "city": "Austin",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T12:37:50.252981+00:00",
+   "snapshot_id": "2026-10-16T123750.252986Z-dce1eab8",
+   "brier": 1.0320920183315656,
+   "market_brier": 0.6606183429163918,
+   "log_loss": 1.769627628350254,
+   "pairs": [
+    [
+     0.0,
+     0
+    ],
+    [
+     8.312855959147214e-11,
+     0
+    ],
+    [
+     0.00034205039343215837,
+     0
+    ],
+    [
+     0.17039642781217157,
+     1
+    ],
+    [
+     0.4171286250277609,
+     0
+    ],
+    [
+     0.41213289668350683,
+     0
+    ]
+   ],
+   "actual": 56.0,
+   "median": 58.1875,
+   "error": -2.1875,
+   "covered80": false,
+   "quantiles": [
+    55.21449692257333,
+    55.39660683173977,
+    55.655426631159784,
+    56.01761766739308,
+    56.699541203602024,
+    57.3762851996583,
+    57.820139917094,
+    58.1875,
+    58.543150736401756,
+    58.823074602778085,
+    59.40028915354832,
+    60.21394283792996,
+    60.59077055729355,
+    60.884718396226305,
+    61.02584559262791
+   ]
+  },
+  {
+   "city": "San Antonio",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T12:37:50.252981+00:00",
+   "snapshot_id": "2026-10-16T123750.252986Z-dce1eab8",
+   "brier": 0.43380199362328886,
+   "market_brier": 0.716365603028664,
+   "log_loss": 0.7929618563686558,
+   "pairs": [
+    [
+     2.433395964729357e-07,
+     0
+    ],
+    [
+     0.007427609836435034,
+     0
+    ],
+    [
+     0.22569921360815864,
+     0
+    ],
+    [
+     0.45250256091900565,
+     1
+    ],
+    [
+     0.2868749658589548,
+     0
+    ],
+    [
+     0.027495406437849423,
+     0
+    ]
+   ],
+   "actual": 57.0,
+   "median": 57.8375,
+   "error": -0.8374999999999986,
+   "covered80": true,
+   "quantiles": [
+    54.58439609397237,
+    54.7944419691025,
+    55.06476726912231,
+    55.5174477453997,
+    56.241696057355796,
+    57.02143289408497,
+    57.39466349633582,
+    57.8375,
+    58.255986923529235,
+    58.54095029779094,
+    59.00109889524907,
+    59.664473256867815,
+    60.16889659093195,
+    60.6102776913997,
+    60.78806037285103
+   ]
+  },
+  {
    "city": "Oklahoma City",
    "date": "2026-10-16",
    "kind": "temperature_low",
@@ -232305,6 +233109,66 @@
     48.7,
     48.7,
     48.7
+   ]
+  },
+  {
+   "city": "New Orleans",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "morning",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T12:37:50.252981+00:00",
+   "snapshot_id": "2026-10-16T123750.252986Z-dce1eab8",
+   "brier": 0.5703404889221102,
+   "market_brier": 0.9293060361399461,
+   "log_loss": 1.049837718154117,
+   "pairs": [
+    [
+     0.1980233817206666,
+     0
+    ],
+    [
+     0.3499945422631494,
+     1
+    ],
+    [
+     0.30309083963394645,
+     0
+    ],
+    [
+     0.12770867805253494,
+     0
+    ],
+    [
+     0.02113215715713479,
+     0
+    ],
+    [
+     5.040117256782661e-05,
+     0
+    ]
+   ],
+   "actual": 64.0,
+   "median": 65.2125,
+   "error": -1.2125000000000057,
+   "covered80": true,
+   "quantiles": [
+    61.283940416794486,
+    61.5444567617347,
+    62.12195847963435,
+    62.819897241424954,
+    63.51371411107051,
+    64.25992026588447,
+    64.90426755481296,
+    65.2125,
+    65.8112347559984,
+    66.35229233441616,
+    66.9177414958364,
+    68.05699524205937,
+    68.89534345407543,
+    69.52481280757581,
+    69.8182527477413
    ]
   },
   {
@@ -232848,6 +233712,66 @@
    ]
   },
   {
+   "city": "Trenton",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "afternoon",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T17:42:22.762896+00:00",
+   "snapshot_id": "2026-10-16T174222.762903Z-7373325d",
+   "brier": 1.395130211936695,
+   "market_brier": 0.06681649453296633,
+   "log_loss": 1.8037532989898297,
+   "pairs": [
+    [
+     0.0,
+     0
+    ],
+    [
+     0.0,
+     0
+    ],
+    [
+     1.2941370197694368e-11,
+     0
+    ],
+    [
+     0.00023351623713419034,
+     0
+    ],
+    [
+     0.8350868488301593,
+     0
+    ],
+    [
+     0.16467963491976523,
+     1
+    ]
+   ],
+   "actual": 58.0,
+   "median": 57.2,
+   "error": 0.7999999999999972,
+   "covered80": false,
+   "quantiles": [
+    56.239999999999995,
+    56.41202525420653,
+    56.66756218340347,
+    56.814380074117636,
+    56.94675547479604,
+    57.042207451715676,
+    57.12376764715439,
+    57.2,
+    57.27623235284562,
+    57.35779254828433,
+    57.453244525203964,
+    57.58561992588237,
+    57.69493781659653,
+    57.7,
+    57.7
+   ]
+  },
+  {
    "city": "Philadelphia",
    "date": "2026-10-16",
    "kind": "temperature_low",
@@ -233148,6 +234072,66 @@
    ]
   },
   {
+   "city": "Chicago",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "afternoon",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T17:42:22.762896+00:00",
+   "snapshot_id": "2026-10-16T174222.762903Z-7373325d",
+   "brier": 1.166986543373483,
+   "market_brier": 0.3916559304843617,
+   "log_loss": 2.1024554013375827,
+   "pairs": [
+    [
+     5.551115123125783e-16,
+     0
+    ],
+    [
+     1.0706155850748189e-08,
+     0
+    ],
+    [
+     0.0007243848372951445,
+     0
+    ],
+    [
+     0.12215611741794802,
+     1
+    ],
+    [
+     0.36205209951580836,
+     0
+    ],
+    [
+     0.515067387522792,
+     0
+    ]
+   ],
+   "actual": 44.0,
+   "median": 47.5625,
+   "error": -3.5625,
+   "covered80": false,
+   "quantiles": [
+    44.21076399680062,
+    44.43647817423241,
+    44.74585659193378,
+    45.32192757537079,
+    46.100198695994806,
+    46.72220329567695,
+    47.14769683717262,
+    47.5625,
+    48.10021494454805,
+    48.50522318909028,
+    49.05894346559426,
+    49.89525626091971,
+    50.62496697150754,
+    51.11599031119479,
+    51.40076180584368
+   ]
+  },
+  {
    "city": "Minneapolis",
    "date": "2026-10-16",
    "kind": "temperature_low",
@@ -233208,6 +234192,246 @@
    ]
   },
   {
+   "city": "Dallas",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "afternoon",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T17:42:22.762896+00:00",
+   "snapshot_id": "2026-10-16T174222.762903Z-7373325d",
+   "brier": 0.7934561422895692,
+   "market_brier": 0.46003165218429926,
+   "log_loss": 1.3205378690172633,
+   "pairs": [
+    [
+     9.86234191535651e-07,
+     0
+    ],
+    [
+     0.000979520921886301,
+     0
+    ],
+    [
+     0.05733785120419051,
+     0
+    ],
+    [
+     0.2669916567981113,
+     1
+    ],
+    [
+     0.44973501559963913,
+     0
+    ],
+    [
+     0.22495496924198122,
+     0
+    ]
+   ],
+   "actual": 54.0,
+   "median": 56.2125,
+   "error": -2.2124999999999986,
+   "covered80": false,
+   "quantiles": [
+    52.42729660521122,
+    52.75569925998557,
+    53.36808694318359,
+    54.16099012854331,
+    54.82523793664967,
+    55.39439450551096,
+    55.811642357115176,
+    56.2125,
+    56.568637940330355,
+    57.16157033768427,
+    57.61253912122304,
+    58.401363243588264,
+    58.732695213296516,
+    59.144818648062824,
+    59.29400693244958
+   ]
+  },
+  {
+   "city": "Houston",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "afternoon",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T17:42:22.762896+00:00",
+   "snapshot_id": "2026-10-16T174222.762903Z-7373325d",
+   "brier": 0.7537019616648781,
+   "market_brier": 0.5469197133765252,
+   "log_loss": 1.375291200501462,
+   "pairs": [
+    [
+     0.003234512812721302,
+     0
+    ],
+    [
+     0.09513714971251742,
+     0
+    ],
+    [
+     0.25276597950673035,
+     1
+    ],
+    [
+     0.36646956034809997,
+     0
+    ],
+    [
+     0.21900692579137404,
+     0
+    ],
+    [
+     0.06338587182855693,
+     0
+    ]
+   ],
+   "actual": 61.0,
+   "median": 63.1875,
+   "error": -2.1875,
+   "covered80": true,
+   "quantiles": [
+    58.81760786353761,
+    59.03587863832197,
+    59.61888507233176,
+    60.529661011869194,
+    61.49732329090587,
+    62.19305612273142,
+    62.793286921556074,
+    63.1875,
+    63.619081747303696,
+    64.34262915336564,
+    65.23641593014798,
+    66.03965606620164,
+    66.66829855584776,
+    67.45421686176617,
+    67.6709928897961
+   ]
+  },
+  {
+   "city": "Austin",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "afternoon",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T17:42:22.762896+00:00",
+   "snapshot_id": "2026-10-16T174222.762903Z-7373325d",
+   "brier": 1.1127410383955676,
+   "market_brier": 0.8836414940224252,
+   "log_loss": 1.9325502975306228,
+   "pairs": [
+    [
+     5.551115123125783e-17,
+     0
+    ],
+    [
+     2.8875605795342096e-09,
+     0
+    ],
+    [
+     0.00038628041498922627,
+     0
+    ],
+    [
+     0.14477849901365689,
+     1
+    ],
+    [
+     0.5167637020341168,
+     0
+    ],
+    [
+     0.3380715156496764,
+     0
+    ]
+   ],
+   "actual": 56.0,
+   "median": 58.0125,
+   "error": -2.012500000000003,
+   "covered80": false,
+   "quantiles": [
+    55.34211182465916,
+    55.563673794139916,
+    55.86968242167696,
+    56.20052620153409,
+    56.86359548496214,
+    57.34896574901096,
+    57.70738818188578,
+    58.0125,
+    58.36777041892414,
+    58.581290227236984,
+    59.14468498143456,
+    59.849553098870864,
+    60.15253098938915,
+    60.453523756845215,
+    60.56752339347804
+   ]
+  },
+  {
+   "city": "San Antonio",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "afternoon",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T17:42:22.762896+00:00",
+   "snapshot_id": "2026-10-16T174222.762903Z-7373325d",
+   "brier": 0.36535684622636133,
+   "market_brier": 0.8212266202696825,
+   "log_loss": 0.6905188780538264,
+   "pairs": [
+    [
+     5.512978407118396e-09,
+     0
+    ],
+    [
+     0.004304634827992648,
+     0
+    ],
+    [
+     0.2356979428161305,
+     0
+    ],
+    [
+     0.5013158797605906,
+     1
+    ],
+    [
+     0.24690112645362483,
+     0
+    ],
+    [
+     0.011780410628683069,
+     0
+    ]
+   ],
+   "actual": 57.0,
+   "median": 57.5625,
+   "error": -0.5625,
+   "covered80": true,
+   "quantiles": [
+    54.69491338823183,
+    54.8715272195312,
+    55.26873833481527,
+    55.65513259603771,
+    56.29444413616341,
+    56.8083006114548,
+    57.24719177693574,
+    57.5625,
+    57.99513991749012,
+    58.296166342020676,
+    58.78948977078754,
+    59.464000819240994,
+    59.98239323669254,
+    60.30275209212766,
+    60.54272503841699
+   ]
+  },
+  {
    "city": "Oklahoma City",
    "date": "2026-10-16",
    "kind": "temperature_low",
@@ -233265,6 +234489,66 @@
     48.519999999999996,
     48.519999999999996,
     48.519999999999996
+   ]
+  },
+  {
+   "city": "New Orleans",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "afternoon",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T17:42:22.762896+00:00",
+   "snapshot_id": "2026-10-16T174222.762903Z-7373325d",
+   "brier": 0.5580659074187078,
+   "market_brier": 0.851063829787234,
+   "log_loss": 1.0248909064796605,
+   "pairs": [
+    [
+     0.23394104194322837,
+     0
+    ],
+    [
+     0.35883560991061514,
+     1
+    ],
+    [
+     0.2816130753546573,
+     0
+    ],
+    [
+     0.11305964452827988,
+     0
+    ],
+    [
+     0.012542475692549626,
+     0
+    ],
+    [
+     8.152570669661685e-06,
+     0
+    ]
+   ],
+   "actual": 64.0,
+   "median": 64.8625,
+   "error": -0.8624999999999972,
+   "covered80": true,
+   "quantiles": [
+    61.13996050035235,
+    61.41767209528236,
+    61.91829361925123,
+    62.49502632985686,
+    63.26498612008041,
+    63.95740410864036,
+    64.50094333082365,
+    64.8625,
+    65.549634087361,
+    66.23091760185316,
+    66.82941902747523,
+    67.73086200581182,
+    68.53612501956626,
+    69.30221736143955,
+    69.56771980318764
    ]
   },
   {
@@ -233808,6 +235092,66 @@
    ]
   },
   {
+   "city": "Trenton",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T23:51:33.430673+00:00",
+   "snapshot_id": "2026-10-16T235133.430678Z-ddc264ce",
+   "brier": 1.3955202112097636,
+   "market_brier": 0.11345627602617485,
+   "log_loss": 1.8037532989898297,
+   "pairs": [
+    [
+     0.0,
+     0
+    ],
+    [
+     0.0,
+     0
+    ],
+    [
+     0.0,
+     0
+    ],
+    [
+     8.036311782699812e-09,
+     0
+    ],
+    [
+     0.8353203570439229,
+     0
+    ],
+    [
+     0.16467963491976523,
+     1
+    ]
+   ],
+   "actual": 58.0,
+   "median": 57.2,
+   "error": 0.7999999999999972,
+   "covered80": false,
+   "quantiles": [
+    56.5,
+    56.582025254206535,
+    56.70506218340347,
+    56.814380074117636,
+    56.94675547479604,
+    57.042207451715676,
+    57.12376764715439,
+    57.2,
+    57.27623235284562,
+    57.35779254828433,
+    57.453244525203964,
+    57.58561992588237,
+    57.69493781659653,
+    57.7,
+    57.7
+   ]
+  },
+  {
    "city": "Philadelphia",
    "date": "2026-10-16",
    "kind": "temperature_low",
@@ -234108,6 +235452,66 @@
    ]
   },
   {
+   "city": "Chicago",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T23:51:33.430673+00:00",
+   "snapshot_id": "2026-10-16T235133.430678Z-ddc264ce",
+   "brier": 1.1918353841018527,
+   "market_brier": 0.4450684116597263,
+   "log_loss": 2.13323252337713,
+   "pairs": [
+    [
+     1.8021750758379085e-11,
+     0
+    ],
+    [
+     1.7217783052636548e-06,
+     0
+    ],
+    [
+     0.003843814206632934,
+     0
+    ],
+    [
+     0.11845376973126069,
+     1
+    ],
+    [
+     0.3173645481008783,
+     0
+    ],
+    [
+     0.560336146164901,
+     0
+    ]
+   ],
+   "actual": 44.0,
+   "median": 47.8125,
+   "error": -3.8125,
+   "covered80": false,
+   "quantiles": [
+    43.84292173419561,
+    44.118681386930334,
+    44.63985011276973,
+    45.31822794207403,
+    46.13337465602316,
+    46.72097618877527,
+    47.29456834565482,
+    47.8125,
+    48.31467623356406,
+    48.71101990665595,
+    49.23166090108829,
+    49.830170579296954,
+    50.40022989073101,
+    50.943072267410706,
+    51.18494781819976
+   ]
+  },
+  {
    "city": "Minneapolis",
    "date": "2026-10-16",
    "kind": "temperature_low",
@@ -234168,6 +235572,246 @@
    ]
   },
   {
+   "city": "Dallas",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T23:51:33.430673+00:00",
+   "snapshot_id": "2026-10-16T235133.430678Z-ddc264ce",
+   "brier": 0.8422367005547037,
+   "market_brier": 0.37077849199061325,
+   "log_loss": 1.3332034515486193,
+   "pairs": [
+    [
+     2.692676209276046e-05,
+     0
+    ],
+    [
+     0.001426898920234676,
+     0
+    ],
+    [
+     0.02939508783340094,
+     0
+    ],
+    [
+     0.2636313768059137,
+     1
+    ],
+    [
+     0.5112729662894937,
+     0
+    ],
+    [
+     0.19424674338886427,
+     0
+    ]
+   ],
+   "actual": 54.0,
+   "median": 56.2375,
+   "error": -2.237499999999997,
+   "covered80": false,
+   "quantiles": [
+    52.72723184671087,
+    53.24113080511993,
+    53.956969846065654,
+    54.50782691454428,
+    55.047487628392325,
+    55.526436592316095,
+    55.945400380953274,
+    56.2375,
+    56.536432922829654,
+    57.01689644551317,
+    57.46167889052231,
+    58.12775572435448,
+    58.52828010960872,
+    58.96327899355946,
+    59.18846223865663
+   ]
+  },
+  {
+   "city": "Houston",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T23:51:33.430673+00:00",
+   "snapshot_id": "2026-10-16T235133.430678Z-ddc264ce",
+   "brier": 0.6914192596193257,
+   "market_brier": 0.5173961840628508,
+   "log_loss": 1.285364641794525,
+   "pairs": [
+    [
+     0.01878144758687441,
+     0
+    ],
+    [
+     0.10436534284068016,
+     0
+    ],
+    [
+     0.27654972365670016,
+     1
+    ],
+    [
+     0.3458764562172921,
+     0
+    ],
+    [
+     0.17618804921350828,
+     0
+    ],
+    [
+     0.07823898048494482,
+     0
+    ]
+   ],
+   "actual": 61.0,
+   "median": 63.225,
+   "error": -2.2250000000000014,
+   "covered80": true,
+   "quantiles": [
+    58.12753063709557,
+    58.551685492225786,
+    59.107624496036024,
+    60.29514934494177,
+    61.1801560835623,
+    61.875915311543245,
+    62.501899774680375,
+    63.225,
+    63.74222504911184,
+    64.18292185366197,
+    64.87868108164292,
+    66.03132554933356,
+    67.10819249102761,
+    68.12477720160277,
+    68.6158414890005
+   ]
+  },
+  {
+   "city": "Austin",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T23:51:33.430673+00:00",
+   "snapshot_id": "2026-10-16T235133.430678Z-ddc264ce",
+   "brier": 1.210158396166464,
+   "market_brier": 0.4370434448289119,
+   "log_loss": 2.1529973764516694,
+   "pairs": [
+    [
+     0.0,
+     0
+    ],
+    [
+     9.910738896223847e-12,
+     0
+    ],
+    [
+     7.347138948304854e-05,
+     0
+    ],
+    [
+     0.11613553364188633,
+     1
+    ],
+    [
+     0.580457278813254,
+     0
+    ],
+    [
+     0.3033337161454659,
+     0
+    ]
+   ],
+   "actual": 56.0,
+   "median": 58.012499999999996,
+   "error": -2.0124999999999957,
+   "covered80": false,
+   "quantiles": [
+    55.50979400751705,
+    55.697073077586126,
+    55.990110170373164,
+    56.39983633790652,
+    57.01778705010871,
+    57.47282139031517,
+    57.771643510718185,
+    58.012499999999996,
+    58.21699756445155,
+    58.509759864049535,
+    58.85571742976521,
+    59.461548500357296,
+    59.80613159423644,
+    60.33822861778245,
+    60.52035684016724
+   ]
+  },
+  {
+   "city": "San Antonio",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T23:51:33.430673+00:00",
+   "snapshot_id": "2026-10-16T235133.430678Z-ddc264ce",
+   "brier": 0.19768522236494984,
+   "market_brier": 0.7095382805607293,
+   "log_loss": 0.4505348570720517,
+   "pairs": [
+    [
+     2.251254738183661e-12,
+     0
+    ],
+    [
+     0.0002937461540032382,
+     0
+    ],
+    [
+     0.20224779579904978,
+     0
+    ],
+    [
+     0.6372872028830892,
+     1
+    ],
+    [
+     0.15880340349633948,
+     0
+    ],
+    [
+     0.0013678516652670947,
+     0
+    ]
+   ],
+   "actual": 57.0,
+   "median": 57.45,
+   "error": -0.45000000000000284,
+   "covered80": true,
+   "quantiles": [
+    55.1379210898862,
+    55.294447067164086,
+    55.74960413711349,
+    56.11935747095418,
+    56.489727407057714,
+    56.893914830399154,
+    57.24955823925154,
+    57.45,
+    57.672561625949264,
+    57.961845439199244,
+    58.288613334337875,
+    58.81935229314723,
+    59.18495815226275,
+    59.57956209122497,
+    59.845857899561835
+   ]
+  },
+  {
    "city": "Oklahoma City",
    "date": "2026-10-16",
    "kind": "temperature_low",
@@ -234225,6 +235869,66 @@
     48.519999999999996,
     48.519999999999996,
     48.519999999999996
+   ]
+  },
+  {
+   "city": "New Orleans",
+   "date": "2026-10-16",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "model_version": "2",
+   "model_fingerprint": "23df91f31ffa03fbb44d9d4538cc360ae056144bbc522a7ba91ff2e6b5f6bad4",
+   "issued_at": "2026-10-16T23:51:33.430673+00:00",
+   "snapshot_id": "2026-10-16T235133.430678Z-ddc264ce",
+   "brier": 0.4978270975910028,
+   "market_brier": 0.7906901041666667,
+   "log_loss": 0.9195810769729325,
+   "pairs": [
+    [
+     0.2664653009331079,
+     0
+    ],
+    [
+     0.398686024861782,
+     1
+    ],
+    [
+     0.2362221764213046,
+     0
+    ],
+    [
+     0.09716894940297383,
+     0
+    ],
+    [
+     0.0014570283249033533,
+     0
+    ],
+    [
+     5.200559283213835e-07,
+     0
+    ]
+   ],
+   "actual": 64.0,
+   "median": 64.61250000000001,
+   "error": -0.6125000000000114,
+   "covered80": true,
+   "quantiles": [
+    60.9898425420829,
+    61.22712957287364,
+    61.776290698653916,
+    62.18773156716841,
+    63.095469022825256,
+    63.70410386159906,
+    64.19606239514863,
+    64.61250000000001,
+    65.20262936484737,
+    65.65906003839777,
+    66.52428497716569,
+    67.48728799282127,
+    67.95004688133459,
+    68.53236734311412,
+    68.81820911590376
    ]
   },
   {
@@ -429888,6 +431592,66 @@
    ]
   },
   {
+   "city": "Boston",
+   "date": "2026-10-16",
+   "kind": "temperature",
+   "horizon": "day_ahead",
+   "model_version": "2",
+   "model_fingerprint": "a215f306a8c2636eaa184e5a7c7655247ccd0e1e1400b5c6f323e13d30c58aa4",
+   "issued_at": "2026-10-15T15:11:40.438006+00:00",
+   "snapshot_id": "2026-10-15T151140.438010Z-b8351438",
+   "brier": 0.6050986949731821,
+   "market_brier": 0.63575,
+   "log_loss": 1.1553798561729784,
+   "pairs": [
+    [
+     0.09261909063778148,
+     0
+    ],
+    [
+     0.2316855197100687,
+     0
+    ],
+    [
+     0.3149378830802376,
+     1
+    ],
+    [
+     0.25664000044348356,
+     0
+    ],
+    [
+     0.08558335277747531,
+     0
+    ],
+    [
+     0.01853415335095332,
+     0
+    ]
+   ],
+   "actual": 69.0,
+   "median": 68.67625,
+   "error": 0.323750000000004,
+   "covered80": true,
+   "quantiles": [
+    63.582277888770925,
+    64.01505403618965,
+    64.82543875559384,
+    65.61682265692956,
+    66.66327098925548,
+    67.31436279417966,
+    68.07815700097204,
+    68.67625,
+    69.24756163904176,
+    69.89083972589634,
+    70.6892290107445,
+    71.53481714317405,
+    72.5886583723744,
+    73.4295738421628,
+    73.91002081035694
+   ]
+  },
+  {
    "city": "Washington DC",
    "date": "2026-10-15",
    "kind": "temperature",
@@ -433668,6 +435432,66 @@
    ]
   },
   {
+   "city": "Boston",
+   "date": "2026-10-16",
+   "kind": "temperature",
+   "horizon": "morning",
+   "model_version": "2",
+   "model_fingerprint": "a215f306a8c2636eaa184e5a7c7655247ccd0e1e1400b5c6f323e13d30c58aa4",
+   "issued_at": "2026-10-16T12:37:20.667553+00:00",
+   "snapshot_id": "2026-10-16T123720.667561Z-4c17a9d4",
+   "brier": 0.3614488996315546,
+   "market_brier": 0.2937838400666389,
+   "log_loss": 0.6994497988854458,
+   "pairs": [
+    [
+     0.002707340609833131,
+     0
+    ],
+    [
+     0.2034258699002993,
+     0
+    ],
+    [
+     0.49685860075627974,
+     1
+    ],
+    [
+     0.255282150512568,
+     0
+    ],
+    [
+     0.04170420738784064,
+     0
+    ],
+    [
+     2.1830833179192766e-05,
+     0
+    ]
+   ],
+   "actual": 69.0,
+   "median": 68.7,
+   "error": 0.29999999999999716,
+   "covered80": true,
+   "quantiles": [
+    65.90640262698749,
+    66.1499280957752,
+    66.58898340012476,
+    67.05896254576598,
+    67.47863236123051,
+    67.82702475268992,
+    68.35666897853983,
+    68.7,
+    69.08531294849125,
+    69.47701655695326,
+    70.24522821872371,
+    70.86881025119645,
+    71.3747739057215,
+    71.8288227554393,
+    72.05285661524827
+   ]
+  },
+  {
    "city": "Washington DC",
    "date": "2026-10-16",
    "kind": "temperature",
@@ -434985,6 +436809,66 @@
     81.71293757547564,
     82.54902961714097,
     83.0705114004692
+   ]
+  },
+  {
+   "city": "Boston",
+   "date": "2026-10-16",
+   "kind": "temperature",
+   "horizon": "afternoon",
+   "model_version": "2",
+   "model_fingerprint": "a215f306a8c2636eaa184e5a7c7655247ccd0e1e1400b5c6f323e13d30c58aa4",
+   "issued_at": "2026-10-16T17:41:53.652658+00:00",
+   "snapshot_id": "2026-10-16T174153.652668Z-6fab67c9",
+   "brier": 0.4322777171690244,
+   "market_brier": 0.41933255393771923,
+   "log_loss": 0.7958525437729659,
+   "pairs": [
+    [
+     0.0,
+     0
+    ],
+    [
+     0.14553048052671272,
+     0
+    ],
+    [
+     0.4511964062177375,
+     1
+    ],
+    [
+     0.32129193580089244,
+     0
+    ],
+    [
+     0.08175973833368622,
+     0
+    ],
+    [
+     0.00022143912097116747,
+     0
+    ]
+   ],
+   "actual": 69.0,
+   "median": 69.2125,
+   "error": -0.21250000000000568,
+   "covered80": true,
+   "quantiles": [
+    66.02285294724321,
+    66.22794061364904,
+    66.76939781441268,
+    67.2120226411946,
+    67.84451620478976,
+    68.4777429786744,
+    68.85804656522994,
+    69.2125,
+    69.50972862967726,
+    70.02673591728784,
+    70.57412548353325,
+    71.3147103456371,
+    71.82886617878502,
+    72.2778099446486,
+    72.50610544867543
    ]
   },
   {
@@ -436308,6 +438192,66 @@
    ]
   },
   {
+   "city": "Boston",
+   "date": "2026-10-16",
+   "kind": "temperature",
+   "horizon": "evening",
+   "model_version": "2",
+   "model_fingerprint": "a215f306a8c2636eaa184e5a7c7655247ccd0e1e1400b5c6f323e13d30c58aa4",
+   "issued_at": "2026-10-16T23:51:12.388504+00:00",
+   "snapshot_id": "2026-10-16T235112.388512Z-576b04e6",
+   "brier": 1.2984981598779022,
+   "market_brier": 0.70176265435008,
+   "log_loss": 1.6386616148003879,
+   "pairs": [
+    [
+     0.0,
+     0
+    ],
+    [
+     0.0,
+     0
+    ],
+    [
+     0.19423983612184315,
+     1
+    ],
+    [
+     0.805759714918006,
+     0
+    ],
+    [
+     4.489601508339547e-07,
+     0
+    ],
+    [
+     0.0,
+     0
+    ]
+   ],
+   "actual": 69.0,
+   "median": 69.80000000000001,
+   "error": -0.8000000000000114,
+   "covered80": false,
+   "quantiles": [
+    69.30000000000001,
+    69.30000000000001,
+    69.30000000000001,
+    69.35653708523529,
+    69.50876879601546,
+    69.61853856947305,
+    69.71233279422755,
+    69.80000000000001,
+    69.88766720577247,
+    69.98146143052698,
+    70.09123120398456,
+    70.24346291476473,
+    70.36917848908602,
+    70.51067095766251,
+    70.60500000000002
+   ]
+  },
+  {
    "city": "Washington DC",
    "date": "2026-10-16",
    "kind": "temperature",
@@ -437400,9 +439344,9 @@
   }
  ],
  "verification_summary": {
-  "scored_snapshots": 9034,
-  "distinct_city_date_horizons": 9034,
-  "min_group_dates": 14,
+  "scored_snapshots": 9066,
+  "distinct_city_date_horizons": 9066,
+  "min_group_dates": 15,
   "max_group_dates": 41,
   "independence": "Uncertainty should be estimated by date blocks, not bracket count."
  },
