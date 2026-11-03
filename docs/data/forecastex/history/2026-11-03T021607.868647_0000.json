@@ -1,0 +1,459 @@
+{
+ "schema_version": 1,
+ "generated_at": "2026-11-03T02:16:07.868647+00:00",
+ "note": "Indicative last-trade comparison only. Trade timestamps and executable quotes are not supplied. Weather Underground observations and Kalshi climate-report outcomes may differ. No blend weight or allocations.",
+ "records": [
+  {
+   "city": "Phoenix",
+   "station": "KPHX",
+   "date": "2026-11-02",
+   "kind": "temperature",
+   "product": "UHPHX",
+   "retrieved_at": "2026-11-03T02:16:06.634590+00:00",
+   "trade_time": null,
+   "price_type": "last_trade",
+   "actionable": false,
+   "forecast_issued_at": "2026-11-02T23:41:31.816572+00:00",
+   "snapshot_id": "2026-11-02T234131.816576Z-2331196d",
+   "model_median": 71.6,
+   "kalshi_median": 72.5,
+   "kalshi_window_start": "2026-11-02T07:00:00+00:00",
+   "kalshi_window_end": "2026-11-03T07:00:00+00:00",
+   "kalshi_price_times": [
+    "2026-11-03T02:15:45.725738+00:00",
+    "2026-11-03T02:15:45.562484+00:00",
+    "2026-11-03T02:15:45.665326+00:00",
+    "2026-11-03T02:15:45.653426+00:00",
+    "2026-11-03T02:15:48.849415+00:00",
+    "2026-11-03T02:15:46.816383+00:00"
+   ],
+   "window_start": "2026-11-02T00:00:00-07:00",
+   "window_end": "2026-11-03T00:00:00-07:00",
+   "source": "Weather Underground Daily Observations",
+   "rules_url": "https://data.forecastex.com/regulatory/DailyTemperatureTermsandConditions.pdf",
+   "market_url": "https://forecastex.com/markets/UHPHX",
+   "station_match": true,
+   "settlement_equivalent": false,
+   "rows": [
+    {
+     "contract_id": "UHPHX_110226_67",
+     "strike": 67,
+     "probability": null,
+     "model_probability": 1.0,
+     "kalshi_probability": null,
+     "open_interest": 0,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "UHPHX_110226_68",
+     "strike": 68,
+     "probability": 0.97,
+     "model_probability": 1.0,
+     "kalshi_probability": null,
+     "open_interest": 32,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "UHPHX_110226_69",
+     "strike": 69,
+     "probability": 0.94,
+     "model_probability": 1.0,
+     "kalshi_probability": 0.9950980392156862,
+     "open_interest": 4,
+     "difference_pp": -5.509803921568624
+    },
+    {
+     "contract_id": "UHPHX_110226_70",
+     "strike": 70,
+     "probability": 0.96,
+     "model_probability": 1.0,
+     "kalshi_probability": null,
+     "open_interest": 259,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "UHPHX_110226_71",
+     "strike": 71,
+     "probability": 0.06,
+     "model_probability": 0.613148777827006,
+     "kalshi_probability": 0.9901960784313725,
+     "open_interest": 697,
+     "difference_pp": -93.01960784313725
+    },
+    {
+     "contract_id": "UHPHX_110226_72",
+     "strike": 72,
+     "probability": 0.04,
+     "model_probability": 0.06389581117819709,
+     "kalshi_probability": null,
+     "open_interest": 346,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "UHPHX_110226_73",
+     "strike": 73,
+     "probability": 0.14,
+     "model_probability": 5.152590069945617e-06,
+     "kalshi_probability": 0.014705882352941176,
+     "open_interest": 216,
+     "difference_pp": 12.529411764705884
+    },
+    {
+     "contract_id": "UHPHX_110226_74",
+     "strike": 74,
+     "probability": 0.03,
+     "model_probability": 1.433297924791077e-13,
+     "kalshi_probability": null,
+     "open_interest": 72,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "UHPHX_110226_75",
+     "strike": 75,
+     "probability": 0.03,
+     "model_probability": 0.0,
+     "kalshi_probability": 0.00980392156862745,
+     "open_interest": 12,
+     "difference_pp": 2.019607843137255
+    },
+    {
+     "contract_id": "UHPHX_110226_76",
+     "strike": 76,
+     "probability": null,
+     "model_probability": 0.0,
+     "kalshi_probability": null,
+     "open_interest": 0,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "UHPHX_110226_77",
+     "strike": 77,
+     "probability": null,
+     "model_probability": 0.0,
+     "kalshi_probability": 0.004901960784313725,
+     "open_interest": 0,
+     "difference_pp": null
+    }
+   ],
+   "status": "indicative",
+   "message": "Indicative last-trade comparison only. Trade timestamps and executable quotes are not supplied. Weather Underground observations and Kalshi climate-report outcomes may differ. No blend weight or allocations.",
+   "kalshi_tickers": [
+    "KXHIGHTPHX-26NOV02-T70",
+    "KXHIGHTPHX-26NOV02-B70.5",
+    "KXHIGHTPHX-26NOV02-B72.5",
+    "KXHIGHTPHX-26NOV02-B74.5",
+    "KXHIGHTPHX-26NOV02-B76.5",
+    "KXHIGHTPHX-26NOV02-T77"
+   ],
+   "window_match": true,
+   "curve": [
+    {
+     "temperature": 68,
+     "cdf": 0.030000000000000027
+    },
+    {
+     "temperature": 69,
+     "cdf": 0.050000000000000044
+    },
+    {
+     "temperature": 70,
+     "cdf": 0.050000000000000044
+    },
+    {
+     "temperature": 71,
+     "cdf": 0.9199999999999999
+    },
+    {
+     "temperature": 72,
+     "cdf": 0.9199999999999999
+    },
+    {
+     "temperature": 73,
+     "cdf": 0.9199999999999999
+    },
+    {
+     "temperature": 74,
+     "cdf": 0.97
+    },
+    {
+     "temperature": 75,
+     "cdf": 0.97
+    }
+   ],
+   "median": 71,
+   "monotonicity_adjusted": true,
+   "median_difference_f": -1.5,
+   "brackets": [
+    {
+     "label": "\u226469",
+     "lo": null,
+     "hi": 69,
+     "probability": 0.050000000000000044,
+     "model_probability": 0.0,
+     "kalshi_probability": 0.004901960784313725
+    },
+    {
+     "label": "70\u201371",
+     "lo": 70,
+     "hi": 71,
+     "probability": 0.8699999999999999,
+     "model_probability": 0.38685122217299395,
+     "kalshi_probability": 0.004901960784313725
+    },
+    {
+     "label": "72\u201373",
+     "lo": 72,
+     "hi": 73,
+     "probability": 0.0,
+     "model_probability": 0.6131436252369361,
+     "kalshi_probability": 0.9754901960784313
+    },
+    {
+     "label": "74\u201375",
+     "lo": 74,
+     "hi": 75,
+     "probability": 0.050000000000000044,
+     "model_probability": 5.152590069945617e-06,
+     "kalshi_probability": 0.004901960784313725
+    },
+    {
+     "label": "76\u201377",
+     "lo": 76,
+     "hi": 77,
+     "probability": null,
+     "model_probability": 0.0,
+     "kalshi_probability": 0.004901960784313725
+    },
+    {
+     "label": "\u226578",
+     "lo": 78,
+     "hi": null,
+     "probability": null,
+     "model_probability": 0.0,
+     "kalshi_probability": 0.004901960784313725
+    }
+   ],
+   "archive_horizon": "evening"
+  },
+  {
+   "city": "Phoenix",
+   "station": "KPHX",
+   "date": "2026-11-02",
+   "kind": "temperature_low",
+   "product": "ULPHX",
+   "retrieved_at": "2026-11-03T02:16:07.566393+00:00",
+   "trade_time": null,
+   "price_type": "last_trade",
+   "actionable": false,
+   "forecast_issued_at": "2026-11-02T23:42:02.059247+00:00",
+   "snapshot_id": "2026-11-02T234202.059250Z-1cfcdfb5",
+   "model_median": 59.835,
+   "kalshi_median": 59.3,
+   "kalshi_window_start": "2026-11-02T07:00:00+00:00",
+   "kalshi_window_end": "2026-11-03T07:00:00+00:00",
+   "kalshi_price_times": [
+    "2026-11-03T02:16:00.522790+00:00",
+    "2026-11-03T02:16:00.333097+00:00",
+    "2026-11-03T02:16:00.387197+00:00",
+    "2026-11-03T02:16:00.384541+00:00",
+    "2026-11-03T02:16:00.442993+00:00",
+    "2026-11-03T02:16:00.521656+00:00"
+   ],
+   "window_start": "2026-11-02T00:00:00-07:00",
+   "window_end": "2026-11-03T00:00:00-07:00",
+   "source": "Weather Underground Daily Observations",
+   "rules_url": "https://data.forecastex.com/regulatory/DailyTemperatureTermsandConditions.pdf",
+   "market_url": "https://forecastex.com/markets/ULPHX",
+   "station_match": true,
+   "settlement_equivalent": false,
+   "rows": [
+    {
+     "contract_id": "ULPHX_110226_54",
+     "strike": 54,
+     "probability": null,
+     "model_probability": 0.0,
+     "kalshi_probability": null,
+     "open_interest": 0,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "ULPHX_110226_55",
+     "strike": 55,
+     "probability": null,
+     "model_probability": 0.0,
+     "kalshi_probability": 0.014354066985645935,
+     "open_interest": 0,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "ULPHX_110226_56",
+     "strike": 56,
+     "probability": null,
+     "model_probability": 2.4313384638929847e-11,
+     "kalshi_probability": null,
+     "open_interest": 0,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "ULPHX_110226_57",
+     "strike": 57,
+     "probability": null,
+     "model_probability": 9.919503956568043e-07,
+     "kalshi_probability": 0.02392344497607656,
+     "open_interest": 0,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "ULPHX_110226_58",
+     "strike": 58,
+     "probability": 0.04,
+     "model_probability": 0.0016675566153886434,
+     "kalshi_probability": null,
+     "open_interest": 20,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "ULPHX_110226_59",
+     "strike": 59,
+     "probability": 0.12,
+     "model_probability": 0.08538360301754534,
+     "kalshi_probability": 0.1722488038277512,
+     "open_interest": 30,
+     "difference_pp": -5.224880382775121
+    },
+    {
+     "contract_id": "ULPHX_110226_60",
+     "strike": 60,
+     "probability": 0.04,
+     "model_probability": 0.360919737150211,
+     "kalshi_probability": null,
+     "open_interest": 62,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "ULPHX_110226_61",
+     "strike": 61,
+     "probability": 0.97,
+     "model_probability": 0.8826071054280291,
+     "kalshi_probability": 0.9952153110047848,
+     "open_interest": 38,
+     "difference_pp": -2.52153110047848
+    },
+    {
+     "contract_id": "ULPHX_110226_62",
+     "strike": 62,
+     "probability": 0.88,
+     "model_probability": 1.0,
+     "kalshi_probability": null,
+     "open_interest": 10,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "ULPHX_110226_63",
+     "strike": 63,
+     "probability": null,
+     "model_probability": 1.0,
+     "kalshi_probability": null,
+     "open_interest": 0,
+     "difference_pp": null
+    },
+    {
+     "contract_id": "ULPHX_110226_64",
+     "strike": 64,
+     "probability": null,
+     "model_probability": 1.0,
+     "kalshi_probability": null,
+     "open_interest": 0,
+     "difference_pp": null
+    }
+   ],
+   "status": "indicative",
+   "message": "Indicative last-trade comparison only. Trade timestamps and executable quotes are not supplied. Weather Underground observations and Kalshi climate-report outcomes may differ. No blend weight or allocations.",
+   "kalshi_tickers": [
+    "KXLOWTPHX-26NOV02-T53",
+    "KXLOWTPHX-26NOV02-B53.5",
+    "KXLOWTPHX-26NOV02-B55.5",
+    "KXLOWTPHX-26NOV02-B57.5",
+    "KXLOWTPHX-26NOV02-B59.5",
+    "KXLOWTPHX-26NOV02-T60"
+   ],
+   "window_match": true,
+   "curve": [
+    {
+     "temperature": 57,
+     "cdf": 0.04
+    },
+    {
+     "temperature": 58,
+     "cdf": 0.08
+    },
+    {
+     "temperature": 59,
+     "cdf": 0.08
+    },
+    {
+     "temperature": 60,
+     "cdf": 0.925
+    },
+    {
+     "temperature": 61,
+     "cdf": 0.925
+    }
+   ],
+   "median": 60,
+   "monotonicity_adjusted": true,
+   "median_difference_f": 0.7000000000000028,
+   "brackets": [
+    {
+     "label": "\u226452",
+     "lo": null,
+     "hi": 52,
+     "probability": null,
+     "model_probability": 0.0,
+     "kalshi_probability": 0.004784688995215312
+    },
+    {
+     "label": "53\u201354",
+     "lo": 53,
+     "hi": 54,
+     "probability": null,
+     "model_probability": 0.0,
+     "kalshi_probability": 0.009569377990430623
+    },
+    {
+     "label": "55\u201356",
+     "lo": 55,
+     "hi": 56,
+     "probability": null,
+     "model_probability": 9.919503956568043e-07,
+     "kalshi_probability": 0.009569377990430623
+    },
+    {
+     "label": "57\u201358",
+     "lo": 57,
+     "hi": 58,
+     "probability": null,
+     "model_probability": 0.08538261106714969,
+     "kalshi_probability": 0.14832535885167464
+    },
+    {
+     "label": "59\u201360",
+     "lo": 59,
+     "hi": 60,
+     "probability": 0.8450000000000001,
+     "model_probability": 0.7972235024104838,
+     "kalshi_probability": 0.8229665071770336
+    },
+    {
+     "label": "\u226561",
+     "lo": 61,
+     "hi": null,
+     "probability": 0.07499999999999996,
+     "model_probability": 0.11739289457197088,
+     "kalshi_probability": 0.004784688995215312
+    }
+   ],
+   "archive_horizon": "evening"
+  }
+ ]
+}

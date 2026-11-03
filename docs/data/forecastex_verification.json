@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-02T23:46:09.304946+00:00",
+ "generated_at": "2026-11-03T02:16:08.149395+00:00",
  "records": [
   {
    "station": "KPHX",
@@ -30795,9 +30795,39 @@
    "model_mae_on_kalshi": null,
    "kalshi_mae_on_kalshi": null,
    "fx_mae_on_kalshi": null
+  },
+  {
+   "station": "KPHX",
+   "city": "Phoenix",
+   "date": "2026-11-02",
+   "kind": "temperature",
+   "horizon": "evening",
+   "contracts": 0,
+   "fx_brier": null,
+   "fx_settlement_inferred": null,
+   "kalshi_actual": null,
+   "settlement_difference_f": null,
+   "model_mae_on_kalshi": null,
+   "kalshi_mae_on_kalshi": null,
+   "fx_mae_on_kalshi": null
+  },
+  {
+   "station": "KPHX",
+   "city": "Phoenix",
+   "date": "2026-11-02",
+   "kind": "temperature_low",
+   "horizon": "evening",
+   "contracts": 0,
+   "fx_brier": null,
+   "fx_settlement_inferred": null,
+   "kalshi_actual": null,
+   "settlement_difference_f": null,
+   "model_mae_on_kalshi": null,
+   "kalshi_mae_on_kalshi": null,
+   "fx_mae_on_kalshi": null
   }
  ],
  "errors": [],
- "archived_snapshots": 2053,
+ "archived_snapshots": 2055,
  "note": "One snapshot per station/date/product/cutoff. ForecastEx prices have unknown trade age. Brier uses post-expiry paired settlement-price evidence. Exact ForecastEx temperatures are inferred only from adjacent thresholds. MAE against Kalshi is a cross-target diagnostic, not a same-outcome skill ranking."
 }
